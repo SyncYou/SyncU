@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import logo from "../../../assets/img/Logo.png";
 import SignInButtons from "./SignInButtons";
 
@@ -11,7 +10,7 @@ const SignIn = () => {
   return (
     <main className="flex items-center justify-center flex-col gap-[32px] mt-[182px]">
       <figure>
-        <img src={logo} />
+        <img src={logo} alt="sync-U-logo" />
       </figure>
       <section className="w-[428px] flex  flex-col items-stretch gap-[24px]">
         <form
@@ -48,6 +47,7 @@ const SignIn = () => {
                   type="email"
                   name="email"
                   id="email"
+                  value={email || ""}
                   placeholder="Johndoe@gmail.com"
                   onChange={(e) => setEmail(e.target.value)}
                   className="flex h-[39px] flex-col outline-none justify-between focus:border-[1px] focus:border-[#a45fed] bg-[#F9FAFB] px-[12px] items-start self-stretch rounded-[8px] border border-solid border-[#E8D8FC]"

@@ -7,15 +7,15 @@ const SignInButtons = () => {
   return (
     <div className="flex flex-col items-start gap-3 self-stretch">
       <button className="auth-button">
-        <img src={googleIcon} />
+        <img src={googleIcon} alt="google-icon" />
         Continue with Google
       </button>
       <button className="auth-button">
-        <img src={facebookIcon} />
+        <img src={facebookIcon} alt="facebook-icon" />
         Continue with Facebook
       </button>
       <button className="auth-button">
-        <img src={githubIcon} />
+        <img src={githubIcon} alt="github-icon" />
         Continue with Github
       </button>
     </div>
