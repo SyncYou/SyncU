@@ -12,14 +12,11 @@ const SignIn = () => {
   console.log(email);
   return (
     <main className="relative flex items-center justify-center flex-col gap-[32px] h-screen">
-      {/* Background image positioned absolutely */}
       <img
         src={tools}
         alt=""
         className="absolute inset-0 z-[-1] w-full h-full object-cover"
       />
-
-      {/* Content with relative positioning to ensure it's above the background */}
       <div className="relative z-10 flex items-center justify-center flex-col gap-[32px] h-full w-full">
         <figure>
           <img src={logo} alt="sync-U-logo" />
