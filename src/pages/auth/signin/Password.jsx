@@ -3,10 +3,24 @@ import logo from "../../../assets/img/Logo.png";
 import tools from "../../../assets/img/tools-bg.png";
 import { Link } from "react-router-dom";
 import visible from "../../../assets/img/visible.svg";
+import { Spinner } from "../../../../helpers/Spinner.jsx";
 
 const Password = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async () => {
+    // try catch and async function
+    try {
+      setLoading(true);
+      console.log("hello world");
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+    } catch (err) {
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <main className="relative flex items-center justify-center flex-col gap-[32px] h-screen">
@@ -21,7 +35,7 @@ const Password = () => {
           <img src={logo} alt="sync-u-logo" />
         </figure>
         <section className="w-[428px] flex  flex-col items-stretch gap-[24px]">
-          <form className="flex items-center flex-col justify-center self-stretch rounded-[14px] pt-[24px] pb-[16px] bg-white auth-box-shadow">
+          <div className="flex items-center flex-col justify-center self-stretch rounded-[14px] pt-[24px] pb-[16px] bg-white auth-box-shadow">
             <div className="flex flex-col items-center">
               <div className="relative">
                 <div className="w-[64px] text-[24px] tracking-[0.94px] flex    items-center justify-center text-white bg-[#3b82f6] h-[64px] rounded-full border-[1px] border-solid border-[#D1D5DB]">
@@ -75,15 +89,16 @@ const Password = () => {
                 </button>
               </Link>
               <button
+                onClick={handleSubmit}
                 disabled={!password}
                 className={`flex text-white w-[125px] h-[39px] p-[10px] px-[12px] ${
                   password ? "bg-[#672A9F]" : "bg-[#9CA3AF]"
                 } justify-center items-center gap-[8px] rounded-[8px] `}
               >
-                Login
+                {loading ? <Spinner /> : "Login"}
               </button>
             </div>
-          </form>
+          </div>
 
           <p className="self-stretch text-center text-[14px] font-normal leading-[21px] tracking-[0.14px] text-[#6B7280] text-opacity-40">
             By proceeding, you automatically agree to our <br />

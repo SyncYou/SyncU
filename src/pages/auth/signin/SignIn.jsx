@@ -7,6 +7,7 @@ import SignInButtons from "./SignInButtons";
 // The sign-in page
 const SignIn = () => {
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
   console.log(email);
   return (
