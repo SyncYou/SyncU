@@ -1,4 +1,7 @@
+import { useState } from "react"
+
 export  default function Sidebar(){
+    const [display, setDisplay] = useState(false)
     const nav_foundation = [
         {
             title: 'collaborate',
@@ -35,7 +38,7 @@ export  default function Sidebar(){
             <div className="flex flex-col gap-3 my-5">
                 {
                     nav_foundation.map((item, i) => (
-                        <div key={i} className={`${item.active ? 'bg-[#1F2937] text-[#D1D5DB] font-semibold' : ' bg-transparent'} flex p-2 gap-3 items-center rounded-md cursor-pointer`}>
+                        <div key={i} className={`${item.active ? 'bg-[#1F2937] text-[#D1D5DB] font-semibold' : 'bg-transparent hover:bg-[#e1e3e5] '} flex p-2 gap-3 items-center rounded-md cursor-pointer`}>
                             <div className="relative">
                             <img src={item.icon} alt={item.title} />
                             {
@@ -52,14 +55,20 @@ export  default function Sidebar(){
             <div className="my-5">
                 <div className="flex gap-2 items-center justify-between">
                     <p className="text-[#6B7280] font-medium text-[14px]">My projects</p>
-                    <img src="/arrow-down.svg" alt="" className="cursor-pointer" />
+                    <img onClick={() => {
+                        setDisplay(prev => !prev)
+                    }} src="/arrow-down.svg" alt="" className="cursor-pointer" />
                 </div>
+                {
+                    display && (
                 <div className="my-5">
                     <div className="flex gap-3 cursor-pointer">
                         <img src="/search-circle.svg" alt="" />
                         <p className="text-[16px] font-normal text-[#6B7280]">Browse projects</p>
                     </div>
                 </div>
+                    )
+                }
             </div>
             <div className="flex gap-3 items-center my-5 cursor-pointer">
                 <img src="/energy-ellipse.svg" alt="" />

@@ -5,7 +5,7 @@ import ProjectCollab from '../ProjectCollab'
 function Layout() {
   return (
     <section >
-        <div className=''>
+        <div className='sticky top-0 right-0 bg-white'>
             <Navbar/>
         </div>
         <div className='pl-[48px] flex'>

@@ -12,7 +12,7 @@ export default function ProjectCollab() {
         </div>
         <div className="flex gap-5 space-x-10">
           <div>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between border-b border-[#E5E7EB] pb-3">
               <div>
                 <small className="py-2 px-4 bg-[#1F2937] text-white text-[14px] leading-[16.8px] font-semibold w-[48px] h-[17px] rounded-md mx-2">
                   For you
@@ -39,7 +39,7 @@ export default function ProjectCollab() {
               <Post />
             </div>
           </div>
-          <div className="min-w-[318px]">
+          <div className="min-w-[350px]">
             <Recommended />
           </div>
         </div>
