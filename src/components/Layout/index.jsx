@@ -4,11 +4,11 @@ import ProjectCollab from '../ProjectCollab'
 
 function Layout() {
   return (
-    <section>
-        <div>
+    <section >
+        <div className=''>
             <Navbar/>
         </div>
-        <div>
+        <div className='pl-[48px] flex'>
             <ProjectCollab/>
         </div>
     </section>

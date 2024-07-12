@@ -16,3 +16,10 @@
 .padding{
   padding: 24px 56px 16px 48px;
 }
+
+.bg_effect{
+  background-image: url('BG-effect.svg');
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}

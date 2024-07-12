@@ -9,7 +9,7 @@ function App() {
       <div className="min-w-[263px]">
         <Sidebar/>
       </div>
-      <div className="flex-1">
+      <div className="flex-1 border-l border-[#E5E7EB]">
         <Layout/>
       </div>
     </div>
