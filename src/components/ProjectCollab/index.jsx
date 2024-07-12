@@ -39,7 +39,7 @@ export default function ProjectCollab() {
               <Post />
             </div>
           </div>
-          <div className="max-w-[318px]">
+          <div className="min-w-[318px]">
             <Recommended />
           </div>
         </div>
