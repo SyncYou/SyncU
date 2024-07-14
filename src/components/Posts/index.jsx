@@ -50,7 +50,7 @@ export default function Post() {
         </div>
 
         {/* Tags */}
-        <div className="max-w-[564px] relative -z-10">
+        <div className="max-w-[564px] relative flex items-center -z-10">
           <div className="my-3 flex items-center gap-2 w-full overflow-hidden">
             <div className="py-1 px-5 rounded-full border border-[#D1D5DB] flex items-center justify-center space-x-2">
               <img src="/Figma.svg" alt="" />
@@ -85,7 +85,7 @@ export default function Post() {
             </div>
           </div>
           {/* fader */}
-          <div className="w-[32px] h-[78px] bg-gradient-to-r from-[#FFFFFF66] to-[#FFFFFF] absolute rotate-90 -right-3 -top-[26px]"></div>
+          <div className="w-[32px] h-[78px] bg-gradient-to-r from-[#FFFFFF] to-[#FFFFFF66] absolute rotate-90 -right-3 -top-3"></div>
         </div>
       </div>
     </>
