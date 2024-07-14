@@ -8,7 +8,7 @@ function Layout() {
         <div className='sticky top-0 right-0 bg-white'>
             <Navbar/>
         </div>
-        <div className='pl-[48px] flex'>
+        <div>
             <ProjectCollab/>
         </div>
     </section>
