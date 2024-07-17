@@ -1,7 +1,12 @@
-import Post from "../Posts";
-import Recommended from "../Recommended";
+import { useEffect, useState } from "react";
+import ProjectPost from "../ProjectPost";
+import useFetch from "../../utils/hooks/useFetch";
+// import Recommended from "../Recommended";
 
 export default function ProjectCollab() {
+  const { data: posts, isPending, error } = useFetch('http://localhost:5000/posts')
+  // console.log(posts)
+
   return (
     <>
       <section>
@@ -33,10 +38,9 @@ export default function ProjectCollab() {
         </div>
 
         <div className="py-2 space-y-5 pl-[48px] w-full max-w-[564px] mx-auto">
-          <Post />
-          <Post />
-          <Post />
-          <Post />
+        {posts && posts.map((post) => (
+            <ProjectPost key={post.id} post={post} />
+          ))}
         </div>
       </section>
     </>
