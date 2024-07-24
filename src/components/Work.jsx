@@ -1,6 +1,7 @@
 import React from 'react';
 import Input from './Input'
 import work from "./imgs/work.svg"
+import { Radio } from './Radio';
 
 export default function Work() {
   return (
@@ -33,55 +34,10 @@ export default function Work() {
                   
                   <div className='flex flex-col items-start gap-[10px]'>
                       
-                     <label className='flex items-start justify-between text-left py-[15px] px-[24px] border-2 border-hr rounded-xl w-full '>
-                    
-                          <div>
-                    
-                              <strong className='text-darkBlue text-xl leading-[40px] pd-[5px]'>🎨 Design</strong>
-                              <p className='text-or font-normal'>Includes graphics design, UI/UX design and so on...</p>
-                    
-                          </div>
-                    
-                          <input type="radio" name="design" id="" className='' />
-                    
-                      </label>
-
-                     <label className='flex items-start justify-between text-left py-[15px] px-[24px] border-2 border-hr rounded-xl w-full '>
-                    
-                          <div>
-                    
-                              <strong className='text-darkBlue text-xl leading-[40px] pd-[5px]'> ⚙ Engineering</strong>
-                              <p className='text-or font-normal'>Includes web development, cloud engineering etc.</p>
-                    
-                          </div>
-                    
-                          <input type="radio" name="design" id="" className='' />
-                    
-                      </label>
-                     <label className='flex items-start justify-between text-left py-[15px] px-[24px] border-2 border-hr rounded-xl w-full '>
-                    
-                          <div>
-                    
-                              <strong className='text-darkBlue text-xl leading-[40px] pd-[5px]'>💹 Product</strong>
-                              <p className='text-or font-normal'>Includes Product management, Product marketing etc.</p>
-                    
-                          </div>
-                    
-                          <input type="radio" name="design" id="" className='' />
-                    
-                      </label>
-                     <label className='flex items-start justify-between text-left py-[15px] px-[24px] border-2 border-hr rounded-xl w-full '>
-                    
-                          <div>
-                    
-                              <strong className='text-darkBlue text-xl leading-[40px] pd-[5px]'>😬 Others </strong>
-                              <p className='text-or font-normal'>Select If what you do is not among the above.</p>
-                    
-                          </div>
-                    
-                          <input type="radio" name="design" id="" className='' />
-                    
-                      </label>
+                   <Radio emoji='🎨' stack="Design" brief="Includes graphics design, UI/UX design and so on..." />
+                   <Radio emoji='⚙' stack="Engineering" brief="Includes web development, cloud engineering etc." />
+                   <Radio emoji='💹' stack="Product" brief="Includes Product management, Product marketing etc." />
+                   <Radio emoji='😬' stack="Others" brief="Select If what you do is not among the above." />
                   </div>
                   
                 </section>
