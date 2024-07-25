@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 
 const EditProfile = () => {
-  const [showTags, setShowTags] = useState(true)
+  const [showTags, setShowTags] = useState(false)
+  const [showLinks, setShowLinks] = useState(false)
   return (
     <>
       <div className="flex items-center gap-2">
@@ -109,7 +110,7 @@ const EditProfile = () => {
                   placeholder="Tell people about yourself here..."
                 />
               </div>
-            </form>
+            
 
             {/* Tags */}
             <div className="space-y-5">
@@ -122,6 +123,10 @@ const EditProfile = () => {
                 }} className="w-[24px] h-[24px] cursor-pointer" src={showTags ? '/arrow-down.svg' : '/arrow-left.svg'} alt="" />
               </div>
 
+                <div>
+                  {
+                    showTags && (
+                      <>
               <div>
                 <p className="text-[#1F2937] leading-6">Add skills/toolstacks</p>
 
@@ -149,7 +154,130 @@ const EditProfile = () => {
                   <img className="absolute right-2 w-[20px] h-[20px]" src="/arrow-down.svg" alt="" />
                 </div>
               </div>
+
+             
+              <div>
+                <div className="space-y-1">
+                <h3 className="font-semibold leading-6 text-[#374151]">Suggested</h3>
+                <p className="text-[#6B7280] leading-5 text-[14px]">Select the skills and tools you use. (max 10 - min 3)</p>
+                </div>
+
+                <div className="flex items-center flex-wrap gap-3 w-full my-3 p-2">
+                <div className="flex items-center gap-2 text-nowrap border border-[#D1D5DB] p-2 rounded-full">
+                    <img src="/Sketch.svg" alt="" />
+                    <small className="text-[#1F2937] leading-5 text-[14px]">Figma</small>
+                    <img className="cursor-pointer" src="/add-circle.svg" alt="" />
+                  </div>
+                  <div className="flex items-center gap-2 text-nowrap border border-[#D1D5DB] p-2 rounded-full">
+                    <img src="/Adobe-xd.svg" alt="" />
+                    <small className="text-[#1F2937] leading-5 text-[14px]">Adobe XD</small>
+                    <img className="cursor-pointer" src="/add-circle.svg" alt="" />
+                  </div>
+                  <div className="flex items-center gap-2 text-nowrap border border-[#D1D5DB] p-2 rounded-full">
+                    {/* <img src="/Adobe-xd.svg" alt="" /> */}
+                    <small className="text-[#1F2937] leading-5 text-[14px]">Prototyping</small>
+                    <img className="cursor-pointer" src="/add-circle.svg" alt="" />
+                  </div>
+                  <div className="flex items-center gap-2 text-nowrap border border-[#D1D5DB] p-2 rounded-full">
+                    {/* <img src="/Adobe-xd.svg" alt="" /> */}
+                    <small className="text-[#1F2937] leading-5 text-[14px]">Graphics design</small>
+                    <img className="cursor-pointer" src="/add-circle.svg" alt="" />
+                  </div>
+                  <div className="flex items-center gap-2 text-nowrap border border-[#D1D5DB] p-2 rounded-full">
+                    <img src="/Ae.svg" alt="" />
+                    <small className="text-[#1F2937] leading-5 text-[14px]">Adobe Ae</small>
+                    <img className="cursor-pointer" src="/add-circle.svg" alt="" />
+                  </div>
+                  <div className="flex items-center gap-2 text-nowrap border border-[#D1D5DB] p-2 rounded-full">
+                    {/* <img src="/Adobe-xd.svg" alt="" /> */}
+                    <small className="text-[#1F2937] leading-5 text-[14px]">Product marketing</small>
+                    <img className="cursor-pointer" src="/add-circle.svg" alt="" />
+                  </div>
+                  <div className="flex items-center gap-2 text-nowrap border border-[#D1D5DB] p-2 rounded-full">
+                    {/* <img src="/Adobe-xd.svg" alt="" /> */}
+                    <small className="text-[#1F2937] leading-5 text-[14px]">Product management</small>
+                    <img className="cursor-pointer" src="/add-circle.svg" alt="" />
+                  </div>
+                  <div className="flex items-center gap-2 text-nowrap border border-[#D1D5DB] p-2 rounded-full">
+                    {/* <img src="/Adobe-xd.svg" alt="" /> */}
+                    <small className="text-[#1F2937] leading-5 text-[14px]">Front-end developement</small>
+                    <img className="cursor-pointer" src="/add-circle.svg" alt="" />
+                  </div>
+                  <div className="flex items-center gap-2 text-nowrap border border-[#D1D5DB] p-2 rounded-full">
+                    <img src="/React.svg" alt="" />
+                    <small className="text-[#1F2937] leading-5 text-[14px]">React</small>
+                    <img className="cursor-pointer" src="/add-circle.svg" alt="" />
+                  </div>
+                  <div className="flex items-center gap-2 text-nowrap border border-[#D1D5DB] p-2 rounded-full">
+                    <img src="/Flutter.svg" alt="" />
+                    <small className="text-[#1F2937] leading-5 text-[14px]">Flutter</small>
+                    <img className="cursor-pointer" src="/add-circle.svg" alt="" />
+                  </div>
+                </div>
+              </div>
+              </>
+                    )
+                  }
+              </div>
             </div>
+
+            <div>
+            <div className="flex items-center gap-3">
+                <h3 className="text-[#374151] font-semibold leading-8 text-[20px]">
+                  Links and socials
+                </h3>
+                <img onClick={() => {
+                  setShowLinks(prev => !prev)
+                }} className="w-[24px] h-[24px] cursor-pointer" src={showLinks ? '/arrow-down.svg' : '/arrow-left.svg'} alt="" />
+              </div>
+
+            <div>
+              {showLinks && (
+                <>
+                <div className="grid grid-cols-2 w-full gap-8 my-3">
+                  <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-md flex items-center gap-2 p-2">
+                    <img src="/link.svg" alt="" />
+                    <input className="bg-transparent focus:outline-none leading-6 text-[#9CA3AF]" type="text" placeholder="Personal website URL" />
+                  </div>
+                  <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-md flex items-center gap-2 p-2">
+                    <img src="/X.svg" alt="" />
+                    <input className="bg-transparent focus:outline-none leading-6 text-[#9CA3AF]"  type="text" placeholder="Twitter profile URL" />
+                  </div>
+                  <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-md flex items-center gap-2 p-2">
+                    <img src="/instagram.svg" alt="" />
+                    <input className="bg-transparent focus:outline-none leading-6 text-[#9CA3AF]"  type="text" placeholder="Instagram profile URL" />
+                  </div>
+                  <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-md flex items-center gap-2 p-2">
+                    <img src="/facebook.svg" alt="" />
+                    <input className="bg-transparent focus:outline-none leading-6 text-[#9CA3AF]"  type="text" placeholder="Facebook profile URL" />
+                  </div>
+                  <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-md flex items-center gap-2 p-2">
+                    <img src="/github.svg" alt="" />
+                    <input className="bg-transparent focus:outline-none leading-6 text-[#9CA3AF]"  type="text" placeholder="Github profile URL" />
+                  </div>
+                  <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-md flex items-center gap-2 p-2">
+                    <img src="/Behance.svg" alt="" />
+                    <input className="bg-transparent focus:outline-none leading-6 text-[#9CA3AF]"  type="text" placeholder="Behance profile URL" />
+                  </div>
+                  <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-md flex items-center gap-2 p-2">
+                    <img src="/Dribble.svg" alt="" />
+                    <input className="bg-transparent focus:outline-none leading-6 text-[#9CA3AF]"  type="text" placeholder="Dribble profile URL" />
+                  </div>
+                  <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-md flex items-center gap-2 p-2">
+                    <img src="/Youtube.svg" alt="" />
+                    <input className="bg-transparent focus:outline-none leading-6 text-[#9CA3AF]"  type="text" placeholder="Youtube profile URL" />
+                  </div>
+                </div>
+                </>
+              )}
+            </div>
+            </div>
+
+            {/* Submit button */}
+            <div className="flex items-center justify-end">
+              <button type="submit" className="bg-[#672A9F] w-[150px] px-5 py-2 text-[#F9FAFB] rounded-md font-medium leading-6 drop-shadow-md shadow-inner shadow-[#EEF0F340] drop-shadow-[#8D59BC80] capitalize cursor-pointer">save</button>
+            </div>
+          </form>
           </div>
         </div>
       </div>
