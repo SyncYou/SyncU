@@ -1,20 +1,27 @@
-import React from 'react'
-import Navbar from '../Navbar'
-import ProjectCollab from '../ProjectCollab'
-import { Outlet } from 'react-router-dom'
+import React from "react";
+import Sidebar from "../Sidebar";
+import Main from "../Main";
+import { Outlet } from "react-router-dom";
+import Navbar from "../Navbar";
 
 function Layout() {
   return (
-    <section >
-        <div className='sticky top-0 right-0 bg-white'>
-            <Navbar/>
+    <>
+      <div className="flex gap-3">
+        <div className="min-w-[263px] sticky top-0 left-0 max-h-dvh">
+          <Sidebar />
         </div>
-        <div>
-            {/* <ProjectCollab/> */}
+        <div className="flex-1 border-l border-[#E5E7EB]">
+          <div className="sticky top-0 right-0 bg-white">
+            <Navbar />
+          </div>
+          <div>
             <Outlet />
+          </div>
         </div>
-    </section>
-  )
+      </div>
+    </>
+  );
 }
 
-export default Layout
+export default Layout;
