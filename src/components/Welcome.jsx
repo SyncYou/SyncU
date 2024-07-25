@@ -4,8 +4,7 @@ import facebookImg from './imgs/facebook.svg';
 import githubImg from './imgs/github.svg';
 import { useState } from 'react';
 import Buttons from './Buttons';
-import Input from './Input';
-
+import { Input } from './Input';
 export function Welcome() {
 
   // state for input

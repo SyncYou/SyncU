@@ -3,7 +3,7 @@ import React from 'react';
 export  function Radio({stack, emoji, brief}) {
   return (
       <>
-           <label className='flex items-start justify-between text-left py-[15px] px-[24px] border-2 border-hr rounded-xl w-full has-[:checked]:border-changeColor has-[:checked]:visible '>
+           <label className='flex items-start justify-between text-left py-[15px] px-[24px] border-2 border-hr rounded-xl w-full has-[:checked]:border-changeColor '>
                     
                     <div>
               

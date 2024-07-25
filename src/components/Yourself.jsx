@@ -1,5 +1,5 @@
 import React from 'react';
-import Input from './Input'
+import { Input } from './Input';
 import contactIcon from "./imgs/contactIcon.svg"
 
 export default function Yourself() {

@@ -1,5 +1,4 @@
 import React from 'react';
-import Input from './Input'
 import work from "./imgs/work.svg"
 import { Radio } from './Radio';
 
