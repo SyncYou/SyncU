@@ -12,7 +12,7 @@ function Layout() {
           <Sidebar />
         </div>
         <div className="flex-1 border-l border-[#E5E7EB]">
-          <div className="sticky top-0 right-0 bg-white">
+          <div className="sticky top-0 right-0 bg-white z-10">
             <Navbar />
           </div>
           <div>
