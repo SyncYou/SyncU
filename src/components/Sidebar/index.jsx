@@ -2,7 +2,7 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 export default function Sidebar() {
-  const [display, setDisplay] = useState(false);
+  const [showProjects, setShowProjects] = useState(false);
   // const [activeLink, setActiveLink] = useState(undefined)
   const nav_foundation = [
     {
@@ -89,14 +89,14 @@ export default function Sidebar() {
               </p>
               <img
                 onClick={() => {
-                  setDisplay((prev) => !prev);
+                  setShowProjects((prev) => !prev);
                 }}
-                src="/arrow-down.svg"
+                src={showProjects ? '/arrow-down.svg' : '/arrow-left.svg'}
                 alt=""
-                className="cursor-pointer"
+                className="cursor-pointer w-[24px] h-[24px]"
               />
             </div>
-            {display && (
+            {showProjects && (
               <div className="my-5">
                 <div className="flex gap-3 cursor-pointer">
                   <img src="/search-circle.svg" alt="" />
