@@ -9,22 +9,27 @@
   font-optical-sizing: auto;
 }
 
-.pad{
+input[type="file"] {
+  opacity: 0;
+  position: absolute;
+}
+
+.pad {
   padding: 24px 8px 10px 56px;
 }
 
-.padding{
+.padding {
   padding: 24px 56px 16px 48px;
 }
 
-.bg_effect{
-  background-image: url('BG-effect.svg');
+.bg_effect {
+  background-image: url("BG-effect.svg");
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
 }
 
-.bg_overlay{
+.bg_overlay {
   background: rgba(0, 0, 0, 0.65);
   position: fixed;
   top: 0;

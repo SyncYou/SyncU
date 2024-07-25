@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import FileBase from 'react-file-base64'
 
 const EditProfile = () => {
-  const [showTags, setShowTags] = useState(false)
-  const [showLinks, setShowLinks] = useState(false)
+  const [showTags, setShowTags] = useState(true)
+  const [showLinks, setShowLinks] = useState(true)
+  const [image, setImage] = useState("")
   return (
     <>
       <div className="flex items-center gap-2">
@@ -24,8 +26,13 @@ const EditProfile = () => {
 
         <div className="my-5">
           <div className="flex items-center gap-4">
-            <img src="/g-profile.svg" alt="" className="w-[50px] h-[50px]" />
-            <div className="leading-5 cursor-pointer">
+            <img src={`${image ? image : '/g-profile.svg'}`} alt="" className="w-[50px] h-[50px] rounded-full object-cover" />
+            <div className="leading-5 cursor-pointer relative">
+              <FileBase  type="file"
+        multiple={false}
+        onDone={({ base64 }) =>
+          setImage(base64)
+        }/>
               <p className="text-[#8E3FDE] font-semibold leading-6">
                 Upload photo
               </p>
