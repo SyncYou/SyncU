@@ -3,29 +3,33 @@ import { NavLink } from "react-router-dom";
 
 export default function Sidebar() {
   const [showProjects, setShowProjects] = useState(false);
-  // const [activeLink, setActiveLink] = useState(undefined)
+  const [active, setActive] = useState(true)
   const nav_foundation = [
     {
       title: "collaborate",
-      icon: "/agreement.svg",
+      icon_active: "/agreement.svg",
+      icon: '/agreement-black.svg',
       notification: false,
       route: "/",
     },
     {
       title: "showcase",
-      icon: "/projector.svg",
+      icon_active: "/projector.svg",
+      icon: '/projector.svg',
       notification: true,
       route: "/showcase",
     },
     {
       title: "post",
-      icon: "/pencil-edit.svg",
+      icon_active: "/pencil-edit.svg",
+      icon: '/pencil-edit.svg',
       notification: true,
       route: "/post",
     },
     {
       title: "connect",
-      icon: "/user-search.svg",
+      icon_active: "/user-search.svg",
+      icon: '/user-search.svg',
       notification: false,
       route: "/connect",
     },
@@ -64,12 +68,15 @@ export default function Sidebar() {
               <NavLink
                 to={`${item.route}`}
                 key={i}
+                onClick={() => {
+                  setActive(prev => !prev)
+                }}
                 className={({ isActive }) =>
                   isActive ? activeLink : normalLink
                 }
               >
                 <div className="relative">
-                  <img src={item.icon} alt={item.title} />
+                  <img src={`${active ? item.icon_active : item.icon}`} alt={item.title} />
                   {item.notification && (
                     <img
                       src="/Pop-up.svg"
