@@ -1,7 +1,22 @@
 import Layout from "./components/Layout"
+import ProjectCollab from "./components/ProjectCollab";
 import Sidebar from "./components/Sidebar"
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 function App() {
+
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: <Layout />,
+      children: [
+        {
+          path: '/',
+          element: <ProjectCollab/>
+        },
+      ]
+    }
+  ])
 
   return (
     <>
@@ -10,7 +25,7 @@ function App() {
         <Sidebar/>
       </div>
       <div className="flex-1 border-l border-[#E5E7EB]">
-        <Layout/>
+      <RouterProvider router={router} />
       </div>
     </div>
     </>

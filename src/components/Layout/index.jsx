@@ -1,6 +1,7 @@
 import React from 'react'
 import Navbar from '../Navbar'
 import ProjectCollab from '../ProjectCollab'
+import { Outlet } from 'react-router-dom'
 
 function Layout() {
   return (
@@ -9,7 +10,8 @@ function Layout() {
             <Navbar/>
         </div>
         <div>
-            <ProjectCollab/>
+            {/* <ProjectCollab/> */}
+            <Outlet />
         </div>
     </section>
   )
