@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../Sidebar";
 import Main from "../Main";
 import { Outlet } from "react-router-dom";
 import Navbar from "../Navbar";
+import ProfileCompletion from "../ProfileCompletion";
 
 function Layout() {
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setShowModal(true);
+    }, 3000);
+  }, []);
   return (
     <>
       <div className="flex gap-3">
@@ -20,6 +28,12 @@ function Layout() {
           </div>
         </div>
       </div>
+
+      {showModal && (
+        <div className="bg_overlay">
+          <ProfileCompletion setShowModal={setShowModal} />
+        </div>
+      )}
     </>
   );
 }

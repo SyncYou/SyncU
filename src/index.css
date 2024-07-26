@@ -30,7 +30,7 @@ input[type="file"] {
 }
 
 .bg_overlay {
-  background: rgba(0, 0, 0, 0.65);
+  background: rgba(0, 0, 0, 0.6);
   position: fixed;
   top: 0;
   left: 0;

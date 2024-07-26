@@ -3,33 +3,33 @@ import { NavLink } from "react-router-dom";
 
 export default function Sidebar() {
   const [showProjects, setShowProjects] = useState(false);
-  const [active, setActive] = useState(true)
+  const [active, setActive] = useState(true);
   const nav_foundation = [
     {
       title: "collaborate",
       icon_active: "/agreement.svg",
-      icon: '/agreement-black.svg',
+      icon: "/agreement-black.svg",
       notification: false,
       route: "/",
     },
     {
       title: "showcase",
       icon_active: "/projector.svg",
-      icon: '/projector.svg',
+      icon: "/projector.svg",
       notification: true,
       route: "/showcase",
     },
     {
       title: "post",
       icon_active: "/pencil-edit.svg",
-      icon: '/pencil-edit.svg',
+      icon: "/pencil-edit.svg",
       notification: true,
       route: "/post",
     },
     {
       title: "connect",
       icon_active: "/user-search.svg",
-      icon: '/user-search.svg',
+      icon: "/user-search.svg",
       notification: false,
       route: "/connect",
     },
@@ -55,7 +55,6 @@ export default function Sidebar() {
   const normalLink =
     "flex p-2 gap-3 items-center rounded-md cursor-pointer bg-transparent hover:bg-[#e1e3e5]";
 
-
   return (
     <>
       <aside className="w-full pad">
@@ -69,14 +68,17 @@ export default function Sidebar() {
                 to={`${item.route}`}
                 key={i}
                 onClick={() => {
-                  setActive(prev => !prev)
+                  setActive((prev) => !prev);
                 }}
                 className={({ isActive }) =>
                   isActive ? activeLink : normalLink
                 }
               >
                 <div className="relative">
-                  <img src={`${active ? item.icon_active : item.icon}`} alt={item.title} />
+                  <img
+                    src={`${active ? item.icon_active : item.icon}`}
+                    alt={item.title}
+                  />
                   {item.notification && (
                     <img
                       src="/Pop-up.svg"
@@ -98,7 +100,7 @@ export default function Sidebar() {
                 onClick={() => {
                   setShowProjects((prev) => !prev);
                 }}
-                src={showProjects ? '/arrow-down.svg' : '/arrow-left.svg'}
+                src={showProjects ? "/arrow-down.svg" : "/arrow-left.svg"}
                 alt=""
                 className="cursor-pointer w-[24px] h-[24px]"
               />
@@ -115,14 +117,20 @@ export default function Sidebar() {
             )}
           </div>
           <div className="space-y-1 my-2">
-          {nav_base.map((item, i) => (
-            <NavLink to={`${item.route}`}  className={({ isActive }) =>
+            {nav_base.map((item, i) => (
+              <NavLink
+                to={`${item.route}`}
+                onClick={() => {
+                  setActive((prev) => !prev);
+                }}
+                className={({ isActive }) =>
                   isActive ? activeLink : normalLink
-                }>
-              <img src={item.icon} alt={item.title} />
-              <p className="text-[#6B7280] leading-6">{item.title}</p>
-            </NavLink>
-          ))}
+                }
+              >
+                <img src={item.icon} alt={item.title} />
+                <p className={`${active ? 'text-white' : 'text-[#6B7280]'}leading-6`}>{item.title}</p>
+              </NavLink>
+            ))}
           </div>
           <div>
             <p className="text-[12px] font-semibold leading-[18px] text-[#6B7280]">
