@@ -1,5 +1,11 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import Logo from '../../assets/Logo.svg'
+import Agreement from '../../assets/agreement.svg'
+import AgreementBlack from '../../assets/agreement-black.svg'
+import Showcase from '../../assets/projector.svg'
+import Pencil from '../../assets/pencil-edit.svg'
+import UserSearch from '../../assets/user-search.svg'
 
 export default function Sidebar() {
   const [showProjects, setShowProjects] = useState(false);
@@ -7,29 +13,29 @@ export default function Sidebar() {
   const nav_foundation = [
     {
       title: "collaborate",
-      icon_active: "/agreement.svg",
-      icon: "/agreement-black.svg",
+      icon_active: Agreement,
+      icon: AgreementBlack,
       notification: false,
       route: "/",
     },
     {
       title: "showcase",
-      icon_active: "/projector.svg",
-      icon: "/projector.svg",
+      icon_active: Showcase,
+      icon: Showcase,
       notification: true,
       route: "/showcase",
     },
     {
       title: "post",
-      icon_active: "/pencil-edit.svg",
-      icon: "/pencil-edit.svg",
+      icon_active: Pencil,
+      icon: Pencil,
       notification: true,
       route: "/post",
     },
     {
       title: "connect",
-      icon_active: "/user-search.svg",
-      icon: "/user-search.svg",
+      icon_active: UserSearch,
+      icon: UserSearch,
       notification: false,
       route: "/connect",
     },
@@ -38,13 +44,13 @@ export default function Sidebar() {
   const nav_base = [
     {
       title: "Get syncoins",
-      icon: "/energy-ellipse.svg",
+      icon: "/src/assets/energy-ellipse.svg",
       notification: false,
       route: "/syncoins",
     },
     {
       title: "Profile",
-      icon: "/profile.svg",
+      icon: "/src/assets/profile.svg",
       notification: false,
       route: "/profile",
     },
@@ -60,7 +66,7 @@ export default function Sidebar() {
       <aside className="w-full pad">
         <div>
           <div className="flex items-center justify-center py-[12px]">
-            <img src="/Logo.svg" alt="logo" />
+            <img src={Logo} alt="logo" />
           </div>
           <div className="flex flex-col gap-3 my-5">
             {nav_foundation.map((item, i) => (
@@ -81,7 +87,7 @@ export default function Sidebar() {
                   />
                   {item.notification && (
                     <img
-                      src="/Pop-up.svg"
+                      src="/src/assets/Pop-up.svg"
                       alt=""
                       className="absolute -right-1 top-0"
                     />
@@ -100,7 +106,7 @@ export default function Sidebar() {
                 onClick={() => {
                   setShowProjects((prev) => !prev);
                 }}
-                src={showProjects ? "/arrow-down.svg" : "/arrow-left.svg"}
+                src={showProjects ? "/src/assets/arrow-down.svg" : "/src/assets/arrow-left.svg"}
                 alt=""
                 className="cursor-pointer w-[24px] h-[24px]"
               />
@@ -108,7 +114,7 @@ export default function Sidebar() {
             {showProjects && (
               <div className="my-5">
                 <div className="flex gap-3 cursor-pointer">
-                  <img src="/search-circle.svg" alt="" />
+                  <img src="/src/assets/search-circle.svg" alt="" />
                   <p className="text-[16px] font-normal text-[#6B7280]">
                     Browse projects
                   </p>

@@ -12,24 +12,24 @@ export default function ProjectPost({ post }) {
               {post?.time}
             </small>
           </div>
-          <img src="/Dot.svg" alt="" />
+          <img src="/src/assets/Dot.svg" alt="" />
           {/* tag */}
           <div>
             <p className="font-normal leading-[21px] text-[14px] text-[#6B7280] capitalize">
               {post?.category}
             </p>
           </div>
-          <img src="/Dot.svg" alt="" />
+          <img src="/src/assets/Dot.svg" alt="" />
           <div className="flex items-center gap-2">
-            <img src="/users2.svg" alt="" />
+            <img src="/src/assets/users2.svg" alt="" />
             <small className="font-normal leading-[21px] text-[14px] text-[#6B7280]">
               {post?.collaborators}
             </small>
           </div>
-          <img src="/Dot.svg" alt="" />
+          <img src="/src/assets/Dot.svg" alt="" />
           {/* comments */}
           <div className="flex items-center gap-2">
-            <img src="/comment.svg" alt="" />
+            <img src="/src/assets/comment.svg" alt="" />
             <small className="font-normal leading-[21px] text-[14px] text-[#6B7280]">
               {post?.comments}
             </small>

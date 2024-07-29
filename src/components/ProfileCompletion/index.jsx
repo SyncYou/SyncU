@@ -14,7 +14,7 @@ const ProfileCompletion = ({ setShowModal }) => {
             <img
               onClick={handleCloseModal}
               className="cursor-pointer"
-              src="/cancel-dark.svg"
+              src="/src/assets/cancel-dark.svg"
               alt=""
             />
           </div>
@@ -32,7 +32,7 @@ const ProfileCompletion = ({ setShowModal }) => {
         <div className="flex border-b border-[#D1D5DB]">
           <div className="py-2 min-w-[453px]">
             <div className="flex gap-3 items-start p-3 border-b border-[#D1D5DB]">
-              <img src="/progress.svg" alt="" />
+              <img src="/src/assets/progress.svg" alt="" />
               <div className="space-y-1">
                 <h2 className="font-semibold text-[#1F2937] leading-6 text-[18px]">
                   Add a profile picture
@@ -44,7 +44,7 @@ const ProfileCompletion = ({ setShowModal }) => {
               </div>
             </div>
             <div className="flex gap-3 items-start p-3 border-b border-[#D1D5DB]">
-              <img src="/progress.svg" alt="" />
+              <img src="/src/assets/progress.svg" alt="" />
               <div className="space-y-1">
                 <h2 className="font-semibold text-[#1F2937] leading-6 text-[18px]">
                   Add a profile description
@@ -55,7 +55,7 @@ const ProfileCompletion = ({ setShowModal }) => {
               </div>
             </div>
             <div className="flex gap-3 items-start p-3">
-              <img src="/progress.svg" alt="" />
+              <img src="/src/assets/progress.svg" alt="" />
               <div className="space-y-1">
                 <h2 className="font-semibold text-[#1F2937] leading-6 text-[18px]">
                   Add your social links (0/1)
@@ -69,7 +69,7 @@ const ProfileCompletion = ({ setShowModal }) => {
           </div>
 
           <div className="flex flex-col items-center justify-center min-w-[319px] border-l border-[#D1D5DB] relative">
-            <img className="w-[60px] h-[60px]" src="/Profile.svg" alt="" />
+            <img className="w-[60px] h-[60px]" src="/src/assets/Profile.svg" alt="" />
             <small className="leading-6 text-center text-[14px] text-[#374151]">
               25% completed
             </small>
@@ -81,7 +81,7 @@ const ProfileCompletion = ({ setShowModal }) => {
                 Complete your profile now and recieve
               </p>
               <div className="flex items-center gap-2 w-full justify-center my-1">
-                <img src="/energy-ellipse.svg" alt="" />
+                <img src="/src/assets/energy-ellipse.svg" alt="" />
                 <small className="font-semibold text-[#374151] leading-6">
                   +50
                 </small>
@@ -89,7 +89,7 @@ const ProfileCompletion = ({ setShowModal }) => {
             </div>
             {/* polygon */}
             <div className="absolute -left-[2.5px]">
-              <img src="/Polygon.svg" alt="" />
+              <img src="/src/assets/Polygon.svg" alt="" />
             </div>
           </div>
         </div>

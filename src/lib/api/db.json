@@ -3,7 +3,7 @@
    
     {
       "id": 1,
-      "author_icon": "./vergil.svg",
+      "author_icon": "/src/assets/vergil.svg",
       "author": "vergil",
       "title": "Syncu",
       "description": "Syncu is a collaborative platform that enables developers, designers, and other tech professionals to work on real life projects, gain hands on experience",
@@ -13,7 +13,7 @@
       "comments": 1,
       "tags": [
         {
-          "icon": "./Figma.svg",
+          "icon": "/src/assets/Figma.svg",
           "name": "Figma"
         },
         {
@@ -23,18 +23,18 @@
           "name": "Frontend development"
         },
         {
-          "icon": "./React.svg",
+          "icon": "/src/assets/React.svg",
           "name": "React"
         },
         {
-          "icon": "/Javascript.svg",
+          "icon": "/src/assets/Javascript.svg",
           "name": "JavaScript"
         }
       ]
     },
     {
       "id": 2,
-      "author_icon": "./aisha.svg",
+      "author_icon": "/src/assets/aisha.svg",
       "author": "aisha",
       "title": "learnie",
       "description": "A platform where book enthusiasts can discuss books, join book clubs, and share reviews",
@@ -44,7 +44,7 @@
       "comments": 16,
       "tags": [
         {
-          "icon": "./java.svg",
+          "icon": "/src/assets/java.svg",
           "name": "Java"
         },
         {
@@ -54,18 +54,18 @@
           "name": "Web development"
         },
         {
-          "icon": "./Python.svg",
+          "icon": "/src/assets/Python.svg",
           "name": "Python"
         },
         {
-          "icon": "/Javascript.svg",
+          "icon": "/src/assets/Javascript.svg",
           "name": "JavaScript"
         }
       ]
     },
     {
       "id": 3,
-      "author_icon": "./michael.svg",
+      "author_icon": "/src/assets/michael.svg",
       "author": "michael",
       "title": "automated content generator",
       "description": "An AI tool that helps users create post, articles, and other content by suggestings topics, generating text, and providing editing assistance.",
@@ -78,19 +78,19 @@
           "name": "Product management"
         },
         {
-          "icon": "./Sketch.svg",
+          "icon": "/src/assets/Sketch.svg",
           "name": "Sketch"
         },
         {
-          "icon": "./Angular.svg",
+          "icon": "/src/assets/Angular.svg",
           "name": "Angular"
         },
         {
-          "icon": "./Python.svg",
+          "icon": "/src/assets/Python.svg",
           "name": "Python"
         },
         {
-          "icon": "/Javascript.svg",
+          "icon": "/src/assets/Javascript.svg",
           "name": "JavaScript"
         }
       ]
