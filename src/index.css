@@ -5,6 +5,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@300..900&display=swap');
 
 @layer components{
+
     section{
         background-image: url('./components/imgs/tools bg.png');
     }

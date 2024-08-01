@@ -1,11 +1,24 @@
 import React from 'react';
 import work from "./imgs/work.svg"
 import { Radio } from './Radio';
+import { Link } from 'react-router-dom';
+import logo from './imgs/logo.svg';
+import { Label } from './Label';
 
-export default function Work() {
+
+export function Work() {
   return (
       <>
-          <div className='text-xs font-semibold text-or justify-center flex items-center gap-[8px] mb-[30px]'>
+    <body className='signUpBody'>
+
+    <section className="signUpSection ">
+
+
+      <main className='signUpMain '>
+        <img src={logo} alt="syncU logo" />
+
+        <div>
+        <div className='text-xs font-semibold text-or justify-center flex items-center gap-[8px] mb-[30px]'>
               <span className='allCircle currentCircle'>1</span>
               <b className='arrow'>→</b>
               <span className='allCircle'>2</span>
@@ -31,22 +44,27 @@ export default function Work() {
     
               <section className='divhr'>
                   
-                  <div className='flex flex-col items-start gap-[10px]'>
+                  <div className='flex flex-col items-start gap-[10px] z-10'>
                       
                    <Radio emoji='🎨' stack="Design" brief="Includes graphics design, UI/UX design and so on..." />
-                   <Radio emoji='⚙' stack="Engineering" brief="Includes web development, cloud engineering etc." />
-                   <Radio emoji='💹' stack="Product" brief="Includes Product management, Product marketing etc." />
-                   <Radio emoji='😬' stack="Others" brief="Select If what you do is not among the above." />
-                  </div>
+
+                    <Radio emoji='⚙' stack="Engineering" brief="Includes web development, cloud engineering etc." />
+                    
+                    <Radio emoji='💹' stack="Product" brief="Includes Product management, Product marketing etc." />
+                    
+                    <Radio emoji='😬' stack="Others" brief="Select If what you do is not among the above."  />
+                        </div>
                   
                 </section>
               
 
               <div className='px-[48px] w-full flex items-center justify-between'>
                  
-                  <button className='btn button w-[125px] bg-fbg text-h4'>
+          <Link to="/yourself" >
+          <button className='btn button w-[125px] bg-fbg text-h4'>
                   Back 
                   </button>
+          </Link>
 
                   <button className='btn button w-[125px]'>
                   Next →
@@ -54,7 +72,15 @@ export default function Work() {
               </div>
      </form>
 
-      
+
+        </div>
+        
+      </main>
+
+    </section>
+  </body>
+
+              
       </>
 )
 }

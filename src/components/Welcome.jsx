@@ -5,10 +5,12 @@ import githubImg from './imgs/github.svg';
 import { useState } from 'react';
 import Buttons from './Buttons';
 import { Input } from './Input';
+import { Link } from 'react-router-dom';
+import { Verify } from './Verify';
 export function Welcome() {
 
   // state for input
-  const [inputValue, setInputValue] = useState(" ");
+const [inputValue, setInputValue] = useState(" ");
 const [isValidEmail, setIsValidEmail] = useState(false);
 const [isLoading, setIsLoading] = useState(false);
 
@@ -73,21 +75,24 @@ const validateEmail =(email) => {
                       <label htmlFor="email" className=" text-label font-medium text-base">Email</label>
                   <Input value={inputValue} onChange={inputChange} placeHolder='Johndoe@gmail.com' type='email' />
               
-              {isValidEmail && <span className='py-[1px] px-[6px] rounded-[50%] border-2 border-checkMark text-checkMark absolute right-[15%] bottom-[27.6%]'>&#x2714;
+              {isValidEmail && <span className='py-[0px] px-[4px] rounded-[50%] border-2 border-checkMark text-checkMark absolute right-[15%] bottom-[29%] text-[10px]'>&#x2714;
                 </span>}
                           </div>
 
                 </div>
                 
               <div className='px-[48px] w-full'>
+          
+          <Link to="/verify" >
                 
-            <button type='submit' className={`button ${inputValue ? 'active-button' : " "}`}
+          <button type='submit' className={`button ${inputValue ? 'active-button' : " "}`}
               onClick={handleButtonClick}
               disabled={!isValidEmail}>
             
             {isLoading ? <span className='w-[16px] h-[16px] border-2 border-t-transparent rounded-[50%] anim '></span> : `Continue with email`}
             </button>
           
+          </Link>
               </div>
             </form>
           

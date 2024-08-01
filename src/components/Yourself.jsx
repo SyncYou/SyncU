@@ -1,11 +1,23 @@
 import React from 'react';
 import { Input } from './Input';
-import contactIcon from "./imgs/contactIcon.svg"
+import contactIcon from "./imgs/contactIcon.svg";
+import logo from './imgs/logo.svg';
+import { Link } from 'react-router-dom';
 
-export default function Yourself() {
+export function Yourself() {
   return (
       <>
-          <div className='text-xs font-semibold text-or justify-center flex items-center gap-[8px] mb-[30px]'>
+          <body className='signUpBody'>
+
+<section className="signUpSection ">
+
+
+  <main className='signUpMain'>
+    <img src={logo} alt="syncU logo" />
+
+                <div>
+
+                      <div className='text-xs font-semibold text-or justify-center flex items-center gap-[8px] mb-[30px]'>
               <span className='allCircle currentCircle'>1</span>
               <b className='arrow'>→</b>
               <span className='allCircle'>2</span>
@@ -32,7 +44,7 @@ export default function Yourself() {
               <div className='divhr'>
                   
                   <div className='flex flex-col items-start gap-[10px]'>
-                      <label htmlFor="email" className=" text-label font-medium text-base">Email</label>
+                      <label htmlFor="email" className=" text-label font-medium text-base">Full name</label>
                   <Input placeHolder='John Doe' type='text' />
                   </div>
                   
@@ -62,11 +74,20 @@ export default function Yourself() {
               
 
               <div className='px-[48px] w-full'>
-                  <button className='btn button'>
-                  Next →
- </button>
+                                  <Link to="/work">   
+                                   <button className='btn button  '> Next → </button>
+                                  </Link>
               </div>
-     </form>
+    
+                          </form>
+
+
+                </div>
+    
+  </main>
+
+</section>
+</body>
 
       
       </>
