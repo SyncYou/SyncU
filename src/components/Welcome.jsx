@@ -3,7 +3,7 @@ import googleImg from './imgs/google.svg';
 import facebookImg from './imgs/facebook.svg';
 import githubImg from './imgs/github.svg';
 import { useState } from 'react';
-import Buttons from './Buttons';
+import Buttons from './reuseable-comp/Buttons';
 import { Input } from './Input';
 import { Link } from 'react-router-dom';
 import { Verify } from './Verify';

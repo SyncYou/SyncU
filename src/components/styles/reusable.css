@@ -14,5 +14,20 @@
     }
     .signUpMain{
         @apply flex flex-col items-center gap-gap absolute top-[0px] left-[35%] right-[35%] w-[428px]
+    } 
+
+
+    /* work */
+    .label{
+        @apply flex items-start justify-between text-left py-[15px] px-[24px] border-2 border-hr rounded-xl w-full has-[:checked]:border-changeColor 
     }
+
+    /* All Input */
+   .allInput{
+    @apply bg-input text-left pl-[10px] mr-[20px] relative;
+}
+
+.circles{
+    @apply bg-changeColor text-fbg py-[7px] px-[9px]
+}
 }

@@ -27,8 +27,9 @@ export default {
       "gap": "var(--8, 32px)",    
     },
     boxShadow: {
-  "3xl" : "0px 1px 16px 0px rgba(100, 100, 100, 0.30)"
-    },
+  "3xl" : "0px 1px 16px 0px rgba(100, 100, 100, 0.30)",
+  'blg': "0 10px 15px -3px #16A34A, 0 4px 6px -2px #16A34A",
+},
     fontFamily: {
   figtree: ["Figtree", "sans-serif"],
     },

@@ -1,10 +1,27 @@
-import React from 'react';
-import { Input } from './Input';
+import React, { useState } from 'react';
 import contactIcon from "./imgs/contactIcon.svg";
 import logo from './imgs/logo.svg';
 import { Link } from 'react-router-dom';
+import { Input } from './Input';
+import { YourCheckMark } from './circles/YourCheckMark';
 
 export function Yourself() {
+  const [inputValue, setInputValue] = useState("John Doe");
+  const [inputSelect1, setInputSelect1] = useState(" ")
+  const [inputSelect2, setInputSelect2] = useState(" ")
+  
+  function handleInput(e) {
+    setInputValue(e.target.value)
+  }
+  function handleSelect1(e) {
+    setInputSelect1(e.target.value)
+  }
+  function handleSelect2(e) {
+    setInputSelect2(e.target.value)
+  }
+
+  const isFormValid = inputValue.trim() !== " " && inputSelect1 !== " " && inputSelect2 !== " ";
+
   return (
       <>
           <body className='signUpBody'>
@@ -16,18 +33,9 @@ export function Yourself() {
     <img src={logo} alt="syncU logo" />
 
                 <div>
-
-                      <div className='text-xs font-semibold text-or justify-center flex items-center gap-[8px] mb-[30px]'>
-              <span className='allCircle currentCircle'>1</span>
-              <b className='arrow'>→</b>
-              <span className='allCircle'>2</span>
-              <b className='arrow'>→</b>
-              <span className='allCircle'>3</span>
-              <b className='arrow'>→</b>
-              <span className='allCircle'>4</span>
-          </div>
-
-
+            
+              <YourCheckMark />
+              
         <form action="" className='form gap-[13px]'>
          <div className='flex flex-col gap-[10px] items-center divhr'>
                   
@@ -44,13 +52,15 @@ export function Yourself() {
               <div className='divhr'>
                   
                   <div className='flex flex-col items-start gap-[10px]'>
-                      <label htmlFor="email" className=" text-label font-medium text-base">Full name</label>
-                  <Input placeHolder='John Doe' type='text' />
+                    <label htmlFor="email" className=" text-label font-medium text-base">Full name</label>
+                    
+                  <Input placeHolder={"John Doe"} onChange={handleInput} value={inputValue}/>
+                   
                   </div>
                   
                   <div className='flex flex-col items-start gap-[10px]'>
                       <label htmlFor="email" className=" text-label font-medium text-base">Gender</label>
-                      <select name="gender" id="" className='btn text-left px-[12px] pr-[5em] text-email bg-input' >
+                      <select name="gender" id="" className='btn text-left px-[12px] pr-[5em] text-email bg-input' value={inputSelect1} onChange={handleSelect1}>
                           <option value="">Select any---</option>
                           <option value="male ">Male</option>
                           <option value="female ">Female</option>
@@ -60,12 +70,13 @@ export function Yourself() {
                   </div>
                   
                   <div className='flex flex-col items-start gap-[10px]'>
-                      <label htmlFor="email" className=" text-label font-medium text-base">Country</label>
-                      <select name="gender" id="" className='btn text-left px-[12px] pr-[5em] text-email bg-input' >
+                    <label htmlFor="email" className=" text-label font-medium text-base">Country</label>
+                    
+                      <select name="gender" id="" className='btn text-left px-[12px] pr-[5em] text-email bg-input' value={inputSelect2} onChange={handleSelect2}>
                           <option value="">Select any---</option>
-                          <option value="male ">Male</option>
-                          <option value="female ">Female</option>
-                          <option value="custom ">Custom</option>
+                          <option value="nigeria">Nigeria</option>
+                          <option value="ghana ">Ghana</option>
+                          <option value="niger">Niger</option>
                       </select>
                       
                   </div>
@@ -75,7 +86,7 @@ export function Yourself() {
 
               <div className='px-[48px] w-full'>
                                   <Link to="/work">   
-                                   <button className='btn button  '> Next → </button>
+                    <button className={`btn button ${isFormValid ? 'bg-changeColor' : {} } `} disabled={!isFormValid}> Next → </button>
                                   </Link>
               </div>
     

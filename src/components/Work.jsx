@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import work from "./imgs/work.svg"
-import { Radio } from './Radio';
+import { Radio } from './reuseable-comp/Radio';
 import { Link } from 'react-router-dom';
 import logo from './imgs/logo.svg';
-import { Label } from './Label';
-
+import { Input } from './Input';
+import { WorkCheckMark } from './circles/WorkCheckMark';
 
 export function Work() {
+
+  const [show, setShow] = useState(false);
+  const [isRadioSelected, setIsRadioSelected] = useState(false);
+
+  function handleRadio() {
+    setIsRadioSelected(true)
+  }
+
   return (
       <>
     <body className='signUpBody'>
@@ -14,22 +22,15 @@ export function Work() {
     <section className="signUpSection ">
 
 
-      <main className='signUpMain '>
+      <main className='signUpMain w-[65%] left-[20%]'>
         <img src={logo} alt="syncU logo" />
 
-        <div>
-        <div className='text-xs font-semibold text-or justify-center flex items-center gap-[8px] mb-[30px]'>
-              <span className='allCircle currentCircle'>1</span>
-              <b className='arrow'>→</b>
-              <span className='allCircle'>2</span>
-              <b className='arrow'>→</b>
-              <span className='allCircle'>3</span>
-              <b className='arrow'>→</b>
-              <span className='allCircle'>4</span>
-          </div>
+            <div>
+              
+              <WorkCheckMark />
+              
 
-
-        <form action="" className='form gap-[13px] w-[585px]'>
+        <form action="" className='form gap-[13px]'>
          <div className='flex flex-col gap-[10px] items-center divhr'>
                   
               <img src={work} alt="work icon" className='imgIcon bg-orange' />
@@ -46,13 +47,26 @@ export function Work() {
                   
                   <div className='flex flex-col items-start gap-[10px] z-10'>
                       
-                   <Radio emoji='🎨' stack="Design" brief="Includes graphics design, UI/UX design and so on..." />
+                   <Radio emoji='🎨' stack="Design" brief="Includes graphics design, UI/UX design and so on..." onChange={handleRadio}/>
 
-                    <Radio emoji='⚙' stack="Engineering" brief="Includes web development, cloud engineering etc." />
+                    <Radio emoji='⚙' stack="Engineering" brief="Includes web development, cloud engineering etc." onChange={handleRadio}/>
                     
-                    <Radio emoji='💹' stack="Product" brief="Includes Product management, Product marketing etc." />
-                    
-                    <Radio emoji='😬' stack="Others" brief="Select If what you do is not among the above."  />
+                    <Radio emoji='💹' stack="Product" brief="Includes Product management, Product marketing etc." onChange={handleRadio} />
+                  
+                    <label className='label gap-[20px] flex-col' onClick={() => setShow(show === false ? {} : true)}>
+                     
+                      <div className='flex items-start justify-between w-full'>
+                    <div>      
+                      <strong className='text-darkBlue text-xl leading-[40px] pd-[5px]'>😬 Others</strong>
+                      <p className='text-or font-normal'>Select If what you do is not among the above.</p>
+                    </div>
+                          
+                        <input type="radio" name="design" id="" className='border-changeColor bg-changeColor' onChange={handleRadio} /> 
+                      </div>
+                      
+                      { show && ( <div>  <Input /> </div>) }
+
+                    </label>
                         </div>
                   
                 </section>
@@ -66,9 +80,11 @@ export function Work() {
                   </button>
           </Link>
 
-                  <button className='btn button w-[125px]'>
+                 <Link to='/stack'>
+                  <button className={`btn button w-[125px]  ${isRadioSelected ? 'bg-changeColor' : {}}`} disabled={!isRadioSelected}>
                   Next →
-                  </button>
+                    </button>
+                    </Link>
               </div>
      </form>
 

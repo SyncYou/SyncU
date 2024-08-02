@@ -66,17 +66,7 @@
     }
 
 
-    /* count */
-    .allCircle{
-        @apply py-[3px] px-[8px] border-0 outline border-or rounded-[50%] text-or
-    }
-    .currentCircle{
-        @apply border-changeColor outline-dashed text-changeColor 
-    }
-    .arrow{
-        @apply text-or text-3xl font-bold 
-    }
-
+    
 }
 
 
