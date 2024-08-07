@@ -1,0 +1,99 @@
+{
+  "posts": [
+   
+    {
+      "id": 1,
+      "author_icon": "/src/assets/vergil.svg",
+      "author": "vergil",
+      "title": "Syncu",
+      "description": "Syncu is a collaborative platform that enables developers, designers, and other tech professionals to work on real life projects, gain hands on experience",
+      "time": "1 hr ago",
+      "category": "Collaboration",
+      "collaborators": 8,
+      "comments": 1,
+      "tags": [
+        {
+          "icon": "/src/assets/Figma.svg",
+          "name": "Figma"
+        },
+        {
+          "name": "Ui design"
+        },
+        {
+          "name": "Frontend development"
+        },
+        {
+          "icon": "/src/assets/React.svg",
+          "name": "React"
+        },
+        {
+          "icon": "/src/assets/Javascript.svg",
+          "name": "JavaScript"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "author_icon": "/src/assets/aisha.svg",
+      "author": "aisha",
+      "title": "learnie",
+      "description": "A platform where book enthusiasts can discuss books, join book clubs, and share reviews",
+      "time": "5 hr ago",
+      "category": "Social networking",
+      "collaborators": 3,
+      "comments": 16,
+      "tags": [
+        {
+          "icon": "/src/assets/java.svg",
+          "name": "Java"
+        },
+        {
+          "name": "Frontend development"
+        },
+        {
+          "name": "Web development"
+        },
+        {
+          "icon": "/src/assets/Python.svg",
+          "name": "Python"
+        },
+        {
+          "icon": "/src/assets/Javascript.svg",
+          "name": "JavaScript"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "author_icon": "/src/assets/michael.svg",
+      "author": "michael",
+      "title": "automated content generator",
+      "description": "An AI tool that helps users create post, articles, and other content by suggestings topics, generating text, and providing editing assistance.",
+      "time": "12 hr ago",
+      "category": "Artificial Intelligence",
+      "collaborators": 2,
+      "comments": 5,
+      "tags": [
+        {
+          "name": "Product management"
+        },
+        {
+          "icon": "/src/assets/Sketch.svg",
+          "name": "Sketch"
+        },
+        {
+          "icon": "/src/assets/Angular.svg",
+          "name": "Angular"
+        },
+        {
+          "icon": "/src/assets/Python.svg",
+          "name": "Python"
+        },
+        {
+          "icon": "/src/assets/Javascript.svg",
+          "name": "JavaScript"
+        }
+      ]
+    }
+  ]
+}
