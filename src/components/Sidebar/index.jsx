@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import Logo from '../../assets/Logo.svg'
-import Agreement from '../../assets/agreement.svg'
-import AgreementBlack from '../../assets/agreement-black.svg'
-import Showcase from '../../assets/projector.svg'
-import Pencil from '../../assets/pencil-edit.svg'
-import UserSearch from '../../assets/user-search.svg'
+import Logo from "../../assets/Logo.svg";
+import Agreement from "../../assets/agreement.svg";
+import AgreementBlack from "../../assets/agreement-black.svg";
+import Showcase from "../../assets/projector.svg";
+import Pencil from "../../assets/pencil-edit.svg";
+import UserSearch from "../../assets/user-search.svg";
 
 export default function Sidebar() {
   const [showProjects, setShowProjects] = useState(false);
@@ -106,7 +106,11 @@ export default function Sidebar() {
                 onClick={() => {
                   setShowProjects((prev) => !prev);
                 }}
-                src={showProjects ? "/src/assets/arrow-down.svg" : "/src/assets/arrow-left.svg"}
+                src={
+                  showProjects
+                    ? "/src/assets/arrow-down.svg"
+                    : "/src/assets/arrow-left.svg"
+                }
                 alt=""
                 className="cursor-pointer w-[24px] h-[24px]"
               />
@@ -126,6 +130,7 @@ export default function Sidebar() {
             {nav_base.map((item, i) => (
               <NavLink
                 to={`${item.route}`}
+                key={i}
                 onClick={() => {
                   setActive((prev) => !prev);
                 }}
@@ -134,7 +139,13 @@ export default function Sidebar() {
                 }
               >
                 <img src={item.icon} alt={item.title} />
-                <p className={`${active ? 'text-white' : 'text-[#6B7280]'}leading-6`}>{item.title}</p>
+                <p
+                  className={`${
+                    active ? "text-white" : "text-[#6B7280]"
+                  }leading-6`}
+                >
+                  {item.title}
+                </p>
               </NavLink>
             ))}
           </div>
