@@ -1,9 +1,9 @@
 import React from 'react'
-import EditProfile from '../../components/Profile/EditProfile'
+import UserProfile from '../../components/Profile/UserProfile'
 
 const index = () => {
   return (
-    <div className='p-10'><EditProfile/></div>
+    <div className='p-10'><UserProfile/></div>
   )
 }
 

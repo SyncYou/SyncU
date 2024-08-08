@@ -4,7 +4,9 @@ import SignIn from "./pages/auth/signin/SignIn";
 import Password from "./pages/auth/signin/Password";
 import ProjectCollab from "./components/ProjectCollab";
 import { Home, Profile } from "./pages";
+import EditProfile from "./components/Profile/EditProfile";
 import ResetPassword from "./pages/auth/resetPassword/ResetPassword";
+import ProfileOverview from "./components/Profile/ProfileOverview";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +21,16 @@ const router = createBrowserRouter([
       {
         path: "/profile",
         element: <Profile />,
+        children: [
+          {
+            path: '/profile',
+            element: <ProfileOverview />,
+          }
+        ]
+      },
+      {
+        path: "/edit-profile",
+        element: <EditProfile />,
       },
     ],
   },

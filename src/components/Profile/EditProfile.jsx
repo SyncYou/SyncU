@@ -9,6 +9,7 @@ const EditProfile = () => {
   const [showModal, setShowModal] = useState(false)
   return (
     <>
+    <section className="p-10">
       <div className="flex items-center gap-2">
         <small>My profile</small>
         <img src="/src/assets/chevron-right.svg" alt="" />
@@ -306,6 +307,7 @@ const EditProfile = () => {
           </div>
         </div>
       </div>
+      </section>
     </>
   );
 };
