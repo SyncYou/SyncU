@@ -5,7 +5,6 @@ import useFetch from "../../utils/hooks/useFetch";
 
 export default function ProjectCollab() {
   const { data: posts, isPending, error } = useFetch('http://localhost:5000/posts')
-  // console.log(posts)
 
   return (
     <>

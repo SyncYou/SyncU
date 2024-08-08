@@ -1,11 +1,17 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import Logo from "../../assets/Logo.svg";
-import Agreement from "../../assets/agreement.svg";
-import AgreementBlack from "../../assets/agreement-black.svg";
-import Showcase from "../../assets/projector.svg";
-import Pencil from "../../assets/pencil-edit.svg";
-import UserSearch from "../../assets/user-search.svg";
+import Logo from "/src/assets/Logo.svg";
+import Agreement from "/src/assets/img/sidebar/agreement.svg";
+import AgreementBlack from "/src/assets/img/sidebar/agreement-black.svg";
+import Showcase from "/src/assets/img/sidebar/projector.svg";
+import Pencil from "/src/assets/img/sidebar/pencil-edit.svg";
+import UserSearch from "/src/assets/img/sidebar/user-search.svg";
+import Syncoins from "/src/assets/img/sidebar/energy-ellipse.svg"
+import Profile from "/src/assets/img/sidebar/Profile.svg"
+import arrowDown from "/src/assets/img/sidebar/arrow-down.svg"
+import arrowLeft from "/src/assets/img/sidebar/arrow-left.svg"
+import searchCircle from "/src/assets/img/sidebar/search-circle.svg"
+import popUp from "/src/assets/img/sidebar/Pop-up.svg"
 
 export default function Sidebar() {
   const [showProjects, setShowProjects] = useState(false);
@@ -44,13 +50,13 @@ export default function Sidebar() {
   const nav_base = [
     {
       title: "Get syncoins",
-      icon: "/src/assets/energy-ellipse.svg",
+      icon: Syncoins,
       notification: false,
       route: "/syncoins",
     },
     {
       title: "Profile",
-      icon: "/src/assets/profile.svg",
+      icon: Profile,
       notification: false,
       route: "/profile",
     },
@@ -87,7 +93,7 @@ export default function Sidebar() {
                   />
                   {item.notification && (
                     <img
-                      src="/src/assets/Pop-up.svg"
+                      src={popUp}
                       alt=""
                       className="absolute -right-1 top-0"
                     />
@@ -108,8 +114,8 @@ export default function Sidebar() {
                 }}
                 src={
                   showProjects
-                    ? "/src/assets/arrow-down.svg"
-                    : "/src/assets/arrow-left.svg"
+                    ? arrowDown
+                    : arrowLeft
                 }
                 alt=""
                 className="cursor-pointer w-[24px] h-[24px]"
@@ -118,7 +124,7 @@ export default function Sidebar() {
             {showProjects && (
               <div className="my-5">
                 <div className="flex gap-3 cursor-pointer">
-                  <img src="/src/assets/search-circle.svg" alt="" />
+                  <img src={searchCircle} alt="" />
                   <p className="text-[16px] font-normal text-[#6B7280]">
                     Browse projects
                   </p>
