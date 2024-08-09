@@ -1,13 +1,13 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import briefcase from '/briefcase.svg'
-import location from '/location.svg'
-import linkGray from '/link-gray.svg'
-import linkSquare from '/link-square.svg'
-import calendar from '/calendar-add.svg'
-import behance from '/Behance.svg'
-import twitter from '/X.svg'
-import figma from '/Figma.svg'
+import briefcase from '/profile/briefcase.svg'
+import location from '/profile/location.svg'
+import linkGray from '/profile/link-gray.svg'
+import linkSquare from '/profile/link-square.svg'
+import calendar from '/profile/calendar-add.svg'
+import behance from '/profile/Behance.svg'
+import twitter from '/profile/X.svg'
+import figma from '/profile/Figma.svg'
 
 const ProfileOverview = () => {
     const profileTab = [
@@ -18,12 +18,12 @@ const ProfileOverview = () => {
         },
         {
             name: 'showcased projects',
-            route: '/profile/showcase',
+            route: '/profile/showcased-projects',
             active: false
         },
         {
             name: 'working on',
-            route: '/profile/working',
+            route: '/profile/working-on',
             active: false
         },
         {
@@ -37,7 +37,7 @@ const ProfileOverview = () => {
    <section>
     <div className='flex items-center justify-between border-b pb-3'>
         {profileTab.map((tab,i) => (
-        <NavLink to={`${tab.route}`} key={i} className={`${tab.active ? 'bg-[#1F2937] shadow leading-5 font-semibold text-white py-2 px-5 rounded-lg' : 'bg-transparent text-[#6B7280] text-[14px] leading-5 font-medium py-2 px-5'}`}>
+        <NavLink to={`${tab.route}`} key={i} className={`${tab.active ? 'bg-[#1F2937] shadow leading-5 font-semibold text-white py-2 px-5 rounded-lg capitalize' : 'bg-transparent text-[#6B7280] text-[14px] leading-5 font-medium py-2 px-5 capitalize'}`}>
             {tab.name}
         </NavLink>
         ))}

@@ -1,43 +1,57 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
-import vergil from '/vergil.svg'
-import pencilEdit from '/pencil-edit.svg'
-import share from '/share.svg'
-import arrowRight from '/chevron-right.svg'
-import arrowDown from '/arrow-down.svg'
-import magicWand from '/magic-wand.svg'
-import download from '/download.svg'
-import sharePurple from '/share-purple.svg'
+import React from "react";
+import { Link, Outlet } from "react-router-dom";
+import vergil from "/vergil.svg";
+import pencilEdit from "/pencil-edit.svg";
+import share from "/share.svg";
+import arrowRight from "/chevron-right.svg";
+import arrowDown from "/arrow-down.svg";
+import magicWand from "/magic-wand.svg";
+import download from "/download.svg";
+import sharePurple from "/share-purple.svg";
 
 const UserProfile = () => {
- 
-
   return (
     <section>
-      <div className='max-w-[670px]'>
-        <div className='flex items-center justify-between'>
-          <img src={vergil} alt="profile" className='w-[60px] h-[60px]' />
-          <div className='flex items-center gap-5'>
-            <button className='flex items-center gap-2 py-2 px-4 border border-[#E5E7EB] rounded-lg'>
-              <img src={pencilEdit} alt="" />
-              <small className='font-medium leading-6 text-[#374151]'>Edit profile</small>
-            </button>
-            <button className='flex items-center gap-2 py-2 px-5 border border-[#E5E7EB] rounded-lg'>
+      <div className="max-w-[670px]">
+        <div className="flex items-center justify-between">
+          <img src={vergil} alt="profile" className="w-[60px] h-[60px]" />
+          <div className="flex items-center gap-5">
+            <Link to={"/edit-profile"}>
+              <button className="flex items-center gap-2 py-2 px-4 border border-[#E5E7EB] rounded-lg">
+                <img src={pencilEdit} alt="" />
+                <small className="font-medium leading-6 text-[#374151]">
+                  Edit profile
+                </small>
+              </button>
+            </Link>
+            <button className="flex items-center gap-2 py-2 px-5 border border-[#E5E7EB] rounded-lg">
               <img src={share} alt="" />
-              <small className='font-medium leading-6 text-[#374151]'>Share</small>
+              <small className="font-medium leading-6 text-[#374151]">
+                Share
+              </small>
             </button>
           </div>
         </div>
 
-        <div className='py-3'>
-          <div className='flex items-center gap-2'>
-            <h2 className='text-[#374151] font-semibold text-xl leading-7'>Gojo Satori</h2>
-            <small className='text-[#6B7280] leading-6'>@gojosatori123</small>
+        <div className="py-3">
+          <div className="flex items-center gap-2">
+            <h2 className="text-[#374151] font-semibold text-xl leading-7">
+              Gojo Satori
+            </h2>
+            <small className="text-[#6B7280] leading-6">@gojosatori123</small>
           </div>
           <div>
-            <p className='text-[#374151] leading-6'>Hi, I’m Gojo and I love designing and pushing myself to create new things.</p>
-            <div className='flex items-center gap-2 my-2'>
-            <small className='font-semibold leading-5 text-[14px]'>0 <span className='font-normal leading-5 text-[#6B7280]'>connections</span> </small>
+            <p className="text-[#374151] leading-6">
+              Hi, I’m Gojo and I love designing and pushing myself to create new
+              things.
+            </p>
+            <div className="flex items-center gap-2 my-2">
+              <small className="font-semibold leading-5 text-[14px]">
+                0{" "}
+                <span className="font-normal leading-5 text-[#6B7280]">
+                  connections
+                </span>{" "}
+              </small>
               <img src={arrowRight} alt="" />
             </div>
           </div>
@@ -46,49 +60,65 @@ const UserProfile = () => {
 
       <div className="flex gap-[100px] my-10">
         <div className="flex-1">
-          <Outlet/>
+          <Outlet />
         </div>
         <div className="w-[350px]">
-          <div className='flex items-center justify-between'>
-            <h3 className='text-[#1F2937] font-semibold text-[18px] leading-8'>Statistics</h3>
+          <div className="flex items-center justify-between">
+            <h3 className="text-[#1F2937] font-semibold text-[18px] leading-8">
+              Statistics
+            </h3>
             <img src={arrowDown} alt="" />
           </div>
 
-          <div className='border border-[#E5E7EB] rounded-lg p-5'>
-              <div className='border-b border-[#E5E7EB]'>
-                <div className='flex flex-col items-center justify-center'>
-                  <img src={vergil} alt="" className='w-[50px] h-[50px]' />
-                  <h3 className='font-bold text-[#1F2937] leading-5'>Gojo Satori</h3>
-                  <small className='text-[#6B7280] leading-4 font-medium text-[12px]'>@gojosatori123</small>
-                </div>
-
-                <div className='bg-[#F3F4F6] rounded-lg p-3 my-5'>
-                  <div className='flex items-center justify-between'>
-                    <p className='text-[#1F2937] font-medium leading-6 -tracking-[1%]'>Total project contributions</p>
-                    <small className='font-bold leading-9 -tracking-[2%] text-[24px]'>0</small>
-                  </div>
-                  <div  className='flex items-center justify-between'>
-                    <p  className='text-[#1F2937] font-medium leading-6 -tracking-[1%]'>Total projects showcased</p>
-                    <small className='font-bold leading-9 -tracking-[2%] text-[24px]'>0</small>
-                  </div>
-                </div>
+          <div className="border border-[#E5E7EB] rounded-lg p-5">
+            <div className="border-b border-[#E5E7EB]">
+              <div className="flex flex-col items-center justify-center">
+                <img src={vergil} alt="" className="w-[50px] h-[50px]" />
+                <h3 className="font-bold text-[#1F2937] leading-5">
+                  Gojo Satori
+                </h3>
+                <small className="text-[#6B7280] leading-4 font-medium text-[12px]">
+                  @gojosatori123
+                </small>
               </div>
 
-              <div className='flex items-center justify-between my-3'>
-                <div className='flex items-center gap-3'>
-                  <img src={magicWand} alt="" />
-                  <small className='font-medium leading-5 text-[12px] text-[#6B7280]'>Auto-generated by Syncu</small>
+              <div className="bg-[#F3F4F6] rounded-lg p-3 my-5">
+                <div className="flex items-center justify-between">
+                  <p className="text-[#1F2937] font-medium leading-6 -tracking-[1%]">
+                    Total project contributions
+                  </p>
+                  <small className="font-bold leading-9 -tracking-[2%] text-[24px]">
+                    0
+                  </small>
                 </div>
-                <div className='flex items-center gap-3'>
-                  <img src={download} alt="" />
-                  <img src={sharePurple} alt="" />
+                <div className="flex items-center justify-between">
+                  <p className="text-[#1F2937] font-medium leading-6 -tracking-[1%]">
+                    Total projects showcased
+                  </p>
+                  <small className="font-bold leading-9 -tracking-[2%] text-[24px]">
+                    0
+                  </small>
                 </div>
               </div>
+            </div>
+
+            <div className="flex items-center justify-between my-3">
+              <div className="flex items-center gap-3">
+                <img src={magicWand} alt="" />
+                <small className="font-medium leading-5 text-[12px] text-[#6B7280]">
+                  Auto-generated by Syncu
+                </small>
+              </div>
+              <div className="flex items-center gap-3">
+                <img src={download} alt="" />
+                <img src={sharePurple} alt="" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default UserProfile
+export default UserProfile;

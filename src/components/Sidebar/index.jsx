@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import Logo from "/src/assets/Logo.svg";
-import Agreement from "/src/assets/img/sidebar/agreement.svg";
-import AgreementBlack from "/src/assets/img/sidebar/agreement-black.svg";
-import Showcase from "/src/assets/img/sidebar/projector.svg";
-import Pencil from "/src/assets/img/sidebar/pencil-edit.svg";
-import UserSearch from "/src/assets/img/sidebar/user-search.svg";
-import Syncoins from "/src/assets/img/sidebar/energy-ellipse.svg"
-import Profile from "/src/assets/img/sidebar/Profile.svg"
-import arrowDown from "/src/assets/img/sidebar/arrow-down.svg"
-import arrowLeft from "/src/assets/img/sidebar/arrow-left.svg"
-import searchCircle from "/src/assets/img/sidebar/search-circle.svg"
-import popUp from "/src/assets/img/sidebar/Pop-up.svg"
+import Logo from "/sidebar/Logo.svg";
+import Agreement from "/sidebar/agreement.svg";
+import AgreementBlack from "/sidebar/agreement-black.svg";
+import Showcase from "/sidebar/projector.svg";
+import Pencil from "/sidebar/pencil-edit.svg";
+import UserSearch from "/sidebar/user-search.svg";
+import Syncoins from "/sidebar/energy-ellipse.svg"
+import Profile from "/sidebar/Profile.svg"
+import arrowDown from "/sidebar/arrow-down.svg"
+import arrowLeft from "/sidebar/arrow-left.svg"
+import searchCircle from "/sidebar/search-circle.svg"
+import popUp from "/sidebar/Pop-up.svg"
 
 export default function Sidebar() {
   const [showProjects, setShowProjects] = useState(false);

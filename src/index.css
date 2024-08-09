@@ -56,7 +56,7 @@ input[type="file"] {
 }
 
 .bg_effect {
-  background-image: url("/src/assets/BG-effect.svg");
+  background-image: url("BG-effect.svg");
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;

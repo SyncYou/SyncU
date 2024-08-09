@@ -13,7 +13,7 @@
       "comments": 1,
       "tags": [
         {
-          "icon": "/src/assets/Figma.svg",
+          "icon": "/Figma.svg",
           "name": "Figma"
         },
         {
@@ -23,18 +23,18 @@
           "name": "Frontend development"
         },
         {
-          "icon": "/src/assets/React.svg",
+          "icon": "/React.svg",
           "name": "React"
         },
         {
-          "icon": "/src/assets/Javascript.svg",
+          "icon": "/Javascript.svg",
           "name": "JavaScript"
         }
       ]
     },
     {
       "id": 2,
-      "author_icon": "/src/assets/aisha.svg",
+      "author_icon": "/aisha.svg",
       "author": "aisha",
       "title": "learnie",
       "description": "A platform where book enthusiasts can discuss books, join book clubs, and share reviews",
@@ -44,7 +44,7 @@
       "comments": 16,
       "tags": [
         {
-          "icon": "/src/assets/java.svg",
+          "icon": "/java.svg",
           "name": "Java"
         },
         {
@@ -54,18 +54,18 @@
           "name": "Web development"
         },
         {
-          "icon": "/src/assets/Python.svg",
+          "icon": "/Python.svg",
           "name": "Python"
         },
         {
-          "icon": "/src/assets/Javascript.svg",
+          "icon": "/Javascript.svg",
           "name": "JavaScript"
         }
       ]
     },
     {
       "id": 3,
-      "author_icon": "/src/assets/michael.svg",
+      "author_icon": "/michael.svg",
       "author": "michael",
       "title": "automated content generator",
       "description": "An AI tool that helps users create post, articles, and other content by suggestings topics, generating text, and providing editing assistance.",
@@ -78,19 +78,19 @@
           "name": "Product management"
         },
         {
-          "icon": "/src/assets/Sketch.svg",
+          "icon": "/Sketch.svg",
           "name": "Sketch"
         },
         {
-          "icon": "/src/assets/Angular.svg",
+          "icon": "/Angular.svg",
           "name": "Angular"
         },
         {
-          "icon": "/src/assets/Python.svg",
+          "icon": "/Python.svg",
           "name": "Python"
         },
         {
-          "icon": "/src/assets/Javascript.svg",
+          "icon": "/Javascript.svg",
           "name": "JavaScript"
         }
       ]

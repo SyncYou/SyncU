@@ -1,9 +1,9 @@
-import arrowDown from "/src/assets/img/navbar/arrow-down.svg"
-import search from "/src/assets/img/navbar/search.svg"
-import bellIcon from "/src/assets/img/navbar/bell.svg"
-import Syncoins from "/src/assets/img/navbar/energy-ellipse.svg"
-import plusCircle from "/src/assets/img/navbar/plus-circle.svg"
-import Profile from "/src/assets/img/navbar/Profile.svg"
+import arrowDown from "/navbar/arrow-down.svg"
+import search from "/navbar/search.svg"
+import bellIcon from "/navbar/bell.svg"
+import Syncoins from "/navbar/energy-ellipse.svg"
+import plusCircle from "/navbar/plus-circle.svg"
+import Profile from "/navbar/Profile.svg"
 
 export default function Navbar(){
     return(

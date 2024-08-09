@@ -7,6 +7,9 @@ import { Home, Profile } from "./pages";
 import EditProfile from "./components/Profile/EditProfile";
 import ResetPassword from "./pages/auth/resetPassword/ResetPassword";
 import ProfileOverview from "./components/Profile/ProfileOverview";
+import ShowcasedProjects from "./components/Profile/ShowcasedProjects";
+import WorkingOn from "./components/Profile/WorkingOn";
+import Activities from "./components/Profile/Activities";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +28,18 @@ const router = createBrowserRouter([
           {
             path: '/profile',
             element: <ProfileOverview />,
+          },
+          {
+            path: '/profile/showcased-projects',
+            element: <ShowcasedProjects />,
+          },
+          {
+            path: '/profile/working-on',
+            element: <WorkingOn />,
+          },
+          {
+            path: '/profile/activities',
+            element: <Activities />,
           }
         ]
       },
