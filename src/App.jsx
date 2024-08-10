@@ -10,6 +10,7 @@ import ProfileOverview from "./components/Profile/ProfileOverview";
 import ShowcasedProjects from "./components/Profile/ShowcasedProjects";
 import WorkingOn from "./components/Profile/WorkingOn";
 import Activities from "./components/Profile/Activities";
+import ProjectDescription from "./components/ProjectDescription";
 
 const router = createBrowserRouter([
   {
@@ -19,7 +20,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <ProjectCollab />,
+        element: <ProjectCollab />
+      },
+      {
+        path: "/:id",
+        element: <ProjectDescription/>
       },
       {
         path: "/profile",

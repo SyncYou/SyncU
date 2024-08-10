@@ -3,7 +3,7 @@
    
     {
       "id": 1,
-      "author_icon": "/src/assets/vergil.svg",
+      "author_icon": "/vergil.svg",
       "author": "vergil",
       "title": "Syncu",
       "description": "Syncu is a collaborative platform that enables developers, designers, and other tech professionals to work on real life projects, gain hands on experience",

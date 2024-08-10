@@ -1,7 +1,15 @@
-export default function ProjectPost({ post }) {
+import { useNavigate } from 'react-router-dom';
+import dot from '/Dot.svg'
+import users from '/users2.svg'
+import comment from '/comment.svg'
+export default function ProjectPost({ post, setShowDescription }) {
+  const navigate = useNavigate()
   return (
     <>
-      <div className="border border-[#D1D5DB] rounded-lg shadow p-3 space-y-2 z-0">
+      <div onClick={() => {
+        // setShowDescription(prev => !prev)
+        navigate(`/${post?.id}`)
+      }} className="border border-[#D1D5DB] rounded-lg shadow p-3 space-y-2 z-0">
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1">
             <img src={post?.author_icon} alt="" />
@@ -12,16 +20,16 @@ export default function ProjectPost({ post }) {
               {post?.time}
             </small>
           </div>
-          <img src="/src/assets/Dot.svg" alt="" />
+          <img src={dot} alt="" />
           {/* tag */}
           <div>
             <p className="font-normal leading-[21px] text-[14px] text-[#6B7280] capitalize">
               {post?.category}
             </p>
           </div>
-          <img src="/src/assets/Dot.svg" alt="" />
+          <img src={dot} alt="" />
           <div className="flex items-center gap-2">
-            <img src="/src/assets/users2.svg" alt="" />
+            <img src={users} alt="" />
             <small className="font-normal leading-[21px] text-[14px] text-[#6B7280]">
               {post?.collaborators}
             </small>
@@ -29,7 +37,7 @@ export default function ProjectPost({ post }) {
           <img src="/src/assets/Dot.svg" alt="" />
           {/* comments */}
           <div className="flex items-center gap-2">
-            <img src="/src/assets/comment.svg" alt="" />
+            <img src={comment} alt="" />
             <small className="font-normal leading-[21px] text-[14px] text-[#6B7280]">
               {post?.comments}
             </small>
