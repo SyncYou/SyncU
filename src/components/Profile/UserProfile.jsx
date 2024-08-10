@@ -1,13 +1,13 @@
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
-import vergil from "/vergil.svg";
-import pencilEdit from "/pencil-edit.svg";
-import share from "/share.svg";
-import arrowRight from "/chevron-right.svg";
-import arrowDown from "/arrow-down.svg";
-import magicWand from "/magic-wand.svg";
-import download from "/download.svg";
-import sharePurple from "/share-purple.svg";
+import vergil from "/collaborators/vergil.svg";
+import pencilEdit from "/icons/pencil-edit.svg";
+import share from "/icons/share.svg";
+import arrowRight from "/icons/chevron-right.svg";
+import arrowDown from "/icons/arrow-down.svg";
+import magicWand from "/icons/magic-wand.svg";
+import download from "/profile/download.svg";
+import sharePurple from "/profile/share-purple.svg";
 
 const UserProfile = () => {
   return (

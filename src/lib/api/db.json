@@ -117,7 +117,50 @@
       "description": "A platform where book enthusiasts can discuss books, join book clubs, and share reviews",
       "time": "5 hr ago",
       "category": "Social networking",
-      "collaborators": 3,
+      "collaborators": [
+        {
+          "name": "Herintta 0.",
+          "username": "herinttabby",
+          "bio": "Product manager at Syncu || Co-founder of...",
+          "img": "/collaborators/collab1.svg"
+        },
+        {
+          "name": "Herintta 0.",
+          "username": "herinttabby",
+          "bio": "Product manager at Syncu || Co-founder of...",
+          "img": "/collaborators/collab2.svg"
+        },
+        {
+          "name": "Herintta 0.",
+          "username": "herinttabby",
+          "bio": "Product manager at Syncu || Co-founder of...",
+          "img": "/collaborators/collab3.svg"
+        },
+        {
+          "name": "Herintta 0.",
+          "username": "herinttabby",
+          "bio": "Product manager at Syncu || Co-founder of...",
+          "img": "/collaborators/collab4.svg"
+        },
+        {
+          "name": "Herintta 0.",
+          "username": "herinttabby",
+          "bio": "Product manager at Syncu || Co-founder of...",
+          "img": "/collaborators/collab5.svg"
+        },
+        {
+          "name": "Herintta 0.",
+          "username": "herinttabby",
+          "bio": "Product manager at Syncu || Co-founder of...",
+          "img": "/collaborators/collab6.svg"
+        },
+        {
+          "name": "Herintta 0.",
+          "username": "herinttabby",
+          "bio": "Product manager at Syncu || Co-founder of...",
+          "img": "/collaborators/collab7.svg"
+        }
+      ],
       "comments": [
         {
           "comment": "This is a comment",
@@ -182,7 +225,50 @@
       "description": "An AI tool that helps users create post, articles, and other content by suggestings topics, generating text, and providing editing assistance.",
       "time": "12 hr ago",
       "category": "Artificial Intelligence",
-      "collaborators": 2,
+      "collaborators": [
+        {
+          "name": "Herintta 0.",
+          "username": "herinttabby",
+          "bio": "Product manager at Syncu || Co-founder of...",
+          "img": "/collaborators/collab1.svg"
+        },
+        {
+          "name": "Herintta 0.",
+          "username": "herinttabby",
+          "bio": "Product manager at Syncu || Co-founder of...",
+          "img": "/collaborators/collab2.svg"
+        },
+        {
+          "name": "Herintta 0.",
+          "username": "herinttabby",
+          "bio": "Product manager at Syncu || Co-founder of...",
+          "img": "/collaborators/collab3.svg"
+        },
+        {
+          "name": "Herintta 0.",
+          "username": "herinttabby",
+          "bio": "Product manager at Syncu || Co-founder of...",
+          "img": "/collaborators/collab4.svg"
+        },
+        {
+          "name": "Herintta 0.",
+          "username": "herinttabby",
+          "bio": "Product manager at Syncu || Co-founder of...",
+          "img": "/collaborators/collab5.svg"
+        },
+        {
+          "name": "Herintta 0.",
+          "username": "herinttabby",
+          "bio": "Product manager at Syncu || Co-founder of...",
+          "img": "/collaborators/collab6.svg"
+        },
+        {
+          "name": "Herintta 0.",
+          "username": "herinttabby",
+          "bio": "Product manager at Syncu || Co-founder of...",
+          "img": "/collaborators/collab7.svg"
+        }
+      ],
       "comments": [
         {
           "comment": "This is a comment",

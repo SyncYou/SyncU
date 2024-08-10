@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import dot from '/Dot.svg'
-import users from '/users2.svg'
-import comment from '/comment.svg'
-export default function ProjectPost({ post, setShowDescription }) {
+import dot from '/icons/Dot.svg'
+import users from '/icons/users2.svg'
+import comment from '/icons/comment.svg'
+export default function ProjectPost({ post }) {
   const navigate = useNavigate()
   return (
     <>

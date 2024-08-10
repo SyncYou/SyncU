@@ -8,8 +8,8 @@ import Pencil from "/sidebar/pencil-edit.svg";
 import UserSearch from "/sidebar/user-search.svg";
 import Syncoins from "/sidebar/energy-ellipse.svg"
 import Profile from "/sidebar/Profile.svg"
-import arrowDown from "/sidebar/arrow-down.svg"
-import arrowLeft from "/sidebar/arrow-left.svg"
+import arrowDown from "/icons/arrow-down.svg"
+import arrowLeft from "/icons/arrow-left.svg"
 import searchCircle from "/sidebar/search-circle.svg"
 import popUp from "/sidebar/Pop-up.svg"
 

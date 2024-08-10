@@ -5,9 +5,9 @@ import location from '/profile/location.svg'
 import linkGray from '/profile/link-gray.svg'
 import linkSquare from '/profile/link-square.svg'
 import calendar from '/profile/calendar-add.svg'
-import behance from '/profile/Behance.svg'
-import twitter from '/profile/X.svg'
-import figma from '/profile/Figma.svg'
+import behance from '/social/Behance.svg'
+import twitter from '/social/X.svg'
+import figma from '/tags/Figma.svg'
 
 const ProfileOverview = () => {
     const profileTab = [
