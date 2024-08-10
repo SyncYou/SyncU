@@ -3,17 +3,94 @@
    
     {
       "id": 1,
-      "author_icon": "/vergil.svg",
+      "author_icon": "/collaborators/vergil.svg",
       "author": "vergil",
       "title": "Syncu",
       "description": "Syncu is a collaborative platform that enables developers, designers, and other tech professionals to work on real life projects, gain hands on experience",
       "time": "1 hr ago",
       "category": "Collaboration",
-      "collaborators": 8,
-      "comments": 1,
+      "collaborators": [
+        {
+          "name": "Herintta 0.",
+          "username": "herinttabby",
+          "bio": "Product manager at Syncu || Co-founder of...",
+          "img": "/collaborators/collab1.svg"
+        },
+        {
+          "name": "Herintta 0.",
+          "username": "herinttabby",
+          "bio": "Product manager at Syncu || Co-founder of...",
+          "img": "/collaborators/collab2.svg"
+        },
+        {
+          "name": "Herintta 0.",
+          "username": "herinttabby",
+          "bio": "Product manager at Syncu || Co-founder of...",
+          "img": "/collaborators/collab3.svg"
+        },
+        {
+          "name": "Herintta 0.",
+          "username": "herinttabby",
+          "bio": "Product manager at Syncu || Co-founder of...",
+          "img": "/collaborators/collab4.svg"
+        },
+        {
+          "name": "Herintta 0.",
+          "username": "herinttabby",
+          "bio": "Product manager at Syncu || Co-founder of...",
+          "img": "/collaborators/collab5.svg"
+        },
+        {
+          "name": "Herintta 0.",
+          "username": "herinttabby",
+          "bio": "Product manager at Syncu || Co-founder of...",
+          "img": "/collaborators/collab6.svg"
+        },
+        {
+          "name": "Herintta 0.",
+          "username": "herinttabby",
+          "bio": "Product manager at Syncu || Co-founder of...",
+          "img": "/collaborators/collab7.svg"
+        }
+      ],
+      "comments": [
+        {
+          "comment": "This is a comment",
+          "replies": [
+            {
+              "reply": "This is a reply"
+            },
+            {
+              "reply": "This is a reply"
+            }
+          ]
+        },
+        {
+          "comment": "This is a comment",
+          "replies": [
+            {
+              "reply": "This is a reply"
+            }
+          ]
+        },
+        {
+          "comment": "This is a comment",
+          "replies": [
+            {
+              "reply": "This is a reply"
+            },
+            {
+              "reply": "This is a reply"
+            },
+            {
+              "reply": "This is a reply"
+            }
+          ]
+        }
+      ],
       "tags": [
         {
-          "icon": "/Figma.svg",
+          "icon": "/tags/Figma.svg",
           "name": "Figma"
         },
         {
@@ -23,28 +100,62 @@
           "name": "Frontend development"
         },
         {
-          "icon": "/React.svg",
+          "icon": "/tags/React.svg",
           "name": "React"
         },
         {
-          "icon": "/Javascript.svg",
+          "icon": "/tags/Javascript.svg",
           "name": "JavaScript"
         }
       ]
     },
     {
       "id": 2,
-      "author_icon": "/aisha.svg",
+      "author_icon": "/collaborators/aisha.svg",
       "author": "aisha",
       "title": "learnie",
       "description": "A platform where book enthusiasts can discuss books, join book clubs, and share reviews",
       "time": "5 hr ago",
       "category": "Social networking",
       "collaborators": 3,
-      "comments": 16,
+      "comments": [
+        {
+          "comment": "This is a comment",
+          "replies": [
+            {
+              "reply": "This is a reply"
+            },
+            {
+              "reply": "This is a reply"
+            }
+          ]
+        },
+        {
+          "comment": "This is a comment",
+          "replies": [
+            {
+              "reply": "This is a reply"
+            }
+          ]
+        },
+        {
+          "comment": "This is a comment",
+          "replies": [
+            {
+              "reply": "This is a reply"
+            },
+            {
+              "reply": "This is a reply"
+            },
+            {
+              "reply": "This is a reply"
+            }
+          ]
+        }
+      ],
       "tags": [
         {
-          "icon": "/java.svg",
+          "icon": "/tags/java.svg",
           "name": "Java"
         },
         {
@@ -54,46 +165,157 @@
           "name": "Web development"
         },
         {
-          "icon": "/Python.svg",
+          "icon": "/tags/Python.svg",
           "name": "Python"
         },
         {
-          "icon": "/Javascript.svg",
+          "icon": "/tags/Javascript.svg",
           "name": "JavaScript"
         }
       ]
     },
     {
       "id": 3,
-      "author_icon": "/michael.svg",
+      "author_icon": "/collaborators/michael.svg",
       "author": "michael",
       "title": "automated content generator",
       "description": "An AI tool that helps users create post, articles, and other content by suggestings topics, generating text, and providing editing assistance.",
       "time": "12 hr ago",
       "category": "Artificial Intelligence",
       "collaborators": 2,
-      "comments": 5,
+      "comments": [
+        {
+          "comment": "This is a comment",
+          "replies": [
+            {
+              "reply": "This is a reply"
+            },
+            {
+              "reply": "This is a reply"
+            }
+          ]
+        },
+        {
+          "comment": "This is a comment",
+          "replies": [
+            {
+              "reply": "This is a reply"
+            }
+          ]
+        },
+        {
+          "comment": "This is a comment",
+          "replies": [
+            {
+              "reply": "This is a reply"
+            },
+            {
+              "reply": "This is a reply"
+            },
+            {
+              "reply": "This is a reply"
+            }
+          ]
+        }
+      ],
       "tags": [
         {
           "name": "Product management"
         },
         {
-          "icon": "/Sketch.svg",
+          "icon": "/tags/Sketch.svg",
           "name": "Sketch"
         },
         {
-          "icon": "/Angular.svg",
+          "icon": "/tags/Angular.svg",
           "name": "Angular"
         },
         {
-          "icon": "/Python.svg",
+          "icon": "/tags/Python.svg",
           "name": "Python"
         },
         {
-          "icon": "/Javascript.svg",
+          "icon": "/tags/Javascript.svg",
           "name": "JavaScript"
         }
       ]
+    }
+  ],
+  "tags": [
+    {
+      "icon": "/tags/Angular.svg",
+      "name": "Angular"
+    },
+    {
+      "icon": "/tags/Adobe-xd.svg",
+      "name": "Adobe Xd"
+    },
+    {
+      "icon": "/tags/Ae.svg",
+      "name": "After Effets"
+    },
+    {
+      "icon": "/tags/Apache.svg",
+      "name": "Apache Stack"
+    },
+    {
+      "icon": "/tags/Figma.svg",
+      "name": "Figma"
+    },
+    {
+      "icon": "/tags/Flutter.svg",
+      "name": "Flutter"
+    },
+    {
+      "icon": "/tags/illustrator.svg",
+      "name": "Adobe Illustrator"
+    },
+    {
+      "icon": "/tags/java.svg",
+      "name": "Java"
+    },
+    {
+      "icon": "/tags/Javascript.svg",
+      "name": "JavaScript"
+    },
+    {
+      "icon": "/tags/Python.svg",
+      "name": "Python"
+    },
+    {
+      "icon": "/tags/React.svg",
+      "name": "React"
+    },
+    {
+      "icon": "/tags/Sketch.svg",
+      "name": "Sketch"
+    },
+    {
+      "name": "Product management"
+    },
+    {
+      "name": "Product Design"
+    },
+    {
+      "name": "UI design"
+    },
+    {
+      "name": "User Experience"
+    },
+    {
+      "name": "Front-end development"
+    },
+    {
+      "name": "Back-end development"
+    },
+    {
+      "name": "Product marketing"
+    },
+    {
+      "name": "Prototyping"
+    },
+    {
+      "name": "Graphics design"
     }
   ]
 }
