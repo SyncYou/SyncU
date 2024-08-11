@@ -377,6 +377,14 @@
       "name": "Sketch"
     },
     {
+      "icon": "/tags/Typescript.svg",
+      "name": "TypeScript"
+    },
+    {
+      "icon": "/tags/Firebase.svg",
+      "name": "Firebase"
+    },
+    {
       "name": "Product management"
     },
     {

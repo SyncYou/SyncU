@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import ViewProfileCard from "../Profile/ViewProfileCard";
 import dot from "/icons/Dot.svg";
 import syncoins from "/sidebar/energy-ellipse.svg";
 import more from "/icons/more-horizontal.svg";
@@ -12,6 +11,7 @@ import vergil from "/collaborators/vergil.svg";
 import fader from "/Fader.svg";
 import arrowUpBlack from "/icons/arrow-up-black.svg";
 import figma from "/tags/Figma.svg";
+import tick from "/icons/tick.svg";
 import collab1 from "/collaborators/collab1.svg";
 import collab2 from "/collaborators/collab2.svg";
 import collab3 from "/collaborators/collab3.svg";
@@ -25,22 +25,32 @@ import CollaboratorModal from "../Collaborators/CollaboratorModal";
 const ProjectDescription = () => {
   const [expand, setExpand] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [showReply, setShowReply] = useState(false)
-  const [activeModal, setActiveModal] = useState(null)
+  const [showReply, setShowReply] = useState(false);
+  const [activeModal, setActiveModal] = useState(null);
+  const [activeBtn, setActiveBtn] = useState('latest')
+  const [showSortDropdown, setShowSortDropdown] = useState(false)
+
+  const handleButtonClick = (buttonType) => {
+    setActiveBtn(buttonType);
+  };
+
+  const handleSortDropdown = () => {
+    setShowSortDropdown(prev => !prev)
+  }
 
   const handleShowProfileModal = (collaboratorsId) => {
-    setActiveModal(prevId => (prevId === collaboratorsId ? null : collaboratorsId))
-  }
+    setActiveModal((prevId) =>
+      prevId === collaboratorsId ? null : collaboratorsId
+    );
+  };
 
   const handleOpenModal = () => {
     setShowModal(true);
   };
 
   const handleShowReply = () => {
-    setShowReply(prev => !prev)
-  }
-
-
+    setShowReply((prev) => !prev);
+  };
 
   const collaborators = [
     collab1,
@@ -58,7 +68,7 @@ const ProjectDescription = () => {
       <div className="h-fit w-4/5 mx-auto bg-white rounded-lg shadow-lg shadow-[#6464644D] relative">
         {/* Toast */}
         {showModal && (
-          <div className="absolute top-2/4 left-2/4 -translate-x-1/2 -translate-y-1/2">
+          <div className="absolute z-50 top-2/4 left-2/4 -translate-x-1/2 -translate-y-1/2">
             <Toast setShowModal={setShowModal} />
           </div>
         )}
@@ -160,14 +170,38 @@ const ProjectDescription = () => {
                     Comments
                   </h2>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 relative">
                   <h2 className="text-[#374151] leading-5 text-[14px] font-semibold">
                     Sort by:
                   </h2>
-                  <p className="flex items-center gap-2 text-[#374151] leading-5 text-[14px]">
+                  <p onClick={handleSortDropdown} className="flex items-center gap-2 text-[#374151] leading-5 text-[14px] cursor-pointer">
                     Latest
                     <img src={dropDown} alt="" />
                   </p>
+                  {/* modal */}
+                  {
+                   showSortDropdown && (
+                    <div className="absolute top-6 -left-5 flex flex-col bg-white border border-[#E5E7EB] drop-shadow drop-shadow-[#0000001F] rounded-xl p-3 w-[150px] items-start justify-start z-20">
+                    <button onClick={() => handleButtonClick('latest')} className="flex items-center justify-between w-full capitalize text-[#374151] leading-6">
+                      latest
+                      {
+                        activeBtn === 'latest' && (
+                          <img src={tick} alt="" />
+                        )
+                      }
+                    </button>
+                    <button onClick={() => handleButtonClick('oldest')} className="flex items-center justify-between w-full capitalize text-[#374151] leading-6">
+                      oldest
+                      {
+                        activeBtn === 'oldest' && (
+                          <img src={tick} alt="" />
+                        )
+                      }
+                    </button>
+                  </div>
+                   )
+                  }
+            
                 </div>
               </div>
 
@@ -198,32 +232,33 @@ const ProjectDescription = () => {
                         <img src={arrowUpBlack} alt="" />
                         Upvote
                       </button>
-                      <button onClick={handleShowReply} className="text-[#6B7280] leading-5 text-[14px] capitalize">
-                        {showReply ? 'cancel' : 'Reply'}
+                      <button
+                        onClick={handleShowReply}
+                        className="text-[#6B7280] leading-5 text-[14px] capitalize"
+                      >
+                        {showReply ? "cancel" : "Reply"}
                       </button>
                     </div>
 
-                      {/* Reply form */}
-                      {
-                        showReply && (
-                    <form>
-                      <div className="flex items-center justify-between gap-2 bg-[#F9FAFB] rounded-lg border-2 border-[#E5E7EB] p-2 my-2">
-                        <img src={vergil} alt="" />
-                        <input
-                          className="flex-1 bg-transparent focus:outline-none"
-                          type="text"
-                          placeholder="@gojo"
-                        />
-                        <button
-                          className="bg-[#672A9F] rounded-full p-1"
-                          type="submit"
-                        >
-                          <img src={arrowUp} alt="" />
-                        </button>
-                      </div>
-                    </form>
-                        )
-                      }
+                    {/* Reply form */}
+                    {showReply && (
+                      <form>
+                        <div className="flex items-center justify-between gap-2 bg-[#F9FAFB] rounded-lg border-2 border-[#E5E7EB] p-2 my-2">
+                          <img src={vergil} alt="" />
+                          <input
+                            className="flex-1 bg-transparent focus:outline-none"
+                            type="text"
+                            placeholder="@gojo"
+                          />
+                          <button
+                            className="bg-[#672A9F] rounded-full p-1"
+                            type="submit"
+                          >
+                            <img src={arrowUp} alt="" />
+                          </button>
+                        </div>
+                      </form>
+                    )}
                   </div>
                   <div>
                     <img src={more} alt="" />
@@ -307,12 +342,12 @@ const ProjectDescription = () => {
                   </small>
                 </div>
                 {/* button */}
-                <button className=" absolute bottom-1 left-2/4 -translate-x-1/2 bg-[#ffffffa6] flex items-center justify-center w-[130px] gap-2 z-50 p-2 border-2 border-[#E5E7EB] rounded-lg">
+                {/* <button className=" absolute bottom-1 left-2/4 -translate-x-1/2 bg-[#ffffffa6] flex items-center justify-center w-[130px] gap-2 z-50 p-2 border-2 border-[#E5E7EB] rounded-lg">
                   <span className="z-50 text-[#374151] font-medium leading-5 text-nowrap">
                     See 4 more
                   </span>
                   <img className="z-50" src={arrowDown} alt="" />
-                </button>
+                </button> */}
               </div>
             </div>
 
@@ -356,7 +391,12 @@ const ProjectDescription = () => {
               <div className="flex items-center gap-5 flex-wrap my-3">
                 {collaborators.map((collab, i) => (
                   <div key={i} className="relative">
-                    <CollaboratorModal id={i} handleShowProfileModal={handleShowProfileModal} activeModal={activeModal} collab={collab}/>
+                    <CollaboratorModal
+                      id={i}
+                      handleShowProfileModal={handleShowProfileModal}
+                      activeModal={activeModal}
+                      collab={collab}
+                    />
                   </div>
                 ))}
                 <div></div>
