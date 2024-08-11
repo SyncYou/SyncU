@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import contactIcon from "./imgs/contactIcon.svg";
-import logo from './imgs/logo.svg';
+import contactIcon from "./imgs/comp-img/contactIcon.svg";
+import logo from './imgs/comp-img/logo.svg';
 import { Link } from 'react-router-dom';
 import { Input } from './Input';
 import { YourCheckMark } from './circles/YourCheckMark';

@@ -1,7 +1,7 @@
 import React from 'react';
-import googleImg from './imgs/google.svg';
-import facebookImg from './imgs/facebook.svg';
-import githubImg from './imgs/github.svg';
+import googleImg from './imgs/comp-img/google.svg';
+import facebookImg from './imgs/comp-img/facebook.svg';
+import githubImg from './imgs/comp-img/github.svg';
 import { useState } from 'react';
 import Buttons from './reuseable-comp/Buttons';
 import { Input } from './Input';

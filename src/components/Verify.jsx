@@ -1,10 +1,10 @@
 import React from 'react'
-import envelop from './imgs/envelop.svg'
-import mail from "./imgs/mail.svg"
+import envelop from './imgs/comp-img/envelop.svg'
+import mail from "./imgs/comp-img/mail.svg"
 import Buttons from './reuseable-comp/Buttons'
-import popMail from "./imgs/popMail.svg"
-import x from "./imgs/x.svg"
-import logo from './imgs/logo.svg';
+import popMail from "./imgs/comp-img/popMail.svg"
+import x from "./imgs/comp-img/x.svg"
+import logo from './imgs/comp-img/logo.svg';
 import { Link } from 'react-router-dom';
 
 // import { useState } from 'react'

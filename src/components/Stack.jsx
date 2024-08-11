@@ -1,21 +1,30 @@
 import React, { useState } from 'react';
-import stackIcon from "./imgs/stack.svg";
-import logo from './imgs/logo.svg';
+import stackIcon from "./imgs/comp-img/stack.svg";
+import logo from './imgs/comp-img/logo.svg';
 import { Link } from 'react-router-dom';
-import { Input } from './Input';
 import { StackCheckMark } from './circles/StackCheckMark';
 import { StackOpt } from './reuseable-comp/StackOpt';
 
 export function Stack() {
-  
+  const [stack, setStack] = useState(0)
+  const [click, setClick] = useState(true)
+
+  function handleStack(e) {
+    e.preventDefault();
+    if (stack !== 15) setStack(stack + 1);
+    
+    setClick(!click);
+
+    console.log(click, stack)
+  }
   return (
       <>
           <body className='signUpBody'>
 
-<section className="signUpSection ">
+<section className="signUpSection">
 
 
-  <main className='signUpMain w-[60%] left-[23%] '>
+  <main className='signUpMain w-[50%] left-[25%] '>
     <img src={logo} alt="syncU logo" />
 
                 <div>
@@ -36,8 +45,8 @@ export function Stack() {
 
 
     
-              <div className='divhr'>
-                  
+                <div className='divhr'>
+      
                      <input type="search" name="stack" id="" className='btn text-left py-[7px] px-[20px] ' placeholder='Search for skills, tools and stacks...' />
 
  
@@ -47,9 +56,9 @@ export function Stack() {
                           
                                           <span> Pick atleast 3 or a maximum of 15 </span>
                                   
-                                  <span> <b className='text-h4'>0</b>/15 </span>
+                      <span> <b className='text-h4'>{stack}</b>/15 </span>
                                       </p>
-                                      <StackOpt />
+                                      <StackOpt handleStack={handleStack} click={click} />
                               </div>
             </div>
               
