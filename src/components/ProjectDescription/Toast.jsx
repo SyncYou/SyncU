@@ -3,10 +3,20 @@ import collabs from "/collaborators/two-collabs.svg";
 import syncoins from "/navbar/energy-ellipse.svg";
 import cancel from "/icons/cancel-dark.svg";
 
-const Toast = ({ setShowModal }) => {
+const Toast = ({ setShowModal, setShowNotifications }) => {
   const handleCloseModal = () => {
     setShowModal(false);
   };
+
+  const handleJoinProject = () => {
+    setShowModal(false)
+    setShowNotifications(true)
+
+    // Simulate a successful join project
+    setTimeout(() => {
+      setShowNotifications(false);
+    }, 3000);
+  }
 
   return (
     <article className="bg-white shadow-xl shadow-[#64646429] relative cursor-pointer z-50">
@@ -50,7 +60,7 @@ const Toast = ({ setShowModal }) => {
         <button onClick={handleCloseModal} className="px-8 py-2 capitalize border border-[#E5E7EB] rounded-lg text-[#374151] font-semibold leading-6">
             cancel
         </button>
-        <button type="submit" className="bg-[#672A9F] w-[150px] px-5 py-2 text-[#F9FAFB] rounded-lg font-semibold leading-6 drop-shadow-md shadow-inner shadow-[#EEF0F340] drop-shadow-[#8D59BC80] capitalize cursor-pointer">Proceed</button>
+        <button onClick={handleJoinProject} type="submit" className="bg-[#672A9F] w-[150px] px-5 py-2 text-[#F9FAFB] rounded-lg font-semibold leading-6 drop-shadow-md shadow-inner shadow-[#EEF0F340] drop-shadow-[#8D59BC80] capitalize cursor-pointer">Proceed</button>
       </div>
     </article>
   );

@@ -21,22 +21,24 @@ import collab6 from "/collaborators/collab6.svg";
 import collab7 from "/collaborators/collab7.svg";
 import Toast from "./Toast";
 import CollaboratorModal from "../Collaborators/CollaboratorModal";
+import Notify from "../ToastNotifications/Notify";
 
 const ProjectDescription = () => {
   const [expand, setExpand] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showReply, setShowReply] = useState(false);
   const [activeModal, setActiveModal] = useState(null);
-  const [activeBtn, setActiveBtn] = useState('latest')
-  const [showSortDropdown, setShowSortDropdown] = useState(false)
+  const [activeBtn, setActiveBtn] = useState("latest");
+  const [showSortDropdown, setShowSortDropdown] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
 
   const handleButtonClick = (buttonType) => {
     setActiveBtn(buttonType);
   };
 
   const handleSortDropdown = () => {
-    setShowSortDropdown(prev => !prev)
-  }
+    setShowSortDropdown((prev) => !prev);
+  };
 
   const handleShowProfileModal = (collaboratorsId) => {
     setActiveModal((prevId) =>
@@ -65,11 +67,19 @@ const ProjectDescription = () => {
   console.log(id);
   return (
     <section className="bg_overlay flex items-center justify-center  overflow-y-scroll">
+      {/* Notificatios */}
+  
+      {showNotifications && (
+        <div className="fixed z-50 top-2 flex items-center justify-center w-full">
+          <Notify setShowNotifications={setShowNotifications} />
+        </div>
+      )}
+
       <div className="h-fit w-4/5 mx-auto bg-white rounded-lg shadow-lg shadow-[#6464644D] relative">
         {/* Toast */}
         {showModal && (
           <div className="absolute z-50 top-2/4 left-2/4 -translate-x-1/2 -translate-y-1/2">
-            <Toast setShowModal={setShowModal} />
+            <Toast setShowNotifications={setShowNotifications} setShowModal={setShowModal} />
           </div>
         )}
         {/* Header */}
@@ -174,34 +184,32 @@ const ProjectDescription = () => {
                   <h2 className="text-[#374151] leading-5 text-[14px] font-semibold">
                     Sort by:
                   </h2>
-                  <p onClick={handleSortDropdown} className="flex items-center gap-2 text-[#374151] leading-5 text-[14px] cursor-pointer">
+                  <p
+                    onClick={handleSortDropdown}
+                    className="flex items-center gap-2 text-[#374151] leading-5 text-[14px] cursor-pointer"
+                  >
                     Latest
                     <img src={dropDown} alt="" />
                   </p>
                   {/* modal */}
-                  {
-                   showSortDropdown && (
+                  {showSortDropdown && (
                     <div className="absolute top-6 -left-5 flex flex-col bg-white border border-[#E5E7EB] drop-shadow drop-shadow-[#0000001F] rounded-xl p-3 w-[150px] items-start justify-start z-20">
-                    <button onClick={() => handleButtonClick('latest')} className="flex items-center justify-between w-full capitalize text-[#374151] leading-6">
-                      latest
-                      {
-                        activeBtn === 'latest' && (
-                          <img src={tick} alt="" />
-                        )
-                      }
-                    </button>
-                    <button onClick={() => handleButtonClick('oldest')} className="flex items-center justify-between w-full capitalize text-[#374151] leading-6">
-                      oldest
-                      {
-                        activeBtn === 'oldest' && (
-                          <img src={tick} alt="" />
-                        )
-                      }
-                    </button>
-                  </div>
-                   )
-                  }
-            
+                      <button
+                        onClick={() => handleButtonClick("latest")}
+                        className="flex items-center justify-between w-full capitalize text-[#374151] leading-6"
+                      >
+                        latest
+                        {activeBtn === "latest" && <img src={tick} alt="" />}
+                      </button>
+                      <button
+                        onClick={() => handleButtonClick("oldest")}
+                        className="flex items-center justify-between w-full capitalize text-[#374151] leading-6"
+                      >
+                        oldest
+                        {activeBtn === "oldest" && <img src={tick} alt="" />}
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
 
