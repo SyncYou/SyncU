@@ -20,12 +20,17 @@ import collab5 from "/collaborators/collab5.svg";
 import collab6 from "/collaborators/collab6.svg";
 import collab7 from "/collaborators/collab7.svg";
 import Toast from "./Toast";
+import CollaboratorModal from "../Collaborators/CollaboratorModal";
 
 const ProjectDescription = () => {
   const [expand, setExpand] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showReply, setShowReply] = useState(false)
-  const [showReplyTo, setShowReplyTo] = useState(false)
+  const [activeModal, setActiveModal] = useState(null)
+
+  const handleShowProfileModal = (collaboratorsId) => {
+    setActiveModal(prevId => (prevId === collaboratorsId ? null : collaboratorsId))
+  }
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -35,9 +40,7 @@ const ProjectDescription = () => {
     setShowReply(prev => !prev)
   }
 
-  const handleShowReplyTo = (collab) => {
-    setShowReplyTo(prev => prev === collab? false : collab)
-  }
+
 
   const collaborators = [
     collab1,
@@ -352,11 +355,8 @@ const ProjectDescription = () => {
 
               <div className="flex items-center gap-5 flex-wrap my-3">
                 {collaborators.map((collab, i) => (
-                  <div className="relative">
-                    {/* <div className="absolute">
-                  <ViewProfileCard/>
-                    </div> */}
-                    <img src={collab} />
+                  <div key={i} className="relative">
+                    <CollaboratorModal id={i} handleShowProfileModal={handleShowProfileModal} activeModal={activeModal} collab={collab}/>
                   </div>
                 ))}
                 <div></div>
