@@ -31,7 +31,7 @@ export default function ProjectPost({ post }) {
           <div className="flex items-center gap-2">
             <img src={users} alt="" />
             <small className="font-normal leading-[21px] text-[14px] text-[#6B7280]">
-              {post?.collaborators}
+              {/* {post?.collaborators} */}
             </small>
           </div>
           <img src="/src/assets/Dot.svg" alt="" />
@@ -39,7 +39,7 @@ export default function ProjectPost({ post }) {
           <div className="flex items-center gap-2">
             <img src={comment} alt="" />
             <small className="font-normal leading-[21px] text-[14px] text-[#6B7280]">
-              {post?.comments}
+              {/* {post?.comments} */}
             </small>
           </div>
         </div>
