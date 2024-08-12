@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
+import useFetch from "../../utils/hooks/useFetch";
 import dot from "/icons/Dot.svg";
 import syncoins from "/sidebar/energy-ellipse.svg";
 import more from "/icons/more-horizontal.svg";
@@ -12,18 +13,44 @@ import fader from "/Fader.svg";
 import arrowUpBlack from "/icons/arrow-up-black.svg";
 import figma from "/tags/Figma.svg";
 import tick from "/icons/tick.svg";
-import collab1 from "/collaborators/collab1.svg";
-import collab2 from "/collaborators/collab2.svg";
-import collab3 from "/collaborators/collab3.svg";
-import collab4 from "/collaborators/collab4.svg";
-import collab5 from "/collaborators/collab5.svg";
-import collab6 from "/collaborators/collab6.svg";
-import collab7 from "/collaborators/collab7.svg";
+import flag from "/icons/flag.svg"
+import share from '/icons/share.svg'
 import Toast from "./Toast";
 import CollaboratorModal from "../Collaborators/CollaboratorModal";
 import Notify from "../ToastNotifications/Notify";
 
+const ReportModal = () => {
+  return(
+    <div className="flex items-center gap-3 bg-white py-2 px-3 border border-[#E5E7EB] text-center rounded-lg w-full">
+        <img src={flag} alt="" />
+        <p className="text-[#374151] leading-6 text-nowrap capitalize">report</p>
+    </div>
+  )
+}
+
+const ProjectModal = () => {
+  return(
+    <div className="bg-white border border-[#E5E7EB] rounded-lg w-full p-1">
+       <div className="flex items-center gap-3 bg-white py-2 px-3 text-center border-b border-[#E5E7EB]">
+        <img src={share} alt="" />
+        <p className="text-[#374151] leading-6 text-nowrap capitalize">share</p>
+    </div>
+    <div className="flex items-center gap-3 bg-white py-2 px-3  text-center">
+        <img src={flag} alt="" />
+        <p className="text-[#374151] leading-6 text-nowrap capitalize">report</p>
+    </div>
+    </div>
+  )
+}
+
+
 const ProjectDescription = () => {
+
+  const { id } = useParams();
+
+  const {data: post, isPending, error} = useFetch(`http://localhost:5000/posts/${id}`)
+  console.log(post)
+
   const [expand, setExpand] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showReply, setShowReply] = useState(false);
@@ -54,17 +81,6 @@ const ProjectDescription = () => {
     setShowReply((prev) => !prev);
   };
 
-  const collaborators = [
-    collab1,
-    collab2,
-    collab3,
-    collab4,
-    collab5,
-    collab6,
-    collab7,
-  ];
-  const { id } = useParams();
-  console.log(id);
   return (
     <section className="bg_overlay flex items-center justify-center  overflow-y-scroll">
       {/* Notificatios */}
@@ -86,13 +102,13 @@ const ProjectDescription = () => {
         <div className="flex items-center justify-between border-b border-[#E5E7EB] p-4">
           <div>
             <h1 className="text-[#1F2937] text-[25px] font-semibold leading-8">
-              Syncu
+              {post?.title}
             </h1>
             <div className="flex items-center gap-2">
-              <p className="leading-6 text-[#6B7280]">Collaboration</p>
+              <p className="leading-6 text-[#6B7280]">{post?.category}</p>
               <img src={dot} alt="" />
               <small className="leading-6 text-[#6B7280]">
-                posted 1 hr ago
+              posted {post?.time}
               </small>
             </div>
           </div>
@@ -110,7 +126,14 @@ const ProjectDescription = () => {
                 -5
               </small>
             </button>
+            <div className="relative">
+              <div>
             <img src={more} alt="" />
+              </div>
+              {/* <div className="absolute right-0 w-[200px]">
+                <ProjectModal/>
+              </div> */}
+            </div>
             <img src={cancel} alt="" />
           </div>
         </div>
@@ -127,12 +150,7 @@ const ProjectDescription = () => {
                     expand ? "" : "line-clamp-2"
                   }`}
                 >
-                  Lorem ipsum dolor sit amet consectetur. Cras vel sed eleifend
-                  semper. Velit at eu est sed vulputate tincidunt vitae est.
-                  Ultricies consectetur lorem vitae velit felis et dolor.
-                  Viverra non nibh viverra platea nisl. Ipsum suspendisse lectus
-                  egestas ultrices rutrum pretium eget porta. Integer neque ut
-                  quam feugiat habitant libero. Vel sed elit non sed.
+                 {post?.description}
                 </p>
                 {!expand && (
                   <img
@@ -268,8 +286,13 @@ const ProjectDescription = () => {
                       </form>
                     )}
                   </div>
+                  <div className="relative">
                   <div>
                     <img src={more} alt="" />
+                  </div>
+                    {/* <div className="absolute right-0 w-[160px]"> 
+                      <ReportModal/>
+                    </div> */}
                   </div>
                 </div>
                 {/* reply */}
@@ -313,7 +336,7 @@ const ProjectDescription = () => {
             </div>
           </div>
 
-          <div className="w-[1000px] border-l border-[#E5E7EB] p-5">
+          <div className="max-w-[960px] border-l border-[#E5E7EB] p-5">
             {/* Required toolstack */}
             <div className="border border-[#E5E7EB] rounded-lg p-5">
               <h2 className="text-[#1F2937] font-semibold leading-6 border-b border-[#E5E7EB] pb-2">
@@ -397,13 +420,13 @@ const ProjectDescription = () => {
               </div>
 
               <div className="flex items-center gap-5 flex-wrap my-3">
-                {collaborators.map((collab, i) => (
+                {post?.collaborators.map((collaborator, i) => (
                   <div key={i} className="relative">
                     <CollaboratorModal
                       id={i}
                       handleShowProfileModal={handleShowProfileModal}
                       activeModal={activeModal}
-                      collab={collab}
+                      collaborator={collaborator}
                     />
                   </div>
                 ))}
