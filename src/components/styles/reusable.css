@@ -33,7 +33,7 @@
 
 /* Stack Style */
 .stack{
-    @apply *:rounded-full *:border *:border-or *:bg-fbg *:px-[12px] *:py-[4px] *:text-center *:flex *:justify-between *:gap-[5px] *:items-center font-normal text-base flex flex-wrap  gap-[16px] p-[20px] overflow-y-scroll h-[40vh]
+    @apply *:rounded-full *:border *:border-stackHover *:bg-fbg *:px-[12px] *:py-[4px] *:text-center *:flex *:justify-between *:gap-[5px] *:items-center font-normal text-base flex flex-wrap  gap-[16px] p-[20px] overflow-y-scroll h-[40vh] 
 }
 
 .stack-scrollbar{

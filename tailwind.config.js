@@ -21,6 +21,7 @@ export default {
       "popUp": "#16A34A",
       "orange": "var(--Orange-o-100, #FFEDD5)",
       "darkBlue": "color: var(--Neutral-n-800, #1F2937)",
+      stackHover: "#D1D5DB"
 
     },
     spacing: {
