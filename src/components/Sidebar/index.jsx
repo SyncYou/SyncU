@@ -10,7 +10,7 @@ import Syncoins from "/sidebar/energy-ellipse.svg"
 import Profile from "/sidebar/Profile.svg"
 import arrowDown from "/icons/arrow-down.svg"
 import arrowLeft from "/icons/arrow-left.svg"
-import searchCircle from "/sidebar/search-circle.svg"
+import layers from "/sidebar/layers.svg"
 import popUp from "/sidebar/Pop-up.svg"
 
 export default function Sidebar() {
@@ -30,13 +30,6 @@ export default function Sidebar() {
       icon: Showcase,
       notification: true,
       route: "/showcase",
-    },
-    {
-      title: "post",
-      icon_active: Pencil,
-      icon: Pencil,
-      notification: true,
-      route: "/post",
     },
     {
       title: "connect",
@@ -105,7 +98,7 @@ export default function Sidebar() {
           </div>
           <div className="my-5">
             <div className="flex gap-2 items-center justify-between">
-              <p className="text-[#6B7280] font-medium text-[14px]">
+              <p className="text-[#6B7280] font-medium text-[16px] -tracking-tighter">
                 My projects
               </p>
               <img
@@ -124,9 +117,9 @@ export default function Sidebar() {
             {showProjects && (
               <div className="my-5">
                 <div className="flex gap-3 cursor-pointer">
-                  <img src={searchCircle} alt="" />
-                  <p className="text-[16px] font-normal text-[#6B7280]">
-                    Browse projects
+                  <img src={layers} alt="" />
+                  <p className="text-[16px] font-medium text-[#6B7280]">
+                    Manage projects
                   </p>
                 </div>
               </div>

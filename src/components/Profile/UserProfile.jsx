@@ -12,10 +12,35 @@ import sharePurple from "/profile/share-purple.svg";
 const UserProfile = () => {
   return (
     <section>
-      <div className="max-w-[670px]">
-        <div className="flex items-center justify-between">
-          <img src={vergil} alt="profile" className="w-[60px] h-[60px]" />
-          <div className="flex items-center gap-5">
+      <div className="max-w-[670px] mx-auto flex flex-col items-center gap-5">
+        <div>
+          <img src={vergil} alt="profile" className="w-[100px] h-[100px]" />
+        
+        </div>
+
+        <div className="pb-3">
+          <div className="flex items-center justify-center gap-2">
+            <h2 className="text-[#374151] font-semibold text-xl leading-7">
+              Gojo Satori
+            </h2>
+            <small className="text-[#6B7280] leading-6">@gojosatori123</small>
+          </div>
+          <div>
+            <p className="text-[#374151] text-center leading-6 max-w-[350px]">
+              Hi, I’m Gojo and I love designing and pushing myself to create new
+              things.
+            </p>
+            <div className="flex items-center justify-center gap-2 my-2">
+              <small className="font-semibold leading-5 text-[14px]">
+                0{" "}
+                <span className="font-normal leading-5 text-[#6B7280]">
+                  connections
+                </span>{" "}
+              </small>
+              <img src={arrowRight} alt="" />
+            </div>
+          </div>
+          <div className="flex items-center justify-center gap-5">
             <Link to={"/edit-profile"}>
               <button className="flex items-center gap-2 py-2 px-4 border border-[#E5E7EB] rounded-lg">
                 <img src={pencilEdit} alt="" />
@@ -32,37 +57,13 @@ const UserProfile = () => {
             </button>
           </div>
         </div>
-
-        <div className="py-3">
-          <div className="flex items-center gap-2">
-            <h2 className="text-[#374151] font-semibold text-xl leading-7">
-              Gojo Satori
-            </h2>
-            <small className="text-[#6B7280] leading-6">@gojosatori123</small>
-          </div>
-          <div>
-            <p className="text-[#374151] leading-6">
-              Hi, I’m Gojo and I love designing and pushing myself to create new
-              things.
-            </p>
-            <div className="flex items-center gap-2 my-2">
-              <small className="font-semibold leading-5 text-[14px]">
-                0{" "}
-                <span className="font-normal leading-5 text-[#6B7280]">
-                  connections
-                </span>{" "}
-              </small>
-              <img src={arrowRight} alt="" />
-            </div>
-          </div>
-        </div>
       </div>
 
-      <div className="flex gap-[100px] my-10">
+      <div className="flex my-10">
         <div className="flex-1">
           <Outlet />
         </div>
-        <div className="w-[350px]">
+        {/* <div className="w-[350px]">
           <div className="flex items-center justify-between">
             <h3 className="text-[#1F2937] font-semibold text-[18px] leading-8">
               Statistics
@@ -115,7 +116,7 @@ const UserProfile = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );

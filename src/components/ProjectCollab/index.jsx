@@ -21,7 +21,7 @@ export default function ProjectCollab() {
           </h1>
         </div>
 
-        <div className="flex items-center justify-between border-b border-[#E5E7EB] py-3 pl-[48px] pr-[56px] sticky top-[87px] bg-white z-10">
+        <div className="flex items-center justify-between border-b border-[#E5E7EB] py-3 pl-[48px] pr-[56px] bg-white z-10">
           <div>
             <small className="py-2 px-4 bg-[#1F2937] text-white text-[14px] leading-[16.8px] font-semibold w-[48px] h-[17px] rounded-md mx-2">
               For you
