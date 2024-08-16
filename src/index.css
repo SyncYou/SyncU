@@ -73,3 +73,15 @@ input[type="file"] {
   z-index: 30;
   padding-top: 100px;
 }
+
+.bg__overlay {
+  background-color: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 30;
+  padding-top: 20px;
+}

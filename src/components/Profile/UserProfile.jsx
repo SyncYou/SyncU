@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import vergil from "/collaborators/vergil.svg";
 import pencilEdit from "/icons/pencil-edit.svg";
@@ -8,14 +8,19 @@ import arrowDown from "/icons/arrow-down.svg";
 import magicWand from "/icons/magic-wand.svg";
 import download from "/profile/download.svg";
 import sharePurple from "/profile/share-purple.svg";
+import ConnectionsModal from "../ConnectionsModal/ConnectionsModal";
 
 const UserProfile = () => {
+  const [showConnections, setShowConnections] = useState(false)
+
+  const handleShowConnections = () => {
+    setShowConnections(prev => !prev)
+  }
   return (
     <section>
       <div className="max-w-[670px] mx-auto flex flex-col items-center gap-5">
         <div>
           <img src={vergil} alt="profile" className="w-[100px] h-[100px]" />
-        
         </div>
 
         <div className="pb-3">
@@ -30,8 +35,8 @@ const UserProfile = () => {
               Hi, I’m Gojo and I love designing and pushing myself to create new
               things.
             </p>
-            <div className="flex items-center justify-center gap-2 my-2">
-              <small className="font-semibold leading-5 text-[14px]">
+            <div className="flex items-center justify-center gap-2 my-4">
+              <small onClick={handleShowConnections} className="font-semibold cursor-pointer leading-5 text-[14px]">
                 0{" "}
                 <span className="font-normal leading-5 text-[#6B7280]">
                   connections
@@ -63,6 +68,14 @@ const UserProfile = () => {
         <div className="flex-1">
           <Outlet />
         </div>
+
+{
+  showConnections && (
+        <div className="bg__overlay">
+          <ConnectionsModal handleShowConnections={handleShowConnections} />
+        </div>
+  )
+}
         {/* <div className="w-[350px]">
           <div className="flex items-center justify-between">
             <h3 className="text-[#1F2937] font-semibold text-[18px] leading-8">
