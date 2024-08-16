@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 import Logo from "/sidebar/Logo.svg";
 import Agreement from "/sidebar/agreement.svg";
 import AgreementBlack from "/sidebar/agreement-black.svg";
@@ -11,12 +11,18 @@ import Profile from "/sidebar/Profile.svg";
 import arrowDown from "/icons/arrow-down.svg";
 import arrowLeft from "/icons/arrow-left.svg";
 import layers from "/sidebar/layers.svg";
+import layersLight from "/sidebar/layers-light.svg";
 import popUp from "/sidebar/Pop-up.svg";
 import folder from "/icons/folder-dark.svg";
+import folderLight from "/icons/folder-light.svg";
 
 export default function Sidebar() {
+  const location = useLocation();
   const [showProjects, setShowProjects] = useState(false);
-  const [active, setActive] = useState(true);
+
+  useEffect(() => {
+    console.log(location);
+  }, []);
   const nav_foundation = [
     {
       title: "collaborate",
@@ -45,12 +51,14 @@ export default function Sidebar() {
     {
       name: "Manage  projects",
       icon: layers,
+      icon_active: layersLight,
       route: "/workspace/id",
       notification: false,
     },
     {
       name: "syncu",
       icon: folder,
+      icon_active: folderLight,
       route: "/workspace/id",
       notification: true,
     },
@@ -88,16 +96,20 @@ export default function Sidebar() {
               <NavLink
                 to={`${item.route}`}
                 key={i}
-                onClick={() => {
-                  setActive((prev) => !prev);
-                }}
+                // onClick={() => {
+                //   setActive((prev) => !prev);
+                // }}
                 className={({ isActive }) =>
                   isActive ? activeLink : normalLink
                 }
               >
                 <div className="relative">
                   <img
-                    src={`${active ? item.icon_active : item.icon}`}
+                    src={`${
+                      location.pathname == item.route
+                        ? item.icon_active
+                        : item.icon
+                    }`}
                     alt={item.title}
                   />
                   {item.notification && (
@@ -129,18 +141,29 @@ export default function Sidebar() {
             {showProjects && (
               <div className="my-5 flex flex-col gap-5">
                 {projects.map((project, idx) => (
-                  <NavLink to={project.route} key={idx}  className={({ isActive }) =>
-                    isActive ? activeLink : normalLink
-                  }>
+                  <NavLink
+                    to={project.route}
+                    key={idx}
+                    className={({ isActive }) =>
+                      isActive ? activeLink : normalLink
+                    }
+                  >
                     <div className="relative">
-                    <img src={project.icon} alt="" />
-                    {project.notification && (
-                    <img
-                      src={popUp}
-                      alt=""
-                      className="absolute -right-1 top-0"
-                    />
-                  )}
+                      <img
+                        src={`${
+                          location.pathname == project.route
+                            ? project.icon_active
+                            : project.icon
+                        }`}
+                        alt=""
+                      />
+                      {project.notification && (
+                        <img
+                          src={popUp}
+                          alt=""
+                          className="absolute -right-1 top-0"
+                        />
+                      )}
                     </div>
                     <p className="text-[16px] font-medium text-[#6B7280] capitalize leading-6">
                       {project.name}
@@ -155,9 +178,6 @@ export default function Sidebar() {
               <NavLink
                 to={`${item.route}`}
                 key={i}
-                onClick={() => {
-                  setActive((prev) => !prev);
-                }}
                 className={({ isActive }) =>
                   isActive ? activeLink : normalLink
                 }
@@ -165,7 +185,9 @@ export default function Sidebar() {
                 <img src={item.icon} alt={item.title} />
                 <p
                   className={`${
-                    active ? "text-white" : "text-[#6B7280]"
+                    location.pathname === item.route
+                      ? "text-white"
+                      : "text-[#6B7280]"
                   }leading-6`}
                 >
                   {item.title}
