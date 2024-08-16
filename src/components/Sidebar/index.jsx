@@ -6,12 +6,13 @@ import AgreementBlack from "/sidebar/agreement-black.svg";
 import Showcase from "/sidebar/projector.svg";
 import Pencil from "/sidebar/pencil-edit.svg";
 import UserSearch from "/sidebar/user-search.svg";
-import Syncoins from "/sidebar/energy-ellipse.svg"
-import Profile from "/sidebar/Profile.svg"
-import arrowDown from "/icons/arrow-down.svg"
-import arrowLeft from "/icons/arrow-left.svg"
-import layers from "/sidebar/layers.svg"
-import popUp from "/sidebar/Pop-up.svg"
+import Syncoins from "/sidebar/energy-ellipse.svg";
+import Profile from "/sidebar/Profile.svg";
+import arrowDown from "/icons/arrow-down.svg";
+import arrowLeft from "/icons/arrow-left.svg";
+import layers from "/sidebar/layers.svg";
+import popUp from "/sidebar/Pop-up.svg";
+import folder from "/icons/folder-dark.svg";
 
 export default function Sidebar() {
   const [showProjects, setShowProjects] = useState(false);
@@ -37,6 +38,21 @@ export default function Sidebar() {
       icon: UserSearch,
       notification: false,
       route: "/connect",
+    },
+  ];
+
+  const projects = [
+    {
+      name: "Manage  projects",
+      icon: layers,
+      route: "/workspace/id",
+      notification: false,
+    },
+    {
+      name: "syncu",
+      icon: folder,
+      route: "/workspace/id",
+      notification: true,
     },
   ];
 
@@ -105,23 +121,32 @@ export default function Sidebar() {
                 onClick={() => {
                   setShowProjects((prev) => !prev);
                 }}
-                src={
-                  showProjects
-                    ? arrowDown
-                    : arrowLeft
-                }
+                src={showProjects ? arrowDown : arrowLeft}
                 alt=""
                 className="cursor-pointer w-[24px] h-[24px]"
               />
             </div>
             {showProjects && (
-              <div className="my-5">
-                <div className="flex gap-3 cursor-pointer">
-                  <img src={layers} alt="" />
-                  <p className="text-[16px] font-medium text-[#6B7280]">
-                    Manage projects
-                  </p>
-                </div>
+              <div className="my-5 flex flex-col gap-5">
+                {projects.map((project, idx) => (
+                  <NavLink to={project.route} key={idx}  className={({ isActive }) =>
+                    isActive ? activeLink : normalLink
+                  }>
+                    <div className="relative">
+                    <img src={project.icon} alt="" />
+                    {project.notification && (
+                    <img
+                      src={popUp}
+                      alt=""
+                      className="absolute -right-1 top-0"
+                    />
+                  )}
+                    </div>
+                    <p className="text-[16px] font-medium text-[#6B7280] capitalize leading-6">
+                      {project.name}
+                    </p>
+                  </NavLink>
+                ))}
               </div>
             )}
           </div>
