@@ -20,21 +20,16 @@ export function Stack() {
   function handleStack(e, item) {
     e.preventDefault();
 
+
     // Prevents Adding more than one
-    if (stack.length === 15) {
-      return
-    }
-    console.log(stack)
-
-    // Adds new item if it's not in the stack
-    if (!isInArray(item)) {
-      setStack([...stack, { id: item.id, stack: item.stack, img: item.img }]);
-    } else {
-      // Remove the item from the stack if it is already in it
+    if (isInArray()) {
       const updatedStack = stack.filter(stackItem => stackItem.id !== item.id);
-      setStack(updatedStack);
-    }
+      setStack(updatedStack)
 
+      //If the stack has less than 15 items, add the new item
+    } else if (stack.length < 15) {
+      setStack([...stack, { id: item.id, stack: item.stack, img: item.img }])
+    }
   }
 
 
@@ -68,9 +63,11 @@ export function Stack() {
 
 
                 <div className='divhr'>
-                  <div className='flex relative'>
-                    <img src={search} alt="search Icon" className='absolute' />
-                    <input type="search" name="stack" id="" className='btn text-left py-[7px] px-[20px] focus-none ' placeholder='Search for skills, tools and stacks...' />
+                  <div className='flex rounded-lg border-2 border-fb pl-[9px] '>
+                    <button type="button" className=''>
+                      <img src={search} alt="search Icon" />
+                    </button>
+                    <input type="search" name="stack" id="" className='btn border-0 text-left py-[7px] px-[20px] focus:outline-none' placeholder='Search for skills, tools and stacks...' />
                   </div>
 
                   <div className='flex flex-col gap-[16px]'>
@@ -97,7 +94,7 @@ export function Stack() {
                     </button>
                   </Link>
 
-                  <Link to=''>
+                  <Link to='/security'>
                     <button className='btn button w-[125px]' >
                       Next →
                     </button>

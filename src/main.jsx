@@ -11,32 +11,43 @@ import { SignUp } from './components/SignUp.jsx';
 import { Yourself } from './components/Yourself.jsx';
 import { Work } from './components/Work.jsx';
 import { Stack } from './components/Stack.jsx';
+import { Security } from './components/Security.jsx';
+import { Loader } from './components/Loader.jsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
   },
-      {
-        path: "signUp",
-        element: <SignUp />,
-      },
-      {
-        path: "/verify",
-        element: <Verify />
-      },
-      {
-        path: "/yourself",
-        element: <Yourself />
-      },
-      {
-        path: "/work",
-        element: <Work />
-      },
-      {
-        path: "/stack",
-        element: <Stack />
-      }
+  {
+    path: "signUp",
+    element: <SignUp />,
+  },
+  {
+    path: "/verify",
+    element: <Verify />
+  },
+  {
+    path: "/yourself",
+    element: <Yourself />
+  },
+  {
+    path: "/work",
+    element: <Work />
+  },
+  {
+    path: "/stack",
+    element: <Stack />
+  },
+  {
+    path: "/security",
+    element: <Security />
+  },
+  {
+    path: "/loader",
+    element: <Loader />
+  }
+
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
