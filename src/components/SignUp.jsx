@@ -3,12 +3,12 @@ import { Welcome } from './Welcome';
 import logo from './imgs/comp-img/logo.svg';
 
 export function SignUp() {
-  
+
   return (
     <>
       <body className='signUpBody'>
 
-        <section className="signUpSection ">
+        <section className="signUpSection section ">
 
 
           <main className='signUpMain'>
@@ -17,7 +17,7 @@ export function SignUp() {
             <div>
               <Welcome />
             </div>
-            
+
           </main>
 
         </section>

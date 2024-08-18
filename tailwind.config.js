@@ -22,7 +22,6 @@ export default {
       "orange": "var(--Orange-o-100, #FFEDD5)",
       "darkBlue": "color: var(--Neutral-n-800, #1F2937)",
       stackHover: "#D1D5DB"
-
     },
     spacing: {
       "gap": "var(--8, 32px)",    

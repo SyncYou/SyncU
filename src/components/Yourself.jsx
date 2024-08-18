@@ -26,7 +26,7 @@ export function Yourself() {
       <>
           <body className='signUpBody'>
 
-<section className="signUpSection ">
+<section className="signUpSection section">
 
 
   <main className='signUpMain'>

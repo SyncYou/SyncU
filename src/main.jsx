@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css';
 import './components/styles/circleStyles.css'
+import './components/styles/skeleton.css'
 import './components/styles/reusable.css';
 import { toast, Toaster } from 'react-hot-toast';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';

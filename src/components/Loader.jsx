@@ -1,27 +1,24 @@
-import React, { useEffect } from 'react'
-import spinner from "./imgs/comp-img/spinner.svg";
-
+import React, { useEffect, useState } from 'react'
+import { Spinner } from './reuseable-comp/Spinner'
+import { Skeleton } from './reuseable-comp/Skeleton'
 
 export function Loader() {
+    const [loader, setLoader] = useState(true);
 
     useEffect(() => {
         setTimeout(() => {
-
-            setText(
-                "Hey man"
-            )
-        }, 3000)
+            setLoader(false)
+        }, 3000);
     }, [])
-    return <>
-        <body className='signUpBody'>
-            <main className="signUpMain pt-[17%]">
-                <div className="w-[36px]">
-                    <img src={spinner} alt="" className="" />
-                </div>
-                <p className="text-base text-h4 ">
-                    Loading please wait...
-                </p>
 
+
+    return <>
+        <body className='signUpBody py-[0px] my-[0px] overflow-hidden'>
+            <main className=" items-center h-screen justify-center ">
+
+                {
+                    loader ? <Spinner /> : <Skeleton />
+                }
             </main>
         </body>
 

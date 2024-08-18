@@ -38,7 +38,7 @@ export function Stack() {
     <>
       <body className='signUpBody'>
 
-        <section className="signUpSection">
+        <section className="signUpSection section">
 
 
           <main className='signUpMain w-[50%] left-[25%] '>

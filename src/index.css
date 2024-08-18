@@ -6,7 +6,7 @@
 
 @layer components{
 
-    section{
+    .section{
         background-image: url('./components/imgs/comp-img/toolsBg.png');
     }
 

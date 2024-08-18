@@ -21,7 +21,7 @@ export function Verify() {
       <>
       
           <body className='signUpBody pb-[10%]'>
-              <section className="signUpSection ">
+              <section className="signUpSection section ">
                   <main className='signUpMain'>
                       <img src={logo} alt="syncU logo" />
                       <div>

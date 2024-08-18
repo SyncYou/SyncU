@@ -19,7 +19,7 @@ export function Work() {
       <>
     <body className='signUpBody'>
 
-    <section className="signUpSection ">
+    <section className="signUpSection section">
 
 
       <main className='signUpMain w-[65%] left-[20%]'>
