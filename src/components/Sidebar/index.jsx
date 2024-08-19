@@ -1,15 +1,28 @@
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
-import Logo from "../../assets/Logo.svg";
-import Agreement from "../../assets/agreement.svg";
-import AgreementBlack from "../../assets/agreement-black.svg";
-import Showcase from "../../assets/projector.svg";
-import Pencil from "../../assets/pencil-edit.svg";
-import UserSearch from "../../assets/user-search.svg";
+import { useState, useEffect } from "react";
+import { NavLink, useLocation } from "react-router-dom";
+import Logo from "/sidebar/Logo.svg";
+import Agreement from "/sidebar/agreement.svg";
+import AgreementBlack from "/sidebar/agreement-black.svg";
+import Showcase from "/sidebar/projector.svg";
+import Pencil from "/sidebar/pencil-edit.svg";
+import UserSearch from "/sidebar/user-search.svg";
+import Syncoins from "/sidebar/energy-ellipse.svg";
+import Profile from "/sidebar/Profile.svg";
+import arrowDown from "/icons/arrow-down.svg";
+import arrowLeft from "/icons/arrow-left.svg";
+import layers from "/sidebar/layers.svg";
+import layersLight from "/sidebar/layers-light.svg";
+import popUp from "/sidebar/Pop-up.svg";
+import folder from "/icons/folder-dark.svg";
+import folderLight from "/icons/folder-light.svg";
 
 export default function Sidebar() {
+  const location = useLocation();
   const [showProjects, setShowProjects] = useState(false);
-  const [active, setActive] = useState(true);
+
+  useEffect(() => {
+    console.log(location);
+  }, []);
   const nav_foundation = [
     {
       title: "collaborate",
@@ -26,13 +39,6 @@ export default function Sidebar() {
       route: "/showcase",
     },
     {
-      title: "post",
-      icon_active: Pencil,
-      icon: Pencil,
-      notification: true,
-      route: "/post",
-    },
-    {
       title: "connect",
       icon_active: UserSearch,
       icon: UserSearch,
@@ -41,16 +47,33 @@ export default function Sidebar() {
     },
   ];
 
+  const projects = [
+    {
+      name: "Manage  projects",
+      icon: layers,
+      icon_active: layersLight,
+      route: "/workspace/id",
+      notification: false,
+    },
+    {
+      name: "syncu",
+      icon: folder,
+      icon_active: folderLight,
+      route: "/workspace/id",
+      notification: true,
+    },
+  ];
+
   const nav_base = [
     {
       title: "Get syncoins",
-      icon: "/src/assets/energy-ellipse.svg",
+      icon: Syncoins,
       notification: false,
       route: "/syncoins",
     },
     {
       title: "Profile",
-      icon: "/src/assets/profile.svg",
+      icon: Profile,
       notification: false,
       route: "/profile",
     },
@@ -73,21 +96,25 @@ export default function Sidebar() {
               <NavLink
                 to={`${item.route}`}
                 key={i}
-                onClick={() => {
-                  setActive((prev) => !prev);
-                }}
+                // onClick={() => {
+                //   setActive((prev) => !prev);
+                // }}
                 className={({ isActive }) =>
                   isActive ? activeLink : normalLink
                 }
               >
                 <div className="relative">
                   <img
-                    src={`${active ? item.icon_active : item.icon}`}
+                    src={`${
+                      location.pathname == item.route
+                        ? item.icon_active
+                        : item.icon
+                    }`}
                     alt={item.title}
                   />
                   {item.notification && (
                     <img
-                      src="/src/assets/Pop-up.svg"
+                      src={popUp}
                       alt=""
                       className="absolute -right-1 top-0"
                     />
@@ -99,30 +126,50 @@ export default function Sidebar() {
           </div>
           <div className="my-5">
             <div className="flex gap-2 items-center justify-between">
-              <p className="text-[#6B7280] font-medium text-[14px]">
+              <p className="text-[#6B7280] font-medium text-[16px] -tracking-tighter">
                 My projects
               </p>
               <img
                 onClick={() => {
                   setShowProjects((prev) => !prev);
                 }}
-                src={
-                  showProjects
-                    ? "/src/assets/arrow-down.svg"
-                    : "/src/assets/arrow-left.svg"
-                }
+                src={showProjects ? arrowDown : arrowLeft}
                 alt=""
                 className="cursor-pointer w-[24px] h-[24px]"
               />
             </div>
             {showProjects && (
-              <div className="my-5">
-                <div className="flex gap-3 cursor-pointer">
-                  <img src="/src/assets/search-circle.svg" alt="" />
-                  <p className="text-[16px] font-normal text-[#6B7280]">
-                    Browse projects
-                  </p>
-                </div>
+              <div className="my-5 flex flex-col gap-5">
+                {projects.map((project, idx) => (
+                  <NavLink
+                    to={project.route}
+                    key={idx}
+                    className={({ isActive }) =>
+                      isActive ? activeLink : normalLink
+                    }
+                  >
+                    <div className="relative">
+                      <img
+                        src={`${
+                          location.pathname == project.route
+                            ? project.icon_active
+                            : project.icon
+                        }`}
+                        alt=""
+                      />
+                      {project.notification && (
+                        <img
+                          src={popUp}
+                          alt=""
+                          className="absolute -right-1 top-0"
+                        />
+                      )}
+                    </div>
+                    <p className="text-[16px] font-medium text-[#6B7280] capitalize leading-6">
+                      {project.name}
+                    </p>
+                  </NavLink>
+                ))}
               </div>
             )}
           </div>
@@ -131,9 +178,6 @@ export default function Sidebar() {
               <NavLink
                 to={`${item.route}`}
                 key={i}
-                onClick={() => {
-                  setActive((prev) => !prev);
-                }}
                 className={({ isActive }) =>
                   isActive ? activeLink : normalLink
                 }
@@ -141,7 +185,9 @@ export default function Sidebar() {
                 <img src={item.icon} alt={item.title} />
                 <p
                   className={`${
-                    active ? "text-white" : "text-[#6B7280]"
+                    location.pathname === item.route
+                      ? "text-white"
+                      : "text-[#6B7280]"
                   }leading-6`}
                 >
                   {item.title}

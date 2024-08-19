@@ -3,8 +3,15 @@ import ErrorPage from "./pages/error/ErrorPage";
 import SignIn from "./pages/auth/signin/SignIn";
 import Password from "./pages/auth/signin/Password";
 import ProjectCollab from "./components/ProjectCollab";
-import { Home, Profile } from "./pages";
+import { Home, Profile, Workspace } from "./pages";
+import EditProfile from "./components/Profile/EditProfile";
 import ResetPassword from "./pages/auth/resetPassword/ResetPassword";
+import ProfileOverview from "./components/Profile/ProfileOverview";
+import ShowcasedProjects from "./components/Profile/ShowcasedProjects";
+import WorkingOn from "./components/Profile/WorkingOn";
+import Activities from "./components/Profile/Activities";
+import ProjectDescription from "./components/ProjectDescription";
+import WorkspaceRoom from "./components/Workspace/WorkspaceRoom";
 
 const router = createBrowserRouter([
   {
@@ -14,11 +21,37 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <ProjectCollab />,
+        element: <ProjectCollab />
+      },
+      {
+        path: "/:id",
+        element: <ProjectDescription/>
       },
       {
         path: "/profile",
         element: <Profile />,
+        children: [
+          {
+            path: '/profile',
+            element: <ProfileOverview />,
+          },
+          {
+            path: '/profile/showcased-projects',
+            element: <ShowcasedProjects />,
+          },
+          {
+            path: '/profile/working-on',
+            element: <WorkingOn />,
+          },
+          {
+            path: '/profile/activities',
+            element: <Activities />,
+          }
+        ]
+      },
+      {
+        path: "/edit-profile",
+        element: <EditProfile />,
       },
     ],
   },
@@ -36,6 +69,17 @@ const router = createBrowserRouter([
     path: "/resetPassword",
     element: <ResetPassword />,
     errorElement: <ErrorPage />,
+  },
+  {
+    path: "/workspace/id",
+    element: <Workspace />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "/workspace/id",
+        element: <WorkspaceRoom />
+      }
+    ]
   },
 ]);
 

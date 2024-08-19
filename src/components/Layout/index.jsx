@@ -1,18 +1,36 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../Sidebar";
 import Main from "../Main";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Navbar from "../Navbar";
 import ProfileCompletion from "../ProfileCompletion";
 
 function Layout() {
   const [showModal, setShowModal] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
-    setTimeout(() => {
-      setShowModal(true);
-    }, 3000);
+    // Check localStorage to see if the modal has already been shown
+    const modalShown = localStorage.getItem("modalShown");
+
+    if (location.pathname === "/") {
+      if (!modalShown) {
+        // If not, show the modal
+        setTimeout(() => {
+          setShowModal(true);
+        }, 3000);
+
+        // Set localStorage to prevent the modal from showing again
+        localStorage.setItem("modalShown", "true");
+      }
+    }
   }, []);
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setShowModal(true);
+  //   }, 3000);
+  // }, []);
   return (
     <>
       <div className="flex gap-3">
