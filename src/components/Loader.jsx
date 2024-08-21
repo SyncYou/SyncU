@@ -16,9 +16,7 @@ export function Loader() {
         <body className='signUpBody py-[0px] my-[0px] overflow-hidden'>
             <main className=" items-center h-screen justify-center ">
 
-                {
-                    loader ? <Spinner /> : <Skeleton />
-                }
+                {loader ? <Spinner /> : <Skeleton />}
             </main>
         </body>
 

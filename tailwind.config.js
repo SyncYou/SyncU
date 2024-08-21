@@ -20,8 +20,9 @@ export default {
       "envelop": "var(--Blue-b-100, #DBEAFE)",
       "popUp": "#16A34A",
       "orange": "var(--Orange-o-100, #FFEDD5)",
-      "darkBlue": "color: var(--Neutral-n-800, #1F2937)",
-      stackHover: "#D1D5DB"
+      "darkBlue": "var(--Neutral-n-800, #1F2937)",
+      stackHover: "#D1D5DB",
+      red: "#f44336"
     },
     spacing: {
       "gap": "var(--8, 32px)",    

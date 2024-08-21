@@ -24,7 +24,7 @@
 
     /* All Input */
    .allInput{
-    @apply bg-input text-left pl-[10px] mr-[20px] relative;
+    @apply bg-input text-left pl-[10px] mr-[20px];
 }
 
 .circles{

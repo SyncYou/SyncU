@@ -21,7 +21,7 @@
 
 
     .btn{
-    @apply rounded-lg border-2 flex items-center text-center  border-fb gap-[10px] py-[10px] w-full justify-center
+    @apply rounded-lg border-2 flex items-center text-center  border-fb gap-[10px] py-[10px] w-full justify-center outline-darkBlue outline-1
     }
 
     .anim{
@@ -36,6 +36,7 @@
 
     .button{
         @apply btn bg-email text-fbg
+        
     }
 
 
@@ -68,6 +69,5 @@
 
     
 }
-
 
 
