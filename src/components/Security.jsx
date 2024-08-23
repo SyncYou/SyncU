@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
 import logo from './imgs/comp-img/logo.svg';
+import { RxEyeClosed } from "react-icons/rx";
 import { Link } from 'react-router-dom';
 import { SecurityCheckMark } from './circles/SecurityCheckMark';
 import SecurityIcon from "./imgs/comp-img/security.svg";
-import { Input } from './Input';
 
 
 export function Security() {
+
+    //state to toggle password   
+    const [show, setShow] = useState(false);
+    const [show1, setShow1] = useState(false);
 
     //state variable to collect user input
     const [formData, setFormData] = useState({
@@ -17,7 +21,6 @@ export function Security() {
 
     //state for  error object
     const [errors, setErrors] = useState({})
-
 
     function handleChange(e) {
         const { name, value } = e.target;
@@ -47,12 +50,12 @@ export function Security() {
 
         //confirm password
         if (!formData.confirmPassword.trim()) {
-            validationError.confirmPassword = "not "
+            validationError.confirmPassword = " "
         } else if (!formData.confirmPassword !== formData.password) {
             validationError.confirmPassword = "password not matched"
 
         } else if (formData.confirmPassword === formData.password) {
-            validationError.confirmPassword = "password  matched"
+            validationError.confirmPassword = "password matched "
 
         }
 
@@ -60,7 +63,15 @@ export function Security() {
 
     }
 
-    const isValid = formData.username !== " " && formData.password !== " " && formData.confirmPassword !== " "
+    const isValid = formData.username !== " " && formData.password.length >= 6 && formData.confirmPassword === formData.password;
+
+
+    const handleEnter = (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+        }
+    }
+
 
     return <>
         <body className='signUpBody'>
@@ -94,20 +105,29 @@ export function Security() {
                                     <label htmlFor="email" className=" text-label font-medium text-base">Username</label>
 
                                     {/* <Input placeHolder={"@username"} /> */}
-                                    <input type="text" placeholder='@username' className='btn allInput' name="username" onChange={handleChange} />
+                                    <input type="text" placeholder='@username' className='btn allInput' name="username" onChange={handleChange} onKeyDown={handleEnter} />
                                     {errors.username && <span className='text-red'>{errors.username}</span>}
                                 </div>
 
                                 <div className='flex flex-col items-start gap-[10px]'>
                                     <label htmlFor="password" className=" text-label font-medium text-base">Password</label>
-                                    <input type="password" name="password" id="password" className='btn allInput' placeholder='********' onChange={handleChange} />
+                                    <div className='flex items-center w-full'>
+                                        <input type={show ? "text" : "password"} name="password" id="password" className='btn allInput w-full' placeholder='********' onChange={handleChange} onKeyDown={handleEnter} />
+                                        <span className={`text-[20px] ml-[-9vh] cursor-pointer ${show ? "rotate-180" : ""} `} onClick={() => setShow(!show)} ><RxEyeClosed />
+                                        </ span>
+                                    </div>
                                     {errors.password && <span className='text-red'>{errors.password}</span>}
 
 
                                 </div>
                                 <div className='flex flex-col items-start gap-[10px]'>
                                     <label htmlFor="password" className=" text-label font-medium text-base">Confirm password</label>
-                                    <input type="password" name="confirmPassword" id="confirmPassword" className='btn allInput' placeholder='********' onChange={handleChange} />
+
+                                    <div className='flex items-center w-full'>
+                                        <input type={show1 ? "text" : "password"} name="confirmPassword" id="confirmPassword" className='btn allInput w-full' placeholder='********' onChange={handleChange} onKeyDown={handleEnter} />
+                                        <span className={`text-[20px] ml-[-9vh] cursor-pointer ${show1 ? "rotate-180" : ""} `} onClick={() => setShow1(!show1)}><RxEyeClosed />
+                                        </ span>
+                                    </div>
                                     {errors.confirmPassword && <span className='text-red'>{errors.confirmPassword}</span>}
 
 
@@ -124,14 +144,14 @@ export function Security() {
                                     </button>
                                 </Link>
 
-                                <Link to='/loader'>
+                                {/* <Link to='/loader'> */}
 
-                                    <button type="submit" className={`btn button w-[125px] ${isValid ? "active-button" : " "}`} disabled={!isValid}>
+                                <button type="submit" className={`btn button w-[125px] ${isValid ? "active-button" : " "}`} onKeyDown={handleEnter} >
 
-                                        Done
+                                    Done
 
-                                    </button>
-                                </Link>
+                                </button>
+                                {/* </Link> */}
 
                             </div>
 
@@ -145,8 +165,8 @@ export function Security() {
 
                 </main>
 
-            </section>
-        </body>
+            </section >
+        </body >
 
 
     </>

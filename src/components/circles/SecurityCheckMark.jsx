@@ -9,9 +9,9 @@ export function SecurityCheckMark() {
                 arrowClName="arrow"
                 allCircle="allCircle"
 
-                currentCircle1="bg-changeColor circles"
-                currentCircle2="currentCircle circles"
-                currentCircle3="currentCircle circles"
+                currentCircle1="bg-changeColor circles px-[10px]"
+                currentCircle2="currentCircle circles px-[10px]"
+                currentCircle3="currentCircle circles px-[10px]"
                 currentCircle4="currentCircle"
 
                 activeArrow1='text-changeColor'
