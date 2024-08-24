@@ -32,11 +32,11 @@ export default function ProjectCollab() {
           </div>
           <div className="px-3 flex items-center gap-3">
             <button className="flex items-center gap-2 border border-[#E5E7EB] rounded-lg capitalize py-2 px-3">
-              <img src="/filter-vertical.svg" alt="" />
+              <img src="/icons//filter-vertical.svg" alt="" />
               <span>Filter</span>
             </button>
             <button className="flex items-center gap-2 border border-[#E5E7EB] rounded-lg py-2 px-3 bg-[#672A9F] text-[#F9FAFB]">
-              <img src="/Vector.svg" alt="" />
+              <img src="/icons/Vector.svg" alt="" />
               <span>Create project</span>
             </button>
           </div>

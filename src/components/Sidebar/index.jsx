@@ -52,7 +52,7 @@ export default function Sidebar() {
       name: "Manage  projects",
       icon: layers,
       icon_active: layersLight,
-      route: "/workspace/id",
+      route: "/manage/",
       notification: false,
     },
     {

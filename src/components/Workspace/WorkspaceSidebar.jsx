@@ -78,7 +78,7 @@ const WorkspaceSidebar = () => {
 
   return (
     <aside className="w-full h-full flex flex-col items-end">
-      <nav className="flex items-center pl-7 py-4 border-b border-[#E5E7EB] gap-5 pr-3 sticky top-0 left-0 z-10 bg-[#F9FAFB]">
+      <nav className="flex items-center pl-7 w-full py-4 border-b border-[#E5E7EB] gap-5 pr-3 sticky top-0 left-0 z-10 bg-[#F9FAFB]">
         <button
           onClick={() => {
             navigate(-1);

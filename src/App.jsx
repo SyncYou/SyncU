@@ -11,7 +11,8 @@ import ShowcasedProjects from "./components/Profile/ShowcasedProjects";
 import WorkingOn from "./components/Profile/WorkingOn";
 import Activities from "./components/Profile/Activities";
 import ProjectDescription from "./components/ProjectDescription";
-import WorkspaceRoom from "./components/Workspace/WorkspaceRoom";
+import Announcements from "./components/Workspace/Announcements";
+import ManageProjects from "./components/ManageProjects/ManageProjects";
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,11 @@ const router = createBrowserRouter([
         ]
       },
       {
+        path: "/manage",
+        element: <ManageProjects />,
+       
+      },
+      {
         path: "/edit-profile",
         element: <EditProfile />,
       },
@@ -77,7 +83,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/workspace/id",
-        element: <WorkspaceRoom />
+        element: <Announcements />
       }
     ]
   },

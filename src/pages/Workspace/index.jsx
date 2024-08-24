@@ -7,7 +7,7 @@ const index = () => {
   return (
   <>
    <div className="flex">
-        <div className="min-w-[263px] sticky top-0 left-0 min-h-dvh bg-[#F9FAFB]">
+        <div className="min-w-[263px] sticky top-0 left-0 max-h-dvh bg-[#F9FAFB] overflow-y-scroll">
           <WorkspaceSidebar />
         </div>
         <div className="flex-1 border-l border-[#E5E7EB]">
