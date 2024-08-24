@@ -4,7 +4,6 @@ import product from "../imgs/work-img/product.svg"
 import others from "../imgs/work-img/others.svg"
 
 export const SelectStack = [
-    
     {
         id: 1,
         name: "Design",
@@ -29,5 +28,4 @@ export const SelectStack = [
         img: others,
         article: "Select this if you’re not into any of the other fields stated."
     }
-    
 ]

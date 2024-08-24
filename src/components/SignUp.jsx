@@ -7,19 +7,13 @@ export function SignUp() {
   return (
     <>
       <body className='signUpBody'>
-
         <section className="signUpSection section ">
-
-
           <main className='signUpMain'>
             <img src={logo} alt="syncU logo" />
-
             <div>
               <Welcome />
             </div>
-
           </main>
-
         </section>
       </body>
     </>

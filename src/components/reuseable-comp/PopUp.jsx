@@ -2,7 +2,6 @@ import React from 'react'
 import popMail from "../imgs/comp-img/popMail.svg"
 import x from "../imgs/comp-img/x.svg"
 
-
 export function PopUp() {
     return (
         <>
@@ -14,7 +13,6 @@ export function PopUp() {
                     <img src={x} alt="cancel" />
                 </small>
             </button>
-
         </>
     )
 }

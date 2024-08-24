@@ -13,7 +13,6 @@ export function Welcome() {
   const [inputValue, setInputValue] = useState(" ");
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [loader, setLoader] = useState(false);
 
   const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -25,23 +24,20 @@ export function Welcome() {
     setIsValidEmail(validateEmail(value));
   };
 
-  const handleButtonClick = () => {
+  function handleEnter(e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+    }
+  }
+  function handleButtonClick() {
     if (isValidEmail) {
       setIsLoading(true);
-
-      //timeout 
       setTimeout(() => {
         setIsLoading(false);
-            alert("Email sent successfully")
       }, 2000);
     }
-  };
+  }
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLoader(false)
-    }, 3000);
-  },[])
 
   return (
     <>
@@ -50,20 +46,17 @@ export function Welcome() {
           <h2 className='welcome'>Welcome</h2>
           <h4 className="font-normal leading-10 text-[16px] text-h4" >Let’s get you started!</h4>
         </div>
-
         <div className='divhr'>
           <div className="text-[16px] font-medium leading-6 text-h4 flex flex-col gap-[10px] justify-center items-center w-full ">
             <Buttons bIcon={googleImg} bName={"Google"} bText="Continue with" bg="var(--Neutral-n-white, #FFF)" />
             <Buttons bIcon={facebookImg} bName={"Facebook"} bText="Continue with" bg="var(--Neutral-n-white, #FFF)" />
             <Buttons bIcon={githubImg} bName={"Github"} bText="Continue with" bg="var(--Neutral-n-white, #FFF)" />
           </div>
-
           <div className='flex justify-center items-center gap-[10px] w-full text-[14px] font-medium text-or leading-5'>
             <hr className='hr' />
             <p > OR  </p>
             <hr className='hr' />
           </div>
-
           <div className='flex flex-col items-start gap-[10px]'>
             <label htmlFor="email" className=" text-label font-medium text-base">Email</label>
             <div className={` flex items-center gap-0 ${isValidEmail ? 'w-full' : "w-[105%]"}`}>
@@ -73,18 +66,19 @@ export function Welcome() {
             </div>
           </div>
         </div>
-
         <div className='px-[48px] w-full'>
           <Link to="/verify" >
             <button type='submit' className={`button ${inputValue ? 'active-button' : " "}`}
               onClick={handleButtonClick}
-              disabled={!isValidEmail}>
-              {isLoading ? <span className='w-[16px] h-[16px] border-2 border-t-transparent rounded-[50%] anim '></span> : `Continue with email`}
+              disabled={!isValidEmail} onKeyDown={handleEnter}>
+              {isLoading ? <svg className="animate-spin h-[38px] w-[38px] text-changeColor" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+              </svg> : "Continue With Email"}
             </button>
           </Link>
         </div>
       </form>
-
       <p className='text-[14px] tracking-[0.14px] leading-5 text-or'>
         By proceeding, you automatically agree to our <a href="/" className='a'>Terms of Service</a> and <a href="/" className='a'>Privacy Policy</a>
       </p>
