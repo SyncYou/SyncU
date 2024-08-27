@@ -13,6 +13,7 @@ import Activities from "./components/Profile/Activities";
 import ProjectDescription from "./components/ProjectDescription";
 import Announcements from "./components/Workspace/Announcements";
 import ManageProjects from "./components/ManageProjects/ManageProjects";
+import CreateProject from "./components/ManageProjects/CreateProject";
 
 const router = createBrowserRouter([
   {
@@ -53,7 +54,12 @@ const router = createBrowserRouter([
       {
         path: "/manage",
         element: <ManageProjects />,
-       
+       children: [
+        {
+          path: '/manage/create-project',
+          element: <CreateProject/>
+        }   
+       ]
       },
       {
         path: "/edit-profile",

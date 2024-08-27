@@ -4,10 +4,11 @@ import line from '/workspace/line.svg'
 import pic from '/collaborators/collab1.svg'
 import vergil from '/collaborators/vergil.svg'
 import TypeMessage from './TypeMessage'
+import InviteCollaborators from './InviteCollaborators'
 
 const Announcements = () => {
   return (
-    <div className='h-full w-full'>
+    <div className='h-full w-full relative'>
         <div className='flex flex-col items-center justify-end'>
             <h1 className='flex items-center gap-2 text-[#1F2937] text-[24px] font-bold leading-[33.6px] my-3'>
                 <img src={broadcast} alt="" />
@@ -90,6 +91,10 @@ const Announcements = () => {
         </div>
         <div className='px-2 my-2'>
             <TypeMessage/>
+        </div>
+
+        <div>
+            <InviteCollaborators/>
         </div>
     </div>
   )

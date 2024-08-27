@@ -3,10 +3,12 @@ import search from '/navbar/search.svg'
 import folder from '/workspace/folder.svg'
 import vergil from '/collaborators/vergil.svg'
 import more from '/icons/more-horizontal.svg'
+import { Outlet, useNavigate } from 'react-router-dom'
 
 const ManageProjects = () => {
+    const navigate = useNavigate()
   return (
-    <div className='p-10'>
+    <div className='p-10 relative'>
         <div>
             <h1 className='text-[#1F2937] font-bold text-[30px] leading-[30px] -tracking-wide my-2'>Manage projects</h1>
             <div className='flex items-center justify-between w-full'>
@@ -14,7 +16,9 @@ const ManageProjects = () => {
                 <img src={search} alt="" />
                 <input className='flex-1 bg-transparent focus:outline-none leading-6 text-[#9CA3AF] w-full' type="text" placeholder='Search for projects of projector creator...' />
             </div>
-            <button className="flex items-center gap-2 border border-[#E5E7EB] rounded-lg py-2 px-3 bg-[#672A9F] text-[#F9FAFB]">
+            <button onClick={() => {
+                navigate('/manage/create-project')
+            }} className="flex items-center gap-2 border border-[#E5E7EB] rounded-lg py-2 px-3 bg-[#672A9F] text-[#F9FAFB]">
               <img src="/icons/Vector.svg" alt="" />
               <span>Create project</span>
             </button>
@@ -45,6 +49,9 @@ const ManageProjects = () => {
                     
                 </div>
             </div>
+        </div>
+        <div>
+            <Outlet/>
         </div>
     </div>
   )
