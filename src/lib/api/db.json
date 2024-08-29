@@ -1,8 +1,7 @@
 {
   "posts": [
-   
     {
-      "id": 1,
+      "id": "1",
       "author_icon": "/collaborators/vergil.svg",
       "author": "vergil",
       "title": "Syncu",
@@ -110,7 +109,7 @@
       ]
     },
     {
-      "id": 2,
+      "id": "2",
       "author_icon": "/collaborators/aisha.svg",
       "author": "aisha",
       "title": "learnie",
@@ -218,7 +217,7 @@
       ]
     },
     {
-      "id": 3,
+      "id": "3",
       "author_icon": "/collaborators/michael.svg",
       "author": "michael",
       "title": "automated content generator",
@@ -329,87 +328,144 @@
   ],
   "tags": [
     {
+      "id": "1",
       "icon": "/tags/Angular.svg",
       "name": "Angular"
     },
     {
+      "id": "2",
       "icon": "/tags/Adobe-xd.svg",
       "name": "Adobe Xd"
     },
     {
+      "id": "3",
       "icon": "/tags/Ae.svg",
       "name": "After Effets"
     },
     {
+      "id": "4",
       "icon": "/tags/Apache.svg",
       "name": "Apache Stack"
     },
     {
+      "id": "5",
       "icon": "/tags/Figma.svg",
       "name": "Figma"
     },
     {
+      "id": "6",
       "icon": "/tags/Flutter.svg",
       "name": "Flutter"
     },
     {
+      "id": "7",
       "icon": "/tags/illustrator.svg",
       "name": "Adobe Illustrator"
     },
     {
+      "id": "8",
       "icon": "/tags/java.svg",
       "name": "Java"
     },
     {
+      "id": "9",
       "icon": "/tags/Javascript.svg",
       "name": "JavaScript"
     },
     {
+      "id": "10",
       "icon": "/tags/Python.svg",
       "name": "Python"
     },
     {
+      "id": "11",
       "icon": "/tags/React.svg",
       "name": "React"
     },
     {
+      "id": "12",
       "icon": "/tags/Sketch.svg",
       "name": "Sketch"
     },
     {
+      "id": "13",
       "icon": "/tags/Typescript.svg",
       "name": "TypeScript"
     },
     {
+      "id": "14",
       "icon": "/tags/Firebase.svg",
       "name": "Firebase"
     },
     {
+      "id": "15",
       "name": "Product management"
     },
     {
+      "id": "16",
       "name": "Product Design"
     },
     {
+      "id": "17",
       "name": "UI design"
     },
     {
+      "id": "18",
       "name": "User Experience"
     },
     {
+      "id": "19",
       "name": "Front-end development"
     },
     {
+      "id": "20",
       "name": "Back-end development"
     },
     {
+      "id": "21",
       "name": "Product marketing"
     },
     {
+      "id": "22",
       "name": "Prototyping"
     },
     {
+      "id": "23",
       "name": "Graphics design"
+    }
+  ],
+  "projects": [
+    {
+      "id": "c55c",
+      "title": "Build.io",
+      "category": "",
+      "description": "Collaborating platform",
+      "tags": [
+        {
+          "id": 9,
+          "icon": "/tags/Javascript.svg",
+          "name": "JavaScript"
+        },
+        {
+          "id": 11,
+          "icon": "/tags/React.svg",
+          "name": "React"
+        },
+        {
+          "id": 14,
+          "icon": "/tags/Firebase.svg",
+          "name": "Firebase"
+        },
+        {
+          "id": 13,
+          "icon": "/tags/Typescript.svg",
+          "name": "TypeScript"
+        },
+        {
+          "id": 19,
+          "name": "Front-end development"
+        }
+      ]
     }
   ]
 }

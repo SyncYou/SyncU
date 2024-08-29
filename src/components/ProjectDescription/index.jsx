@@ -18,6 +18,7 @@ import share from '/icons/share.svg'
 import Toast from "./Toast";
 import CollaboratorModal from "../Collaborators/CollaboratorModal";
 import Notify from "../ToastNotifications/Notify";
+import { useNavigate } from "react-router-dom";
 
 const ReportModal = () => {
   return(
@@ -45,6 +46,7 @@ const ProjectModal = () => {
 
 
 const ProjectDescription = () => {
+  const navigate = useNavigate()
 
   const { id } = useParams();
 
@@ -76,6 +78,10 @@ const ProjectDescription = () => {
   const handleOpenModal = () => {
     setShowModal(true);
   };
+
+  const handleCloseDescription = () => {
+    navigate(-1)
+  }
 
   const handleShowReply = () => {
     setShowReply((prev) => !prev);
@@ -134,7 +140,7 @@ const ProjectDescription = () => {
                 <ProjectModal/>
               </div> */}
             </div>
-            <img src={cancel} alt="" />
+            <img className="cursor-pointer" onClick={handleCloseDescription} src={cancel} alt="" />
           </div>
         </div>
 

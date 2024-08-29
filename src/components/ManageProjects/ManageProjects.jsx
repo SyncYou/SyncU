@@ -4,9 +4,15 @@ import folder from '/workspace/folder.svg'
 import vergil from '/collaborators/vergil.svg'
 import more from '/icons/more-horizontal.svg'
 import { Outlet, useNavigate } from 'react-router-dom'
+import useFetch from '../../utils/hooks/useFetch'
 
 const ManageProjects = () => {
     const navigate = useNavigate()
+    const {
+        data: projects,
+        isPending,
+        error,
+      } = useFetch("http://localhost:5000/projects");
   return (
     <div className='p-10 relative'>
         <div>
@@ -33,10 +39,12 @@ const ManageProjects = () => {
             </div>
 
             <div>
-                <div className='grid grid-cols-4 p-3 bg-[#F3F4F6] m-3 rounded'>
+                {
+                    projects && projects.map(project => (
+                <div key={project.id} className='grid grid-cols-4 p-3 bg-[#F3F4F6] m-3 rounded'>
                     <div className='col-span-2 flex items-center gap-2'>
                         <img src={folder} alt="" />
-                        <h2 className='text-[#1F2937] font-semibold leading-6'>Syncu</h2>
+                        <h2 className='text-[#1F2937] font-semibold leading-6'>{project.title}</h2>
                     </div>
                     <div className='flex items-center gap-2'>
                         <img src={vergil} alt="" />
@@ -48,6 +56,8 @@ const ManageProjects = () => {
                     </div>
                     
                 </div>
+                    ))
+                }
             </div>
         </div>
         <div>

@@ -15,14 +15,22 @@ import layersLight from "/sidebar/layers-light.svg";
 import popUp from "/sidebar/Pop-up.svg";
 import folder from "/icons/folder-dark.svg";
 import folderLight from "/icons/folder-light.svg";
+import useFetch from "../../utils/hooks/useFetch";
 
 export default function Sidebar() {
   const location = useLocation();
   const [showProjects, setShowProjects] = useState(false);
 
-  useEffect(() => {
-    console.log(location);
-  }, []);
+  // useEffect(() => {
+  //   console.log(location);
+  // }, []);
+
+  const {
+    data: workspace,
+    isPending,
+    error,
+  } = useFetch("http://localhost:5000/projects");
+
   const nav_foundation = [
     {
       title: "collaborate",
@@ -54,14 +62,7 @@ export default function Sidebar() {
       icon_active: layersLight,
       route: "/manage/",
       notification: false,
-    },
-    {
-      name: "syncu",
-      icon: folder,
-      icon_active: folderLight,
-      route: "/workspace/id",
-      notification: true,
-    },
+    }
   ];
 
   const nav_base = [
@@ -170,6 +171,38 @@ export default function Sidebar() {
                     </p>
                   </NavLink>
                 ))}
+                <div>
+                  {workspace && workspace.map(data => (
+                     <NavLink
+                     to={`/workspace/${workspace.id}`}
+                     key={data.id}
+                     className={({ isActive }) =>
+                       isActive ? activeLink : normalLink
+                     }
+                   >
+                     <div className="relative">
+                       <img
+                         src={`${
+                           location.pathname == data.route
+                             ? folderLight
+                             : folder
+                         }`}
+                         alt=""
+                       />
+                       {data.notification && (
+                         <img
+                           src={popUp}
+                           alt=""
+                           className="absolute -right-1 top-0"
+                         />
+                       )}
+                     </div>
+                     <p className="text-[16px] font-medium text-[#6B7280] capitalize leading-6">
+                       {data.title}
+                     </p>
+                   </NavLink>
+                  ))}
+                </div>
               </div>
             )}
           </div>

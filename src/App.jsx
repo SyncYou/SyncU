@@ -83,12 +83,12 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path: "/workspace/id",
+    path: "/workspace/:id",
     element: <Workspace />,
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "/workspace/id",
+        path: "/workspace/:id",
         element: <Announcements />
       }
     ]
