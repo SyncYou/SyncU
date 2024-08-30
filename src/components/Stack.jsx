@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import stackIcon from "./imgs/comp-img/stack.svg";
-import logo from './imgs/comp-img/logo.svg';
-import search from "./imgs/stack-img/search-01.svg"
+import stackIcon from "../../public/comp-img/stack.svg";
+import logo from '../../public/comp-img/logo.svg';
+import search from "../../public/stack-img/search-01.svg"
 import { Link } from 'react-router-dom';
 import { StackCheckMark } from './circles/StackCheckMark';
 import { StackOpt } from './reuseable-comp/StackOpt';

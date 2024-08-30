@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import work from "./imgs/comp-img/work.svg"
+import work from "../../public/comp-img/work.svg"
 import { Radio } from './reuseable-comp/Radio';
 import { Link } from 'react-router-dom';
-import logo from './imgs/comp-img/logo.svg';
+import logo from '../../public/comp-img/logo.svg';
 import { WorkCheckMark } from './circles/WorkCheckMark';
 
 export function Work() {

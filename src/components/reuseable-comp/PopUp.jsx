@@ -1,6 +1,6 @@
 import React from 'react'
-import popMail from "../imgs/comp-img/popMail.svg"
-import x from "../imgs/comp-img/x.svg"
+import popMail from "../../../public/comp-img/popMail.svg"
+import x from "../../../public/comp-img/x.svg"
 
 export function PopUp() {
     return (

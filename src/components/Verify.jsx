@@ -1,8 +1,8 @@
 import React from 'react'
-import envelop from './imgs/comp-img/envelop.svg'
-import mail from "./imgs/comp-img/mail.svg"
+import envelop from '../../public/comp-img/envelop.svg'
+import mail from "../../public/comp-img/mail.svg"
 import Buttons from './reuseable-comp/Buttons'
-import logo from './imgs/comp-img/logo.svg';
+import logo from '../../public/comp-img/logo.svg';
 import { Link } from 'react-router-dom';
 import { PopUp } from './reuseable-comp/PopUp'
 

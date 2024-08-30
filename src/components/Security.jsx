@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import logo from './imgs/comp-img/logo.svg';
+import logo from '../../public/comp-img/logo.svg';
 import { RxEyeClosed } from "react-icons/rx";
 import { Link } from 'react-router-dom';
 import { SecurityCheckMark } from './circles/SecurityCheckMark';
-import SecurityIcon from "./imgs/comp-img/security.svg";
+import SecurityIcon from "../../public/comp-img/security.svg";
 
 
 export function Security() {

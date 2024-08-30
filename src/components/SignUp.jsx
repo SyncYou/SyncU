@@ -1,6 +1,6 @@
 import React from 'react';
 import { Welcome } from './Welcome';
-import logo from './imgs/comp-img/logo.svg';
+import logo from '../../public/comp-img/logo.svg';
 
 export function SignUp() {
 

@@ -1,7 +1,7 @@
-import design from "../imgs/work-img/design.svg"
-import engineering from "../imgs/work-img/engineering.svg"
-import product from "../imgs/work-img/product.svg"
-import others from "../imgs/work-img/others.svg"
+import design from "../../../public/work-img/design.svg"
+import engineering from "../../../public/work-img/engineering.svg"
+import product from "../../../public/work-img/product.svg"
+import others from "../../../public/work-img/others.svg"
 
 export const SelectStack = [
     {
