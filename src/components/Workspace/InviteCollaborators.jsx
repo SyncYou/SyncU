@@ -6,10 +6,15 @@ import arrowDown from '/icons/arrow-down.svg'
 import vergil from '/collaborators/vergil.svg'
 import addIcon from '/workspace/add-icon.svg'
 import copy from '/workspace/copy.svg'
+import { useAppContext } from "../../lib/Contexts/AppContext";
 
 const InviteCollaborators = () => {
+  const {setShowModal } = useAppContext()
+  const handleCloseModal = () => {
+      setShowModal(false)
+  }
   return (
-    <div className="bg_overlay flex items-center justify-center  overflow-y-scroll">
+    <div className="bg__overlay flex items-center justify-center  overflow-y-scroll">
       <div className="bg-white w-[760px] rounded-lg">
         <div className="flex items-start justify-between p-3 border-b border-[#E5E7EB]">
           <div>
@@ -21,7 +26,7 @@ const InviteCollaborators = () => {
               you.
             </p>
           </div>
-          <img className="cursor-pointer" src={cancel} alt="" />
+          <img onClick={handleCloseModal} className="cursor-pointer" src={cancel} alt="" />
         </div>
 
         <div className="my-3 mx-5">
@@ -89,11 +94,11 @@ const InviteCollaborators = () => {
 
         <div className="border-t border-[#D1D5DB] p-2 flex items-center justify-end">
             <div className="flex items-center gap-3">
-                <button className="flex items-center gap-2 border-[1.5px] border-[#E5E7EB] py-2 px-5 bg-white rounded-lg text-[#374151] font-medium leading-6 w-[200px] text-nowrap cursor-pointer">
+                <div className="flex items-center gap-2 border-[1.5px] border-[#E5E7EB] py-2 px-5 bg-white rounded-lg text-[#374151] font-medium leading-6 w-[200px] text-nowrap cursor-pointer">
                     <img src={copy} alt="" />
                     Copy invite link
-                </button>
-                <button className="border-[1.5px] border-[#E5E7EB] py-2 px-5 bg-white rounded-lg text-[#374151] font-medium leading-6 w-[170px] text-nowrap cursor-pointer">close</button>
+                </div>
+                <button onClick={handleCloseModal} className="border-[1.5px] border-[#E5E7EB] py-2 px-5 bg-white rounded-lg text-[#374151] font-medium leading-6 w-[170px] text-nowrap cursor-pointer">close</button>
             </div>
         </div>
       </div>

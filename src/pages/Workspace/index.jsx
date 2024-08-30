@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import WorkspaceSidebar from '../../components/Workspace/WorkspaceSidebar'
 import WorkspaceNavbar from '../../components/Workspace/WorkspaceNavbar'
 import { Outlet } from 'react-router-dom'
 
 const index = () => {
+  
   return (
   <>
    <div className="flex">

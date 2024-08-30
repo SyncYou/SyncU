@@ -5,8 +5,11 @@ import pic from '/collaborators/collab1.svg'
 import vergil from '/collaborators/vergil.svg'
 import TypeMessage from './TypeMessage'
 import InviteCollaborators from './InviteCollaborators'
+import { useAppContext } from '../../lib/Contexts/AppContext'
 
 const Announcements = () => {
+    const {showModal } = useAppContext()
+  
   return (
     <div className='h-full w-full relative'>
         <div className='flex flex-col items-center justify-end'>
@@ -93,9 +96,13 @@ const Announcements = () => {
             <TypeMessage/>
         </div>
 
+{
+    showModal && (
         <div>
             <InviteCollaborators/>
         </div>
+    )
+}
     </div>
   )
 }

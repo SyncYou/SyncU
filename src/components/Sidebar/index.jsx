@@ -174,7 +174,7 @@ export default function Sidebar() {
                 <div>
                   {workspace && workspace.map(data => (
                      <NavLink
-                     to={`/workspace/${workspace.id}`}
+                     to={`/workspace/${data.id}`}
                      key={data.id}
                      className={({ isActive }) =>
                        isActive ? activeLink : normalLink
