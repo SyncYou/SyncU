@@ -1,17 +1,8 @@
 import React from "react";
-import { SignUp } from "./components/SignUp";
+import { SignUp } from "./pages/SignUp.jsx";
 
 function App() {
-
-  return (
-    <>
-      <body className="overflow-x-hidden w-[100%] h-[100%]">
-      <div>
-        <SignUp />
-     </div>
-      </body>
-     </>
-  )
+  return <SignUp />
 }
 
 export default App

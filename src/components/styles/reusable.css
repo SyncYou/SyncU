@@ -6,7 +6,7 @@
 @layer components {
     /*sign up  */
     .signUpBody{
-        @apply py-[5%] pb-[20%] text-center font-figtree
+        @apply py-[5%] pb-[20%] text-center font-figtree overflow-x-hidden w-[100%] h-[100%]
 
     }
     .signUpSection{
