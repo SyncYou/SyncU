@@ -11,11 +11,11 @@ import sharePurple from "/profile/share-purple.svg";
 import ConnectionsModal from "../ConnectionsModal/ConnectionsModal";
 
 const UserProfile = () => {
-  const [showConnections, setShowConnections] = useState(false)
+  const [showConnections, setShowConnections] = useState(false);
 
   const handleShowConnections = () => {
-    setShowConnections(prev => !prev)
-  }
+    setShowConnections((prev) => !prev);
+  };
   return (
     <section>
       <div className="max-w-[670px] mx-auto flex flex-col items-center gap-5">
@@ -36,7 +36,10 @@ const UserProfile = () => {
               things.
             </p>
             <div className="flex items-center justify-center gap-2 my-4">
-              <small onClick={handleShowConnections} className="font-semibold cursor-pointer leading-5 text-[14px]">
+              <small
+                onClick={handleShowConnections}
+                className="font-semibold cursor-pointer leading-5 text-[14px]"
+              >
                 0{" "}
                 <span className="font-normal leading-5 text-[#6B7280]">
                   connections
@@ -69,13 +72,11 @@ const UserProfile = () => {
           <Outlet />
         </div>
 
-{
-  showConnections && (
-        <div className="bg__overlay">
-          <ConnectionsModal handleShowConnections={handleShowConnections} />
-        </div>
-  )
-}
+        {showConnections && (
+          <div className="bg__overlay">
+            <ConnectionsModal handleShowConnections={handleShowConnections} />
+          </div>
+        )}
         {/* <div className="w-[350px]">
           <div className="flex items-center justify-between">
             <h3 className="text-[#1F2937] font-semibold text-[18px] leading-8">

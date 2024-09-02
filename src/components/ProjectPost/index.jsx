@@ -1,15 +1,18 @@
-import { useNavigate } from 'react-router-dom';
-import dot from '/icons/Dot.svg'
-import users from '/icons/users2.svg'
-import comment from '/icons/comment.svg'
+import { useNavigate } from "react-router-dom";
+import dot from "/icons/Dot.svg";
+import users from "/icons/users2.svg";
+import comment from "/icons/comment.svg";
 export default function ProjectPost({ post }) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <>
-      <div onClick={() => {
-        // setShowDescription(prev => !prev)
-        navigate(`/${post?.id}`)
-      }} className="border border-[#D1D5DB] rounded-lg shadow p-3 space-y-2 z-0 cursor-pointer">
+      <div
+        onClick={() => {
+          // setShowDescription(prev => !prev)
+          navigate(`/${post?.id}`);
+        }}
+        className="border border-[#D1D5DB] rounded-lg shadow p-3 space-y-2 z-0 cursor-pointer"
+      >
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1">
             <img src={post?.author_icon} alt="" />

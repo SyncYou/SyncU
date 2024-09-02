@@ -1,5 +1,5 @@
-import Home from './home'
-import Profile from './profile'
-import Workspace from './Workspace'
+import Home from "./home";
+import Profile from "./profile";
+import Workspace from "./Workspace";
 
-export{Home, Profile, Workspace}
+export { Home, Profile, Workspace };

@@ -1,7 +1,7 @@
-export default function Description(){
-    return(
-        <>
-        <h1>UnderConstruction</h1>
-        </>
-    )
+export default function Description() {
+  return (
+    <>
+      <h1>UnderConstruction</h1>
+    </>
+  );
 }
