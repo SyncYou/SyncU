@@ -4,6 +4,65 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .section {
+    background-image: url("../public/comp-img/toolsBg.png");
+  }
+
+  .form {
+    @apply flex flex-col items-center self-stretch  py-[6%] w-full rounded-2xl bg-fbg shadow-3xl mb-[10%];
+  }
+  .welcome {
+    @apply text-[28px] font-semibold leading-[33.6px] text-h2;
+  }
+
+  .btn {
+    @apply rounded-lg border-2 flex items-center text-center  border-fb gap-[10px] py-[10px] w-full justify-center outline-darkBlue outline-1;
+  }
+
+  .anim {
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .button {
+    @apply btn bg-email text-fbg;
+  }
+
+  .active-button {
+    @apply bg-changeColor;
+  }
+
+  .button:disabled {
+    @apply bg-email cursor-not-allowed;
+  }
+
+  .hr {
+    @apply h-[2px] bg-hr w-full border-0;
+  }
+
+  .a {
+    @apply text-label underline;
+  }
+
+  /* Form Reusable styles */
+
+  .imgIcon {
+    @apply bg-envelop py-[15px] px-[15px] justify-center items-center flex rounded-[50%];
+  }
+  .divhr {
+    @apply flex px-[48px] flex-col gap-[24px] w-full border-b-2 border-hr mb-[20px] pb-[20px];
+  }
+}
+
 body {
   font-family: "Figtree", sans-serif;
 }
