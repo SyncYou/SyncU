@@ -1,22 +1,55 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import logo from "../../../assets/img/Logo.png";
 import tools from "../../../assets/img/tools-bg.png";
 import { Link } from "react-router-dom";
 import visible from "../../../assets/img/visible.svg";
 import { Spinner } from "../../../../helpers/Spinner.jsx";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Password = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const email = location.state?.email;
+  const url = "https://fashionhub.geoedu360.com/SignUpClassesPhp/login/";
 
-  const handleSubmit = async () => {
-    // try catch and async function
+  useEffect(() => {
+    redirect();
+  }, [email, navigate]);
+
+  const redirect = () => {
+    if (!email) {
+      navigate("/signIn");
+    } else {
+      return;
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+ 
+
     try {
       setLoading(true);
-      console.log("hello world");
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      const response = await axios.post(
+        url,
+        { email, password },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+
+      const data = await response.data;
+      console.log(data);
     } catch (err) {
+      console.log();
     } finally {
       setLoading(false);
     }
@@ -37,12 +70,6 @@ const Password = () => {
         <section className="w-[428px] flex  flex-col items-stretch gap-[24px]">
           <div className="flex items-center flex-col justify-center self-stretch rounded-[14px] pt-[24px] pb-[16px] bg-white auth-box-shadow">
             <div className="flex flex-col items-center">
-              <div className="relative">
-                <div className="w-[64px] text-[24px] tracking-[0.94px] flex    items-center justify-center text-white bg-[#3b82f6] h-[64px] rounded-full border-[1px] border-solid border-[#D1D5DB]">
-                  G
-                </div>
-                <div className="w-[14px]  absolute top-[3.3rem] right-[2.5rem] h-[14px] rounded-full border-[1px] border-solid bg-[#22C55E] border-white " />
-              </div>
               <div className="flex items-center flex-col gap-[8px] mt-[12px]">
                 <h1 className="text-center text-[28px] font-semibold leading-[1.2] self-stretch text-neutral-900">
                   Login

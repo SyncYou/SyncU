@@ -1,15 +1,34 @@
 import React, { useState } from "react";
 import logo from "../../../assets/img/Logo.png";
-import { Link } from "react-router-dom";
 import tools from "../../../assets/img/tools-bg.png";
 import SignInButtons from "./SignInButtons";
+import { useNavigate } from "react-router-dom";
 
 // The sign-in page
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
-  console.log(email);
+  const navigate = useNavigate();
+  const emailRegex = new RegExp(import.meta.env.VITE_EMAIL_REGEX);
+  const handleSubmit = async (e) => {
+    try {
+      if (!email) {
+        return;
+      }
+      if (!emailRegex.test(email)) {
+        console.log("wrong email format");
+        return;
+      }
+
+      navigate("/signIn/password", { state: { email } });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <main className="relative flex items-center justify-center flex-col gap-[32px] h-screen">
       <img
@@ -24,6 +43,7 @@ const SignIn = () => {
 
         <section className="w-[428px] flex flex-col items-stretch gap-[24px]">
           <form
+            onSubmit={handleSubmit}
             className="flex pt-[24px] pb-[16px] px-0 w-full flex-col justify-center items-center 
             self-stretch rounded-[16px] auth-box-shadow bg-white"
           >
@@ -67,6 +87,7 @@ const SignIn = () => {
             </div>
             <div className="flex py-4 px-12 flex-col justify-center items-center gap-2.5 self-stretch border-t border-gray-300">
               <button
+                onClick={handleSubmit}
                 disabled={!email}
                 type="submit"
                 className={`flex h-[39px] py-2.5 px-3 justify-center text-white items-center gap-2 self-stretch rounded-lg ${
