@@ -31,8 +31,7 @@ const Password = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
- 
-
+    console.log(email);
     try {
       setLoading(true);
       const response = await axios.post(
