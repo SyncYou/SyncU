@@ -3,10 +3,11 @@ import googleIcon from "../../../assets/img/Google.svg";
 import githubIcon from "../../../assets/img/github.svg";
 import facebookIcon from "../../../assets/img/facebook.svg";
 
-const SignInButtons = () => {
+const SignInButtons = ({handleLoginWithGoogle}) => {
+
   return (
     <div className="flex flex-col items-start gap-3 self-stretch">
-      <button className="auth-button">
+      <button onClick={handleLoginWithGoogle} className="auth-button">
         <img src={googleIcon} alt="google-icon" />
         Continue with Google
       </button>

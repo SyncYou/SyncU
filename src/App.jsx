@@ -113,11 +113,11 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
 
-  {
-    path: "/security",
-    element: <Security />,
-    errorElement: <ErrorPage />,
-  },
+  // {
+  //   path: "/security",
+  //   element: <Security />,
+  //   errorElement: <ErrorPage />,
+  // },
   {
     path: "/resetPassword",
     element: <ResetPassword />,

@@ -29,6 +29,8 @@ const SignIn = () => {
     }
   };
 
+
+
   return (
     <main className="relative flex items-center justify-center flex-col gap-[32px] h-screen">
       <img
@@ -56,7 +58,7 @@ const SignIn = () => {
               </p>
             </div>
             <div className="flex px-12 flex-col items-center gap-6 self-stretch">
-              <SignInButtons />
+            <SignInButtons />
               <div className="flex justify-center items-center gap-2.5 self-stretch">
                 <hr className="w-[146px] h-[1px] bg-[#e5e7eb]" />
                 <p className="text-[#6B7280] text-[14px] leading-[21px] font-normal">

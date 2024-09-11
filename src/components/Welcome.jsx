@@ -37,9 +37,23 @@ export function Welcome() {
     }
   }
 
+  // const handleGoogleAuth = async () => {
+  //   try{
+  //     let response = await fetch("https://fashionhub.geoedu360.com/SignUpClassesPhp/GoogleAuth/signUp.php", { 
+  //       method: "GET",
+  //     });
+      
+  //     let data = await response.text();
+  //     console.log(data);
+      
+  //   }catch(err){
+  //     console.log(err)
+  //   }
+  // }
+
   return (
     <>
-      <form action="" className="form">
+      <div action="" className="form">
         <div className="pb-[24px]">
           <h2 className="welcome">Welcome</h2>
           <h4 className="font-normal leading-10 text-[16px] text-h4">
@@ -49,6 +63,7 @@ export function Welcome() {
         <div className="divhr">
           <div className="text-[16px] font-medium leading-6 text-h4 flex flex-col gap-[10px] justify-center items-center w-full ">
             <Buttons
+
               bIcon={googleImg}
               bName={"Google"}
               bText="Continue with"
@@ -134,7 +149,7 @@ export function Welcome() {
             </button>
           </Link>
         </div>
-      </form>
+      </div>
       <p className="text-[14px] tracking-[0.14px] leading-5 text-or">
         By proceeding, you automatically agree to our{" "}
         <a href="/" className="a">
