@@ -53,7 +53,7 @@ export function Welcome() {
 
   return (
     <>
-      <div action="" className="form">
+      <form action="" className="form">
         <div className="pb-[24px]">
           <h2 className="welcome">Welcome</h2>
           <h4 className="font-normal leading-10 text-[16px] text-h4">
@@ -149,7 +149,7 @@ export function Welcome() {
             </button>
           </Link>
         </div>
-      </div>
+      </form>
       <p className="text-[14px] tracking-[0.14px] leading-5 text-or">
         By proceeding, you automatically agree to our{" "}
         <a href="/" className="a">
