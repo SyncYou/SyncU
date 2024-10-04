@@ -30,23 +30,7 @@ export default function Buttons({
     }
   };
 
-  const handleRedirect = () => {
-    const params = new URLSearchParams(window.location.search);
-    const user = params.get("user");
 
-    if (user) {
-      const userData = JSON.parse(decodeURIComponent(user));
-      console.log("User data received:", userData);
-
-      // Handle the user data (e.g., store it, navigate to a different page, etc.)
-      navigate("/"); // Redirect to the home page
-    }
-  };
-
-  // Call this function on page load
-  useEffect(() => {
-    handleRedirect();
-  }, []);
 
  
   return (

@@ -100,7 +100,7 @@ const router = createBrowserRouter([
   {
     path: "/security",
     element: <Security />,
-    element: <ErrorPage />,
+    errorElement: <ErrorPage />,
   },
   {
     path: "/signIn/password",
