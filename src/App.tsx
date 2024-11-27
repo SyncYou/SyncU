@@ -1,10 +1,10 @@
-import SetUpYourProfile from './components/Profile/Set-up-your-profile'
+import Step1 from './components/Profile/Step1'
 
 function App() {
 
   return (
     <>
-    <SetUpYourProfile/>
+    <Step1/>
     </>
   )
 }
