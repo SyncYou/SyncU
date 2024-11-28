@@ -1,10 +1,10 @@
-import ProfilePreview from './components/Profile/ProfilePreview'
+import Verifymail from './components/Auth/Verify-mail'
 
 function App() {
 
   return (
     <>
-    <ProfilePreview/>
+    <Verifymail/>
     </>
   )
 }

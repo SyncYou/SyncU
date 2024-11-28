@@ -1,26 +1,34 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import Header from "../Reuseables/Header";
 import mail from "/mail.svg";
 
-interface OtpProps {
-    e: React.ChangeEvent<HTMLInputElement>,
-    idx: string,
-}
 
 const Verifymail: React.FC = () => {
   const [otp, setOtp] = useState(new Array(4).fill(""));
+  const email = 'thatguyvergil@gmail.com';
 
-  const handleChange = ({e, idx}: OtpProps) => {
-    if (isNaN(e.target.value)) return false;
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>, currentIndex: number) => {
+      const value = e.target.value;
+      if (isNaN(Number(value))) return;
 
-    setOtp([
-      ...otp.map((digit, index) => (index === idx ? e.target.value : digit)),
-    ]);
+      setOtp((currentOtp) => {
+        const newOtp = [...currentOtp];
+        newOtp[currentIndex] = value;
+        return newOtp;
+      });
 
-    if (e.target.value && e.target.nextSibling) {
-      e.target.nextSibling.focus();
-    }
-  };
+      // Auto-focus next input
+      if (value && currentIndex < 3) {
+        const nextInput =
+          e.target.parentElement?.nextElementSibling?.querySelector("input");
+        if (nextInput) nextInput.focus();
+      }
+    },
+    []
+  );
+
+
   return (
     <section className="p-5">
       <div>
@@ -35,10 +43,10 @@ const Verifymail: React.FC = () => {
               Verify your email.
             </h2>
           </div>
-          <div className="px-10">
+          <div className="px-8">
             <p className="font-normal leading-6 text-center">
               Check your email inbox for the code that was sent to
-              <span className="font-medium"> thatguyvergil@gmail.com.</span>
+              <span className="font-medium"> {email}.</span>
             </p>
           </div>
 
@@ -47,6 +55,8 @@ const Verifymail: React.FC = () => {
               <input
                 key={idx}
                 type="password"
+                inputMode="numeric"
+                aria-label={`Digit ${idx + 1} of OTP`}
                 maxLength={1}
                 value={digit}
                 onChange={(e) => handleChange(e, idx)}
@@ -58,8 +68,12 @@ const Verifymail: React.FC = () => {
       </div>
 
       <div className="flex items-center justify-center gap-2 my-10">
-        <p className="leading-6 text-[16px] font-normal text-center text-[#5C5C66]">Haven’t recieved the code?</p>
-        <small className="text-primary font-medium leading-6 text-[16px]">Resend email</small>
+        <p className="leading-6 text-[16px] font-normal text-center text-[#5C5C66]">
+          Haven’t recieved the code?
+        </p>
+        <small className="text-primary font-medium leading-6 text-[16px]">
+          Resend email
+        </small>
       </div>
     </section>
   );
