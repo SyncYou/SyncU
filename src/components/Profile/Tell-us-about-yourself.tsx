@@ -1,11 +1,12 @@
 import React from 'react'
 import Header from '../Reuseables/Header'
 import dropdown from '/scroll.svg'
+import CountryModal from '../Reuseables/CountryModal'
 
-const Step1: React.FC = () => {
+const TellUsAboutYourself: React.FC = () => {
   return (
     <section>
-        <div className='border-b border-light'>
+        <div className='border-b border-light md:hidden'>
             <Header/>
         </div>
 
@@ -33,18 +34,7 @@ const Step1: React.FC = () => {
                     <img src={dropdown} alt="drop down" />
                 </div>
 
-                <div className='absolute bottom-24 left-0 p-2 h-[200px] w-full overflow-auto bg-[#ffffff] rounded-xl border border-[#E6E6F0] shadow-lg shadow-[#6969691A] mx-auto'>
-                    {/* list of countries */}
-                    <div>
-                        <ul>
-                            {
-                                Array.from({length: 8}).map((_, idx) => (
-                                    <li key={idx} className='text-gray font-medium leading-6 text-[16px] p-2'>Nigeria</li>
-                                ))
-                            }
-                        </ul>
-                    </div>
-                </div>
+               {/* <CountryModal /> */}
             </div>
 
             <div>
@@ -56,4 +46,4 @@ const Step1: React.FC = () => {
   )
 }
 
-export default Step1
+export default TellUsAboutYourself
