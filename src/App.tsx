@@ -1,10 +1,10 @@
-import Verifymail from './components/Auth/Verify-mail'
+import OnboardingLayout from './Layout/OnboardingLayout'
 
 function App() {
 
   return (
     <>
-    <Verifymail/>
+    <OnboardingLayout/>
     </>
   )
 }
