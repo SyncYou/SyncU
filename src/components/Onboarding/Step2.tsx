@@ -38,7 +38,7 @@ const Step2: React.FC<Props> = ({handlePrevStep, handleNextStep}) => {
               .
             </div>
           </div>
-          <img src={arrowRight} alt="" />
+          <img onClick={handleNextStep} src={arrowRight} alt="" />
         </div>
       ) : (
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center justify-center gap-5">

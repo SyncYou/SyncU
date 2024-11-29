@@ -1,49 +1,48 @@
-import React, { useState } from 'react'
-import Signup from '../components/Auth/Signup'
-import Step1 from '../components/Onboarding/Step1'
-import Step2 from '../components/Onboarding/Step2'
+import React, { useEffect, useState } from "react";
+import Signup from "../components/Auth/Signup";
+import { OnboardingSteps } from "../components/Onboarding/OnboardingSteps";
+import { useOnboardingState } from "../hooks/useOnboardingState";
 
 const OnboardingLayout: React.FC = () => {
-    const [step, setStep] = useState(0)
+  const [isMobile, setIsMobile] = useState(false);
 
-    const handleNextStep = () => {
-        if(step === 1){
-            setStep(0)
-        }
-        setStep((prevStep) => prevStep + 1)
-    }
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
 
-    const handlePrevStep = () => {
-        if(step === 0){
-            setStep(1)
-        }
-        setStep((prevStep) => prevStep - 1)
-    }
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
-    const switchLayout = () => {
-        switch (step) {
-            case 0:
-                return <Step1 handlePrevStep={handlePrevStep} handleNextStep={handleNextStep} />
-                break;
-            case 1:
-                return <Step2 handlePrevStep={handlePrevStep} handleNextStep={handleNextStep}  />
-                break;
-            case 2:
-            default:
-                return <Step1 handlePrevStep={handlePrevStep} handleNextStep={handleNextStep}  />
-                break;
-        }
-    }
+  const { step, handleNextStep, handlePrevStep } = useOnboardingState(isMobile);
+
   return (
-    <section className='flex w-full h-[100vh] overflow-hidden'>
-    <div className='w-full flex-1 hidden md:block'>
+    <section className="flex w-full h-[100vh] overflow-hidden">
+      <div className="w-full flex-1 hidden md:block">
         <Signup />
-    </div>
-    <div className='w-full flex-1'>
-        {switchLayout()}
-    </div>
-   </section>
-  )
-}
+      </div>
+      {/* Desktop View */}
+      <div className="w-full flex-1 hidden md:block">
+        <OnboardingSteps
+          currentStep={step}
+          handlePrevStep={handlePrevStep}
+          handleNextStep={handleNextStep}
+          isMobile={false}
+        />
+      </div>
+      {/* mobile view */}
+      <div className="w-full md:hidden">
+        <OnboardingSteps
+          currentStep={step}
+          handlePrevStep={handlePrevStep}
+          handleNextStep={handleNextStep}
+          isMobile={true}
+        />
+      </div>
+    </section>
+  );
+};
 
-export default OnboardingLayout
+export default OnboardingLayout;

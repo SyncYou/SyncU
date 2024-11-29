@@ -11,15 +11,22 @@ interface Props {
 
 const Step1: React.FC<Props> = ({handlePrevStep, handleNextStep}) => {
   
-  const [width, setWidth] = useState<number>();
+  const [isMobile, setIsMobile] = useState<boolean>(false);
 
   useEffect(() => {
-    const handleResize = () => {
-      setWidth(window.innerWidth);
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
     };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  });
+    
+    // Check initially
+    checkMobile();
+    
+    // Add event listener
+    window.addEventListener("resize", checkMobile);
+    
+    // Cleanup
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
   return (
     <section className="h-[100vh] w-full bg-gradient-to-b from-[#B179F90D] to-[#B179F954] relative">
       <div className="pt-20 px-16">
@@ -35,7 +42,7 @@ const Step1: React.FC<Props> = ({handlePrevStep, handleNextStep}) => {
           alt="usercard"
         />
       </div>
-      {width && width < 768 ? (
+      {isMobile ? (
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2">
           <div className="flex items-center gap-5 justify-center my-5">
             <div className="w-3 h-3 rounded-full bg-secondary">.</div>
@@ -43,7 +50,7 @@ const Step1: React.FC<Props> = ({handlePrevStep, handleNextStep}) => {
               .
             </div>
           </div>
-          <img src={arrowRight} alt="" />
+          <img onClick={handleNextStep} src={arrowRight} alt="" />
         </div>
       ) : (
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center justify-center gap-5">
