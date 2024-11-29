@@ -6,7 +6,7 @@ import Header from '../components/Reuseables/Header'
 const ProfileLayout: React.FC = () => {
   return (
     <>
-    <div className='border-[0.5px] border-[#D6D6E0]'>
+    <div className='border-[0.5px] border-[#D6D6E0] hidden md:block'>
       <Header />
     </div>
    <section className="flex w-full h-[100vh] overflow-hidden">

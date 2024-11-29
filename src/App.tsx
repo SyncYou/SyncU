@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router";
 import OnboardingLayout from "./Layout/OnboardingLayout";
-import ProfileLayout from "./Layout/ProfileLayout";
+// import ProfileLayout from "./Layout/ProfileLayout";
+import Verifymail from "./components/Auth/Verify-mail";
 
 function App() {
   return (
@@ -8,7 +9,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" index element={<OnboardingLayout />} />
-          <Route path="/profile" index element={<ProfileLayout />} />
+          <Route path="/profile" index element={<Verifymail />} />
         </Routes>
       </BrowserRouter>
     </>

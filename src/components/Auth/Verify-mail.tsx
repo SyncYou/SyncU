@@ -2,32 +2,50 @@ import React, { useCallback, useState } from "react";
 import Header from "../Reuseables/Header";
 import mail from "/mail.svg";
 
-
 const Verifymail: React.FC = () => {
   const [otp, setOtp] = useState(new Array(4).fill(""));
-  const email = 'thatguyvergil@gmail.com';
+  const email = "thatguyvergil@gmail.com";
 
   const handleChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>, currentIndex: number) => {
-      const value = e.target.value;
-      if (isNaN(Number(value))) return;
+    (e: React.ChangeEvent<HTMLInputElement>, idx: number) => {
+      const value = Number(e.target.value);
 
-      setOtp((currentOtp) => {
-        const newOtp = [...currentOtp];
-        newOtp[currentIndex] = value;
-        return newOtp;
-      });
+      if (isNaN(value)) return false;
 
-      // Auto-focus next input
-      if (value && currentIndex < 3) {
-        const nextInput =
-          e.target.parentElement?.nextElementSibling?.querySelector("input");
-        if (nextInput) nextInput.focus();
+      setOtp((prevOtp) =>
+        prevOtp.map((digit, index) => (index === idx ? e.target.value : digit))
+      );
+
+      if (value && e.target.nextElementSibling) {
+        const nextInput = e.target.nextElementSibling as HTMLInputElement;
+        nextInput.focus();
       }
     },
-    []
+    [otp]
   );
 
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>, idx: number) => {
+      const target = e.target as HTMLInputElement;
+
+      if (e.key === "Backspace" && otp[idx] === "") {
+        if (idx > 0) {
+          setOtp((prevOtp) => {
+            const newOtp = [...prevOtp];
+            newOtp[idx - 1] = "";
+            return newOtp;
+          });
+
+          // Move focus to the previous input
+          const prevInput = target.previousElementSibling as HTMLInputElement;
+          if (prevInput) {
+            prevInput.focus();
+          }
+        }
+      }
+    },
+    [otp]
+  );
 
   return (
     <section className="p-5">
@@ -60,6 +78,7 @@ const Verifymail: React.FC = () => {
                 maxLength={1}
                 value={digit}
                 onChange={(e) => handleChange(e, idx)}
+                onKeyDown={(e) => handleKeyDown(e, idx)}
                 className="w-[50px] h-[50px] text-white focus:outline-none text-center border border-[#D6D6E0] rounded-lg"
               />
             ))}
