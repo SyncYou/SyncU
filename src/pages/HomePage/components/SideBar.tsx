@@ -3,7 +3,7 @@ import user from "/assets/avatar.svg";
 
 const SideBar = () => {
   return (
-    <aside className="h-screen fixed top-0 left-0 z-0 w-[239px] pl-8 py-6 pr-4 bg-ash text-gray700 font-medium text-base">
+    <aside className="h-screen fixed md:block hidden top-0 left-0 z-0 w-[239px] pl-8 py-6 pr-4 bg-ash text-gray700 font-medium text-base">
       <div className="block">
         <img src={logo} alt="logo" />
       </div>

@@ -1,11 +1,12 @@
 import CategoriesTab from "./CategoriesTab";
 import ProjectTag from "./ProjectTag";
 import user from "/assets/avatar.svg";
+import logo from "/assets/logo-noname.svg";
 
 const Navbar = () => {
   return (
-    <nav className="top-0 right-0 w-full sticky bg-white">
-      <div className="text-lg font-semibold h-[76px] w-full flex justify-between items-center py-4 pr-14 pl-8 border-b border-solid border-gray200">
+    <nav className="top-0 right-0 md:w-full w-screen sticky z-10 bg-white">
+      <div className="text-lg font-semibold h-[76px] w-full md:flex hidden justify-between items-center py-4 pr-14 pl-8 border-b border-solid border-gray200">
         <span>Collaborate</span>
         <div className="">
           <input
@@ -20,6 +21,11 @@ const Navbar = () => {
           </button>
           <img src={user} alt="user" />
         </div>
+      </div>
+      <div className="text-lg font-semibold h-[48px] w-full flex md:hidden justify-between items-center px-4 py-2">
+        <img src={logo} alt="logo" />
+        <span>Collaborate</span>
+        <img src={user} alt="user" />
       </div>
       <div>
         <ProjectTag />
