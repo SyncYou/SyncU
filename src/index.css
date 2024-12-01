@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.active-tab {
+  background: #ffffff;
+}
+
+.sidebar {
+  width: calc(100% - 239px);
+}
