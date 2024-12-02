@@ -19,7 +19,7 @@ const SideBar = () => {
         </div>
       </div>
       <div className="flex w-[191px] items-center h-12 px-3 py-2 gap-2">
-        <img src={user} alt="user" />
+        <img src={user} alt="user-logo" />
         <span>Me</span>
       </div>
     </aside>
