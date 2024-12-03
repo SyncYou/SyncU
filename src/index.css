@@ -6,10 +6,11 @@
   background: #ffffff;
 }
 
-.sidebar {
-  width: calc(100% - 239px);
-}
-
 .rounder {
   border-top-right-radius: 10px;
+}
+
+aside a.active {
+  background-color: #e6e6f0b2;
+  color: #2a2a33;
 }

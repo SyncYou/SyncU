@@ -2,7 +2,7 @@ import { AiOutlineAppstore } from "react-icons/ai";
 import { BsEmojiSmile } from "react-icons/bs";
 import { BiBarChart } from "react-icons/bi";
 import { FiCode, FiFilter } from "react-icons/fi";
-import { MdDesignServices } from "react-icons/md";
+import { FaVectorSquare } from "react-icons/fa";
 
 const CategoriesTab = () => {
   return (
@@ -16,7 +16,7 @@ const CategoriesTab = () => {
         </div>
         <div className="min-w-[89px] h-[43px] flex flex-col hover:text-gray950 items-center justify-center">
           <div className="text-[20px]">
-            <MdDesignServices className="" />
+            <FaVectorSquare className="" />
           </div>
           Design
         </div>

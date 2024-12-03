@@ -4,6 +4,8 @@ import ProjectTag from "./ProjectTag";
 import user from "/assets/avatar.svg";
 import logo from "/assets/logo-noname.svg";
 import { FaSearch } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
+import { FiArrowRight } from "react-icons/fi";
 
 const Header = () => {
   const [isVisible, setIsVisible] = useState<boolean>(true);
@@ -32,6 +34,9 @@ const Header = () => {
       className={`top-0 right-0 md:w-full w-screen md:h-[226px] h-[188px] sticky z-10`}
     >
       <div className="text-lg font-semibold z-10 bg-white relative h-[76px] w-full md:flex hidden justify-between items-center py-4 pr-14 pl-8 border-b border-solid border-gray200">
+        <div className="bg-white absolute flex justify-center items-center top-6 -left-4 w-6 h-6 border border-gray300 z-[auto] text-gray950 rounded-[60px]">
+          <FiArrowRight />
+        </div>
         <span>Collaborate</span>
         <div className="">
           <input
@@ -44,7 +49,9 @@ const Header = () => {
           <button className="w-[139px] h-8 rounded-[32px] py-1 px-4 text-gray100 bg-gray950 text-sm">
             New Project
           </button>
-          <img src={user} alt="user" />
+          <NavLink to="/profile">
+            <img src={user} alt="user" />
+          </NavLink>
         </div>
       </div>
       <div className="text-lg font-semibold z-10 bg-white relative h-[48px] w-full flex md:hidden justify-between items-center px-4 py-2">
@@ -54,7 +61,9 @@ const Header = () => {
           <a className="w-8 h-8 flex justify-center items-center rounded-full border border-gray200">
             <FaSearch />
           </a>
-          <img src={user} alt="user" />
+          <NavLink to="/profile">
+            <img src={user} alt="user" />
+          </NavLink>
         </div>
       </div>
       <div
