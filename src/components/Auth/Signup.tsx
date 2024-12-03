@@ -2,8 +2,13 @@ import React from "react";
 import Header from "../Reuseables/Header";
 import Google from "/google.svg";
 import github from "/github.svg";
+import { LuMail } from "react-icons/lu";
+import ControlledInput from "../Reuseables/ControlledInput";
+import SocialButton from "../Reuseables/SocialButton";
+import ControlledButton from "../Reuseables/ControlledButton";
 
 const Signup: React.FC = () => {
+ 
   return (
     <section className="p-5 md:p-2 w-full">
       <div>
@@ -22,18 +27,8 @@ const Signup: React.FC = () => {
         </div>
 
         <div className="my-10 space-y-5 md:space-y-3 md:my-5">
-          <div className="flex items-center gap-5 justify-center border border-light rounded-full p-4 md:p-3">
-            <img src={Google} alt="google" />
-            <p className="text-secondary font-medium text-[18px] leading-6 text-center">
-              continue with Google
-            </p>
-          </div>
-          <div className="flex items-center gap-5 justify-center border border-light rounded-full p-4 md:p-3">
-            <img src={github} alt="google" />
-            <p className="text-secondary font-medium text-[18px] leading-6 text-center">
-              continue with Github
-            </p>
-          </div>
+         <SocialButton icon={Google} label="continue with Google" />
+         <SocialButton icon={github} label="continue with Github" />
         </div>
 
         <div className="flex items-center gap-3 justify-between">
@@ -45,27 +40,9 @@ const Signup: React.FC = () => {
         </div>
 
         <form className="my-10 md:my-5">
-          <div className="border border-[#E6E6F0] rounded-xl py-2 px-3 flex flex-col gap-2 focus:border focus:border-primary focus:shadow focus:shadow-[#EDE4FA]">
-            <label
-              className="text-secondary leading-6 text-[16px] font-normal"
-              htmlFor="email"
-            >
-              Email
-            </label>
-            <input
-              className="focus:outline-none"
-              name="email"
-              type="email"
-              placeholder="Enter your email..."
-            />
-          </div>
+      <ControlledInput type="email" placeholder="Enter your email..." label="Email" />
           <div className="flex items-center justify-center w-full my-5 md:my-4">
-            <button
-              disabled={true}
-              className="text-[#ffffff] w-full py-3 px-5 rounded-full text-center leading-6 font-medium bg-secondary disabled:border disabled:border-[#E6E6F0] disabled:bg-[#F5F5FA] disabled:text-gray"
-            >
-              continue with email
-            </button>
+            <ControlledButton icon={LuMail} label="continue with email" />
           </div>
           <div className="flex items-center gap-5 w-full">
             <input type="checkbox" name="check" />
