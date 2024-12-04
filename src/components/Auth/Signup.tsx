@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../Reuseables/Header";
 import Google from "/google.svg";
 import github from "/github.svg";
@@ -6,9 +6,22 @@ import { LuMail } from "react-icons/lu";
 import ControlledInput from "../Reuseables/ControlledInput";
 import SocialButton from "../Reuseables/SocialButton";
 import ControlledButton from "../Reuseables/ControlledButton";
+// import { signupWithOTP } from "../../utils/AuthRequest";
 
 const Signup: React.FC = () => {
- 
+
+
+  const handleSignup = async () => {
+    try {
+      console.log(123);
+      // const response = await signupWithOTP(data);
+      // navigate('/user', { state: { userId: 123, userName: 'John Doe' } });
+      // console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <section className="p-5 md:p-2 w-full">
       <div>
@@ -27,8 +40,8 @@ const Signup: React.FC = () => {
         </div>
 
         <div className="my-10 space-y-5 md:space-y-3 md:my-5">
-         <SocialButton icon={Google} label="continue with Google" />
-         <SocialButton icon={github} label="continue with Github" />
+          <SocialButton icon={Google} label="continue with Google" />
+          <SocialButton icon={github} label="continue with Github" />
         </div>
 
         <div className="flex items-center gap-3 justify-between">
@@ -39,8 +52,12 @@ const Signup: React.FC = () => {
           <hr className="w-full bg-[#E6E6F0]" />
         </div>
 
-        <form className="my-10 md:my-5">
-      <ControlledInput type="email" placeholder="Enter your email..." label="Email" />
+        <form onSubmit={handleSignup} className="my-10 md:my-5">
+          <ControlledInput
+            type="email"
+            placeholder="Enter your email..."
+            label="Email"
+          />
           <div className="flex items-center justify-center w-full my-5 md:my-4">
             <ControlledButton icon={LuMail} label="continue with email" />
           </div>
