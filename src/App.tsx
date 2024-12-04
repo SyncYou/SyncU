@@ -9,7 +9,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" index element={<OnboardingLayout />} />
-          <Route path="/profile" index element={<Verifymail />} />
+          <Route path="/verify-email" index element={<Verifymail />} />
         </Routes>
       </BrowserRouter>
     </>

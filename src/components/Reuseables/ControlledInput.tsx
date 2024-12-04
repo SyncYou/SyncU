@@ -22,7 +22,7 @@ const ControlledInput: React.FC<Props> = ({
   const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const fieldError = errors[name]?.message;
+  const fieldError = errors[name]?.message ?? "";
 
   return (
     <>

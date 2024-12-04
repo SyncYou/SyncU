@@ -10,9 +10,11 @@ import { userSchema } from "../../schema/userSchema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "../../types/user";
-// import { signupWithOTP } from "../../utils/AuthRequest";
+import { signupWithOTP } from "../../utils/AuthRequest";
+import { useNavigate } from "react-router";
 
 const Signup: React.FC = () => {
+  const navigate = useNavigate();
 
   const {
     register,
@@ -23,13 +25,16 @@ const Signup: React.FC = () => {
     resolver: zodResolver(userSchema),
   });
 
-  const handleSignup = async () => {
+  const handleSignup = async (data: any) => {
+    const { email } = data;
     try {
       console.log(123);
-      // const response = await signupWithOTP(data);
-      // navigate('/user', { state: { userId: 123, userName: 'John Doe' } });
-      // console.log(response);
-      reset()
+      const response = await signupWithOTP(email);
+      if (response) {
+        navigate("/verify-email", { state: { email: email } });
+        console.log(response);
+      }
+      reset();
     } catch (error) {
       console.log(error);
     }
@@ -71,7 +76,8 @@ const Signup: React.FC = () => {
             type="email"
             placeholder="Enter your email..."
             label="Email"
-            register={register} errors={errors}
+            register={register}
+            errors={errors}
           />
           <div className="flex items-center justify-center w-full my-5 md:my-4">
             <ControlledButton icon={LuMail} label="continue with email" />
