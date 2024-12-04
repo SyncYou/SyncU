@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Header from "../Reuseables/Header";
 import Google from "/google.svg";
 import github from "/github.svg";
@@ -6,10 +6,22 @@ import { LuMail } from "react-icons/lu";
 import ControlledInput from "../Reuseables/ControlledInput";
 import SocialButton from "../Reuseables/SocialButton";
 import ControlledButton from "../Reuseables/ControlledButton";
+import { userSchema } from "../../schema/userSchema";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { User } from "../../types/user";
 // import { signupWithOTP } from "../../utils/AuthRequest";
 
 const Signup: React.FC = () => {
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<User>({
+    resolver: zodResolver(userSchema),
+  });
 
   const handleSignup = async () => {
     try {
@@ -17,6 +29,7 @@ const Signup: React.FC = () => {
       // const response = await signupWithOTP(data);
       // navigate('/user', { state: { userId: 123, userName: 'John Doe' } });
       // console.log(response);
+      reset()
     } catch (error) {
       console.log(error);
     }
@@ -52,11 +65,13 @@ const Signup: React.FC = () => {
           <hr className="w-full bg-[#E6E6F0]" />
         </div>
 
-        <form onSubmit={handleSignup} className="my-10 md:my-5">
+        <form onSubmit={handleSubmit(handleSignup)} className="my-10 md:my-5">
           <ControlledInput
+            name="email"
             type="email"
             placeholder="Enter your email..."
             label="Email"
+            register={register} errors={errors}
           />
           <div className="flex items-center justify-center w-full my-5 md:my-4">
             <ControlledButton icon={LuMail} label="continue with email" />
