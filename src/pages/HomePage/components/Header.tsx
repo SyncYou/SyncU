@@ -1,43 +1,28 @@
-import { useEffect, useState } from "react";
-import CategoriesTab from "./CategoriesTab";
-import ProjectTag from "./ProjectTag";
 import user from "/assets/avatar.svg";
 import logo from "/assets/logo-noname.svg";
 import { FaSearch } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { FiArrowRight } from "react-icons/fi";
+import HomeTabs from "./HomeTabs";
+import ProjectTabs from "./ProjectTabs";
 
 const Header = () => {
-  const [isVisible, setIsVisible] = useState<boolean>(true);
-  const [lastScrollY, setLastScrollY] = useState<number>(0);
-
-  const handleScroll = () => {
-    let currentScrollY = window.scrollY;
-
-    if (currentScrollY > lastScrollY) {
-      setIsVisible(false);
-    } else {
-      setIsVisible(true);
-    }
-
-    setLastScrollY(currentScrollY);
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
+  const location = useLocation();
 
   return (
     <header
-      className={`top-0 right-0 md:w-full w-screen md:h-[226px] h-[188px] sticky z-10`}
+      className={`top-0 right-0 md:w-full w-screen ${
+        location.pathname == "/" ? "md:h-[226px]" : "md:h-[126px]"
+      } h-[188px] sticky z-10`}
     >
       <div className="text-lg font-semibold z-10 bg-white relative h-[76px] w-full md:flex hidden justify-between items-center py-4 pr-14 pl-8 border-b border-solid border-gray200">
         <div className="bg-white absolute flex justify-center items-center top-6 -left-4 w-6 h-6 border border-gray300 z-[auto] text-gray950 rounded-[60px]">
           <FiArrowRight />
         </div>
-        <span>Collaborate</span>
+        <span>
+          {location.pathname == "/" && "Collaborate"}
+          {location.pathname == "/project" && "My Projects"}
+        </span>
         <div className="">
           <input
             type="text"
@@ -66,20 +51,9 @@ const Header = () => {
           </NavLink>
         </div>
       </div>
-      <div
-        className={`absolute w-full transition-transform duration-300 ${
-          isVisible ? "md:top-[76px] top-[48px]" : "top-0"
-        }`}
-      >
-        <ProjectTag />
-      </div>
-      <div
-        className={`absolute w-full transition-transform duration-300 ${
-          isVisible ? "md:top-[150px] top-[113px]" : "md:top-[76px] top-[48px]"
-        }`}
-      >
-        <CategoriesTab />
-      </div>
+
+      {location.pathname == "/" && <HomeTabs />}
+      {location.pathname == "/project" && <ProjectTabs />}
     </header>
   );
 };

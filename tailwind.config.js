@@ -5,6 +5,7 @@ export default {
     extend: {
       colors: {
         ash: "#F5F5FAB2",
+        brand600: "#8333D0",
         gray100: "#F5F5FA",
         gray200: "#E6E6F0",
         gray300: "#D6D6E0",
@@ -16,5 +17,5 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [require("tailwind-scrollbar")],
 };

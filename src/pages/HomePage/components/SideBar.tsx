@@ -15,17 +15,18 @@ const SideBar = () => {
       <div className="md:block hidden">
         <img src={logo} alt="logo" />
       </div>
+
       <div className="md:block w-[191px] my-8 hidden">
         <NavLink
           to="/"
-          className="h-[40px] flex px-3 py-2 items-center gap-2 hover:bg-[#E6E6F0B2] rounded-sm"
+          className="h-[40px] first flex px-3 py-2 items-center gap-2 hover:bg-[#E6E6F0B2] rounded-sm"
         >
           <FaRegHandshake />
           Collaborate
         </NavLink>
         <NavLink
           to="/project"
-          className="h-[40px] flex px-3 py-2 items-center gap-2 hover:bg-[#E6E6F0B2] rounded-sm"
+          className="h-[40px] second flex px-3 py-2 items-center gap-2 hover:bg-[#E6E6F0B2] rounded-sm"
         >
           <FaRegFolder />
           My Projects

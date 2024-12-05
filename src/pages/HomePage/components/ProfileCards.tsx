@@ -1,12 +1,11 @@
 import {
-  BiArrowToRight,
   BiBriefcase,
   BiImage,
   BiLinkAlt,
-  BiRightArrow,
   BiRightArrowAlt,
   BiUser,
 } from "react-icons/bi";
+import { FaRegCheckCircle } from "react-icons/fa";
 
 const ProfileCards = () => {
   return (
@@ -25,7 +24,7 @@ const ProfileCards = () => {
             </span>
           </div>
         </div>
-        <BiRightArrowAlt className="text-xl" />
+        <FaRegCheckCircle className="text-xl text-success700" />
       </div>
       <div className="flex justify-between items-center md:min-w-[370px] min-w-[275px] py-[30px] px-4 rounded-2xl md:h-[108px] h-[88px] border border-gray200">
         <div className="flex gap-4 h-full md:max-w-[306px] items-center">
@@ -41,7 +40,7 @@ const ProfileCards = () => {
             </span>
           </div>
         </div>
-        <BiRightArrowAlt className="text-xl" />
+        <FaRegCheckCircle className="text-xl text-success700" />
       </div>
       <div className="flex justify-between items-center md:min-w-[370px] min-w-[275px] py-[30px] px-4 rounded-2xl md:h-[108px] h-[88px] border border-gray200">
         <div className="flex gap-4 h-full md:max-w-[306px] items-center">

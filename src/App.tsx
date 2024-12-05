@@ -1,8 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Layout from "./pages/Layout";
-import ProjectContainer from "./components/ProjectContainer";
+import Layout from "./pages/HomeLayout";
+import ProjectContainer from "./pages/HomePage/components/ProjectContainer";
 import Home from "./pages/HomePage/Home";
-import ProfileProgress from "./components/ProfileProgress";
+import ProfileProgress from "./pages/HomePage/components/ProfileProgress";
 
 const router = createBrowserRouter([
   {
