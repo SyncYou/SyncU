@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../Reuseables/Header";
 import Google from "/google.svg";
 import github from "/github.svg";
@@ -12,33 +12,55 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "../../types/user";
 import { signupWithOTP } from "../../utils/AuthRequest";
 import { useNavigate } from "react-router";
+import { useProfileStore } from "../../store/profileStore";
+import Loading from "../Reuseables/Loading";
 
 const Signup: React.FC = () => {
   const navigate = useNavigate();
+  const { updateProfile } = useProfileStore();
+  const [disable, setDisable] = useState(true);
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid, isSubmitting },
     reset,
+    watch,
   } = useForm<User>({
     resolver: zodResolver(userSchema),
+    mode: "onChange",
   });
+
+  const email = watch("email");
+
+  useEffect(() => {
+    setDisable(!isValid || !email);
+  }, [email, isValid]);
 
   const handleSignup = async (data: any) => {
     const { email } = data;
+    if (email) {
+      setDisable(false);
+    }
     try {
-      console.log(123);
-      const response = await signupWithOTP(email);
-      if (response) {
-        navigate("/verify-email", { state: { email: email } });
-        console.log(response);
+      const { data, error } = await signupWithOTP(email);
+
+      if (error) {
+        console.log(error);
+        return;
       }
+
+      updateProfile({ email: email });
+      navigate("/verify-email");
+      console.log(data);
+
       reset();
     } catch (error) {
       console.log(error);
     }
   };
+
+  if(isSubmitting) return <Loading />
 
   return (
     <section className="p-5 md:p-2 w-full">
@@ -80,7 +102,11 @@ const Signup: React.FC = () => {
             errors={errors}
           />
           <div className="flex items-center justify-center w-full my-5 md:my-4">
-            <ControlledButton icon={LuMail} label="continue with email" />
+            <ControlledButton
+              disable={disable}
+              icon={LuMail}
+              label="continue with email"
+            />
           </div>
           <div className="flex items-center gap-5 w-full">
             <input type="checkbox" name="check" />

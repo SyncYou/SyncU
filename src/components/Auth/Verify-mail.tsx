@@ -1,10 +1,18 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Header from "../Reuseables/Header";
 import mail from "/mail.svg";
+import { useProfileStore } from "../../store/profileStore";
+import { signupWithOTP, verifyEmail } from "../../utils/AuthRequest";
+import { useNavigate } from "react-router";
 
 const Verifymail: React.FC = () => {
+  const { userProfile } = useProfileStore();
+  const navigate = useNavigate()
+
+  const email: string | undefined =
+    userProfile?.email ?? "thatguyvergil@gmail.com";
+
   const [otp, setOtp] = useState(new Array(4).fill(""));
-  const email = "thatguyvergil@gmail.com";
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>, idx: number) => {
@@ -47,13 +55,37 @@ const Verifymail: React.FC = () => {
     [otp]
   );
 
+  const handleSubmit = async () => {
+    const otpString = otp.join("");
+
+    const { session, error } = await verifyEmail(email, otpString);
+
+    console.log(session, error);
+  };
+
+  useEffect(() => {
+    if (otp.every((digit) => digit !== "")) {
+      handleSubmit();
+    }
+  }, [otp]);
+
+  const handleRwsendEmail = async () => {
+    await signupWithOTP(email);
+  };
+
+  useEffect(() => {
+    if(userProfile.email == undefined){
+      navigate('/')
+    }
+  })
+
   return (
     <section className="p-5">
       <div>
         <Header />
       </div>
 
-      <div className="h-full w-full">
+      <div className="h-full w-full max-w-screen-sm mx-auto">
         <div className="bg-[#ffffff] shadow-lg shadow-[#4242421A] p-10 flex flex-col items-center justify-between">
           <div className="flex flex-col items-center">
             <img src={mail} alt="mail" />
@@ -90,7 +122,10 @@ const Verifymail: React.FC = () => {
         <p className="leading-6 text-[16px] font-normal text-center text-[#5C5C66]">
           Haven’t recieved the code?
         </p>
-        <small className="text-primary font-medium leading-6 text-[16px]">
+        <small
+          onClick={handleRwsendEmail}
+          className="text-primary font-medium leading-6 text-[16px]"
+        >
           Resend email
         </small>
       </div>

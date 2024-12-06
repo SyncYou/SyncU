@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router";
 import OnboardingLayout from "./Layout/OnboardingLayout";
-// import ProfileLayout from "./Layout/ProfileLayout";
 import Verifymail from "./components/Auth/Verify-mail";
 
 function App() {

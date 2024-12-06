@@ -2,6 +2,7 @@ import { create } from "zustand";
 
 interface ProfileStore {
   userProfile: {
+    email?: string;
     firstName?: string;
     lastName?: string;
     username?: string;
