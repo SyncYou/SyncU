@@ -6,6 +6,10 @@ import { HiOutlineBriefcase, HiOutlineLockClosed } from "react-icons/hi";
 import { PiTagChevron } from "react-icons/pi";
 import { FaRegCalendarMinus } from "react-icons/fa";
 import { useState } from "react";
+import { IoCheckmarkCircle } from "react-icons/io5";
+import Overlay from "../../../components/Overlay";
+import PrimaryButton from "../../../components/PrimaryButton";
+import SecondaryButton from "../../../components/SecondaryButton";
 
 interface PropsType {
   state: () => void;
@@ -31,12 +35,17 @@ const ProjectDetails = ({ state, data }: PropsType) => {
   };
 
   return (
-    <section className="fixed top-0 left-0 w-screen z-20 flex justify-center items-center h-screen bg-[#12121266]">
-      {/* {requestMessage && (
+    <Overlay>
+      {isRequested && (
         <div className="absolute z-20 h-screen w-screen flex justify-center items-center">
-          <div className="h-10 w-[145px] rounded-lg bg-[#2A2A33CC]"></div>
+          <div className="h-10 w-[145px] rounded-lg bg-[#2A2A33CC] flex items-center justify-center gap-[10px]">
+            <IoCheckmarkCircle className="text-success700" />
+            <span className="font-normal text-base text-white">
+              Request sent
+            </span>
+          </div>
         </div>
-      )} */}
+      )}
       <div className="md:w-[1060px] md:h-[758px] text-gray950 flex flex-col gap-4 relative w-[358px] h-[458px] rounded-3xl bg-white">
         <div className="w-full h-[76px] flex justify-between border-gray200 border-b py-4 px-6">
           <div className="flex gap-2">
@@ -49,23 +58,23 @@ const ProjectDetails = ({ state, data }: PropsType) => {
             </div>
           </div>
           <div className="flex gap-4">
-            <button
-              onClick={handleRequest}
-              className={`h-10 w-[146px] ${
-                isRequested
-                  ? "bg-white text-gray950 border border-gray300"
-                  : "bg-gray950 text-white"
-              } flex items-center justify-center gap-2 rounded-full
-               `}
-            >
-              {isRequested ? (
-                "Withdraw Request"
-              ) : (
-                <>
-                  Send Request <FiSend />
-                </>
-              )}
-            </button>
+            {isRequested ? (
+              <SecondaryButton
+                onClick={handleRequest}
+                classes="h-10 min-w-[146px]"
+              >
+                Withdraw Request
+              </SecondaryButton>
+            ) : (
+              <PrimaryButton
+                onClick={handleRequest}
+                classes="h-10 min-w-[146px]"
+              >
+                Send Request
+                <FiSend />
+              </PrimaryButton>
+            )}
+
             <div className="w-20 h-[32px] flex gap-4 my-auto">
               <button className="w-[32px] h-[32px] rounded-[80px] border-[0.4px] border-gray200">
                 {"<"}
@@ -180,7 +189,7 @@ const ProjectDetails = ({ state, data }: PropsType) => {
           </div>
         </div>
       </div>
-    </section>
+    </Overlay>
   );
 };
 

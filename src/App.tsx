@@ -1,8 +1,9 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./pages/HomeLayout";
 import ProjectContainer from "./pages/HomePage/components/ProjectContainer";
-import Home from "./pages/HomePage/Home";
 import ProfileProgress from "./pages/HomePage/components/ProfileProgress";
+import Activity from "./pages/ActivityPage/Activity";
+import Projects from "./pages/ProjectPage/Projects";
 
 const router = createBrowserRouter([
   {
@@ -15,11 +16,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/project",
-        element: <Home />,
+        element: <Projects />,
       },
       {
         path: "/alert",
-        element: <Home />,
+        element: <Activity />,
       },
       {
         path: "/profile",

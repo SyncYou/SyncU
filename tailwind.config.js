@@ -11,6 +11,7 @@ export default {
         gray300: "#D6D6E0",
         gray500: "#A6A6B5",
         gray700: "#73737F",
+        gray900: "#40404D",
         gray950: "#2A2A33",
         success100: "#E7F9EE",
         success700: "#16BA52",

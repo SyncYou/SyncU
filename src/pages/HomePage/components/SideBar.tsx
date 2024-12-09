@@ -33,7 +33,7 @@ const SideBar = () => {
         </NavLink>
         <NavLink
           to="/alert"
-          className="h-[40px] flex px-3 py-2 items-center gap-2 hover:bg-[#E6E6F0B2] rounded-sm"
+          className="h-[40px] third flex px-3 py-2 items-center gap-2 hover:bg-[#E6E6F0B2] rounded-sm"
         >
           <FaRegBell />
           Alerts
