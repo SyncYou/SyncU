@@ -1,3 +1,6 @@
+import { PiSortAscending } from "react-icons/pi";
+import SecondaryButton from "../../../components/SecondaryButton";
+
 const ProjectTabs = () => {
   return (
     <section className="h-12 w-full bg-white">
@@ -10,6 +13,11 @@ const ProjectTabs = () => {
             Requested
           </div>
         </div>
+      </div>
+      <div className="h-16 w-full py-4 px-8">
+        <SecondaryButton classes="min-w-[133px] h-8 py-1 px-3">
+          <PiSortAscending /> Sort by: Latest
+        </SecondaryButton>
       </div>
     </section>
   );

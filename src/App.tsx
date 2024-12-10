@@ -1,9 +1,9 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./pages/HomeLayout";
 import ProjectContainer from "./pages/HomePage/components/ProjectContainer";
-import ProfileProgress from "./pages/HomePage/components/ProfileProgress";
 import Activity from "./pages/ActivityPage/Activity";
 import Projects from "./pages/ProjectPage/Projects";
+import Profile from "./pages/ProfilePage/Profile";
 
 const router = createBrowserRouter([
   {
@@ -24,7 +24,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/profile",
-        element: <ProfileProgress />,
+        element: <Profile />,
       },
     ],
   },

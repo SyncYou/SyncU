@@ -1,4 +1,5 @@
 import logo from "/assets/logo.svg";
+import logo2 from "/assets/logo-noname.svg";
 import user from "/assets/avatar.svg";
 import { NavLink } from "react-router-dom";
 import {
@@ -8,43 +9,58 @@ import {
   FaRegHandshake,
   FaRegUser,
 } from "react-icons/fa";
+import { useSidebar } from "../../../context/useSidebar";
 
 const SideBar = () => {
+  const { isOpen } = useSidebar();
+
   return (
-    <aside className="md:h-screen h-16 w-screen fixed bottom-0 left-0 md:z-0 z-10 md:w-[239px] md:pl-8 md:py-6 md:pr-4 px-6 py-4 md:bg-ash bg-white text-gray700 border-r border-gray200 font-medium text-base">
+    <aside
+      className={`md:h-screen h-16 w-screen fixed bottom-0 left-0 md:z-0 z-10 ${
+        isOpen ? "md:w-[239px]" : "md:w-[96px] md:flex md:flex-col items-center"
+      } md:pl-8 md:py-6 md:pr-4 px-6 py-4 md:bg-ash bg-white text-gray700 border-r border-gray200 font-medium text-base`}
+    >
       <div className="md:block hidden">
-        <img src={logo} alt="logo" />
+        <img src={isOpen ? logo : logo2} alt="logo" />
       </div>
 
-      <div className="md:block w-[191px] my-8 hidden">
+      <div className={`md:block ${isOpen ? "w-[191px]" : "w-12"} my-8 hidden`}>
         <NavLink
           to="/"
-          className="h-[40px] first flex px-3 py-2 items-center gap-2 hover:bg-[#E6E6F0B2] rounded-sm"
+          className={`h-[40px] first ${
+            !isOpen && "justify-center gap-0"
+          } flex px-3 py-2 items-center gap-2 hover:bg-[#E6E6F0B2] rounded-sm`}
         >
           <FaRegHandshake />
-          Collaborate
+          {isOpen && "Collaborate"}
         </NavLink>
         <NavLink
           to="/project"
-          className="h-[40px] second flex px-3 py-2 items-center gap-2 hover:bg-[#E6E6F0B2] rounded-sm"
+          className={`h-[40px] second ${
+            !isOpen && "justify-center gap-0"
+          } flex px-3 py-2 items-center gap-2 hover:bg-[#E6E6F0B2] rounded-sm`}
         >
           <FaRegFolder />
-          My Projects
+          {isOpen && "My Projects"}
         </NavLink>
         <NavLink
           to="/alert"
-          className="h-[40px] third flex px-3 py-2 items-center gap-2 hover:bg-[#E6E6F0B2] rounded-sm"
+          className={`h-[40px] third ${
+            !isOpen && "justify-center gap-0"
+          } flex px-3 py-2 items-center gap-2 hover:bg-[#E6E6F0B2] rounded-sm`}
         >
           <FaRegBell />
-          Alerts
+          {isOpen && "Alerts"}
         </NavLink>
       </div>
       <NavLink
         to="/profile"
-        className="md:flex w-[191px] items-center rounded-sm hover:bg-[#E6E6F0B2] h-12 px-3 py-2 gap-2 hidden"
+        className={`md:flex ${
+          isOpen ? "w-[191px]" : "w-12"
+        } items-center rounded-sm hover:bg-[#E6E6F0B2] h-12 px-3 py-2 gap-2 hidden`}
       >
         <img src={user} alt="user-logo" />
-        <span>Me</span>
+        {isOpen && <span>Me</span>}
       </NavLink>
       <div className="w-full h-full md:hidden flex justify-between">
         <NavLink className="w-8 h-8 text-[24px] p-1 rounded" to="/">

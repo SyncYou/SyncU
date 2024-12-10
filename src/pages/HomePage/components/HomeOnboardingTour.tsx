@@ -18,22 +18,24 @@ const HomeOnboardingTour = ({ tourState }: PropType) => {
         cancelIcon: {
           enabled: true,
         },
-        classes: "shepherd-theme-arrows",
-        scrollTo: {
-          behavior: "smooth",
-          block: "center",
-        },
+        classes:
+          "bg-white rounded-lg shadow-lg border border-gray200 h-[203px] w-[24px]",
+        scrollTo: true,
       },
     });
 
     tour.addStep({
-      title: "Collaborate",
-      text: "Find People and projects to work on here",
+      text: `
+        <div class="flex items-center mb-4 h-5">
+          <span class="font-medium">Vergil from syncu</span>
+        </div>
+        <h2 class="text-sm font-medium text-gray950">Collaborate</h2>
+        <p class="text-sm mt-2 font-normal text-gray700">Find people and projects to work here</p>
+      `,
       attachTo: {
         element: ".first",
         on: "right",
       },
-      classes: "w-[1000px] h-[500px] font-black",
       buttons: [
         {
           text: "Next",
@@ -84,6 +86,7 @@ const HomeOnboardingTour = ({ tourState }: PropType) => {
 
   return (
     <Overlay>
+      {/* <div className=""></div> */}
       <div className="h-[600px] w-[513px] bg-white rounded-3xl">
         <img src={tourImage} className="mb-6 rounded-t-3xl" alt="" />
         <div className="w-full h-[320px] py-4">

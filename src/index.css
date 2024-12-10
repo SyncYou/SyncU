@@ -6,6 +6,14 @@
   background: #ffffff;
 }
 
+.isOpen {
+  width: calc(100% - 239px);
+}
+
+.isClosed {
+  width: calc(100% - 96px);
+}
+
 .rounder {
   border-top-right-radius: 10px;
 }

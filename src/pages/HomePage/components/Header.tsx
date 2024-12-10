@@ -2,31 +2,38 @@ import user from "/assets/avatar.svg";
 import logo from "/assets/logo-noname.svg";
 import { FaSearch } from "react-icons/fa";
 import { NavLink, useLocation } from "react-router-dom";
-import { FiArrowRight } from "react-icons/fi";
+import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import HomeTabs from "./HomeTabs";
-import ProjectTabs from "./ProjectTabs";
+import ProjectTabs from "../../ProjectPage/components/ProjectTabs";
 import PrimaryButton from "../../../components/PrimaryButton";
+import { useSidebar } from "../../../context/useSidebar";
 
 const Header = () => {
   const location = useLocation();
+  const { isOpen, change } = useSidebar();
 
   return (
     <header
       className={`top-0 right-0 md:w-full w-screen ${
         location.pathname == "/" && "md:h-[226px]"
-      } ${location.pathname == "/project" && "md:h-[126px]"}
+      } ${location.pathname == "/project" && "md:h-[190px]"}
        ${location.pathname == "/alert" && "md:h-[72px]"}
+       ${location.pathname == "/profile" && "md:h-[72px]"}
       
        h-[188px] sticky z-10`}
     >
       <div className="text-lg font-semibold z-10 bg-white relative h-[76px] w-full md:flex hidden justify-between items-center py-4 pr-14 pl-8 border-b border-solid border-gray200">
-        <div className="bg-white absolute flex justify-center items-center top-6 -left-4 w-6 h-6 border border-gray300 z-[auto] text-gray950 rounded-[60px]">
-          <FiArrowRight />
+        <div
+          onClick={change}
+          className="bg-white absolute flex justify-center items-center top-6 -left-4 w-6 h-6 border border-gray300 z-[auto] text-gray950 rounded-[60px]"
+        >
+          {isOpen ? <FiArrowLeft /> : <FiArrowRight />}
         </div>
         <span>
           {location.pathname == "/" && "Collaborate"}
           {location.pathname == "/project" && "My Projects"}
           {location.pathname == "/alert" && "Activity"}
+          {location.pathname == "/profile" && "Profile"}
         </span>
         <div className="">
           <input

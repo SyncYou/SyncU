@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import logo from "/assets/Union.svg";
-import ProjectDetails from "./ProjectDetails";
+import ProjectDetails from "../../HomePage/components/ProjectDetails";
 // import newTag from "/assets/New tag.svg";
 
 type PropsType = {
