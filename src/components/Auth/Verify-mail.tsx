@@ -7,7 +7,7 @@ import { useNavigate } from "react-router";
 
 const Verifymail: React.FC = () => {
   const { userProfile } = useProfileStore();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const email: string | undefined =
     userProfile?.email ?? "thatguyvergil@gmail.com";
@@ -16,17 +16,20 @@ const Verifymail: React.FC = () => {
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>, idx: number) => {
-      const value = Number(e.target.value);
+      const value = e.target.value;
+      if (!/^\d$/.test(value)) return;
 
-      if (isNaN(value)) return false;
-
-      setOtp((prevOtp) =>
-        prevOtp.map((digit, index) => (index === idx ? e.target.value : digit))
-      );
+      setOtp((prevOtp) => {
+        const updatedOtp = [...prevOtp];
+        updatedOtp[idx] = e.target.value;
+        return updatedOtp;
+      });
 
       if (value && e.target.nextElementSibling) {
         const nextInput = e.target.nextElementSibling as HTMLInputElement;
-        nextInput.focus();
+        if (nextInput) {
+          nextInput.focus();
+        }
       }
     },
     [otp]
@@ -59,8 +62,8 @@ const Verifymail: React.FC = () => {
     const otpString = otp.join("");
 
     const { session, error } = await verifyEmail(email, otpString);
-    if(error){
-      console.log(error)
+    if (error) {
+      console.log(error);
     }
 
     console.log(session, error);
@@ -77,10 +80,10 @@ const Verifymail: React.FC = () => {
   };
 
   useEffect(() => {
-    if(userProfile.email == undefined){
-      navigate('/')
+    if (userProfile.email == undefined) {
+      navigate("/");
     }
-  })
+  });
 
   return (
     <section className="p-5">
@@ -114,7 +117,7 @@ const Verifymail: React.FC = () => {
                 value={digit}
                 onChange={(e) => handleChange(e, idx)}
                 onKeyDown={(e) => handleKeyDown(e, idx)}
-                className="w-[45px] h-[45px] text-white focus:outline-none text-center border border-[#D6D6E0] rounded-lg"
+                className="w-[45px] h-[45px] text-black focus:outline-none text-center border border-[#D6D6E0] rounded-lg"
               />
             ))}
           </div>

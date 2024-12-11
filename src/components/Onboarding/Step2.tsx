@@ -20,7 +20,7 @@ const Step2: React.FC<Props> = ({handlePrevStep, handleNextStep}) => {
     return () => window.removeEventListener("resize", handleResize);
   });
   return (
-    <section className="h-[100vh] w-full bg-gradient-to-b from-[#B179F90D] to-[#B179F954] relative overflow-hidden">
+    <section className="h-dvh w-full bg-gradient-to-b from-[#B179F90D] to-[#B179F954] relative overflow-hidden">
       <div className="pt-20 px-16">
         <h1 className="font-semibold tracking-tight text-center text-[32px] leading-[40px] text-primary">
           Upskill by working on projects that interest you.
