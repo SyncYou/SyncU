@@ -12,7 +12,7 @@ const Verifymail: React.FC = () => {
   const email: string | undefined =
     userProfile?.email ?? "thatguyvergil@gmail.com";
 
-  const [otp, setOtp] = useState(new Array(4).fill(""));
+  const [otp, setOtp] = useState(new Array(6).fill(""));
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>, idx: number) => {

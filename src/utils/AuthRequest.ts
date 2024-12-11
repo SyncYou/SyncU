@@ -5,7 +5,7 @@ export const signupWithOTP = async (email: string): Promise<AuthResponse> => {
   const { data, error } = await supabase.auth.signInWithOtp({
     email: email,
     options: {
-      shouldCreateUser: false,
+      // shouldCreateUser: false,
     },
   });
   return { data, error };
@@ -21,4 +21,24 @@ export const verifyEmail = async (email: string, token: string) => {
     type: "email",
   });
   return { session, error };
+};
+
+export const signInWithGithub = async () => {
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "github",
+    options: {
+      // redirectTo: `http://example.com/auth/callback`,
+    },
+  });
+  return { data, error };
+};
+
+export const signInWithGoogle = async () => {
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      // redirectTo: `http://example.com/auth/callback`,
+    },
+  });
+  return { data, error };
 };
