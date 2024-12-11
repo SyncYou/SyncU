@@ -59,6 +59,9 @@ const Verifymail: React.FC = () => {
     const otpString = otp.join("");
 
     const { session, error } = await verifyEmail(email, otpString);
+    if(error){
+      console.log(error)
+    }
 
     console.log(session, error);
   };
@@ -100,7 +103,7 @@ const Verifymail: React.FC = () => {
             </p>
           </div>
 
-          <div className=" flex gap-3 mt-10">
+          <div className=" flex gap-2 mt-10 p-2">
             {otp.map((digit, idx) => (
               <input
                 key={idx}
@@ -111,7 +114,7 @@ const Verifymail: React.FC = () => {
                 value={digit}
                 onChange={(e) => handleChange(e, idx)}
                 onKeyDown={(e) => handleKeyDown(e, idx)}
-                className="w-[50px] h-[50px] text-white focus:outline-none text-center border border-[#D6D6E0] rounded-lg"
+                className="w-[45px] h-[45px] text-white focus:outline-none text-center border border-[#D6D6E0] rounded-lg"
               />
             ))}
           </div>
