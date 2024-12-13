@@ -10,6 +10,7 @@ import { IoCheckmarkCircle } from "react-icons/io5";
 import Overlay from "../../../components/Overlay";
 import PrimaryButton from "../../../components/PrimaryButton";
 import SecondaryButton from "../../../components/SecondaryButton";
+import Chip from "../../../components/Chip";
 
 interface PropsType {
   state: () => void;
@@ -109,11 +110,7 @@ const ProjectDetails = ({ state, data }: PropsType) => {
               <p className="font-medium text-sm">Required</p>
               <div className="flex gap-[11px]">
                 {data.requiredSkills.map((skill) => {
-                  return (
-                    <span className="h-7 px-2 max-w-[131px] rounded-3xl border border-gray300">
-                      {skill}
-                    </span>
-                  );
+                  return <Chip>{skill}</Chip>;
                 })}
               </div>
             </div>
