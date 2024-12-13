@@ -2,7 +2,7 @@ import React from 'react'
 import check from '/signUp-imgs/Check.svg'
 import { Niches } from './Niches';
 
-export function Stack({ img, stack, id, checked, setChecked, fill, items, setIsModalOpen, isModalOpen }) {
+export function Stack({ stack, id, checked, setChecked, fill, items, setIsModalOpen }) {
     const clicked = id === checked;
 
     return (

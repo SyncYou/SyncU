@@ -35,7 +35,7 @@ export function User_LeftFill1() {
                 <h3 className='text-gray-800 font-normal text-sm'>Choose one</h3>
                 <div className='flex flex-row gap-4 '>
                     {Niches.map((items) => (
-                        <Stack key={items.id} stack={items.stack} img={items.img} id={items.id} setChecked={setChecked} checked={checked} fill={items.fill} items={items} setIsModalOpen={setIsModalOpen} isModalOpen={isModalOpen} />
+                        <Stack key={items.id} stack={items.stack} img={items.img} id={items.id} setChecked={setChecked} checked={checked} fill={items.fill} items={items} setIsModalOpen={setIsModalOpen} />
                     ))}
                 </div>
             </div>

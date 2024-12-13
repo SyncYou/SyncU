@@ -23,17 +23,13 @@ export function User_RightFill({ rightStyle }) {
                     <div className='gap-6 flex-col'>
                         <div className="gap-4 flex-col">
 
-                            <div className="flex-col gap-1 rounded-full border-4 border-[#E5E5E9] 
-">
-                                {location.pathname === "/step5" ? <img src={avatar1} alt='' className='object-cover h-[108px] w-[108px]' /> : <>
-                                    <img src={profile} alt='' className='w-full h-full object-cover pt-[30.2px] px-[31px] pb-[29.3px]' />
-                                </>
-                                }
+                            <div className={`flex-col gap-1 ${userDetails.profileImage ? "rounded-full  border-4 border-[#E5E5E9]" : ""}`}>
+                                {<img src={userDetails.profileImage || profile} alt="User Profile Image " className={`rounded-full object-cover ${userDetails.profileImage ? "w-[108px] h-[108px]" : ""} `} />}
                             </div>
 
                             <div className="flex-col gap-1 [&_span]:text-gray-800 [&_span]:font-medium [&_span]:text-base">
-                                <h2 className='text-2xl font-semibold text-gray-950'>Vergil Ebong</h2>
-                                <span>@ogvergil</span>
+                                <h2 className='text-2xl font-semibold text-gray-950'>{userDetails.name}</h2>
+                                <span>{userDetails.email}</span>
                             </div>
                         </div>
 
@@ -54,7 +50,7 @@ export function User_RightFill({ rightStyle }) {
                                 </span>
                                 <p>Location</p>
                             </span>
-                            <p className='text-gray-950'>Nigeria</p>
+                            <p className='text-gray-950'>{userDetails.location}</p>
                         </div>
                         <div className=' flex-row justify-between w-full [&_p]:text-gray-800 [&_p]:font-medium [&_p]:text-sm '>
                             <span className='flex items-center gap-2'>
@@ -68,15 +64,13 @@ export function User_RightFill({ rightStyle }) {
                                 <img src={Stack} alt="Stack-Star" className="*:w-[22px] *:h-[22px]" />
                                 <p>Skills/stacks</p>
                             </span>
-                            <div className="gap-4 [&_p]:text-gray-950 [&_p]:rounded-3xl [&_p]:border-gray-300 [&_p]:border-dashed [&_p]:border [&_p]:py-1 [&_p]:px-[20px] w-full">
-                                <p>{userDetails.stack || "N/A"}</p>
-                                <p>{userDetails.stack || "N/A"}</p>
-                                <p>{userDetails.stack || "N/A"}</p>
+                            <div className="gap-4 [&_p]:text-gray-950 [&_p]:rounded-3xl [&_p]:border-gray-300  [&_p]:border [&_p]:py-1 [&_p]:px-[20px] w-full">
+                                {userDetails.stack.map((skill, index) => (<p key={index} className={`${skill === "N/A" ? "border-dashed " : "border-solid shadow-xs"}`}>{skill}</p>))}
                             </div>
                         </span>
                     </div>
                 </div>
-            </section>
+            </section >
         </>
     )
 }

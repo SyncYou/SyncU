@@ -1,12 +1,12 @@
 import React from 'react'
 import { FiPlus } from "react-icons/fi";
-
-export function Skill({ id, stack, checked, setChecked, handleAreaClick }) {
-    const clicked = id === checked;
+import { useUserStore } from '../../../store/UseUserStore';
+export function Skill({ skill, setIsSearching, isSearching }) {
+    const { userDetails, toggleSkill } = useUserStore()
 
     return (
         <>
-            <p onClick={() => { setChecked(clicked ? null : id); handleAreaClick(stack) }} className={`${clicked ? "bg-gray-100" : ""}`}>{stack} <FiPlus /></p>
+            <p onClick={() => { toggleSkill(skill); setIsSearching(!isSearching) }} className={`${userDetails.stack.includes(skill) ? "bg-gray-100 text-white" : ""}`}>{skill} <FiPlus /></p>
         </>
     )
 }
