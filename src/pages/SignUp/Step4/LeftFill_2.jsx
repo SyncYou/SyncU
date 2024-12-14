@@ -51,6 +51,7 @@ export function LeftFill_2() {
         setIsSearching(true)
     }
 
+    const isValid = userDetails.stack !== "N/A"
     return (
         <>
             <div className="gap-6 self-stretch flex-col " ref={activeRef}>
@@ -87,7 +88,7 @@ export function LeftFill_2() {
                 </span>
             </div>
 
-            <Nav_Btn navTo="/final-step" btn_Style={`${userDetails.stack !== "N/A" ? "bg-gray-950 text-opacity-100 text-white" : "text-opacity-40 cursor-default"} `} />
+            <Nav_Btn navTo="/final-step" btn_Style={`${isValid ? "bg-gray-950 text-opacity-100 text-white" : "text-opacity-40 cursor-default"} `} />
         </>
     )
 }

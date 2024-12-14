@@ -8,6 +8,7 @@ import User_Body from './pages/SignUp/User_Profile/User_Body.jsx'
 import { User_LeftFill1 } from './pages/SignUp/Step3/User_LeftFill1.jsx'
 import { LeftFill_2 } from './pages/SignUp/Step4/LeftFill_2.jsx'
 import { LeftFill_3 } from './pages/SignUp/Final_step/LeftFill_3.jsx'
+import { Finishing } from './pages/SignUp/Finishing/Finishing.jsx'
 
 const router = createBrowserRouter([
   {
@@ -28,13 +29,14 @@ const router = createBrowserRouter([
         {
           path: "/final-step",
           element: <LeftFill_3 />
+        },
+        {
+          path: "/finishing",
+          element: <Finishing />
         }
-
       ]
     }]
   },
-
-
 ])
 
 createRoot(document.getElementById('root')).render(

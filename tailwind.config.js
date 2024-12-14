@@ -18,6 +18,7 @@ export default {
       "gray-600": "#8C8C99",
       clicked: "rgba(237, 228, 250, 0.50)",
       skill: "#F3ECFC",
+      loading: "rgba(18, 18, 18, 0.24)",
     },
     boxShadow: {
       rightShadow:

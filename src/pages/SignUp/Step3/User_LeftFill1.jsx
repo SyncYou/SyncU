@@ -8,10 +8,8 @@ import { useUserStore } from '../../../store/UseUserStore'
 
 export function User_LeftFill1() {
     const { userDetails, setUserDetails } = useUserStore()
-
     const [checked, setChecked] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
-
     const selectedStack = Niches.find((niche) => niche.id === checked);
 
 
@@ -20,6 +18,8 @@ export function User_LeftFill1() {
         setUserDetails("area", area)
         setIsModalOpen(false)
     }
+
+    const isDisabled = userDetails.area !== "";
 
     return (
         <>
@@ -35,7 +35,7 @@ export function User_LeftFill1() {
                 <h3 className='text-gray-800 font-normal text-sm'>Choose one</h3>
                 <div className='flex flex-row gap-4 '>
                     {Niches.map((items) => (
-                        <Stack key={items.id} stack={items.stack} img={items.img} id={items.id} setChecked={setChecked} checked={checked} fill={items.fill} items={items} setIsModalOpen={setIsModalOpen} />
+                        <Stack key={items.id} stack={items.stack} img={items.img} id={items.id} setChecked={setChecked} checked={checked} items={items} setIsModalOpen={setIsModalOpen} />
                     ))}
                 </div>
             </div>
@@ -51,12 +51,10 @@ export function User_LeftFill1() {
                     </span>
                     <img src={caret} alt="caretUpDown" />
                 </span>
-
                 {isModalOpen && <StackDropDown style="top-[17vh]" selectedStack={selectedStack} handleAreaClick={handleAreaClick} />}
+            </div>
 
-            </div >
-
-            <Nav_Btn navTo="/step4" btn_Style={`${userDetails.area !== "" ? "bg-gray-950 text-opacity-100 text-white" : "text-opacity-40 cursor-default"} `} />
+            <Nav_Btn disabled={!isDisabled} navTo="/step4" btn_Style={`${isDisabled ? "bg-gray-950 text-opacity-100 text-white" : "text-opacity-40 cursor-not-allowed"} `} />
         </>
     )
 }

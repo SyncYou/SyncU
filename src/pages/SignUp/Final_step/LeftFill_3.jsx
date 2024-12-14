@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import img from '/signUp-imgs/img.svg'
-import check from '/signUp-imgs/Check.svg'
 import Nav_Btn from '../../../components/styles/Reuse/Nav_Btn';
 import { useUserStore } from '../../../store/UseUserStore';
 import { ProfileImage } from './ProfileImages';
+import { Avatar } from './Avatar';
 
 export function LeftFill_3() {
     const { userDetails, setUserDetails } = useUserStore()
@@ -26,6 +26,7 @@ export function LeftFill_3() {
         setUserDetails("profileImage", image)
     }
 
+    const isValid = userDetails.name !== "" && userDetails.email !== "" && userDetails.location !== "" && userDetails.profileImage !== "" && userDetails.area !== "" && userDetails.stack !== "";
     return (
         <>
             <div className="gap-6 self-stretch flex-col ">
@@ -38,20 +39,19 @@ export function LeftFill_3() {
 
             <div className="gap-4 flex-col relative">
                 <h3 className='text-gray-800 font-normal text-base'>Select an avatar </h3>
-                <fieldset className='p-1 rounded-full bg-brand-600 absolute top-[5.5vh] z-10 left-[8.5vh]'><img src={check} alt="" /></fieldset>
-                <span className='flex items-start gap-4 [&_img]:object-contain relative '>
-                    {ProfileImage.map((items) => <img key={items.id} src={items.img} alt='profile avatar' onClick={() => handleAvatarSelect(items.img)} />)}
+                <span className='flex items-start gap-4 [&_img]:object-contain relative [&_img]:cursor-pointer '>
+                    {ProfileImage.map((items) => <Avatar key={items.id} items={items} handleAvatarSelect={handleAvatarSelect} />)}
                 </span>
                 <div className="gap-4 flex-col">
                     <h3 className='text-gray-800 font-normal text-base'>or upload an image </h3>
-                    <label className='rounded-full border-dashed  [&_img]:object-contain border bg-white border-gray-300 h-[80px] w-[80px] flex items-center justify-center *:w-8 *:h-8'>
+                    <label className='rounded-full border-dashed  [&_img]:object-contain border bg-white border-gray-300 h-[80px] w-[80px] flex items-center justify-center *:w-8 *:h-8 cursor-pointer'>
                         <input type="file" accept='image/*' onChange={handleImageUpload} className="hidden" />
                         <img src={img} alt="update profile image" />
                     </label>
                 </div>
             </div>
 
-            <Nav_Btn navTo="/" btn_Style={`${userDetails.profileImage !== "" ? "bg-gray-950 text-opacity-100 text-white" : "text-opacity-40 cursor-default"} `} />
+            <Nav_Btn navTo="/finishing" btn_Style={`${isValid ? "bg-gray-950 text-opacity-100 text-white" : "text-opacity-40 cursor-not-allowed"} `} disabled={!isValid} />
         </>
     )
 }

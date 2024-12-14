@@ -1,8 +1,7 @@
 import React from 'react'
 import check from '/signUp-imgs/Check.svg'
-import { Niches } from './Niches';
 
-export function Stack({ stack, id, checked, setChecked, fill, items, setIsModalOpen }) {
+export function Stack({ stack, id, checked, setChecked, items, setIsModalOpen }) {
     const clicked = id === checked;
 
     return (
@@ -21,9 +20,6 @@ export function Stack({ stack, id, checked, setChecked, fill, items, setIsModalO
                 }
                 <p className='text-base font-medium text-center'>{stack}</p>
             </span >
-
-
-
         </>
     )
 }
