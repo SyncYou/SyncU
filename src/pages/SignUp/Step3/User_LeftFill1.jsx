@@ -16,10 +16,10 @@ export function User_LeftFill1() {
     // Function to close modal for stack
     function handleAreaClick(area) {
         setUserDetails("area", area)
-        setIsModalOpen(false)
+        setIsModalOpen(!isModalOpen)
     }
 
-    const isDisabled = userDetails.area !== "";
+    const isValid = userDetails.area !== "";
 
     return (
         <>
@@ -46,7 +46,7 @@ export function User_LeftFill1() {
                     <span className="flex items-start flex-col gap-2">
                         <p className="text-gray-950 text-xs font-medium ">Area of expertise</p>
                         <p className={`text-gray-400 text-base font-medium ${userDetails.area ? "text-gray-800" : ""}`}>
-                            {userDetails.area || "Select one---"}
+                            {selectedStack !== Niches.id && userDetails.area || "Select one---"}
                         </p>
                     </span>
                     <img src={caret} alt="caretUpDown" />
@@ -54,7 +54,7 @@ export function User_LeftFill1() {
                 {isModalOpen && <StackDropDown style="top-[17vh]" selectedStack={selectedStack} handleAreaClick={handleAreaClick} />}
             </div>
 
-            <Nav_Btn disabled={!isDisabled} navTo="/step4" btn_Style={`${isDisabled ? "bg-gray-950 text-opacity-100 text-white" : "text-opacity-40 cursor-not-allowed"} `} />
+            <Nav_Btn disabled={!isValid} navTo="/step4" btn_Style={`${isValid ? "bg-gray-950 text-opacity-100 text-white" : "text-opacity-40 cursor-not-allowed"} `} />
         </>
     )
 }

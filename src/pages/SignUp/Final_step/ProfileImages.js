@@ -1,7 +1,6 @@
 import avatar1 from "/signUp-imgs/avatar1.svg";
 import avatar2 from "/signUp-imgs/avatar2.svg";
 import avatar3 from "/signUp-imgs/avatar3.svg";
-import img from "/signUp-imgs/img.svg";
 
 export const ProfileImage = [
   {

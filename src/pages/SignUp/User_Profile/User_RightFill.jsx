@@ -13,7 +13,6 @@ import { BsArrowLeft } from "react-icons/bs";
 import { Loading } from '../../../components/styles/Reuse/Loading'
 
 export function User_RightFill({ rightStyle }) {
-
     const [isLoading, setIsLoading] = useState(false)
     const { userDetails, setCurrentStep, currentStep } = useUserStore();
 

@@ -10,7 +10,7 @@ import { FaTimes } from "react-icons/fa";
 
 
 export function LeftFill_2() {
-    const { userDetails, toggleSkill, removeSkill } = useUserStore()
+    const { userDetails, toggleSkill, removeSkill, isStackValid } = useUserStore()
     const [active, setActive] = useState(false)
     const activeRef = useRef(null)
     const modalRef = useRef(null);
@@ -48,10 +48,9 @@ export function LeftFill_2() {
     }
     function handleRemoveSkill(skill) {
         removeSkill(skill.skill);
-        setIsSearching(true)
+        setIsSearching(false)
     }
 
-    const isValid = userDetails.stack !== "N/A"
     return (
         <>
             <div className="gap-6 self-stretch flex-col " ref={activeRef}>
@@ -84,11 +83,11 @@ export function LeftFill_2() {
             <div className="gap-2 flex-col">
                 <h3 className='text-gray-800 font-normal text-sm'>Suggested skills & stacks</h3>
                 <span className="flex flex-wrap  gap-2 [&_p]:text-gray-950 [&_p]:flex [&_p]:items-center [&_p]:gap-[10px] [&_p]:rounded-3xl [&_p]:border-gray-300  [&_p]:border [&_p]:border-solid [&_p]:py-1 [&_p]:px-[20px]  [&_p]:hover:cursor-pointer ">
-                    {Skills.map((skill) => (<Skill isSearching={isSearching} setIsSearching={setIsSearching} key={skill.id} skill={skill.skill} />))}
+                    {Skills.map((skill) => (<Skill setIsSearching={setIsSearching} key={skill.id} skill={skill.skill} />))}
                 </span>
             </div>
 
-            <Nav_Btn navTo="/final-step" btn_Style={`${isValid ? "bg-gray-950 text-opacity-100 text-white" : "text-opacity-40 cursor-default"} `} />
+            <Nav_Btn navTo="/final-step" btn_Style={`${!isStackValid() ? "bg-gray-950 text-opacity-100 text-white" : "text-opacity-40 cursor-not-allowed"} `} disabled={isStackValid()} />
         </>
     )
 }

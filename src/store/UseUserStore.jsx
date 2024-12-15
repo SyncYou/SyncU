@@ -50,4 +50,9 @@ export const useUserStore = create((set) => ({
                 };
             }
         }),
+
+    isStackValid: () =>
+        useUserStore.getState().userDetails.stack.includes("N/A"),
+
+
 }));

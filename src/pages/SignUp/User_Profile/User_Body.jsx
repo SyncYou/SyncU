@@ -15,7 +15,7 @@ export default function User_Body() {
                     </section>
                     <User_RightFill />
                 </main> :
-                <User_RightFill rightStyle="w-[50%]" />}
+                <User_RightFill rightStyle="w-[40%]" />}
         </>
     )
 }
