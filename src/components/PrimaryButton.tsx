@@ -1,16 +1,18 @@
 import { ReactNode } from "react";
 
 interface PropsType {
-  children: ReactNode;
-  classes: string;
+  children?: ReactNode;
+  classes?: string;
+  disabled?: boolean;
   onClick?: () => void;
 }
 
-const PrimaryButton = ({ children, classes, onClick }: PropsType) => {
+const PrimaryButton = ({ children, classes, disabled, onClick }: PropsType) => {
   return (
     <button
+      disabled={disabled}
       onClick={onClick}
-      className={`bg-gray950 py-4 px-6 hover:text-gray500 flex items-center justify-center gap-2 rounded-full text-gray100 font-medium text-base ${classes}`}
+      className={`bg-gray950 py-4 px-6 hover:text-gray500 flex items-center justify-center gap-2 rounded-full text-gray100 font-medium text-base ${classes} disabled:bg-white disabled:border disabled:opacity-65 disabled:text-opacity-80 disabled:text-gray700 disabled:border-gray200`}
     >
       {children}
     </button>

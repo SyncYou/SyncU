@@ -10,9 +10,11 @@ import {
   FaRegUser,
 } from "react-icons/fa";
 import { useSidebar } from "../../../context/useSidebar";
+import { useUserProgress } from "../../../context/useUserProgress";
 
 const SideBar = () => {
   const { isOpen } = useSidebar();
+  const { status } = useUserProgress();
 
   return (
     <aside
@@ -60,7 +62,15 @@ const SideBar = () => {
         } items-center rounded-sm hover:bg-[#E6E6F0B2] h-12 px-3 py-2 gap-2 hidden`}
       >
         <img src={user} alt="user-logo" />
-        {isOpen && <span>Me</span>}
+        {isOpen && (
+          <div className="flex flex-col">
+            <span className="text-base text-gray950 font-normal">Vergil</span>
+            <span className="text-gray700 font-normal text-xs flex items-center gap-1">
+              <span className="w-2 h-2 rounded-full bg-success700"></span>
+              {status}
+            </span>
+          </div>
+        )}
       </NavLink>
       <div className="w-full h-full md:hidden flex justify-between">
         <NavLink className="w-8 h-8 text-[24px] p-1 rounded" to="/">

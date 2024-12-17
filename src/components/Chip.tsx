@@ -6,7 +6,7 @@ type PropsType = {
 
 const Chip = ({ children }: PropsType) => {
   return (
-    <span className="h-7 px-2 max-w-[131px] rounded-3xl border border-gray300">
+    <span className="h-7 px-2 min-w-[87px] max-w-[131px] text-center rounded-3xl border border-gray300">
       {children}
     </span>
   );

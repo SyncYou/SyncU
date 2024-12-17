@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import logo from "/assets/Union.svg";
 import ProjectDetails from "./ProjectDetails";
+import Chip from "../../../components/Chip";
 // import newTag from "/assets/New tag.svg";
 
 type PropsType = {
@@ -76,12 +77,12 @@ const ProjectCard = ({ data }: PropsType) => {
               </div>
               <div className="h-[95px] w-full flex flex-col gap-2">
                 <p className="text-xs font-normal text-gray700">Required</p>
-                <div className="h-[68px] grid grid-cols-3 gap-3">
+                <div className="h-[68px] grid grid-cols-3 gap-2">
                   {data.requiredSkills.slice(0, 4).map((skill) => {
                     return (
-                      <span className="h-7 w-[87px] max-w-[131px] rounded-3xl overflow-auto border text-center border-gray300">
+                      <Chip>
                         {skill.length > 7 ? `${skill.slice(0, 7)}...` : skill}
-                      </span>
+                      </Chip>
                     );
                   })}
 

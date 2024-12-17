@@ -60,12 +60,7 @@
   {
     "projectName": "FitFusion",
     "projectCategory": "Fitness",
-    "requiredSkills": [
-      "Flutter",
-      "Dart",
-      "Firebase",
-      "UI/UX Design"
-    ],
+    "requiredSkills": ["Flutter", "Dart", "Firebase", "UI/UX Design"],
     "projectDescription": "FitFusion is a mobile fitness app offering personalized workout plans, progress tracking, and a community for fitness enthusiasts to stay motivated.",
     "projectFeatures": [
       {
@@ -117,12 +112,7 @@
   {
     "projectName": "EduLink",
     "projectCategory": "Education",
-    "requiredSkills": [
-      "Vue.js",
-      "Django",
-      "SQLite",
-      "API Integration"
-    ],
+    "requiredSkills": ["Vue.js", "Django", "SQLite", "API Integration"],
     "projectDescription": "EduLink is a collaborative learning platform that connects students and teachers for interactive online learning sessions and resource sharing.",
     "projectFeatures": [
       {
@@ -174,12 +164,7 @@
   {
     "projectName": "MedSync",
     "projectCategory": "Healthcare",
-    "requiredSkills": [
-      "Angular",
-      "Spring Boot",
-      "PostgreSQL",
-      "Cloud Hosting"
-    ],
+    "requiredSkills": ["Angular", "Spring Boot", "PostgreSQL", "Cloud Hosting"],
     "projectDescription": "MedSync is a healthcare management system designed for hospitals and clinics to streamline patient care and administrative tasks.",
     "projectFeatures": [
       {
@@ -231,12 +216,7 @@
   {
     "projectName": "HomeAutomate",
     "projectCategory": "IoT",
-    "requiredSkills": [
-      "React Native",
-      "Python",
-      "AWS IoT",
-      "MQTT Protocol"
-    ],
+    "requiredSkills": ["React Native", "Python", "AWS IoT", "Supabase"],
     "projectDescription": "HomeAutomate is a smart home application that allows users to control and monitor their home devices from anywhere.",
     "projectFeatures": [
       {

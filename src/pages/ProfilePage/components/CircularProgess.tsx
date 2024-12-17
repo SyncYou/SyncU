@@ -1,19 +1,20 @@
+import { useUserProgress } from "../../../context/useUserProgress";
+
 type ProgressProps = {
-  percentage: number;
   size?: number;
   strokeWidth?: number;
   children?: React.ReactNode;
 };
 
 const CircularProgess = ({
-  percentage = 60,
   size = 150,
   strokeWidth = 15,
   children,
 }: ProgressProps) => {
+  const { progress } = useUserProgress();
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
-  const offset = circumference - (percentage / 100) * circumference;
+  const offset = circumference - (progress / 100) * circumference;
 
   return (
     <div className="flex relative items-center justify-center">
@@ -40,7 +41,7 @@ const CircularProgess = ({
       </svg>
       <div className="absolute z-10">{children}</div>
       <span className="bg-success100 absolute bottom-0 left-4 px-2 py-1 rounded text-success700 font-medium text-sm">
-        {percentage}% COMPLETED
+        {progress}% COMPLETED
       </span>
     </div>
   );
