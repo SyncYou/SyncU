@@ -7,7 +7,8 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" index element={<OnboardingLayout />} />
+          <Route path='/' element={<h1>syncU</h1>} />
+          <Route path="/auth/signup" index element={<OnboardingLayout />} />
           <Route path="/verify-email" index element={<Verifymail />} />
         </Routes>
       </BrowserRouter>

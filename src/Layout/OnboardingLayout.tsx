@@ -1,46 +1,91 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Signup from "../components/Auth/Signup";
-import { OnboardingSteps } from "../components/Onboarding/OnboardingSteps";
-import { useOnboardingState } from "../hooks/useOnboardingState";
+import Step1 from "../components/Onboarding/Step1";
+import Step2 from "../components/Onboarding/Step2";
 
 const OnboardingLayout: React.FC = () => {
-  const [isMobile, setIsMobile] = useState(false);
+  const [step, setStep] = useState(0);
 
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
+  const handleNextStep = () => {
+    setStep((prev) => prev + 1);
+  };
 
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
+  const handlePrevStep = () => {
+    setStep((prev) => prev - 1);
+  };
 
-  const { step, handleNextStep, handlePrevStep } = useOnboardingState(isMobile);
+  const mobileOnboardingSteps = () => {
+    switch (step) {
+      case 0:
+        return (
+          <Step1
+            handleNextStep={handleNextStep}
+            handlePrevStep={handlePrevStep}
+          />
+        );
+        break;
+      case 1:
+        return (
+          <Step2
+            handleNextStep={handleNextStep}
+            handlePrevStep={handlePrevStep}
+          />
+        );
+        break;
+      case 2:
+        return <Signup />;
+        break;
+      default:
+        return (
+          <Step1
+            handleNextStep={handleNextStep}
+            handlePrevStep={handlePrevStep}
+          />
+        );
+        break;
+    }
+  };
+
+  const desktopOnboardingSteps = () => {
+    switch (step) {
+      case 0:
+        return (
+          <Step1
+            handleNextStep={handleNextStep}
+            handlePrevStep={handlePrevStep}
+          />
+        );
+        break;
+      case 1:
+        return (
+          <Step2
+            handleNextStep={handleNextStep}
+            handlePrevStep={handlePrevStep}
+          />
+        );
+        break;
+      default:
+        return (
+          <Step1
+            handleNextStep={handleNextStep}
+            handlePrevStep={handlePrevStep}
+          />
+        );
+        break;
+    }
+  };
 
   return (
-    <section className="flex w-full h-[100vh] overflow-hidden">
-      <div className="w-full flex-1 hidden md:block">
-        <Signup />
-      </div>
+    <section className="w-full h-dvh ">
       {/* Desktop View */}
-      <div className="w-full flex-1 hidden md:block">
-        <OnboardingSteps
-          currentStep={step}
-          handlePrevStep={handlePrevStep}
-          handleNextStep={handleNextStep}
-          isMobile={false}
-        />
+      <div className="hidden md:flex w-full h-dvh">
+        <div className="flex-1">
+          <Signup />
+        </div>
+        <div className="flex-1">{desktopOnboardingSteps()}</div>
       </div>
       {/* mobile view */}
-      <div className="w-full md:hidden">
-        <OnboardingSteps
-          currentStep={step}
-          handlePrevStep={handlePrevStep}
-          handleNextStep={handleNextStep}
-          isMobile={true}
-        />
-      </div>
+      <div className="w-full md:hidden">{mobileOnboardingSteps()}</div>
     </section>
   );
 };
