@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Header from '../Reuseables/Header'
 import dropdown from '/scroll.svg'
 import CountryModal from '../Reuseables/CountryModal'
+import ControlledButton from '../Reuseables/ControlledButton'
 
 const TellUsAboutYourself: React.FC = () => {
+    const [disable, setDisable] = useState(true);
   return (
     <section>
         <div className='border-b border-light md:hidden'>
@@ -38,7 +40,10 @@ const TellUsAboutYourself: React.FC = () => {
             </div>
 
             <div>
-                <button className="text-[#ffffff] w-1/2 py-3 px-5 rounded-full text-center leading-6 font-medium bg-secondary">Next</button>
+                <ControlledButton
+                disable={disable}
+                label="Next"
+              />
             </div>
             </form>
         </div>
