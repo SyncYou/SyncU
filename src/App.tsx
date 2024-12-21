@@ -51,6 +51,10 @@ const router = createBrowserRouter([
     element: <OnboardingLayout/>,
   },
   {
+    path: "/auth/login",
+    element: <OnboardingLayout/>,
+  },
+  {
     path: "/auth/verify-email",
     element: <Verifymail/>,
   }

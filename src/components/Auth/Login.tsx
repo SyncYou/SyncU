@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router';
-import { useProfileStore } from '../../store/profileStore';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { userSchema } from '../../schema/userSchema';
-import { User } from '../../types/user';
-import { signupWithOTP } from '../../utils/AuthRequest';
-import Header from '../Reuseables/Header';
-import SocialButton from '../Reuseables/SocialButton';
-import ControlledInput from '../Reuseables/ControlledInput';
-import ControlledButton from '../Reuseables/ControlledButton';
-import { LuMail } from 'react-icons/lu';
-import Loading from '../Reuseables/Loading';
+import React, { useEffect, useState } from "react";
+import Header from "../Reuseables/Header";
 import Google from "/google.svg";
 import github from "/github.svg";
+import { LuMail } from "react-icons/lu";
+import ControlledInput from "../Reuseables/ControlledInput";
+import SocialButton from "../Reuseables/SocialButton";
+import ControlledButton from "../Reuseables/ControlledButton";
+import { userSchema } from "../../schema/userSchema";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { User } from "../../types/user";
+import { signupWithOTP } from "../../utils/AuthRequest";
+import { useNavigate } from "react-router";
+import Loading from "../Reuseables/Loading";
+import { useUserStore } from "../../store/UseUserStore";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
-  const { updateProfile } = useProfileStore();
   const [disable, setDisable] = useState(true);
+  const { setUserDetails } = useUserStore();
 
   const {
     register,
@@ -43,16 +43,18 @@ const Login: React.FC = () => {
       setDisable(false);
     }
     try {
-      const { data, error } = await signupWithOTP(email);
+      setUserDetails("email", email);
+      localStorage.setItem("userEmail", email);
+
+      const { data: response, error } = await signupWithOTP(email);
 
       if (error) {
         console.log(error);
         return;
       }
 
-      updateProfile({ email: email });
-      navigate("/verify-email");
-      console.log(data);
+      navigate("/auth/verify-email");
+      console.log(response);
 
       reset();
     } catch (error) {
@@ -121,7 +123,7 @@ const Login: React.FC = () => {
       </section>
       {isSubmitting && <Loading />}
     </>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

@@ -5,6 +5,7 @@ import Nav_Btn from "../../../components/styles/Reuse/Nav_Btn";
 import { Stack } from "./Stack";
 import { Niches } from "./Niches";
 import { useUserStore } from "../../../store/UseUserStore";
+import { sendUserDetails } from "../../../utils/SupabaseRequest";
 
 export function User_LeftFill1() {
   const { userDetails, setUserDetails } = useUserStore();
@@ -19,6 +20,18 @@ export function User_LeftFill1() {
   }
 
   const isValid = userDetails.area !== "";
+
+  const handleRequest = async () => {
+    if (isValid) {
+      try {
+        const response = await sendUserDetails(userDetails);
+        console.log("Data sent to Supabase:", response);
+        return response;
+      } catch (error) {
+        console.error("Error sending data to Supabase:", error);
+      }
+    }
+  };
 
   return (
     <>
@@ -80,14 +93,15 @@ export function User_LeftFill1() {
       </div>
 
       <Nav_Btn
-        disabled={!isValid}
-        navTo="/step4"
-        btn_Style={`${
-          isValid
-            ? "bg-gray-950 text-opacity-100 text-white"
-            : "text-opacity-40 cursor-not-allowed"
-        }`}
-      />
+            disabled={!isValid}
+            handleRequest={handleRequest}
+            navTo="/step4"
+            btn_Style={`${
+              isValid
+                ? "bg-gray-950 text-opacity-100 text-white"
+                : "text-opacity-40 cursor-not-allowed"
+            }`}
+          />
     </>
   );
 }

@@ -3,6 +3,7 @@ import Nav_Btn from "../../../components/styles/Reuse/Nav_Btn";
 import { useUserStore } from "../../../store/UseUserStore";
 import { ProfileImage } from "./ProfileImages";
 import { Avatar } from "./Avatar";
+import { sendUserDetails } from "../../../utils/SupabaseRequest";
 
 interface ProfileImageItem {
   id: number;
@@ -42,6 +43,18 @@ export function LeftFill_3() {
     userDetails.profileImage !== "" &&
     userDetails.area !== "" &&
     userDetails.stack.length > 0;
+
+    const handleRequest = async () => {
+      if (isValid) {
+        try {
+          const response = await sendUserDetails(userDetails);
+          console.log("Data sent to Supabase:", response);
+          return response;
+        } catch (error) {
+          console.error("Error sending data to Supabase:", error);
+        }
+      }
+    };
 
   return (
     <>
@@ -88,14 +101,15 @@ export function LeftFill_3() {
       </div>
 
       <Nav_Btn
-        navTo="/finishing"
-        btn_Style={`${
-          isValid
-            ? "bg-gray-950 text-opacity-100 text-white"
-            : "text-opacity-40 cursor-not-allowed"
-        }`}
-        disabled={!isValid}
-      />
+            disabled={!isValid}
+            handleRequest={handleRequest}
+            navTo="/finishing"
+            btn_Style={`${
+              isValid
+                ? "bg-gray-950 text-opacity-100 text-white"
+                : "text-opacity-40 cursor-not-allowed"
+            }`}
+          />
     </>
   );
 }
