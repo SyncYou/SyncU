@@ -66,7 +66,13 @@ const SideBar = () => {
           <div className="flex flex-col">
             <span className="text-base text-gray950 font-normal">Vergil</span>
             <span className="text-gray700 font-normal text-xs flex items-center gap-1">
-              <span className="w-2 h-2 rounded-full bg-success700"></span>
+              <span
+                className={`w-2 h-2 rounded-full ${
+                  status === "Available" && "bg-success700"
+                } ${status === "Occupied" && "bg-[#F7BA36]"}
+                ${status === "Not available" && "bg-gray500"}
+                `}
+              ></span>
               {status}
             </span>
           </div>

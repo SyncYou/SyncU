@@ -78,12 +78,7 @@ const Username = () => {
                 Username is available
               </span>
             )}
-          </div>
-          <img
-            src="https://www.behance.net/"
-            alt="thumbnail"
-            className="w-20 h-20 border border-gray200"
-          />
+          </div>          
         </div>
       </div>
       <div className="w-full h-[84px] border-t border-gray200 px-8 pb-6 pt-4 flex justify-end  gap-4">

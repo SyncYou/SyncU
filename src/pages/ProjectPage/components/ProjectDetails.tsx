@@ -3,7 +3,7 @@ import x from "/assets/X.svg";
 import slack from "/assets/slack.svg";
 import { BsShare } from "react-icons/bs";
 import { HiOutlineBriefcase, HiOutlineLockClosed } from "react-icons/hi";
-import { PiTagChevron } from "react-icons/pi";
+import { PiSortAscending, PiTagChevron } from "react-icons/pi";
 import { FaRegCalendarMinus } from "react-icons/fa";
 import { useState } from "react";
 import { IoCheckmarkCircle } from "react-icons/io5";
@@ -30,6 +30,7 @@ interface PropsType {
 
 const ProjectDetails = ({ state, data }: PropsType) => {
   const [isRequested, setIsRequested] = useState<boolean>(false);
+  const [currentView, setCurrentView] = useState<string>("About");
 
   const handleRequest = async () => {
     setIsRequested((i) => !i);
@@ -47,7 +48,121 @@ const ProjectDetails = ({ state, data }: PropsType) => {
           </div>
         </div>
       )}
-      <div className="md:w-[1060px] md:h-[758px] text-gray950 flex flex-col gap-4 relative w-[358px] h-[458px] rounded-3xl bg-white">
+      <div className="h-screen w-screen bg-white">
+        <div className="w-full border-b border-gray200 bg-white">
+          <div className="flex gap-[10px] py-[10px] px-4 border-b border-gray200">
+            <div className="flex gap-2 items-center">
+              <div className="h-10 w-10 bg-black rounded-full"></div>
+              <div className="">
+                <p className="m-0 font-normal text-sm text-gray950">
+                  @oscarteem
+                </p>
+                <p className="m-0 font-normal text-xs text-gray700">
+                  is looking for collaborators
+                </p>
+              </div>
+            </div>
+            <div className="flex ml-auto">
+              <div className="w-20 h-[32px] flex gap-4 my-auto">
+                <button className="w-[32px] h-[32px] rounded-[80px] border-[0.4px] border-gray200">
+                  {"<"}
+                </button>
+                <button className="w-[32px] h-[32px] rounded-[80px] border-[0.4px] border-gray200">
+                  {">"}
+                </button>
+              </div>
+              <div className="w-4 h-0 border-[1px] border-gray200 my-auto -rotate-90"></div>
+              <img
+                onClick={state}
+                className="my-auto cursor-pointer"
+                src={x}
+                alt=""
+              />
+            </div>
+          </div>
+          <div className="h-11 w-full px-4 border-gray200 border-b gap-4">
+            <div className="project flex items-center gap-4">
+              <div
+                onClick={() => setCurrentView("About")}
+                className={`w-[125px] h-11 flex ${
+                  currentView === "About" && "active"
+                } relative justify-center items-center`}
+              >
+                About
+              </div>
+              <div
+                onClick={() => setCurrentView("Workspace")}
+                className={`w-[125px] h-11 flex ${
+                  currentView === "Workspace" && "active"
+                } relative justify-center items-center`}
+              >
+                Workspace
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="h-full w-full pr-5 flex flex-col gap-8 overflow-y-scroll scrollbar-thin scrollbar-thumb-white scrollbar-track-gray100">
+          <div className="h-16 flex justify-between">
+            <div className="flex flex-col gap-2">
+              <h3 className="font-semibold text-2xl">{data.projectName}</h3>
+              <p className="font-normal text-base text-gray700">
+                {data.projectCategory}
+              </p>
+            </div>
+            <div className="h-10 w-10 cursor-pointer rounded-[100px] flex justify-center items-center border-[0.5px] border-gray300 my-auto">
+              <BsShare className="rotate-180 text-[24px]" />
+            </div>
+          </div>
+          <div className="h-[99px] flex flex-col gap-3">
+            <p className="font-medium text-sm">Required</p>
+            <div className="flex gap-[11px]">
+              {data.requiredSkills.map((skill) => {
+                return <Chip>{skill}</Chip>;
+              })}
+            </div>
+          </div>
+          <div className="w-full">
+            <p className="mb-3 text-gray950 font-medium">Description</p>
+            <div className="text-[#374151] font-normal">
+              <p>{data.projectDescription}</p>
+              <h2 className="mt-4">Core Features</h2>
+              <ol className="list-decimal pl-4">
+                {data.projectFeatures.map((feature) => {
+                  return (
+                    <li>
+                      {feature.name}
+                      <ul className="list-disc pl-4  mb-5">
+                        {feature.details.map((detail) => (
+                          <li>{detail}</li>
+                        ))}
+                      </ul>
+                    </li>
+                  );
+                })}
+              </ol>
+            </div>
+          </div>
+        </div>
+        <div className="fixed bottom-0 h-16 w-full border-t border-gray200 bg-white flex justify-between items-center px-4 py-[10px]">
+          {isRequested ? (
+            <SecondaryButton
+              onClick={handleRequest}
+              classes="h-11 min-w-[294px]"
+            >
+              Withdraw Request
+            </SecondaryButton>
+          ) : (
+            <PrimaryButton onClick={handleRequest} classes="h-11 min-w-[294px]">
+              Send Request
+              <FiSend />
+            </PrimaryButton>
+          )}
+          <div className="h-10 w-10 cursor-pointer drop-shadow-lg rounded-[100px] flex justify-center items-center border-[0.5px] border-gray300 my-auto">
+            <BsShare className="rotate-180 text-[20px]" />
+          </div>
+        </div>
+      </div>
+      <div className="md:w-[1060px] md:h-[758px] text-gray950 hidden md:flex flex-col gap-4 relative w-[358px] h-[458px] rounded-3xl bg-white">
         <div className="w-full h-[76px] flex justify-between border-gray200 border-b py-4 px-6">
           <div className="flex gap-2">
             <div className="h-11 w-11 rounded-full bg-black"></div>

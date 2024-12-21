@@ -12,11 +12,15 @@ import CircularProgess from "./components/CircularProgess";
 import { useState } from "react";
 import ProfileUpdate from "./components/ProfileUpdate";
 import { useUserProgress } from "../../context/useUserProgress";
+import AvailablitySwitcher from "./components/AvailablitySwitcher";
+import { useUserData } from "../../context/useUserData";
 
 const Profile = () => {
   const [hover, setHover] = useState(false);
   const [progress, setProgress] = useState(false);
+  const [showSwitcher, setShowSwitcher] = useState(false);
   const { status } = useUserProgress();
+  const { fullname, username } = useUserData();
 
   const handleClick = () => {
     setHover((h) => !h);
@@ -43,16 +47,25 @@ const Profile = () => {
           </div>
           <div className="">
             <p className="font-semibold text-2xl text-gray950 mb-1">
-              Vergil Ebong
+              {fullname}
             </p>
-            <p className="font-normal text-sm text-gray700">@ogvergil</p>
+            <p className="font-normal text-sm text-gray700">@{username}</p>
           </div>
-          <div className="py-[2px] px-2 border h-6 border-gray200 max-w-[202px] rounded-[100px] flex gap-1 items-center">
-            <span className="w-2 h-2 rounded-full bg-success700"></span>
-            {status === "Available" ? "Available to collaborate" : status}
-          </div>
-          <div className="flex flex-col h-[124px] w-[239px] border border-gray200 rounded-xl">
-            .
+          <div className="flex relative">
+            <div
+              onClick={() => setShowSwitcher(!showSwitcher)}
+              className="py-[2px] px-2 border h-6 border-gray200 max-w-[202px] rounded-[100px] flex gap-1 items-center"
+            >
+              <span
+                className={`w-2 h-2 rounded-full ${
+                  status === "Available" && "bg-success700"
+                } ${status === "Occupied" && "bg-[#F7BA36]"}
+                ${status === "Not available" && "bg-gray500"}
+                `}
+              ></span>
+              {status === "Available" ? "Available to collaborate" : status}
+            </div>
+            {showSwitcher && <AvailablitySwitcher />}
           </div>
         </div>
         <hr />

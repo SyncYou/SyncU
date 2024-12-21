@@ -1,10 +1,10 @@
-import { ReactNode } from "react";
+import { ComponentPropsWithoutRef, ReactNode } from "react";
 
 interface PropsType {
   children?: ReactNode;
-  classes?: string;
-  disabled?: boolean;
-  onClick?: () => void;
+  disabled?: ComponentPropsWithoutRef<"button">["disabled"];
+  classes?: ComponentPropsWithoutRef<"button">["className"];
+  onClick?: ComponentPropsWithoutRef<"button">["onClick"];
 }
 
 const PrimaryButton = ({ children, classes, disabled, onClick }: PropsType) => {

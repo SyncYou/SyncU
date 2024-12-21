@@ -1,9 +1,9 @@
-import { ReactNode } from "react";
+import { ComponentPropsWithoutRef, ReactNode } from "react";
 
 interface PropsType {
   children?: ReactNode;
-  classes?: string;
-  onClick?: () => void;
+  classes?: ComponentPropsWithoutRef<"button">["className"];
+  onClick?: ComponentPropsWithoutRef<"button">["onClick"];
 }
 
 const SecondaryButton = ({ children, classes, onClick }: PropsType) => {
