@@ -3,22 +3,32 @@ import { BsArrowLeft } from "react-icons/bs";
 import Button from "./Button";
 import { useUserStore } from "../../../store/UseUserStore";
 
-interface Nav_BtnProps {
-  navTo: string; 
-  btn_Style: string; 
-  disabled: boolean; 
+interface Nav_BtnProps<T = unknown> {
+  navTo: string;
+  btn_Style: string;
+  disabled: boolean;
+  handleRequest: () => Promise<T>;
 }
 
-export default function Nav_Btn({ navTo, btn_Style, disabled }: Nav_BtnProps) {
+export default function Nav_Btn({
+  navTo,
+  btn_Style,
+  disabled,
+  handleRequest,
+}: Nav_BtnProps) {
   const navigate = useNavigate();
-
   const { currentStep, setCurrentStep } = useUserStore();
 
-  function handleNext() {
-    const nextStep = currentStep + 1;
-    setCurrentStep(nextStep);
-    navigate(`${navTo}`);
+  async function handleNext() {
+    if (!disabled) {
+      const nextStep = currentStep + 1;
+      setCurrentStep(nextStep);
+
+      await handleRequest();
+      navigate(navTo);
+    }
   }
+
   function handlePrev() {
     const prevStep = currentStep - 1;
     setCurrentStep(prevStep);
@@ -27,12 +37,15 @@ export default function Nav_Btn({ navTo, btn_Style, disabled }: Nav_BtnProps) {
 
   return (
     <span className="gap-6 items-center flex w-full">
+      {/* Previous Button */}
       <Button
         onClick={handlePrev}
         style="rounded-full py-[12px] px-[12px] bg-white shadow-xs"
       >
         <BsArrowLeft />
       </Button>
+
+      {/* Next Button */}
       <Button
         style={`w-[30%] ${btn_Style}`}
         disabled={disabled}

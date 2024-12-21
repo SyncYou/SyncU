@@ -1,7 +1,4 @@
-import OnboardingLayout from "./Layout/OnboardingLayout";
-import Verifymail from "./components/Auth/Verify-mail";
 import TellUsAboutYourself from "./components/Profile/Tell-us-about-yourself";
-import ProfileLayout from "./Layout/ProfileLayout";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import "./components/styles/ScrollBar.css";
@@ -11,6 +8,8 @@ import { User_LeftFill1 } from "./pages/SignUp/Step3/User_LeftFill1";
 import { LeftFill_2 } from "./pages/SignUp/Step4/LeftFill_2";
 import { LeftFill_3 } from "./pages/SignUp/Final_step/LeftFill_3";
 import { Finishing } from "./pages/SignUp/Finishing/Finishing";
+import OnboardingLayout from "./Layout/OnboardingLayout.tsx";
+import Verifymail from "./components/Auth/Verify-mail.tsx";
 
 // Defining the router configuration
 const router = createBrowserRouter([
@@ -22,6 +21,10 @@ const router = createBrowserRouter([
         path: "/",
         element: <User_Body />,
         children: [
+          {
+            path: "tell-us-about-yourself",
+            element: <TellUsAboutYourself />,
+          },
           {
             path: "/",
             element: <User_LeftFill1 />,
@@ -40,27 +43,18 @@ const router = createBrowserRouter([
           },
         ],
       },
+     
     ],
   },
-
   {
     path: "/auth/signup",
-    element: <OnboardingLayout />,
+    element: <OnboardingLayout/>,
   },
   {
-    path: "/onboarding",
-    element: <ProfileLayout />,
-    children: [
-      {
-        path: "tell-us-about-yourself",
-        element: <TellUsAboutYourself />,
-      },
-    ],
-  },
-  {
-    path: "/verify-email",
-    element: <Verifymail />,
-  },
+    path: "/auth/verify-email",
+    element: <Verifymail/>,
+  }
+
 ]);
 
 // Main App component

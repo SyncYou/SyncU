@@ -66,7 +66,7 @@ export function User_RightFill({ rightStyle }: UserRightFillProps) {
               </div>
               <div className="flex-col gap-1 [&_span]:text-gray-800 [&_span]:font-medium [&_span]:text-base">
                 <h2 className="text-2xl font-semibold text-gray-950">
-                  {userDetails.name}
+                  {userDetails.firstName} {userDetails.lastName}
                 </h2>
                 <span>{userDetails.email}</span>
               </div>

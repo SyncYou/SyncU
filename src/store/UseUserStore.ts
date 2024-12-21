@@ -1,8 +1,10 @@
 import { create } from "zustand";
 
-// Define types for the userDetails and store state
+
 interface UserDetails {
-  name: string;
+  firstName: string;
+  lastName: string;
+  username: string;
   email: string;
   location: string;
   profileImage: string;
@@ -12,7 +14,7 @@ interface UserDetails {
 
 interface UserStore {
   userDetails: UserDetails;
-  currentStep: number; // Assuming it's a number; change if necessary
+  currentStep: number; 
   setUserDetails: (key: keyof UserDetails, value: string) => void;
   setCurrentStep: (step: number) => void;
   removeSkill: (skill: string) => void;
@@ -22,14 +24,16 @@ interface UserStore {
 
 export const useUserStore = create<UserStore>((set, get) => ({
   userDetails: {
-    name: "Vergil Ebong",
-    email: "@ogvergil",
+    firstName: "",
+    lastName: "",
+    email: "",
+    username: "",
     location: "Nigeria",
     profileImage: "",
     area: "",
     stack: ["N/A", "N/A", "N/A"],
   },
-  currentStep: 1, // Set an initial step (you can change this)
+  currentStep: 1, 
   setUserDetails: (key, value) =>
     set((state) => ({
       userDetails: {
@@ -74,5 +78,5 @@ export const useUserStore = create<UserStore>((set, get) => ({
     }),
 
   isStackValid: () =>
-    get().userDetails.stack.includes("N/A"), // Use get() to access the store state here
+    get().userDetails.stack.includes("N/A"), 
 }));

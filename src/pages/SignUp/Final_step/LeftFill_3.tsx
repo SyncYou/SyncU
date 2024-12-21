@@ -35,7 +35,8 @@ export function LeftFill_3() {
   }
 
   const isValid =
-    userDetails.name !== "" &&
+    userDetails.firstName !== "" &&
+    userDetails.lastName !== "" &&
     userDetails.email !== "" &&
     userDetails.location !== "" &&
     userDetails.profileImage !== "" &&

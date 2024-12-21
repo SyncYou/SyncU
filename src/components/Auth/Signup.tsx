@@ -12,13 +12,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "../../types/user";
 import { signupWithOTP } from "../../utils/AuthRequest";
 import { useNavigate } from "react-router";
-import { useProfileStore } from "../../store/profileStore";
 import Loading from "../Reuseables/Loading";
+import { useUserStore } from "../../store/UseUserStore";
 
 const Signup: React.FC = () => {
   const navigate = useNavigate();
-  const { updateProfile } = useProfileStore();
   const [disable, setDisable] = useState(true);
+  const { setUserDetails } = useUserStore();
 
   const {
     register,
@@ -43,16 +43,18 @@ const Signup: React.FC = () => {
       setDisable(false);
     }
     try {
-      const { data, error } = await signupWithOTP(email);
+      setUserDetails("email", email);
+      localStorage.setItem("userEmail", email);
+
+      const { data: response, error } = await signupWithOTP(email);
 
       if (error) {
         console.log(error);
         return;
       }
 
-      updateProfile({ email: email });
-      navigate("/verify-email");
-      console.log(data);
+      navigate("/auth/verify-email");
+      console.log(response);
 
       reset();
     } catch (error) {
