@@ -1,4 +1,3 @@
-import React from 'react'
 import Logo from '/signUp-imgs/Logo.svg'
 
 export function Loading() {

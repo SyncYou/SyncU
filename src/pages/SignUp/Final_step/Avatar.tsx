@@ -1,18 +1,39 @@
-import React, { useState } from 'react'
-import check from '/signUp-imgs/Check.svg'
+import { useState } from "react";
+import check from "/signUp-imgs/Check.svg";
 
-export function Avatar({ items, handleAvatarSelect }) {
-    const [checked, setChecked] = useState(null)
-    const click = items.id === checked
-    const isChecked = click ? items.id : items.id
+interface AvatarProps {
+  items: {
+    id: number;
+    img: string;
+  };
+  handleAvatarSelect: (imgUrl: string) => void;
+}
 
-    return (
-        <>
-            <span onClick={() => setChecked(isChecked)} className='relative'>
-                <img src={items.img} alt='profile avatar' onClick={() => handleAvatarSelect(items.img)} />
+export function Avatar({ items, handleAvatarSelect }: AvatarProps) {
+  const [checked, setChecked] = useState<number | null>(null); 
 
-                {click && <fieldset className='p-1 rounded-full bg-brand-600 absolute top-[5.5vh] z-10 left-[8.5vh]'><img src={check} alt="" /></fieldset>}
-            </span>
-        </>
-    )
+  
+  const isChecked = items.id === checked;
+
+  const handleAvatarClick = () => {
+    setChecked(isChecked ? null : items.id);
+    handleAvatarSelect(items.img); 
+  };
+
+  return (
+    <>
+      <span className="relative">
+        <img
+          src={items.img}
+          alt="profile avatar"
+          onClick={handleAvatarClick}
+        />
+        {isChecked && (
+          <fieldset className="p-1 rounded-full bg-brand-600 absolute top-[5.5vh] z-10 left-[8.5vh]">
+            <img src={check} alt="check" />
+          </fieldset>
+        )}
+      </span>
+    </>
+  );
 }

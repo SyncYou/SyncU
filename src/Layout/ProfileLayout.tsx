@@ -11,7 +11,6 @@ const ProfileLayout: React.FC = () => {
     </div>
    <section className="flex w-full h-dvh">
       <div className='w-full h-dvh'>
-        {/* <TellUsAboutYourself /> */}
         <Outlet />
       </div>
       <div className='hidden md:block w-full h-[100vh]  items-center justify-center border-l-[0.5px] border-[#D6D6E0]'>
