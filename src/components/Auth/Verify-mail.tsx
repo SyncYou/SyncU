@@ -1,16 +1,16 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Header from "../Reuseables/Header";
 import mail from "/mail.svg";
-import { useProfileStore } from "../../store/profileStore";
 import { signupWithOTP, verifyEmail } from "../../utils/AuthRequest";
 import { useNavigate } from "react-router";
+import { useUserStore } from "../../store/UseUserStore";
 
 const Verifymail: React.FC = () => {
-  const { userProfile } = useProfileStore();
   const navigate = useNavigate();
+  const {userDetails} = useUserStore()
 
   const email: string | undefined =
-    userProfile?.email ?? "thatguyvergil@gmail.com";
+    userDetails?.email ?? "thatguyvergil@gmail.com";
 
   const [otp, setOtp] = useState(new Array(6).fill(""));
 
@@ -80,8 +80,9 @@ const Verifymail: React.FC = () => {
   };
 
   useEffect(() => {
-    if (userProfile.email == undefined) {
-      navigate("/");
+    const storedEmail = localStorage.getItem("userEmail");
+    if (!userDetails.email && !storedEmail) {
+      navigate("/auth/signup");
     }
   });
 
