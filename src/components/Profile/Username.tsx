@@ -15,23 +15,23 @@ const Username: React.FC = () => {
   const isValid =
     userDetails.username.trim() !== "" && userDetails.username !== "N/A";
 
-  useEffect(() => {
-    localStorage.setItem("userDetails", JSON.stringify(userDetails));
-    setDisable(!isValid);
-  }, [userDetails, isValid]);
+  // useEffect(() => {
+  //   localStorage.setItem("userDetails", JSON.stringify(userDetails));
+  //   setDisable(!isValid);
+  // }, [userDetails, isValid]);
 
-  const handleRequest = async () => {
-    if (isValid) {
-      try {
-        const response = await sendUserDetails(userDetails);
-        console.log("Data sent to Supabase:", response);
-        return response;
-      } catch (error) {
-        console.error("Error sending data to Supabase:", error);
-        // Optional: Set an error state here to display to the user
-      }
-    }
-  };
+  // const handleRequest = async () => {
+  //   if (isValid) {
+  //     try {
+  //       const response = await sendUserDetails(userDetails);
+  //       console.log("Data sent to Supabase:", response);
+  //       return response;
+  //     } catch (error) {
+  //       console.error("Error sending data to Supabase:", error);
+  //       // Optional: Set an error state here to display to the user
+  //     }
+  //   }
+  // };
 
   return (
     <section>
@@ -69,7 +69,7 @@ const Username: React.FC = () => {
           <Nav_Btn
             disabled={disable}
             showPrevious={true}
-            handleRequest={handleRequest}
+            // handleRequest={handleRequest}
             navTo="/area-of-expertise"
             btn_Style={`${
               isValid

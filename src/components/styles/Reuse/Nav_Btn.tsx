@@ -7,7 +7,7 @@ interface Nav_BtnProps<T = unknown> {
   navTo: string;
   btn_Style: string;
   disabled: boolean;
-  handleRequest: () => Promise<T>;
+  handleRequest?: () => Promise<T>;
   showPrevious: boolean;
 }
 
@@ -26,7 +26,9 @@ export default function Nav_Btn({
       const nextStep = currentStep + 1;
       setCurrentStep(nextStep);
 
-      await handleRequest();
+      if (handleRequest) {
+        await handleRequest();
+      }
       navigate(navTo);
     }
   }

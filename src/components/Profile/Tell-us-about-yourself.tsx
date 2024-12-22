@@ -33,22 +33,22 @@ const TellUsAboutYourself: React.FC = () => {
     userDetails.lastName !== "N/A" &&
     userDetails.location !== "N/A";
 
-  useEffect(() => {
-    localStorage.setItem("userDetails", JSON.stringify(userDetails));
-    setDisable(!isValid);
-  }, [userDetails, isValid]);
+  // useEffect(() => {
+  //   localStorage.setItem("userDetails", JSON.stringify(userDetails));
+  //   setDisable(!isValid);
+  // }, [userDetails, isValid]);
 
-  const handleRequest = async () => {
-    if (isValid) {
-      try {
-        // const response = await sendUserDetails(userDetails);
-        // console.log("Data sent to Supabase:", response);
-        // return response;
-      } catch (error) {
-        console.error("Error sending data to Supabase:", error);
-      }
-    }
-  };
+  // const handleRequest = async () => {
+  //   if (isValid) {
+  //     try {
+  //       // const response = await sendUserDetails(userDetails);
+  //       // console.log("Data sent to Supabase:", response);
+  //       // return response;
+  //     } catch (error) {
+  //       console.error("Error sending data to Supabase:", error);
+  //     }
+  //   }
+  // };
 
   return (
     <section>
@@ -128,7 +128,7 @@ const TellUsAboutYourself: React.FC = () => {
           <Nav_Btn
             disabled={disable}
             showPrevious={false}
-            handleRequest={handleRequest}
+            // handleRequest={handleRequest}
             navTo="/onboarding/username"
             btn_Style={`${
               isValid

@@ -174,7 +174,7 @@ export function LeftFill_2() {
         <Nav_Btn
           disabled={!isValid}
           showPrevious={true}
-          handleRequest={handleRequest}
+          // handleRequest={handleRequest}
           navTo="/profile-image"
           btn_Style={`${
             isValid
