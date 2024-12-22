@@ -41,9 +41,9 @@ const TellUsAboutYourself: React.FC = () => {
   const handleRequest = async () => {
     if (isValid) {
       try {
-        const response = await sendUserDetails(userDetails);
-        console.log("Data sent to Supabase:", response);
-        return response;
+        // const response = await sendUserDetails(userDetails);
+        // console.log("Data sent to Supabase:", response);
+        // return response;
       } catch (error) {
         console.error("Error sending data to Supabase:", error);
       }
@@ -128,7 +128,7 @@ const TellUsAboutYourself: React.FC = () => {
           <Nav_Btn
             disabled={disable}
             handleRequest={handleRequest}
-            navTo="/step4"
+            navTo="/onboarding/username"
             btn_Style={`${
               isValid
                 ? "bg-gray-950 text-opacity-100 text-white"

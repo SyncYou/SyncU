@@ -10,35 +10,40 @@ import { LeftFill_3 } from "./pages/SignUp/Final_step/LeftFill_3";
 import { Finishing } from "./pages/SignUp/Finishing/Finishing";
 import OnboardingLayout from "./Layout/OnboardingLayout.tsx";
 import Verifymail from "./components/Auth/Verify-mail.tsx";
+import Username from "./components/Profile/Username.tsx";
+import ProfileLayout from "./Layout/ProfileLayout.tsx";
 
-// Defining the router configuration
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
     children: [
       {
-        path: "/",
-        element: <User_Body />,
+        path: "/onboarding",
+        element: <ProfileLayout />,
         children: [
           {
             path: "tell-us-about-yourself",
             element: <TellUsAboutYourself />,
           },
           {
-            path: "/",
+            path: "username",
+            element: <Username />,
+          },
+          {
+            path: "area-of-expertise",
             element: <User_LeftFill1 />,
           },
           {
-            path: "/step4",
+            path: "stack",
             element: <LeftFill_2 />,
           },
           {
-            path: "/final-step",
+            path: "profile-image",
             element: <LeftFill_3 />,
           },
           {
-            path: "/finishing",
+            path: "finishing",
             element: <Finishing />,
           },
         ],

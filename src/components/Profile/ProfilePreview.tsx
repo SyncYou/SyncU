@@ -1,62 +1,137 @@
-import React from 'react'
-import { FaUser } from "react-icons/fa6";
-import sent from '/sent.svg'
-import location from '/location.svg'
-import target from '/target.svg'
-import stack from '/stack-star.svg'
+import React, { useEffect, useState } from "react";
+import profile from "/signUp-imgs/profile.svg";
+import Send from "/signUp-imgs/Send.svg";
+import whiteSent from "/signUp-imgs/Send1.svg";
+import whiteShade from "/signUp-imgs/whiteShade.svg";
+import target from "/target.svg";
+import stack from "/stack-star.svg";
+import { useUserStore } from "../../store/UseUserStore";
+import { useLocation, useNavigate } from "react-router-dom";
+import Button from "../styles/Reuse/Button";
+import { IoLocationOutline } from "react-icons/io5";
 
 const ProfilePreview: React.FC = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { userDetails, setCurrentStep, currentStep } = useUserStore();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  function handlePrev() {
+    const prevStep = currentStep - 1;
+    setCurrentStep(prevStep);
+    navigate(-1);
+  }
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (isLoading) {
+      timer = setTimeout(() => {
+        navigate("/");
+      }, 5000);
+    }
+
+    return () => clearTimeout(timer);
+  }, [isLoading, navigate]);
+
   return (
-   <section className='bg-[#ffffff] border border-[#E6E6F0] shadow-xl shadow-[#69696917] p-[30px] rounded-[24px] flex flex-col items-center justify-between w-[450px] mx-auto mt-6'>
-        <div className='flex flex-col items-center justify-between'>
-            <div className='border-4 border-[#D6D6E0] rounded-full p-5 flex items-center justify-center'>
-                <FaUser size={50} className='text-[#D6D6E0]'/>
-            </div>
-            <div className=' my-5 font-semibold flex items-center flex-col justify-center gap-2'>
-                <h2 className=' text-secondary leading-[32px] text-[24px] text-center'>Your name</h2>
-                <small className=' font-medium text-gray text-center text-[14px] leading-6'>@username</small>
+    <section className="bg-[#ffffff] border border-[#E6E6F0] shadow-xl shadow-[#69696917] p-[30px] rounded-[24px] flex flex-col items-center justify-between w-[450px] mx-auto mt-6">
+      <div className="flex flex-col items-center justify-between">
+        <div
+          className={`flex-col gap-1 ${
+            userDetails.profileImage
+              ? "rounded-full  border-4 border-[#E5E5E9]"
+              : ""
+          }`}
+        >
+          {
+            <img
+              src={userDetails.profileImage || profile}
+              alt="User Profile Image "
+              className={`rounded-full object-cover ${
+                userDetails.profileImage ? "w-[108px] h-[108px]" : ""
+              } `}
+            />
+          }
+        </div>
+        <div className=" my-5 font-semibold flex items-center flex-col justify-center gap-2">
+          <h2 className=" text-secondary leading-[32px] text-[24px] text-center">
+            {" "}
+            {userDetails.firstName} {userDetails.lastName}
+          </h2>
+          <small className=" font-medium text-gray text-center text-[14px] leading-6">
+            {userDetails.email}
+          </small>
 
-                <div className='flex items-center justify-center gap-3 border-[0.8px] border-[#D6D6E0] py-2 px-5 rounded-full
-                my-5'>
-                    <button className='text-secondary font-medium text-[14px] leading-6 text-center'>Start collaborating</button>
-                    <img src={sent} alt="sent icon" />
-                </div>
-            </div>
+          {location.pathname === "/finishing" ? (
+            <span className="w-[284px] flex items-center justify-center bg-gradient-to-r from-[#F77FED] to-[#8D83F9] font-semibold rounded-full opacity-100 p-1">
+              <Button
+                style="text-[16px] w-full relative border-none bg-gray-950 text-white"
+                onClick={() => setIsLoading(!isLoading)}
+              >
+                <>
+                  <span>Start collaborating</span>
+                  <img src={whiteSent} alt="send Icon" />
+                  <img src={whiteShade} alt="send Icon" className="absolute" />
+                </>
+              </Button>
+            </span>
+          ) : (
+            <Button style="text-[16px] w-full text-opacity-40 w-[284px] [&_img]:opacity-40 bg-white cursor-not-allowed">
+              <span>Start collaborating</span>{" "}
+              <img src={Send} alt="send Icon" />
+            </Button>
+          )}
+        </div>
+      </div>
+
+      <div className="w-full space-y-5">
+        <div className="flex items-center justify-between gap-2 w-full">
+          <div className="flex items-center flex-1 gap-2">
+            <IoLocationOutline />
+            <p className="text-gray font-medium leading-6 text-[14px]">
+              Location
+            </p>
+          </div>
+          <small className="text-secondary leading-4 font-medium">
+            {userDetails.location}
+          </small>
         </div>
 
-        <div className='w-full space-y-5'>
-            <div className='flex items-center justify-between gap-2 w-full'>
-                <div className='flex items-center flex-1 gap-2'>
-                    <img src={location} alt="location icon" />
-                    <p className='text-gray font-medium leading-6 text-[14px]'>Location</p>
-                </div>
-                <small className='text-secondary leading-4 font-medium'>N/A</small>
-            </div>
-
-            <div className='flex items-center justify-between gap-2 w-full'>
-                <div className='flex items-center flex-1 gap-2'>
-                    <img src={target} alt="location icon" />
-                    <p className='text-gray font-medium leading-6 text-[14px]'>Field of expertise</p>
-                </div>
-                <small className='text-secondary leading-4 font-medium'>N/A</small>
-            </div>
-
-            <div className='flex justify-between gap-2 w-full flex-col'>
-                <div className='flex items-center flex-1 gap-2'>
-                    <img src={stack} alt="location icon" />
-                    <p className='text-gray font-medium leading-6 text-[14px]'>Field of expertise</p>
-                </div>
-                <div className='flex items-center gap-3'>
-                {
-                    Array.from({length:3}).map((_,idx) => (
-                        <small className='border-dotted border rounded-full border-[#D6D6E0] py-2 px-5 text-secondary leading-4 font-medium' key={idx}>N/A</small>
-                    ))
-                }
-                </div>
-            </div>
+        <div className="flex items-center justify-between gap-2 w-full">
+          <div className="flex items-center flex-1 gap-2">
+            <img src={target} alt="location icon" />
+            <p className="text-gray font-medium leading-6 text-[14px]">
+              Area of expertise
+            </p>
+          </div>
+          <small className="text-secondary leading-4 font-medium">
+            {userDetails.area || "N/A"}
+          </small>
         </div>
-   </section>
-  )
-}
 
-export default ProfilePreview
+        <div className="flex justify-between gap-2 w-full flex-col">
+          <div className="flex items-center flex-1 gap-2">
+            <img src={stack} alt="location icon" />
+            <p className="text-gray font-medium leading-6 text-[14px]">
+            Skills/stacks
+            </p>
+          </div>
+          <div className="flex items-center gap-3">
+            {userDetails.stack.map((skill, index) => (
+              <p
+                key={index}
+                className={`${
+                  skill === "N/A" ? "border-dashed " : "border-solid shadow-xs"
+                } border rounded-full border-[#D6D6E0] py-2 px-5 text-secondary leading-4 font-medium`}
+              >
+                {skill}
+              </p>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default ProfilePreview;

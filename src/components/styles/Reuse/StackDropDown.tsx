@@ -18,7 +18,7 @@ export function StackDropDown({ style, selectedStack, handleAreaClick }: StackDr
   return (
     <>
       <span
-        className={`flex items-start justify-between py-2 px-3 border border-solid border-gray-200 bg-white w-[62%] rounded-lg shadow-rightShadow absolute z-10 ${style} h-[18vh] overflow-y-scroll`}
+        className={`flex items-start justify-between py-2 px-3 border border-solid border-gray-200 bg-white w-[62%] rounded-lg shadow-rightShadow absolute z-10 ${style} h-[18vh] overflow-y-scroll w-full`}
       >
         <div className="flex flex-col h-auto">
           {selectedStack?.areas.map((areaObj, index) => (
