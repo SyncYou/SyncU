@@ -103,6 +103,7 @@ export function LeftFill_3() {
 
         <Nav_Btn
           disabled={!isValid}
+          showPrevious={true}
           handleRequest={handleRequest}
           navTo="/finishing"
           btn_Style={`${

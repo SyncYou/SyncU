@@ -68,6 +68,7 @@ const Username: React.FC = () => {
 
           <Nav_Btn
             disabled={disable}
+            showPrevious={true}
             handleRequest={handleRequest}
             navTo="/area-of-expertise"
             btn_Style={`${

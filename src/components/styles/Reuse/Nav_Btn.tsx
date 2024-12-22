@@ -8,6 +8,7 @@ interface Nav_BtnProps<T = unknown> {
   btn_Style: string;
   disabled: boolean;
   handleRequest: () => Promise<T>;
+  showPrevious: boolean;
 }
 
 export default function Nav_Btn({
@@ -15,6 +16,7 @@ export default function Nav_Btn({
   btn_Style,
   disabled,
   handleRequest,
+  showPrevious,
 }: Nav_BtnProps) {
   const navigate = useNavigate();
   const { currentStep, setCurrentStep } = useUserStore();
@@ -38,12 +40,14 @@ export default function Nav_Btn({
   return (
     <span className="gap-6 items-center flex w-full">
       {/* Previous Button */}
-      <Button
-        onClick={handlePrev}
-        style="rounded-full py-[12px] px-[12px] bg-white shadow-xs"
-      >
-        <BsArrowLeft />
-      </Button>
+      {showPrevious && (
+        <Button
+          onClick={handlePrev}
+          style="rounded-full py-[12px] px-[12px] bg-white shadow-xs"
+        >
+          <BsArrowLeft />
+        </Button>
+      )}
 
       {/* Next Button */}
       <Button

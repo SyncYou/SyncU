@@ -3,7 +3,6 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import "./components/styles/ScrollBar.css";
 import RootLayout from "./Layout/RootLayout.js";
-import User_Body from "./pages/SignUp/User_Profile/User_Body.tsx";
 import { User_LeftFill1 } from "./pages/SignUp/Step3/User_LeftFill1";
 import { LeftFill_2 } from "./pages/SignUp/Step4/LeftFill_2";
 import { LeftFill_3 } from "./pages/SignUp/Final_step/LeftFill_3";

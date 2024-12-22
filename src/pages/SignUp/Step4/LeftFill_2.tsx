@@ -15,15 +15,21 @@ interface Skill {
 }
 
 export function LeftFill_2() {
-  const { userDetails, toggleSkill, removeSkill, isStackValid } =
-    useUserStore();
+  const { userDetails, toggleSkill, removeSkill, isStackValid } = useUserStore();
   const [active, setActive] = useState(false);
   const activeRef = useRef<HTMLDivElement | null>(null);
   const modalRef = useRef<HTMLDivElement | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [search, setSearch] = useState<string>("");
   const [isSearching, setIsSearching] = useState<boolean>(true);
+  const [isValid, setIsValid] = useState<boolean>(false); // Define isValid based on stack length
 
+  // Check if the number of skills selected is valid
+  useEffect(() => {
+    setIsValid(userDetails.stack.length >= 3); // Assuming 3 skills are required
+  }, [userDetails.stack]);
+
+  // Handle click outside to close modal
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -43,10 +49,12 @@ export function LeftFill_2() {
     };
   }, []);
 
+  // Filter skills based on search input
   const filteredSkills = Skills.filter((item: Skill) =>
     item.skill.toLowerCase().includes(search.toLowerCase())
   );
 
+  // Handle skill selection
   function handleSkillClick(skill: Skill) {
     toggleSkill(skill.skill);
     setShowModal(false);
@@ -54,20 +62,20 @@ export function LeftFill_2() {
     setIsSearching(!isSearching);
   }
 
+  // Remove selected skill
   function handleRemoveSkill(skill: string) {
     removeSkill(skill);
     setIsSearching(false);
   }
 
+  // Handle sending data to Supabase
   const handleRequest = async () => {
-    // if (isValid) {
     try {
       const response = await sendUserDetails(userDetails);
       console.log("Data sent to Supabase:", response);
       return response;
     } catch (error) {
       console.error("Error sending data to Supabase:", error);
-      // }
     }
   };
 
@@ -81,7 +89,7 @@ export function LeftFill_2() {
               What are you skilled at?
             </h1>
             <p className="text-gray-800 text-lg font-normal my-3">
-              This will enable us match you to projects that suits you.
+              This will enable us to match you to projects that suit you.
             </p>
           </div>
         </div>
@@ -113,18 +121,18 @@ export function LeftFill_2() {
                   }}
                 />
               ) : (
-                <div className="gap-4 [&_p]:text-gray-950 [&_p]:rounded-3xl [&_p]:border-gray-300 [&_p]:border [&_p]:py-1 [&_p]:px-[20px] w-full flex-wrap">
+                <div className="gap-4 [&_p]:text-gray-950 [&_p]:rounded-3xl [&_p]:border-gray-300 [&_p]:border [&_p]:py-1 [&_p]:px-[20px] w-full flex-wrap space-y-2">
                   {userDetails.stack.map((skill, index) => (
                     <p
                       key={index}
                       className={`${
                         skill === "N/A"
                           ? "border-none"
-                          : "border  [&_span]:flex [&_span]:items-center [&_span]:gap-[10px] cursor-pointer [&_span]:text-brand-600 bg-skill"
+                          :"border  [&_span]:flex [&_span]:items-center [&_span]:gap-[10px] cursor-pointer [&_span]:text-brand-600 bg-skill"
                       }`}
                       onClick={() => handleRemoveSkill(skill)}
                     >
-                      {skill === "N/A" ? null : (
+                     {skill === "N/A" ? null : (
                         <span>
                           {skill}
                           <FaTimes />{" "}
@@ -148,7 +156,7 @@ export function LeftFill_2() {
           </div>
         </div>
 
-        <div className="gap-2 flex-col">
+        <div className="gap-2 flex-col my-5">
           <h3 className="text-gray-800 font-normal text-sm my-3">
             Suggested skills & stacks
           </h3>
@@ -163,16 +171,17 @@ export function LeftFill_2() {
           </span>
         </div>
 
-        {/* <Nav_Btn
-            // disabled={!isValid}
-            handleRequest={handleRequest}
-            navTo="/profile-image"
-            btn_Style={`${
-              isValid
-                ? "bg-gray-950 text-opacity-100 text-white"
-                : "text-opacity-40 cursor-not-allowed"
-            }`}
-          /> */}
+        <Nav_Btn
+          disabled={!isValid}
+          showPrevious={true}
+          handleRequest={handleRequest}
+          navTo="/profile-image"
+          btn_Style={`${
+            isValid
+              ? "bg-gray-950 text-opacity-100 text-white"
+              : "text-opacity-40 cursor-not-allowed"
+          }`}
+        />
       </div>
     </section>
   );

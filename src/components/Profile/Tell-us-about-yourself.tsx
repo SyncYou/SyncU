@@ -127,6 +127,7 @@ const TellUsAboutYourself: React.FC = () => {
           </div>
           <Nav_Btn
             disabled={disable}
+            showPrevious={false}
             handleRequest={handleRequest}
             navTo="/onboarding/username"
             btn_Style={`${

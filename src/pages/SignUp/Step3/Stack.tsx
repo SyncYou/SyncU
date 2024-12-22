@@ -18,11 +18,11 @@ export function Stack({
   setIsModalOpen,
 }: StackProps) {
   const clicked = id === checked;
-  const isChecked = clicked ? id : null;
 
   function handleToggle() {
-    setChecked(isChecked);
-    setIsModalOpen(isChecked !== null);
+    const newCheckedState = clicked ? null : id; // Toggle the checked state
+    setChecked(newCheckedState);
+    setIsModalOpen(newCheckedState !== null); // Open the modal if a stack is selected
   }
 
   return (
@@ -35,13 +35,12 @@ export function Stack({
             : "bg-white border border-gray-300 shadow-smallBox [&_p]:text-gray-950"
         }`}
       >
-        {items.image.length > 0 && (
+        {items.image && items.image.length > 0 && (
           <fieldset key={0}>
-            {clicked ? (
-              <img src={items.image[0].fill} alt="niche-icons" />
-            ) : (
-              <img src={items.image[0].img} alt="niche-icons" />
-            )}
+            <img
+              src={clicked ? items.image[0].fill : items.image[0].img}
+              alt="niche-icons"
+            />
           </fieldset>
         )}
         {clicked && (
