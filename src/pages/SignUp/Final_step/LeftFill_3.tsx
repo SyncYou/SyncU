@@ -4,6 +4,7 @@ import { useUserStore } from "../../../store/UseUserStore";
 import { ProfileImage } from "./ProfileImages";
 import { Avatar } from "./Avatar";
 import { sendUserDetails } from "../../../utils/SupabaseRequest";
+import { useEffect } from "react";
 
 interface ProfileImageItem {
   id: number;
@@ -18,6 +19,7 @@ interface ChangeEvent {
 
 export function LeftFill_3() {
   const { userDetails, setUserDetails } = useUserStore();
+  // const [disable, setDisable] = useState(true);
 
   function handleImageUpload(e: ChangeEvent) {
     const file = e.target.files ? e.target.files[0] : null;
@@ -42,7 +44,12 @@ export function LeftFill_3() {
     userDetails.location !== "" &&
     userDetails.profileImage !== "" &&
     userDetails.area !== "" &&
-    userDetails.stack.length > 0;
+    userDetails.stack.length >= 3;
+
+  useEffect(() => {
+    localStorage.setItem("userDetails", JSON.stringify(userDetails));
+    // setDisable(!isValid);
+  }, [userDetails, isValid]);
 
   const handleRequest = async () => {
     if (isValid) {
@@ -60,7 +67,9 @@ export function LeftFill_3() {
     <section>
       <div className="p-5 flex flex-col w-full">
         <div className="gap-6 self-stretch flex-col ">
-          <h3 className="text-gray-600 font-medium text-sm my-5">STEP 5 of 5</h3>
+          <h3 className="text-gray-600 font-medium text-sm my-5">
+            STEP 5 of 5
+          </h3>
           <div className="gap-3 flex-col my-5">
             <h1 className="text-[32px] font-semibold text-gray-950 my-3">
               Add a photo...
@@ -104,7 +113,7 @@ export function LeftFill_3() {
         <Nav_Btn
           disabled={!isValid}
           showPrevious={true}
-          // handleRequest={handleRequest}
+          handleRequest={handleRequest}
           navTo="/finishing"
           btn_Style={`${
             isValid

@@ -15,21 +15,29 @@ interface Skill {
 }
 
 export function LeftFill_2() {
-  const { userDetails, toggleSkill, removeSkill, isStackValid } = useUserStore();
+  const { userDetails, toggleSkill, removeSkill, isStackValid } =
+    useUserStore();
+  // const [disable, setDisable] = useState(true);
   const [active, setActive] = useState(false);
   const activeRef = useRef<HTMLDivElement | null>(null);
   const modalRef = useRef<HTMLDivElement | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [search, setSearch] = useState<string>("");
   const [isSearching, setIsSearching] = useState<boolean>(true);
-  const [isValid, setIsValid] = useState<boolean>(false); // Define isValid based on stack length
+  const [isValid, setIsValid] = useState<boolean>(false);
 
-  // Check if the number of skills selected is valid
+  const valid =
+  userDetails.firstName !== "" &&
+  userDetails.lastName !== "" &&
+  userDetails.email !== "" &&
+  userDetails.location !== "" &&
+  userDetails.area !== "" &&
+  userDetails.stack.length > 0;
+
   useEffect(() => {
-    setIsValid(userDetails.stack.length >= 3); // Assuming 3 skills are required
+    setIsValid(userDetails.stack.length >= 3 && valid);
   }, [userDetails.stack]);
 
-  // Handle click outside to close modal
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -49,12 +57,10 @@ export function LeftFill_2() {
     };
   }, []);
 
-  // Filter skills based on search input
   const filteredSkills = Skills.filter((item: Skill) =>
     item.skill.toLowerCase().includes(search.toLowerCase())
   );
 
-  // Handle skill selection
   function handleSkillClick(skill: Skill) {
     toggleSkill(skill.skill);
     setShowModal(false);
@@ -62,13 +68,16 @@ export function LeftFill_2() {
     setIsSearching(!isSearching);
   }
 
-  // Remove selected skill
   function handleRemoveSkill(skill: string) {
     removeSkill(skill);
     setIsSearching(false);
   }
 
-  // Handle sending data to Supabase
+  useEffect(() => {
+    localStorage.setItem("userDetails", JSON.stringify(userDetails));
+    // setDisable(!isValid);
+  }, [userDetails, isValid]);
+
   const handleRequest = async () => {
     try {
       const response = await sendUserDetails(userDetails);
@@ -128,11 +137,11 @@ export function LeftFill_2() {
                       className={`${
                         skill === "N/A"
                           ? "border-none"
-                          :"border  [&_span]:flex [&_span]:items-center [&_span]:gap-[10px] cursor-pointer [&_span]:text-brand-600 bg-skill"
+                          : "border  [&_span]:flex [&_span]:items-center [&_span]:gap-[10px] cursor-pointer [&_span]:text-brand-600 bg-skill"
                       }`}
                       onClick={() => handleRemoveSkill(skill)}
                     >
-                     {skill === "N/A" ? null : (
+                      {skill === "N/A" ? null : (
                         <span>
                           {skill}
                           <FaTimes />{" "}
@@ -174,7 +183,7 @@ export function LeftFill_2() {
         <Nav_Btn
           disabled={!isValid}
           showPrevious={true}
-          // handleRequest={handleRequest}
+          handleRequest={handleRequest}
           navTo="/profile-image"
           btn_Style={`${
             isValid

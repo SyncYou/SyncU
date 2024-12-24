@@ -27,9 +27,11 @@ export default function Nav_Btn({
       setCurrentStep(nextStep);
 
       if (handleRequest) {
-        await handleRequest();
+        const response = await handleRequest();
+        if (response) {
+          navigate(navTo);
+        }
       }
-      navigate(navTo);
     }
   }
 

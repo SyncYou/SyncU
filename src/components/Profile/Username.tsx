@@ -15,23 +15,23 @@ const Username: React.FC = () => {
   const isValid =
     userDetails.username.trim() !== "" && userDetails.username !== "N/A";
 
-  // useEffect(() => {
-  //   localStorage.setItem("userDetails", JSON.stringify(userDetails));
-  //   setDisable(!isValid);
-  // }, [userDetails, isValid]);
+  useEffect(() => {
+    localStorage.setItem("userDetails", JSON.stringify(userDetails));
+    setDisable(!isValid);
+  }, [userDetails, isValid]);
 
-  // const handleRequest = async () => {
-  //   if (isValid) {
-  //     try {
-  //       const response = await sendUserDetails(userDetails);
-  //       console.log("Data sent to Supabase:", response);
-  //       return response;
-  //     } catch (error) {
-  //       console.error("Error sending data to Supabase:", error);
-  //       // Optional: Set an error state here to display to the user
-  //     }
-  //   }
-  // };
+  const handleRequest = async () => {
+    if (isValid) {
+      try {
+        const response = await sendUserDetails(userDetails);
+        console.log("Data sent to Supabase:", response);
+        return response;
+      } catch (error) {
+        console.error("Error sending data to Supabase:", error);
+        // Optional: Set an error state here to display to the user
+      }
+    }
+  };
 
   return (
     <section>
@@ -48,7 +48,7 @@ const Username: React.FC = () => {
           </p>
         </div>
 
-        <form className="space-y-5">
+        <div className="space-y-5">
           <div className="border border-[#E6E6F0] rounded-xl py-2 px-3 flex flex-col gap-2 focus:border focus:border-primary focus:shadow focus:shadow-[#EDE4FA] max-w-[400px]">
             <label
               className="text-secondary leading-6 text-[16px] font-normal"
@@ -69,7 +69,7 @@ const Username: React.FC = () => {
           <Nav_Btn
             disabled={disable}
             showPrevious={true}
-            // handleRequest={handleRequest}
+            handleRequest={handleRequest}
             navTo="/area-of-expertise"
             btn_Style={`${
               isValid
@@ -77,7 +77,7 @@ const Username: React.FC = () => {
                 : "text-opacity-40 cursor-not-allowed"
             }`}
           />
-        </form>
+        </div>
       </div>
     </section>
   );

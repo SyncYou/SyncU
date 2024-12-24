@@ -33,22 +33,22 @@ const TellUsAboutYourself: React.FC = () => {
     userDetails.lastName !== "N/A" &&
     userDetails.location !== "N/A";
 
-  // useEffect(() => {
-  //   localStorage.setItem("userDetails", JSON.stringify(userDetails));
-  //   setDisable(!isValid);
-  // }, [userDetails, isValid]);
+  useEffect(() => {
+    localStorage.setItem("userDetails", JSON.stringify(userDetails));
+    setDisable(!isValid);
+  }, [userDetails, isValid]);
 
-  // const handleRequest = async () => {
-  //   if (isValid) {
-  //     try {
-  //       // const response = await sendUserDetails(userDetails);
-  //       // console.log("Data sent to Supabase:", response);
-  //       // return response;
-  //     } catch (error) {
-  //       console.error("Error sending data to Supabase:", error);
-  //     }
-  //   }
-  // };
+  const handleRequest = async () => {
+    if (isValid) {
+      try {
+        const response = await sendUserDetails(userDetails);
+        console.log("Data sent to Supabase:", response);
+        return response;
+      } catch (error) {
+        console.error("Error sending data to Supabase:", error);
+      }
+    }
+  };
 
   return (
     <section>
@@ -65,7 +65,7 @@ const TellUsAboutYourself: React.FC = () => {
           </p>
         </div>
 
-        <form className="space-y-5">
+        <div className="space-y-5">
           <div className="border border-[#E6E6F0] rounded-xl py-2 px-3 flex flex-col gap-2 focus:border focus:border-primary focus:shadow focus:shadow-[#EDE4FA]">
             <label
               className="text-secondary leading-6 text-[16px] font-normal"
@@ -128,7 +128,7 @@ const TellUsAboutYourself: React.FC = () => {
           <Nav_Btn
             disabled={disable}
             showPrevious={false}
-            // handleRequest={handleRequest}
+            handleRequest={handleRequest}
             navTo="/onboarding/username"
             btn_Style={`${
               isValid
@@ -136,7 +136,7 @@ const TellUsAboutYourself: React.FC = () => {
                 : "text-opacity-40 cursor-not-allowed"
             }`}
           />
-        </form>
+        </div>
       </div>
     </section>
   );

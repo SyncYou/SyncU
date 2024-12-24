@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import caret from "/signUp-imgs/CaretUpDown.svg";
 import { StackDropDown } from "../../../components/styles/Reuse/StackDropDown";
 import Nav_Btn from "../../../components/styles/Reuse/Nav_Btn";
@@ -19,7 +19,17 @@ export function User_LeftFill1() {
     setIsModalOpen(false);
   }
 
-  const isValid = userDetails.area !== "";
+  const isValid =
+    userDetails.firstName !== "" &&
+    userDetails.lastName !== "" &&
+    userDetails.email !== "" &&
+    userDetails.location !== "" &&
+    userDetails.area !== ""
+
+  useEffect(() => {
+    localStorage.setItem("userDetails", JSON.stringify(userDetails));
+    // setDisable(!isValid);
+  }, [userDetails, isValid]);
 
   const handleRequest = async () => {
     if (isValid) {
@@ -96,7 +106,7 @@ export function User_LeftFill1() {
         <Nav_Btn
           disabled={!isValid}
           showPrevious={true}
-          // handleRequest={handleRequest}
+          handleRequest={handleRequest}
           navTo="/step4"
           btn_Style={`${
             isValid
