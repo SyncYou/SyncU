@@ -29,6 +29,10 @@ export const Niches = [
       { area: "Backend Development" },
       { area: "DevOps Engineering" },
       { area: "Machine Learning Engineering" },
+      { area: "Frontend Development" },
+      { area: "Backend Development" },
+      { area: "DevOps Engineering" },
+      { area: "Machine Learning Engineering" },
     ],
   },
   {

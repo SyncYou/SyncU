@@ -31,6 +31,11 @@ export default {
     fontFamily: {
       inter: ["Inter", "sans-serif"],
     },
+    screens: {
+      tablet: "885px",
+      sm: "640px",
+      smaller: "379px",
+    },
     extend: {},
   },
   plugins: [],

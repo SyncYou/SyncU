@@ -5,7 +5,7 @@ export function Modal2({ handleSkillClick, filteredSkills }) {
 
     return (
         <>
-            <span className="flex items-start  justify-between py-2 px-3 border border-solid border-gray-200 bg-white w-[62%] rounded-lg shadow-rightShadow absolute z-10  h-[18vh] overflow-y-scroll">
+            <span className="flex items-start  justify-between py-2 px-3 border border-solid border-gray-200 bg-white w-[62%] max-sm:w-full rounded-lg shadow-rightShadow absolute z-10  h-[18vh] max-sm:h-[30vh] overflow-y-scroll">
                 <div className="flex flex-col h-auto">
                     {filteredSkills.length > 0 ? (
                         <ul className="flex items-center justify-center flex-col gap-[10px] w-full *:h-auto ">

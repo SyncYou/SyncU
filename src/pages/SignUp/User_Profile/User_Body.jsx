@@ -7,12 +7,13 @@ export default function User_Body() {
     return (
         <>
             {location.pathname !== "/finishing" ?
-                <main className="flex items-center [&_section]:w-1/2 h-full  mt-[3%] ">
-                    <section className='flex flex-col justify-center items-center h-full pt-[5%] px-8 bg-white '>
+                <main className="flex items-center [&_section]:w-1/2 [&_section]:max-sm:w-full h-full  mt-[3%] ">
+                    <section className='flex flex-col justify-center items-center h-full pt-[5%] max-sm:pt-[23%] max-sm:pb-[87px] max-sm:px-[16px] px-8 bg-white max-sm:overflow-x-hidden'>
                         <div className="flex flex-col items-start gap-10 w-full [&_div]:flex [&_div]:items-start [&_div]:w-full">
                             <Outlet />
                         </div>
                     </section>
+
                     <User_RightFill />
                 </main> :
                 <User_RightFill rightStyle="w-[40%]" />}

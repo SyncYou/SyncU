@@ -32,8 +32,8 @@ export function LeftFill_3() {
             <div className="gap-6 self-stretch flex-col ">
                 <h3 className="text-gray-600 font-medium text-sm ">STEP 5 of 5</h3>
                 <div className="gap-3 flex-col ">
-                    <h1 className="text-[32px] font-semibold text-gray-950">Add a photo...</h1>
-                    <p className="text-gray-800 text-lg font-normal">This will help increase your chances of being accepted to work on a project.</p>
+                    <h1 className="text-[32px] font-semibold text-gray-950 max-sm:text-[24px]">Add a photo...</h1>
+                    <p className="text-gray-800 text-lg font-normal max-sm:text-base">This will help increase your chances of being accepted to work on a project.</p>
                 </div>
             </div>
 

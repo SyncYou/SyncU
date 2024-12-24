@@ -25,7 +25,7 @@ export default function Nav_Btn({ navTo, btn_Style, disabled }) {
             <Button onClick={handlePrev} style='rounded-full py-[12px] px-[12px] bg-white shadow-xs'>
                 <BsArrowLeft />
             </Button>
-            <Button style={`w-[30%] ${btn_Style}`} disabled={disabled} onClick={handleNext}>Next</Button>
+            <Button style={`w-[30%] ${btn_Style} max-sm:w-[55%]`} disabled={disabled} onClick={handleNext}>Next</Button>
         </span >
     )
 }
