@@ -27,24 +27,25 @@ export function LeftFill_3() {
       const reader = new FileReader();
       reader.onload = () => {
         const uploadImage = reader.result as string;
-        setUserDetails("profileImage", uploadImage);
+        setUserDetails("photoUrl", uploadImage);
       };
       reader.readAsDataURL(file);
     }
   }
 
   function handleAvatarSelect(image: string) {
-    setUserDetails("profileImage", image);
+    setUserDetails("photoUrl", image);
   }
 
   const isValid =
     userDetails.firstName !== "" &&
     userDetails.lastName !== "" &&
     userDetails.email !== "" &&
-    userDetails.location !== "" &&
-    userDetails.profileImage !== "" &&
-    userDetails.area !== "" &&
-    userDetails.stack.length >= 3;
+    userDetails.username !== "" &&
+    userDetails.countryOfResidence !== "" &&
+    userDetails.photoUrl !== "" &&
+    userDetails.areaOfExpertise !== "" &&
+    userDetails.stacks.length >= 3;
 
   useEffect(() => {
     localStorage.setItem("userDetails", JSON.stringify(userDetails));

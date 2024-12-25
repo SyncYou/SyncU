@@ -16,11 +16,11 @@ const ProfilePreview: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  function handlePrev() {
-    const prevStep = currentStep - 1;
-    setCurrentStep(prevStep);
-    navigate(-1);
-  }
+  // function handlePrev() {
+  //   const prevStep = currentStep - 1;
+  //   setCurrentStep(prevStep);
+  //   navigate(-1);
+  // }
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -38,17 +38,17 @@ const ProfilePreview: React.FC = () => {
       <div className="flex flex-col items-center justify-between">
         <div
           className={`flex-col gap-1 ${
-            userDetails.profileImage
+            userDetails.photoUrl
               ? "rounded-full  border-4 border-[#E5E5E9]"
               : ""
           }`}
         >
           {
             <img
-              src={userDetails.profileImage || profile}
+              src={userDetails.photoUrl || profile}
               alt="User Profile Image "
               className={`rounded-full object-cover ${
-                userDetails.profileImage ? "w-[108px] h-[108px]" : ""
+                userDetails.photoUrl ? "w-[108px] h-[108px]" : ""
               } `}
             />
           }
@@ -93,7 +93,7 @@ const ProfilePreview: React.FC = () => {
             </p>
           </div>
           <small className="text-secondary leading-4 font-medium">
-            {userDetails.location}
+            {userDetails.countryOfResidence}
           </small>
         </div>
 
@@ -105,7 +105,7 @@ const ProfilePreview: React.FC = () => {
             </p>
           </div>
           <small className="text-secondary leading-4 font-medium">
-            {userDetails.area || "N/A"}
+            {userDetails.areaOfExpertise || "N/A"}
           </small>
         </div>
 
@@ -117,7 +117,7 @@ const ProfilePreview: React.FC = () => {
             </p>
           </div>
           <div className="flex items-center gap-3">
-            {userDetails.stack.map((skill, index) => (
+            {userDetails.stacks.map((skill, index) => (
               <p
                 key={index}
                 className={`${

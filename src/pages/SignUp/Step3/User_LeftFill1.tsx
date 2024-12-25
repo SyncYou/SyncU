@@ -15,7 +15,7 @@ export function User_LeftFill1() {
   const selectedStack = Niches.find((niche) => niche.id === checked) || null;
 
   function handleAreaClick(area: string) {
-    setUserDetails("area", area);
+    setUserDetails("areaOfExpertise", area);
     setIsModalOpen(false);
   }
 
@@ -23,8 +23,8 @@ export function User_LeftFill1() {
     userDetails.firstName !== "" &&
     userDetails.lastName !== "" &&
     userDetails.email !== "" &&
-    userDetails.location !== "" &&
-    userDetails.area !== ""
+    userDetails.countryOfResidence !== "" &&
+    userDetails.areaOfExpertise !== ""
 
   useEffect(() => {
     localStorage.setItem("userDetails", JSON.stringify(userDetails));
@@ -86,7 +86,7 @@ export function User_LeftFill1() {
               </p>
               <p
                 className={`text-gray-400 text-base font-medium ${
-                  userDetails.area ? "text-gray-800" : ""
+                  userDetails.areaOfExpertise ? "text-gray-800" : ""
                 }`}
               >
                 {selectedStack ? selectedStack.stack : "Select one---"}

@@ -6,10 +6,10 @@ interface UserDetails {
   lastName: string;
   username: string;
   email: string;
-  location: string;
-  profileImage: string;
-  area: string;
-  stack: string[];
+  countryOfResidence: string;
+  photoUrl: string;
+  areaOfExpertise: string;
+  stacks: string[];
 }
 
 interface UserStore {
@@ -28,10 +28,10 @@ export const useUserStore = create<UserStore>((set, get) => ({
     lastName: "",
     email: "",
     username: "",
-    location: "Nigeria",
-    profileImage: "",
-    area: "",
-    stack: ["N/A", "N/A", "N/A"],
+    countryOfResidence: "Nigeria",
+    photoUrl: "",
+    areaOfExpertise: "",
+    stacks: ["N/A", "N/A", "N/A"],
   },
   currentStep: 1, 
   setUserDetails: (key, value) =>
@@ -49,7 +49,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
 
   removeSkill: (skill) =>
     set((state) => {
-      const updatedStack = state.userDetails.stack.map((item) =>
+      const updatedStack = state.userDetails.stacks.map((item) =>
         item === skill ? "N/A" : item
       );
       return {
@@ -59,16 +59,16 @@ export const useUserStore = create<UserStore>((set, get) => ({
 
   toggleSkill: (skill) =>
     set((state) => {
-      const alreadyExists = state.userDetails.stack.includes(skill);
+      const alreadyExists = state.userDetails.stacks.includes(skill);
       if (alreadyExists) {
-        const updatedStack = state.userDetails.stack.map((item) =>
+        const updatedStack = state.userDetails.stacks.map((item) =>
           item === skill ? "N/A" : item
         );
         return {
           userDetails: { ...state.userDetails, stack: updatedStack },
         };
       } else {
-        const updatedStack = [...state.userDetails.stack];
+        const updatedStack = [...state.userDetails.stacks];
         const index = updatedStack.findIndex((item) => item === "N/A");
         if (index !== -1) updatedStack[index] = skill;
         return {
@@ -78,5 +78,5 @@ export const useUserStore = create<UserStore>((set, get) => ({
     }),
 
   isStackValid: () =>
-    get().userDetails.stack.includes("N/A"), 
+    get().userDetails.stacks.includes("N/A"), 
 }));

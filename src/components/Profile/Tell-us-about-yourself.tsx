@@ -21,17 +21,17 @@ const TellUsAboutYourself: React.FC = () => {
   };
 
   const handleCountrySelect = (selectedCountry: string) => {
-    setUserDetails("location", selectedCountry);
+    setUserDetails("countryOfResidence", selectedCountry);
     setModalOpen(false);
   };
 
   const isValid =
     userDetails.firstName.trim() !== "" &&
     userDetails.lastName.trim() !== "" &&
-    userDetails.location.trim() !== "" &&
+    userDetails.countryOfResidence.trim() !== "" &&
     userDetails.firstName !== "N/A" &&
     userDetails.lastName !== "N/A" &&
-    userDetails.location !== "N/A";
+    userDetails.countryOfResidence !== "N/A";
 
   useEffect(() => {
     localStorage.setItem("userDetails", JSON.stringify(userDetails));
@@ -114,7 +114,7 @@ const TellUsAboutYourself: React.FC = () => {
                 name="country"
                 type="text"
                 placeholder="Select country---"
-                value={userDetails.location || ""}
+                value={userDetails.countryOfResidence || ""}
                 onClick={handleCountryInputClick}
                 readOnly
               />

@@ -30,13 +30,13 @@ export function LeftFill_2() {
   userDetails.firstName !== "" &&
   userDetails.lastName !== "" &&
   userDetails.email !== "" &&
-  userDetails.location !== "" &&
-  userDetails.area !== "" &&
-  userDetails.stack.length > 0;
+  userDetails.countryOfResidence !== "" &&
+  userDetails.areaOfExpertise !== "" &&
+  userDetails.stacks.length > 0;
 
   useEffect(() => {
-    setIsValid(userDetails.stack.length >= 3 && valid);
-  }, [userDetails.stack]);
+    setIsValid(userDetails.stacks.length >= 3 && valid);
+  }, [userDetails.stacks]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -131,7 +131,7 @@ export function LeftFill_2() {
                 />
               ) : (
                 <div className="gap-4 [&_p]:text-gray-950 [&_p]:rounded-3xl [&_p]:border-gray-300 [&_p]:border [&_p]:py-1 [&_p]:px-[20px] w-full flex-wrap space-y-2">
-                  {userDetails.stack.map((skill, index) => (
+                  {userDetails.stacks.map((skill, index) => (
                     <p
                       key={index}
                       className={`${
