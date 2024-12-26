@@ -7,7 +7,7 @@ import { useUserStore } from "../../store/UseUserStore";
 
 const Verifymail: React.FC = () => {
   const navigate = useNavigate();
-  const {userDetails} = useUserStore()
+  const { userDetails } = useUserStore();
 
   const email: string | undefined =
     userDetails?.email ?? "thatguyvergil@gmail.com";
@@ -65,6 +65,9 @@ const Verifymail: React.FC = () => {
     if (error) {
       console.log(error);
     }
+
+    localStorage.setItem('newUser', JSON.stringify(session?.user))
+    navigate('/onboarding/tell-us-about-yourself')
 
     console.log(session, error);
   };

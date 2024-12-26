@@ -33,13 +33,12 @@ const Username: React.FC = () => {
         return response;
       } catch (error) {
         console.error("Error sending data to Supabase:", error);
-        // Optional: Set an error state here to display to the user
       }
     }
   };
 
   return (
-    <section>
+    <section className="mt-20">
       <div className="p-5 flex flex-col w-full">
         <small className="font-medium text-[14px] leading-5 text-[#8C8C99]">
           STEP 2 of 5
