@@ -11,18 +11,16 @@ export function Skill({ skill, setIsSearching }: SkillProps) {
   const { userDetails, toggleSkill } = useUserStore();
 
   return (
-    <>
-      <p
-        onClick={() => {
-          toggleSkill(skill);
-          setIsSearching(false);
-        }}
-        className={`${
-          userDetails.stack.includes(skill) ? "bg-gray-100 text-white" : ""
-        }`}
-      >
-        {skill} <FiPlus />
-      </p>
-    </>
+    <p
+      onClick={() => {
+        toggleSkill(skill); // This now properly adds or removes the skill
+        setIsSearching(false); // Optionally stop searching after clicking
+      }}
+      className={`${
+        userDetails.stacks.includes(skill) ? "bg-gray-100 text-white" : ""
+      }`}
+    >
+      {skill} <FiPlus />
+    </p>
   );
 }

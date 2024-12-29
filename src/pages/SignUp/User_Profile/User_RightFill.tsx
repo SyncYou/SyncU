@@ -68,7 +68,7 @@ export function User_RightFill({ rightStyle }: UserRightFillProps) {
                 <h2 className="text-2xl font-semibold text-gray-950">
                   {userDetails.firstName} {userDetails.lastName}
                 </h2>
-                <span>{userDetails.email}</span>
+                <span>{userDetails.username}</span>
               </div>
             </div>
 

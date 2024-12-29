@@ -12,7 +12,7 @@ import { IoLocationOutline } from "react-icons/io5";
 
 const ProfilePreview: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { userDetails, setCurrentStep, currentStep } = useUserStore();
+  const { userDetails } = useUserStore();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -116,7 +116,7 @@ const ProfilePreview: React.FC = () => {
             Skills/stacks
             </p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             {userDetails.stacks.map((skill, index) => (
               <p
                 key={index}

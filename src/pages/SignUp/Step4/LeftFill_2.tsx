@@ -15,9 +15,8 @@ interface Skill {
 }
 
 export function LeftFill_2() {
-  const { userDetails, toggleSkill, removeSkill, isStackValid } =
+  const { userDetails, toggleSkill, removeSkill } =
     useUserStore();
-  // const [disable, setDisable] = useState(true);
   const [active, setActive] = useState(false);
   const activeRef = useRef<HTMLDivElement | null>(null);
   const modalRef = useRef<HTMLDivElement | null>(null);
@@ -27,17 +26,16 @@ export function LeftFill_2() {
   const [isValid, setIsValid] = useState<boolean>(false);
 
   const valid =
-  userDetails.firstName !== "" &&
-  userDetails.lastName !== "" &&
-  userDetails.email !== "" &&
-  userDetails.countryOfResidence !== "" &&
-  userDetails.areaOfExpertise !== "" &&
-  userDetails.stacks.length > 0;
+    userDetails.firstName !== "" &&
+    userDetails.lastName !== "" &&
+    userDetails.countryOfResidence !== "" &&
+    userDetails.areaOfExpertise !== "" &&
+    userDetails.stacks.length > 0;
 
-  useEffect(() => {
-    setIsValid(userDetails.stacks.length >= 3 && valid);
-  }, [userDetails.stacks]);
-
+    useEffect(() => {
+      setIsValid(userDetails.stacks.length >= 3 && valid);
+    }, [userDetails.stacks]);
+    
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -67,15 +65,12 @@ export function LeftFill_2() {
     setSearch("");
     setIsSearching(!isSearching);
   }
-
   function handleRemoveSkill(skill: string) {
     removeSkill(skill);
     setIsSearching(false);
   }
-
   useEffect(() => {
     localStorage.setItem("userDetails", JSON.stringify(userDetails));
-    // setDisable(!isValid);
   }, [userDetails, isValid]);
 
   const handleRequest = async () => {
@@ -131,24 +126,25 @@ export function LeftFill_2() {
                 />
               ) : (
                 <div className="gap-4 [&_p]:text-gray-950 [&_p]:rounded-3xl [&_p]:border-gray-300 [&_p]:border [&_p]:py-1 [&_p]:px-[20px] w-full flex-wrap space-y-2">
-                  {userDetails.stacks.map((skill, index) => (
-                    <p
-                      key={index}
-                      className={`${
-                        skill === "N/A"
-                          ? "border-none"
-                          : "border  [&_span]:flex [&_span]:items-center [&_span]:gap-[10px] cursor-pointer [&_span]:text-brand-600 bg-skill"
-                      }`}
-                      onClick={() => handleRemoveSkill(skill)}
-                    >
-                      {skill === "N/A" ? null : (
-                        <span>
-                          {skill}
-                          <FaTimes />{" "}
-                        </span>
-                      )}
-                    </p>
-                  ))}
+                  {userDetails.stacks.map(
+                    (skill, index) =>
+                      skill !== "N/A" && (
+                        <p
+                          key={index}
+                          className={`${
+                            skill === "N/A"
+                              ? "border-none"
+                              : "border  [&_span]:flex [&_span]:items-center [&_span]:gap-[10px] cursor-pointer [&_span]:text-brand-600 bg-skill"
+                          }`}
+                          onClick={() => handleRemoveSkill(skill)}
+                        >
+                          <span>
+                            {skill}
+                            <FaTimes />
+                          </span>
+                        </p>
+                      )
+                  )}
                 </div>
               )}
             </span>
@@ -184,7 +180,7 @@ export function LeftFill_2() {
           disabled={!isValid}
           showPrevious={true}
           handleRequest={handleRequest}
-          navTo="/profile-image"
+          navTo="/onboarding/profile-image"
           btn_Style={`${
             isValid
               ? "bg-gray-950 text-opacity-100 text-white"

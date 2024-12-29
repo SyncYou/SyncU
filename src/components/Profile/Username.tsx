@@ -13,12 +13,7 @@ const Username: React.FC = () => {
   };
 
   const isValid =
-    userDetails.username.trim() !== "" &&
-    userDetails.username !== "N/A" &&
-    userDetails.firstName !== "" &&
-    userDetails.lastName !== "" &&
-    userDetails.email !== "" &&
-    userDetails.countryOfResidence !== "";
+    userDetails.username.trim() !== ""
 
   useEffect(() => {
     localStorage.setItem("userDetails", JSON.stringify(userDetails));
@@ -71,10 +66,10 @@ const Username: React.FC = () => {
           </div>
 
           <Nav_Btn
-            disabled={disable}
+            disabled={!isValid}
             showPrevious={true}
             handleRequest={handleRequest}
-            navTo="/area-of-expertise"
+            navTo="/onboarding/area-of-expertise"
             btn_Style={`${
               isValid
                 ? "bg-gray-950 text-opacity-100 text-white"

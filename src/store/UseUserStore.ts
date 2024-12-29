@@ -28,7 +28,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
     lastName: "",
     email: "",
     username: "",
-    countryOfResidence: "Nigeria",
+    countryOfResidence: "",
     photoUrl: "",
     areaOfExpertise: "",
     stacks: ["N/A", "N/A", "N/A"],
@@ -47,35 +47,39 @@ export const useUserStore = create<UserStore>((set, get) => ({
       currentStep: step,
     })),
 
-  removeSkill: (skill) =>
-    set((state) => {
-      const updatedStack = state.userDetails.stacks.map((item) =>
-        item === skill ? "N/A" : item
-      );
-      return {
-        userDetails: { ...state.userDetails, stack: updatedStack },
-      };
-    }),
+    removeSkill: (skill: string) =>
+      set((state) => {
+        const updatedStack = state.userDetails.stacks.filter((item) => item !== skill);
+        return {
+          userDetails: { ...state.userDetails, stacks: updatedStack },
+        };
+      }),
 
-  toggleSkill: (skill) =>
-    set((state) => {
-      const alreadyExists = state.userDetails.stacks.includes(skill);
-      if (alreadyExists) {
-        const updatedStack = state.userDetails.stacks.map((item) =>
-          item === skill ? "N/A" : item
-        );
+    toggleSkill: (skill) =>
+      set((state) => {
+        const { stacks } = state.userDetails;
+    
+        // If the skill is already in the stack, remove it
+        if (stacks.includes(skill)) {
+          const updatedStack = stacks.filter((item) => item !== skill);
+          return {
+            userDetails: { ...state.userDetails, stacks: updatedStack },
+          };
+        }
+    
+        // If the skill is not in the stack, add it
+        let updatedStack = [...stacks, skill];
+    
+        // Remove "N/A" if it exists after adding the new skill
+        updatedStack = updatedStack.filter((item) => item !== "N/A");
+    
         return {
-          userDetails: { ...state.userDetails, stack: updatedStack },
+          userDetails: { ...state.userDetails, stacks: updatedStack },
         };
-      } else {
-        const updatedStack = [...state.userDetails.stacks];
-        const index = updatedStack.findIndex((item) => item === "N/A");
-        if (index !== -1) updatedStack[index] = skill;
-        return {
-          userDetails: { ...state.userDetails, stack: updatedStack },
-        };
-      }
-    }),
+      }),
+    
+    
+    
 
   isStackValid: () =>
     get().userDetails.stacks.includes("N/A"), 

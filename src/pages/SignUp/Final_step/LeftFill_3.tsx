@@ -3,31 +3,42 @@ import Nav_Btn from "../../../components/styles/Reuse/Nav_Btn";
 import { useUserStore } from "../../../store/UseUserStore";
 import { ProfileImage } from "./ProfileImages";
 import { Avatar } from "./Avatar";
-import { sendUserDetails } from "../../../utils/SupabaseRequest";
-import { useEffect } from "react";
+import { sendUserDetails, uploadAvatar } from "../../../utils/SupabaseRequest";
+import { ChangeEvent, useEffect } from "react";
 
 interface ProfileImageItem {
   id: number;
   img: string;
 }
 
-interface ChangeEvent {
-  target: {
-    files: FileList | null;
-  };
-}
+// interface ChangeEvent {
+//   target: {
+//     files: FileList | null;
+//   };
+// }
 
 export function LeftFill_3() {
   const { userDetails, setUserDetails } = useUserStore();
   // const [disable, setDisable] = useState(true);
 
-  function handleImageUpload(e: ChangeEvent) {
+
+  async function handleImageUpload(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files ? e.target.files[0] : null;
     if (file) {
       const reader = new FileReader();
-      reader.onload = () => {
+      
+
+      reader.onload = async () => {
         const uploadImage = reader.result as string;
-        setUserDetails("photoUrl", uploadImage);
+        
+        try {
+          const avatarUrl = await uploadAvatar(file);
+          
+          setUserDetails("photoUrl", avatarUrl);
+          localStorage.setItem('photoUrlLocal', uploadImage)
+        } catch (error) {
+          console.error("Error uploading image:", error);
+        }
       };
       reader.readAsDataURL(file);
     }

@@ -19,12 +19,7 @@ export function User_LeftFill1() {
     setIsModalOpen(false);
   }
 
-  const isValid =
-    userDetails.firstName !== "" &&
-    userDetails.lastName !== "" &&
-    userDetails.email !== "" &&
-    userDetails.countryOfResidence !== "" &&
-    userDetails.areaOfExpertise !== ""
+  const isValid = userDetails.areaOfExpertise !== "";
 
   useEffect(() => {
     localStorage.setItem("userDetails", JSON.stringify(userDetails));
@@ -47,7 +42,9 @@ export function User_LeftFill1() {
     <section>
       <div className="p-5 flex flex-col w-full">
         <div className="gap-6 self-stretch flex-col ">
-          <h3 className="text-gray-600 font-medium text-sm my-5">STEP 3 of 5</h3>
+          <h3 className="text-gray-600 font-medium text-sm my-5">
+            STEP 3 of 5
+          </h3>
           <div className="gap-3 flex-col my-5">
             <h1 className="text-[32px] font-semibold text-gray-950">
               What are you into?
@@ -107,7 +104,7 @@ export function User_LeftFill1() {
           disabled={!isValid}
           showPrevious={true}
           handleRequest={handleRequest}
-          navTo="/step4"
+          navTo="/onboarding/stack"
           btn_Style={`${
             isValid
               ? "bg-gray-950 text-opacity-100 text-white"

@@ -16,20 +16,17 @@ if (user) {
 
 // console.log(userId);
 
-export const sendUserDetails = async (data: any) => {
-  const { data: response, error } = await supabase
+export const sendUserDetails = async (userData: any) => {
+  const { data, error } = await supabase
     .from("Users")
-    .upsert({
-      id: userId,
-      ...data,
-    })
-    .eq("id", userId);
+    .upsert([{ id: userId, ...userData }], { onConflict: "id" });
 
   if (error) {
     throw new Error(error.message);
   }
-  console.log(response);
-  return response;
+
+  console.log(data);
+  return data;
 };
 
 export const updateUserDetails = async (data: any) => {
@@ -44,3 +41,26 @@ export const updateUserDetails = async (data: any) => {
   console.log(response);
   return response;
 };
+
+export async function uploadAvatar(
+  file: File,
+) {
+
+  const fileExt = file.name.split(".").pop();
+  const fileName = `${Math.random()}.${fileExt}`;
+  const filePath = `avatar/${fileName}`;
+
+  const { error: uploadError } = await supabase.storage
+    .from("avatar")
+    .upload(filePath, file);
+
+    if (uploadError) {
+      throw uploadError;
+    }
+
+  const {
+    data: { publicUrl },
+  } = supabase.storage.from("avatar").getPublicUrl(filePath);
+
+  return publicUrl;
+}
