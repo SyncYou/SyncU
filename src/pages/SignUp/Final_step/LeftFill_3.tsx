@@ -21,21 +21,19 @@ export function LeftFill_3() {
   const { userDetails, setUserDetails } = useUserStore();
   // const [disable, setDisable] = useState(true);
 
-
   async function handleImageUpload(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files ? e.target.files[0] : null;
     if (file) {
       const reader = new FileReader();
-      
 
       reader.onload = async () => {
-        const uploadImage = reader.result as string;
-        
+        // const uploadImage = reader.result as string;
+
         try {
           const avatarUrl = await uploadAvatar(file);
-          
+          console.log(avatarUrl);
+
           setUserDetails("photoUrl", avatarUrl);
-          localStorage.setItem('photoUrlLocal', uploadImage)
         } catch (error) {
           console.error("Error uploading image:", error);
         }
@@ -51,7 +49,7 @@ export function LeftFill_3() {
   const isValid =
     userDetails.firstName !== "" &&
     userDetails.lastName !== "" &&
-    userDetails.email !== "" &&
+    // userDetails.email !== "" &&
     userDetails.username !== "" &&
     userDetails.countryOfResidence !== "" &&
     userDetails.photoUrl !== "" &&
@@ -60,7 +58,6 @@ export function LeftFill_3() {
 
   useEffect(() => {
     localStorage.setItem("userDetails", JSON.stringify(userDetails));
-    // setDisable(!isValid);
   }, [userDetails, isValid]);
 
   const handleRequest = async () => {
@@ -126,7 +123,7 @@ export function LeftFill_3() {
           disabled={!isValid}
           showPrevious={true}
           handleRequest={handleRequest}
-          navTo="/finishing"
+          navTo="/onboarding/finishing"
           btn_Style={`${
             isValid
               ? "bg-gray-950 text-opacity-100 text-white"

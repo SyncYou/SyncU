@@ -9,18 +9,16 @@ import { useUserStore } from "../../store/UseUserStore";
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../styles/Reuse/Button";
 import { IoLocationOutline } from "react-icons/io5";
+import { Loading } from "../styles/Reuse/Loading";
 
 const ProfilePreview: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { userDetails } = useUserStore();
+  const { userDetails} = useUserStore();
   const location = useLocation();
   const navigate = useNavigate();
 
-  // function handlePrev() {
-  //   const prevStep = currentStep - 1;
-  //   setCurrentStep(prevStep);
-  //   navigate(-1);
-  // }
+ 
+
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -47,8 +45,8 @@ const ProfilePreview: React.FC = () => {
             <img
               src={userDetails.photoUrl || profile}
               alt="User Profile Image "
-              className={`rounded-full object-cover ${
-                userDetails.photoUrl ? "w-[108px] h-[108px]" : ""
+              className={`rounded-full object-cover border-4 border-[#E5E5E9] ${
+                userDetails.photoUrl ? "w-[108px] h-[108px]" : "w-[108px] h-[108px]"
               } `}
             />
           }
@@ -59,10 +57,10 @@ const ProfilePreview: React.FC = () => {
             {userDetails.firstName} {userDetails.lastName}
           </h2>
           <small className=" font-medium text-gray text-center text-[14px] leading-6">
-            {userDetails.email}
+            {userDetails.username}
           </small>
 
-          {location.pathname === "/finishing" ? (
+          {location.pathname === "/onboarding/finishing" ? (
             <span className="w-[284px] flex items-center justify-center bg-gradient-to-r from-[#F77FED] to-[#8D83F9] font-semibold rounded-full opacity-100 p-1">
               <Button
                 style="text-[16px] w-full relative border-none bg-gray-950 text-white"
@@ -113,7 +111,7 @@ const ProfilePreview: React.FC = () => {
           <div className="flex items-center flex-1 gap-2">
             <img src={stack} alt="location icon" />
             <p className="text-gray font-medium leading-6 text-[14px]">
-            Skills/stacks
+              Skills/stacks
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
@@ -130,6 +128,7 @@ const ProfilePreview: React.FC = () => {
           </div>
         </div>
       </div>
+      {isLoading && <Loading />}
     </section>
   );
 };

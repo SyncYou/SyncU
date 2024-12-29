@@ -28,7 +28,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
     lastName: "",
     email: "",
     username: "",
-    countryOfResidence: "",
+    countryOfResidence: "Nigeria",
     photoUrl: "",
     areaOfExpertise: "",
     stacks: ["N/A", "N/A", "N/A"],
@@ -59,7 +59,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
       set((state) => {
         const { stacks } = state.userDetails;
     
-        // If the skill is already in the stack, remove it
+        
         if (stacks.includes(skill)) {
           const updatedStack = stacks.filter((item) => item !== skill);
           return {
@@ -67,10 +67,10 @@ export const useUserStore = create<UserStore>((set, get) => ({
           };
         }
     
-        // If the skill is not in the stack, add it
+
         let updatedStack = [...stacks, skill];
     
-        // Remove "N/A" if it exists after adding the new skill
+
         updatedStack = updatedStack.filter((item) => item !== "N/A");
     
         return {
