@@ -25,6 +25,7 @@ const Username: React.FC = () => {
   useEffect(() => {
     localStorage.setItem("userDetails", JSON.stringify(userDetails));
     setDisable(!isValid);
+    console.log(disable)
   }, [userDetails, isValid]);
 
   const handleRequest = async () => {
