@@ -1,6 +1,7 @@
 import { PiSortAscending } from "react-icons/pi";
 import SecondaryButton from "../../../components/SecondaryButton";
 import { useUserProjects } from "../../../context/useUserProject";
+import Chip from "../../../components/Chip";
 
 const ProjectTabs = () => {
   const { currentView, setCurrentView } = useUserProjects();
@@ -27,7 +28,17 @@ const ProjectTabs = () => {
           </div>
         </div>
       </div>
-      <div className="h-16 w-full py-4 px-8">
+      <div className="h-16 w-full py-4 px-8 flex gap-4 items-center">
+        {currentView === "Requested" && (
+          <>
+            <div className="flex gap-3">
+              <Chip className="!border-brand600 text-brand600">All</Chip>
+              <Chip>Accepted</Chip>
+              <Chip>Pending</Chip>
+            </div>
+            <div className="h-5 border-[1.5px] border-gray200"></div>
+          </>
+        )}
         <SecondaryButton classes="min-w-[133px] h-8 py-1 px-3">
           <PiSortAscending /> Sort by: Latest
         </SecondaryButton>

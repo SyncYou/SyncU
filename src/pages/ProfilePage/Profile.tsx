@@ -14,13 +14,24 @@ import ProfileUpdate from "./components/ProfileUpdate";
 import { useUserProgress } from "../../context/useUserProgress";
 import AvailablitySwitcher from "./components/AvailablitySwitcher";
 import { useUserData } from "../../context/useUserData";
+import useFetchUserData from "../../hooks/useFetchUserData";
 
 const Profile = () => {
   const [hover, setHover] = useState(false);
   const [progress, setProgress] = useState(false);
   const [showSwitcher, setShowSwitcher] = useState(false);
   const { status } = useUserProgress();
-  const { fullname, username } = useUserData();
+
+  // Custom Hooks
+  const {
+    firstName,
+    lastName,
+    username,
+    stacks,
+    areaOfExpertise,
+    countryOfResidence,
+  } = useUserData();
+  const { data } = useFetchUserData();
 
   const handleClick = () => {
     setHover((h) => !h);
@@ -47,9 +58,12 @@ const Profile = () => {
           </div>
           <div className="">
             <p className="font-semibold text-2xl text-gray950 mb-1">
-              {fullname}
+              {data[0].firstName || firstName}
+              {data[0].lastName || lastName}
             </p>
-            <p className="font-normal text-sm text-gray700">@{username}</p>
+            <p className="font-normal text-sm text-gray700">
+              @{data[0].username || username}
+            </p>
           </div>
           <div className="flex relative">
             <div
@@ -71,10 +85,12 @@ const Profile = () => {
         <hr />
         <div className="flex flex-col pr-4 gap-4">
           <div className="flex gap-2 items-center">
-            <BiBriefcase /> <span>Product Designer</span>
+            <BiBriefcase />{" "}
+            <span>{data[0].areaOfExpertise || areaOfExpertise}</span>
           </div>
           <div className="flex gap-2 items-center">
-            <FaLocationDot /> <span>Nigeria</span>
+            <FaLocationDot />{" "}
+            <span>{data[0].countryOfResidence || countryOfResidence}</span>
           </div>
           <div className="flex gap-2 items-center">
             <BiCalendarPlus /> <span>Joined 12 November, 2024</span>
@@ -103,14 +119,14 @@ const Profile = () => {
         </div>
       </div>
       <div className="w-[599px] flex flex-col gap-4 overflow-y-scroll scrollbar-none">
-        <div className="w-full border border-gray200 py-4 flex flex-col gap-2 rounded-2xl">
+        <div className="w-full border border-gray200 py-4 flex flex-col flex-wrap gap-2 rounded-2xl">
           <p className="font-semibold text-base text-gray950 px-4">
             Skills/stacks
           </p>
           <div className="py-[10px] px-4 flex gap-[10px]">
-            <Chip>Ui Design</Chip>
-            <Chip>User researcher</Chip>
-            <Chip>UX Design</Chip>
+            {data[0].stacks.map((stack) => {
+              return <Chip>{stack}</Chip>;
+            })}
           </div>
         </div>
         <div className="w-full border border-gray200 py-4 flex flex-col gap-2 rounded-2xl">
@@ -171,7 +187,7 @@ const Profile = () => {
       ) : (
         <div
           onClick={handleClick}
-          className="absolute bottom-5 right-5 flex justify-center items-center w-32 h-32 cursor-pointer"
+          className="fixed bottom-5 right-5 flex justify-center items-center w-32 h-32 cursor-pointer"
         >
           <CircularProgess>
             <img src={avatar} alt="" />

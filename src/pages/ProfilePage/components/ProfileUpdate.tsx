@@ -30,7 +30,7 @@ const ProfileUpdate = ({ state }: { state: () => void }) => {
           <div className="flex flex-col gap-2 text-sm font-normal text-gray700">
             <div
               onClick={toggleAboutMe}
-              className={`flex items-center gap-2 p-2 rounded-lg ${
+              className={`flex items-center gap-2 p-2 rounded-lg cursor-pointer ${
                 currentView === "About Me" && "profileActive"
               }`}
             >
@@ -39,7 +39,7 @@ const ProfileUpdate = ({ state }: { state: () => void }) => {
             </div>
             <div
               onClick={toggleUsername}
-              className={`flex items-center gap-2 p-2 rounded-lg ${
+              className={`flex items-center gap-2 p-2 rounded-lg cursor-pointer ${
                 currentView === "Username" && "profileActive"
               }`}
             >
@@ -48,7 +48,7 @@ const ProfileUpdate = ({ state }: { state: () => void }) => {
             </div>
             <div
               onClick={toggleSkills}
-              className={`flex items-center gap-2 p-2 rounded-lg ${
+              className={`flex items-center gap-2 p-2 rounded-lg cursor-pointer ${
                 currentView === "Skills/stacks" && "profileActive"
               }`}
             >
@@ -57,7 +57,7 @@ const ProfileUpdate = ({ state }: { state: () => void }) => {
             </div>
             <div
               onClick={toggleLinks}
-              className={`flex items-center gap-2 p-2 rounded-lg ${
+              className={`flex items-center gap-2 p-2 rounded-lg cursor-pointer ${
                 currentView === "Portfolio/links" && "profileActive"
               }`}
             >
@@ -91,11 +91,10 @@ const ProfileUpdate = ({ state }: { state: () => void }) => {
         </div>
         <div className="h-full w-full rounded-r-3xl">
           <SubSection state={state} header={currentView} />
-            {currentView === "About Me" && <AboutMe />}
-            {currentView === "Username" && <Username />}
-            {currentView === "Skills/stacks" && <Skills />}
-            {currentView === "Portfolio/links" && <PortfolioLinks />}
-          
+          {currentView === "About Me" && <AboutMe />}
+          {currentView === "Username" && <Username />}
+          {currentView === "Skills/stacks" && <Skills />}
+          {currentView === "Portfolio/links" && <PortfolioLinks />}
         </div>
       </div>
     </Overlay>

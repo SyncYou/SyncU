@@ -2,15 +2,20 @@ import SecondaryButton from "../../../../components/SecondaryButton";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import { useUserData } from "../../../../context/useUserData";
 import { useState } from "react";
+import useFetchUserData from "../../../../hooks/useFetchUserData";
 
 const Skills = () => {
-  const { skills, addSkill, suggestedSkills } = useUserData();
+  const { data } = useFetchUserData();
+
+  const { stacks, suggestedSkills } = useUserData();
   const [newSkill, setNewSkill] = useState("");
+  const [skills, setSkills] = useState([...data[0].stacks]);
 
-  const handleSkillAdd = (text: string) => {
-    const newSkills = [...skills, text];
-
-    addSkill(newSkills);
+  const addSkill = (text: string) => {
+    setSkills((prev) => (prev = [...prev, text]));
+  };
+  const removeSkill = (text: string) => {
+    setSkills((prev) => (prev = prev.filter((skill) => skill != text)));
   };
 
   return (
@@ -35,7 +40,10 @@ const Skills = () => {
                       key={i}
                       className="bg-[#F3ECFC] border border-[#D5BDF366] text-brand600 font-normal text-sm px-2 py-1 rounded-3xl space-x-1 cursor-pointer"
                     >
-                      {skill} <span className="ml-1">&times;</span>
+                      {skill}{" "}
+                      <span onClick={() => removeSkill(skill)} className="ml-1">
+                        &times;
+                      </span>
                     </span>
                   );
                 })}
@@ -50,7 +58,7 @@ const Skills = () => {
           </div>
           <div className="flex flex-col gap-4">
             <p
-              onClick={() => handleSkillAdd(newSkill)}
+              onClick={() => addSkill(newSkill)}
               className="font-normal text-sm text-gray800"
             >
               Suggested skills & stacks
@@ -59,7 +67,7 @@ const Skills = () => {
               {suggestedSkills.map((skill, i) => {
                 return (
                   <button
-                    onClick={() => handleSkillAdd(skill)}
+                    onClick={() => addSkill(skill)}
                     key={i}
                     className="border border-gray300 hover:bg-gray200 font-normal text-sm px-2 py-1 rounded-3xl space-x-1 cursor-pointer"
                   >
@@ -72,7 +80,10 @@ const Skills = () => {
         </div>
       </div>
       <div className="w-full h-[84px] border-t border-gray200 px-8 pb-6 pt-4 flex justify-end  gap-4">
-        <PrimaryButton disabled={true} classes="w-[120px] h-11 gap-0">
+        <PrimaryButton
+          disabled={stacks.length === skills.length}
+          classes="w-[120px] h-11 gap-0"
+        >
           Save
         </PrimaryButton>
         <SecondaryButton classes="w-[120px] h-11 gap-0">Cancel</SecondaryButton>

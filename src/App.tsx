@@ -4,6 +4,7 @@ import ProjectContainer from "./pages/HomePage/components/ProjectContainer";
 import Activity from "./pages/ActivityPage/Activity";
 import Projects from "./pages/ProjectPage/Projects";
 import Profile from "./pages/ProfilePage/Profile";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const router = createBrowserRouter([
   {
@@ -30,8 +31,16 @@ const router = createBrowserRouter([
   },
 ]);
 
+const client = new QueryClient();
+
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <QueryClientProvider client={client}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </>
+  );
 }
 
 export default App;

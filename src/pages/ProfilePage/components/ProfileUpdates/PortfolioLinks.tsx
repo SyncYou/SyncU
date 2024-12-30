@@ -6,29 +6,39 @@ import { ChangeEvent, useState } from "react";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { MdDragIndicator } from "react-icons/md";
 import { useUserData } from "../../../../context/useUserData";
+import Behance from "/assets/Behance.svg";
+import useFetchUserData from "../../../../hooks/useFetchUserData";
 
 interface Links {
   name: string;
   url: string;
 }
 
-type suggestedLink = "Behance" | "x" | "LinkedIn" | "fiverr";
-
 const PortfolioLinks = () => {
   const [error, setError] = useState(false);
-  const { links, setLinks, suggestedLinks, setSuggestedLinks } = useUserData();
+  const { links } = useUserData();
+  const { data } = useFetchUserData();
+  const [portfolioLink, setPortfolioLink] = useState<Links[]>([
+    ...(links || data[0].links),
+  ]);
+  const [suggestedLinks, setSuggestedLinks] = useState<Links[]>([
+    { name: "Behance", url: "www.behance.net" },
+    { name: "LinkedIn", url: "www.linkedIn.net" },
+    { name: "x", url: "www.x.net" },
+    { name: "fiverr", url: "www.fiverr.net" },
+  ]);
 
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement>,
     i: number,
     link: Links
   ) => {
-    let data = [...links];
+    let data = [...portfolioLink];
     data[i] = {
       name: link.name,
       url: e.target.value,
     };
-    setLinks(data);
+    setPortfolioLink(data);
   };
 
   const handleInputDelete = (i: number, link: Links) => {
@@ -40,15 +50,21 @@ const PortfolioLinks = () => {
     ) {
       setSuggestedLinks([...suggestedLinks, link]);
     }
-    const newLinks = links.filter((_, index) => index != i);
-    setLinks(newLinks);
+    const newLinks = portfolioLink.filter((_, index) => index != i);
+    setPortfolioLink(newLinks);
   };
+
+  // console.log(suggestedLinks[0].name);
 
   return (
     <div className="flex flex-col gap-6 pt-6 h-[622px] w-full">
       <div className="flex flex-col h-[514px] gap-8 px-8">
         <div className="flex flex-col gap-6">
-          <div className={`flex flex-col gap-2 ${suggestedLinks.length == 0 && "hidden"}`}>
+          <div
+            className={`flex flex-col gap-2 ${
+              suggestedLinks.length == 0 && "hidden"
+            }`}
+          >
             <p className="mb-1 font-normal text-sm text-gray800">
               Suggested links
             </p>
@@ -57,14 +73,15 @@ const PortfolioLinks = () => {
                 return (
                   <div
                     onClick={() => {
-                      setLinks([...links, url]);
+                      setPortfolioLink([...portfolioLink, url]);
                       const newUrls = suggestedLinks.filter(
                         (_, i) => i != index
                       );
                       setSuggestedLinks(newUrls);
                     }}
-                    className="h-12 w-12 relative rounded-full bg-gray500 cursor-pointer"
+                    className="h-12 w-12 relative rounded-full cursor-pointer"
                   >
+                    <img src={Behance} alt="" />
                     {/* <div className="flex items-center justify-center rounded-full h-full w-full">
                       <BiPlusCircle className="text-2xl text-white z-20" />
                     </div> */}
@@ -78,7 +95,7 @@ const PortfolioLinks = () => {
               Add or arrange links
             </p>
             <div className="flex flex-col gap-4 h-[350px] overflow-y-auto">
-              {links.map((link, i) => {
+              {portfolioLink.map((link, i) => {
                 return (
                   <div className="">
                     <div key={i} className="flex gap-3 h-[60px] w-[503.5px]">
@@ -124,7 +141,10 @@ const PortfolioLinks = () => {
               })}
               <button
                 onClick={() => {
-                  setLinks([...links, { name: "URL link", url: "" }]);
+                  setPortfolioLink([
+                    ...portfolioLink,
+                    { name: "URL link", url: "" },
+                  ]);
                 }}
                 className="w-[465px] h-11 flex items-center gap-3 px-1 py-[10px] hover:bg-gray100 hover:text-gray800 text-gray400 font-medium text-base"
               >
@@ -135,7 +155,10 @@ const PortfolioLinks = () => {
         </div>
       </div>
       <div className="w-full h-[84px] border-t border-gray200 px-8 pb-6 pt-4 flex justify-end  gap-4">
-        <PrimaryButton disabled={true} classes="w-[120px] h-11 gap-0">
+        <PrimaryButton
+          disabled={portfolioLink.length === links.length}
+          classes="w-[120px] h-11 gap-0"
+        >
           Save
         </PrimaryButton>
         <SecondaryButton classes="w-[120px] h-11 gap-0">Cancel</SecondaryButton>

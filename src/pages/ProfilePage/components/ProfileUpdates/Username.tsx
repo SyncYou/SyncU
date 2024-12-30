@@ -2,32 +2,20 @@ import SecondaryButton from "../../../../components/SecondaryButton";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import { BiCheckCircle } from "react-icons/bi";
 import { PiSpinner } from "react-icons/pi";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useUserData } from "../../../../context/useUserData";
+import useFetchUserData from "../../../../hooks/useFetchUserData";
 
 const Username = () => {
-  const [username, setUsername] = useState("");
+  // Custom Hooks
+  const { username } = useUserData();
+  const { data } = useFetchUserData();
+
+  // State
+  const [newUsername, setNewUsername] = useState(data[0].username || username);
   const [error, setError] = useState(false);
   const [checking, setChecking] = useState(false);
   const [success, setSuccess] = useState(false);
-
-  useEffect(() => {
-    if (username == "ameenu") {
-      // setChecking(true);
-      setError(true);
-      setChecking(false);
-      setSuccess(false);
-    } else if (username == "") {
-      setError(false);
-      setChecking(false);
-      setSuccess(false);
-    } else if (username != "ameenu" && username != "") {
-      setSuccess(true);
-      setChecking(false);
-    } else {
-      setError(false);
-      setSuccess(false);
-    }
-  }, [username]);
 
   return (
     <div className="flex flex-col gap-6 pt-6 h-[622px] w-full">
@@ -50,8 +38,8 @@ const Username = () => {
                 type="text"
                 name="username"
                 id="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={newUsername}
+                onChange={(e) => setNewUsername(e.target.value)}
                 className={`h-[60px] w-full text-gray800 ${
                   error && "border-alert-600 focus:border-alert-600"
                 } font-normal text-base pt-4 px-3 outline-none focus:drop-shadow-md border rounded-lg border-gray300 focus:border-brand400`}
@@ -78,11 +66,14 @@ const Username = () => {
                 Username is available
               </span>
             )}
-          </div>          
+          </div>
         </div>
       </div>
       <div className="w-full h-[84px] border-t border-gray200 px-8 pb-6 pt-4 flex justify-end  gap-4">
-        <PrimaryButton disabled={true} classes="w-[120px] h-11 gap-0">
+        <PrimaryButton
+          disabled={username === newUsername}
+          classes="w-[120px] h-11 gap-0"
+        >
           Save
         </PrimaryButton>
         <SecondaryButton classes="w-[120px] h-11 gap-0">Cancel</SecondaryButton>

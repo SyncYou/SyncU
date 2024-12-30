@@ -2,15 +2,17 @@ import { ChangeEvent, useState } from "react";
 import ProfileImageUpdate from "../ProfileImageUpdate";
 import SecondaryButton from "../../../../components/SecondaryButton";
 import PrimaryButton from "../../../../components/PrimaryButton";
-// import { BiCheckCircle } from "react-icons/bi";
+import { useUserData } from "../../../../context/useUserData";
+import useFetchUserData from "../../../../hooks/useFetchUserData";
 
 const AboutMe = () => {
+  const { data } = useFetchUserData();
   const [update, setUpdate] = useState(false);
-  // const [about, setAbout] = useState("");
+  const { firstName, lastName, description } = useUserData();
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    aboutMe: "",
+    firstName: firstName || data[0].firstName,
+    lastName: lastName || data[0].lastName,
+    aboutMe: description || data[0].description,
   });
 
   const handleFormData = (
