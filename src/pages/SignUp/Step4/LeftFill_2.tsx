@@ -15,8 +15,7 @@ interface Skill {
 }
 
 export function LeftFill_2() {
-  const { userDetails, toggleSkill, removeSkill } =
-    useUserStore();
+  const { userDetails, toggleSkill, removeSkill } = useUserStore();
   const [active, setActive] = useState(false);
   const activeRef = useRef<HTMLDivElement | null>(null);
   const modalRef = useRef<HTMLDivElement | null>(null);
@@ -26,16 +25,21 @@ export function LeftFill_2() {
   const [isValid, setIsValid] = useState<boolean>(false);
 
   const valid =
-    userDetails.firstName !== "" &&
-    userDetails.lastName !== "" &&
-    userDetails.countryOfResidence !== "" &&
+    userDetails.firstName.trim() !== "" &&
+    userDetails.lastName.trim() !== "" &&
+    userDetails.countryOfResidence.trim() !== "" &&
+    userDetails.firstName !== "N/A" &&
+    userDetails.lastName !== "N/A" &&
+    userDetails.email !== "" &&
+    userDetails.countryOfResidence !== "N/A" &&
+    userDetails.username.trim() !== "" &&
     userDetails.areaOfExpertise !== "" &&
     userDetails.stacks.length > 0;
 
-    useEffect(() => {
-      setIsValid(userDetails.stacks.length >= 3 && valid);
-    }, [userDetails.stacks]);
-    
+  useEffect(() => {
+    setIsValid(userDetails.stacks.length >= 3 && valid);
+  }, [userDetails.stacks]);
+
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (

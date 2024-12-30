@@ -11,6 +11,7 @@ import OnboardingLayout from "./Layout/OnboardingLayout.tsx";
 import Verifymail from "./components/Auth/Verify-mail.tsx";
 import Username from "./components/Profile/Username.tsx";
 import ProfileLayout from "./Layout/ProfileLayout.tsx";
+import SetUpYourProfile from "./components/Profile/Set-up-your-profile.tsx";
 
 const router = createBrowserRouter([
   {
@@ -47,22 +48,24 @@ const router = createBrowserRouter([
           },
         ],
       },
-     
     ],
   },
   {
     path: "/auth/signup",
-    element: <OnboardingLayout/>,
+    element: <OnboardingLayout />,
   },
   {
     path: "/auth/login",
-    element: <OnboardingLayout/>,
+    element: <OnboardingLayout />,
   },
   {
     path: "/auth/verify-email",
-    element: <Verifymail/>,
-  }
-
+    element: <Verifymail />,
+  },
+  {
+    path: "/auth/set-up-your-profile",
+    element: <SetUpYourProfile />,
+  },
 ]);
 
 // Main App component

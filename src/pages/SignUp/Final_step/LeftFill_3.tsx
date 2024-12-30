@@ -47,14 +47,17 @@ export function LeftFill_3() {
   }
 
   const isValid =
-    userDetails.firstName !== "" &&
-    userDetails.lastName !== "" &&
-    // userDetails.email !== "" &&
-    userDetails.username !== "" &&
-    userDetails.countryOfResidence !== "" &&
-    userDetails.photoUrl !== "" &&
+    userDetails.firstName.trim() !== "" &&
+    userDetails.lastName.trim() !== "" &&
+    userDetails.countryOfResidence.trim() !== "" &&
+    userDetails.firstName !== "N/A" &&
+    userDetails.lastName !== "N/A" &&
+    userDetails.email !== "" &&
+    userDetails.countryOfResidence !== "N/A" &&
+    userDetails.username.trim() !== "" &&
     userDetails.areaOfExpertise !== "" &&
-    userDetails.stacks.length >= 3;
+    userDetails.photoUrl !== "" &&
+    userDetails.stacks.length > 0;
 
   useEffect(() => {
     localStorage.setItem("userDetails", JSON.stringify(userDetails));

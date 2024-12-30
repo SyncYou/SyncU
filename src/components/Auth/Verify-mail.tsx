@@ -47,7 +47,6 @@ const Verifymail: React.FC = () => {
             return newOtp;
           });
 
-          // Move focus to the previous input
           const prevInput = target.previousElementSibling as HTMLInputElement;
           if (prevInput) {
             prevInput.focus();
@@ -67,7 +66,7 @@ const Verifymail: React.FC = () => {
     }
 
     localStorage.setItem('newUser', JSON.stringify(session?.user))
-    navigate('/onboarding/tell-us-about-yourself')
+    navigate('/auth/set-up-your-profile')
 
     console.log(session, error);
   };

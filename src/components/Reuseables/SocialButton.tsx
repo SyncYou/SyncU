@@ -11,9 +11,10 @@ const SocialButton: React.FC<Props> = ({ icon, label }) => {
     if (label == "continue with Github") {
       const { data, error } = await signInWithGithub();
       console.log(data, error);
+    } else if (label == "continue with Google") {
+      const { data, error } = await signInWithGoogle();
+      console.log(data, error);
     }
-    const { data, error } = await signInWithGoogle();
-    console.log(data, error);
   };
 
   return (

@@ -29,18 +29,18 @@ export const sendUserDetails = async (userData: any) => {
   return data;
 };
 
-export const updateUserDetails = async (data: any) => {
-  const { data: response, error } = await supabase
-    .from("Users")
-    .upsert(data)
-    .select();
+// export const updateUserDetails = async (data: any) => {
+//   const { data: response, error } = await supabase
+//     .from("Users")
+//     .upsert(data)
+//     .select();
 
-  if (error) {
-    throw new Error(error.message);
-  }
-  console.log(response);
-  return response;
-};
+//   if (error) {
+//     throw new Error(error.message);
+//   }
+//   console.log(response);
+//   return response;
+// };
 
 export async function uploadAvatar(file: File) {
   // Get the file extension

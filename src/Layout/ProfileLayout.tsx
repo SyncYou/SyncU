@@ -27,10 +27,10 @@ const ProfileLayout: React.FC = () => {
             <Outlet />
           </div>
         )}
-        <div className="hidden md:block w-full h-[100vh]  items-center justify-center border-l-[0.5px] border-[#D6D6E0]">
+        <div className={`${location.pathname !== '/onboarding/finishing' ? 'hidden' : 'block' } md:block w-full h-[100vh]  items-center justify-center border-l-[0.5px] border-[#D6D6E0] mt-10`}>
           <ProfilePreview />
 
-          <div className="flex items-center justify-center w-full p-5">
+          <div className="flex items-center justify-center w-full py-5">
             {location.pathname === "/onboarding/finishing" && (
               <Button
                 onClick={handlePrev}

@@ -19,7 +19,16 @@ export function User_LeftFill1() {
     setIsModalOpen(false);
   }
 
-  const isValid = userDetails.areaOfExpertise !== "";
+  const isValid =
+    userDetails.firstName.trim() !== "" &&
+    userDetails.lastName.trim() !== "" &&
+    userDetails.countryOfResidence.trim() !== "" &&
+    userDetails.firstName !== "N/A" &&
+    userDetails.lastName !== "N/A" &&
+    userDetails.email !== "" &&
+    userDetails.countryOfResidence !== "N/A" &&
+    userDetails.username.trim() !== "" &&
+    userDetails.areaOfExpertise !== "";
 
   useEffect(() => {
     localStorage.setItem("userDetails", JSON.stringify(userDetails));

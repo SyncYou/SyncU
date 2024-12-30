@@ -13,7 +13,14 @@ const Username: React.FC = () => {
   };
 
   const isValid =
-    userDetails.username.trim() !== ""
+    userDetails.firstName.trim() !== "" &&
+    userDetails.lastName.trim() !== "" &&
+    userDetails.countryOfResidence.trim() !== "" &&
+    userDetails.firstName !== "N/A" &&
+    userDetails.lastName !== "N/A" &&
+    userDetails.email !== "" &&
+    userDetails.countryOfResidence !== "N/A" &&
+    userDetails.username.trim() !== "";
 
   useEffect(() => {
     localStorage.setItem("userDetails", JSON.stringify(userDetails));
