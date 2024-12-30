@@ -26,7 +26,7 @@ export const sendUserDetails = async (userData: any) => {
   }
 
   console.log(data);
-  return data;
+  return {data, error};
 };
 
 // export const updateUserDetails = async (data: any) => {

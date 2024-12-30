@@ -10,6 +10,10 @@ interface Nav_BtnProps<T = unknown> {
   handleRequest?: () => Promise<T>;
   showPrevious: boolean;
 }
+interface Response {
+  data: any;
+  error?: string;
+}
 
 export default function Nav_Btn({
   navTo,
@@ -27,8 +31,21 @@ export default function Nav_Btn({
       setCurrentStep(nextStep);
 
       if (handleRequest) {
-        await handleRequest();
-        navigate(navTo);
+        const result = await handleRequest();
+
+        if (typeof result === "object" && result !== null && "data" in result) {
+          const { data, error }: Response = result;
+
+          if (error) {
+            console.log(error);
+            throw new Error(error);
+          }
+
+          navigate(navTo);
+          console.log(data);
+        } else {
+          console.error("Invalid response format", result);
+        }
       }
     }
   }
