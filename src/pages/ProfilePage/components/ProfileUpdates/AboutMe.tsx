@@ -4,17 +4,23 @@ import SecondaryButton from "../../../../components/SecondaryButton";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import { useUserData } from "../../../../context/useUserData";
 import useFetchUserData from "../../../../hooks/useFetchUserData";
+import { useMutation } from "@tanstack/react-query";
+import { updateBiodata } from "../../../../utils/queries/update";
 
 const AboutMe = () => {
+  // Custom Hooks
   const { data } = useFetchUserData();
-  const [update, setUpdate] = useState(false);
   const { firstName, lastName, description } = useUserData();
+
+  // States
+  const [update, setUpdate] = useState(false);
   const [formData, setFormData] = useState({
     firstName: data?.firstName || firstName,
     lastName: data?.lastName || lastName,
     aboutMe: data?.description || description,
   });
 
+  // Functions
   const handleFormData = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
@@ -27,6 +33,13 @@ const AboutMe = () => {
   const handleUpdateModal = () => {
     setUpdate((h) => !h);
   };
+
+  // Queries
+  const { mutateAsync } = useMutation({
+    mutationKey: ["updateBiodata"],
+    mutationFn: updateBiodata,
+  });
+
   return (
     <div className="flex flex-col gap-6 pt-6 h-[622px] w-full">
       <div className="flex flex-col h-[490px] gap-8 px-8">
@@ -116,11 +129,10 @@ const AboutMe = () => {
             <p className="text-right text-xs font-normal text-gray700">
               <span
                 className={`${
-                  // formData.aboutMe.length === 400 &&
-                  "text-red-500"
+                  formData.aboutMe.length === 400 && "text-red-500"
                 }`}
               >
-                {/* {formData.aboutMe.length} */}
+                {formData.aboutMe.length}
               </span>
               /400 words
             </p>
@@ -128,7 +140,17 @@ const AboutMe = () => {
         </div>
       </div>
       <div className="w-full h-[84px] border-t border-gray200 px-8 pb-6 pt-4 flex justify-end  gap-4">
-        <PrimaryButton disabled={true} classes="w-[120px] h-11 gap-0">
+        <PrimaryButton
+          onClick={async () => {
+            await mutateAsync(formData);
+          }}
+          disabled={
+            data?.firstName === formData.firstName &&
+            data?.lastName === formData.lastName &&
+            data?.description === formData.aboutMe
+          }
+          classes="w-[120px] h-11 gap-0"
+        >
           Save
         </PrimaryButton>
         <SecondaryButton classes="w-[120px] h-11 gap-0">Cancel</SecondaryButton>

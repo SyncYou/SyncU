@@ -7,12 +7,15 @@ import { useMutation } from "@tanstack/react-query";
 import { updateStacks } from "../../../../utils/queries/update";
 
 const Skills = () => {
+  // Custom Hooks
   const { data } = useFetchUserData();
-
   const { stacks, suggestedSkills } = useUserData();
+
+  // States
   const [newSkill, setNewSkill] = useState("");
   const [skills, setSkills] = useState([...data?.stacks]);
 
+  // Functions
   const addSkill = (text: string) => {
     setSkills((prev) => (prev = [...prev, text]));
   };
@@ -92,7 +95,7 @@ const Skills = () => {
           onClick={async () => {
             await mutateAsync(skills);
           }}
-          disabled={data.stacks.length === skills.length}
+          disabled={data?.stacks.length === skills.length}
           classes="w-[120px] h-11 gap-0"
         >
           Save
