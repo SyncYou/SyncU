@@ -5,6 +5,8 @@ import { PiSpinner } from "react-icons/pi";
 import { useState } from "react";
 import { useUserData } from "../../../../context/useUserData";
 import useFetchUserData from "../../../../hooks/useFetchUserData";
+import { useMutation } from "@tanstack/react-query";
+import { updateUsername } from "../../../../utils/queries/update";
 
 const Username = () => {
   // Custom Hooks
@@ -12,10 +14,16 @@ const Username = () => {
   const { data } = useFetchUserData();
 
   // State
-  const [newUsername, setNewUsername] = useState(data[0].username || username);
+  const [newUsername, setNewUsername] = useState(data?.username || username);
   const [error, setError] = useState(false);
   const [checking, setChecking] = useState(false);
   const [success, setSuccess] = useState(false);
+
+  // Queries
+  const { mutateAsync } = useMutation({
+    mutationKey: ["updateUsername"],
+    mutationFn: updateUsername,
+  });
 
   return (
     <div className="flex flex-col gap-6 pt-6 h-[622px] w-full">
@@ -71,7 +79,10 @@ const Username = () => {
       </div>
       <div className="w-full h-[84px] border-t border-gray200 px-8 pb-6 pt-4 flex justify-end  gap-4">
         <PrimaryButton
-          disabled={username === newUsername}
+          onClick={async () => {
+            await mutateAsync(newUsername);
+          }}
+          disabled={username === newUsername || data.username === newUsername}
           classes="w-[120px] h-11 gap-0"
         >
           Save

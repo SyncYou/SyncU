@@ -1,9 +1,5 @@
 import { create } from "zustand";
-
-interface Links {
-  name: string;
-  url: string;
-}
+import { Links } from "../utils/types/Types";
 
 type State = {
   username: string;

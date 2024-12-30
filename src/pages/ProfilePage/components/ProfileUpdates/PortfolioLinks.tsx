@@ -8,6 +8,8 @@ import { MdDragIndicator } from "react-icons/md";
 import { useUserData } from "../../../../context/useUserData";
 import Behance from "/assets/Behance.svg";
 import useFetchUserData from "../../../../hooks/useFetchUserData";
+import { useMutation } from "@tanstack/react-query";
+import { updateLinks } from "../../../../utils/queries/update";
 
 interface Links {
   name: string;
@@ -15,11 +17,14 @@ interface Links {
 }
 
 const PortfolioLinks = () => {
-  const [error, setError] = useState(false);
+  // Custom Hooks
   const { links } = useUserData();
   const { data } = useFetchUserData();
+
+  // State
+  const [error, setError] = useState(false);
   const [portfolioLink, setPortfolioLink] = useState<Links[]>([
-    ...(links || data[0].links),
+    ...(data?.links || links),
   ]);
   const [suggestedLinks, setSuggestedLinks] = useState<Links[]>([
     { name: "Behance", url: "www.behance.net" },
@@ -27,6 +32,8 @@ const PortfolioLinks = () => {
     { name: "x", url: "www.x.net" },
     { name: "fiverr", url: "www.fiverr.net" },
   ]);
+
+  // Functions
 
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement>,
@@ -54,7 +61,11 @@ const PortfolioLinks = () => {
     setPortfolioLink(newLinks);
   };
 
-  // console.log(suggestedLinks[0].name);
+  // Queries
+  const { mutateAsync, error: mute } = useMutation({
+    mutationKey: ["updateLinks"],
+    mutationFn: updateLinks,
+  });
 
   return (
     <div className="flex flex-col gap-6 pt-6 h-[622px] w-full">
@@ -156,7 +167,10 @@ const PortfolioLinks = () => {
       </div>
       <div className="w-full h-[84px] border-t border-gray200 px-8 pb-6 pt-4 flex justify-end  gap-4">
         <PrimaryButton
-          disabled={portfolioLink.length === links.length}
+          onClick={async () => {
+            await mutateAsync(portfolioLink);
+          }}
+          disabled={(data.links || links).length === portfolioLink.length}
           classes="w-[120px] h-11 gap-0"
         >
           Save

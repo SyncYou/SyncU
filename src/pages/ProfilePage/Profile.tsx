@@ -46,7 +46,9 @@ const Profile = () => {
       <div className="w-[362px] h-[528px] rounded-2xl flex flex-col gap-6 pb-8  pr-4">
         <div className="flex flex-col gap-3 pt-4">
           <div className="flex justify-between">
-            <div className="h-[96px] w-[96px] bg-gray950 rounded-full"></div>
+            <div className="h-[96px] w-[96px] rounded-full border border-gray200">
+              <img src={data?.photoUrl} className="w-full" alt="" />
+            </div>
             <div className="flex gap-4">
               <SecondaryButton classes="h-10 min-w-[129px] px-4 py-2">
                 Edit profile <HiPencilSquare />
@@ -58,11 +60,10 @@ const Profile = () => {
           </div>
           <div className="">
             <p className="font-semibold text-2xl text-gray950 mb-1">
-              {data[0].firstName || firstName}
-              {data[0].lastName || lastName}
+              {data?.firstName || firstName} {data?.lastName || lastName}
             </p>
             <p className="font-normal text-sm text-gray700">
-              @{data[0].username || username}
+              @{data?.username || username}
             </p>
           </div>
           <div className="flex relative">
@@ -86,11 +87,11 @@ const Profile = () => {
         <div className="flex flex-col pr-4 gap-4">
           <div className="flex gap-2 items-center">
             <BiBriefcase />{" "}
-            <span>{data[0].areaOfExpertise || areaOfExpertise}</span>
+            <span>{data?.areaOfExpertise || areaOfExpertise}</span>
           </div>
           <div className="flex gap-2 items-center">
             <FaLocationDot />{" "}
-            <span>{data[0].countryOfResidence || countryOfResidence}</span>
+            <span>{data?.countryOfResidence || countryOfResidence}</span>
           </div>
           <div className="flex gap-2 items-center">
             <BiCalendarPlus /> <span>Joined 12 November, 2024</span>
@@ -124,7 +125,7 @@ const Profile = () => {
             Skills/stacks
           </p>
           <div className="py-[10px] px-4 flex gap-[10px]">
-            {data[0].stacks.map((stack) => {
+            {(data?.stacks || stacks).map((stack) => {
               return <Chip>{stack}</Chip>;
             })}
           </div>

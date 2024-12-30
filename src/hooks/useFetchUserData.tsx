@@ -21,7 +21,7 @@ interface UserData {
 }
 
 const useFetchUserData = (): {
-  data: UserData[];
+  data: UserData;
   error: any;
 } => {
   const { data, error } = useQuery({

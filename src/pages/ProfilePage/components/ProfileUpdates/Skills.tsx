@@ -3,13 +3,15 @@ import PrimaryButton from "../../../../components/PrimaryButton";
 import { useUserData } from "../../../../context/useUserData";
 import { useState } from "react";
 import useFetchUserData from "../../../../hooks/useFetchUserData";
+import { useMutation } from "@tanstack/react-query";
+import { updateStacks } from "../../../../utils/queries/update";
 
 const Skills = () => {
   const { data } = useFetchUserData();
 
   const { stacks, suggestedSkills } = useUserData();
   const [newSkill, setNewSkill] = useState("");
-  const [skills, setSkills] = useState([...data[0].stacks]);
+  const [skills, setSkills] = useState([...data?.stacks]);
 
   const addSkill = (text: string) => {
     setSkills((prev) => (prev = [...prev, text]));
@@ -18,14 +20,20 @@ const Skills = () => {
     setSkills((prev) => (prev = prev.filter((skill) => skill != text)));
   };
 
+  // Queries
+  const { mutateAsync } = useMutation({
+    mutationKey: ["updateStacks"],
+    mutationFn: updateStacks,
+  });
+
   return (
     <div className="flex flex-col gap-6 pt-6 h-[622px] w-full">
       <div className="flex flex-col h-[490px] gap-6 px-8">
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-4">
-            <p className="font-normal text-sm text-gray800">
+            <h2 className="text-sm text-gray800 font-normal">
               Add atleast 3 of 10 skills or stacks
-            </p>
+            </h2>
             <div
               className="w-[578px] h-[129px] p-2 relative border-gray200
                 outline-none border rounded-lg"
@@ -81,7 +89,10 @@ const Skills = () => {
       </div>
       <div className="w-full h-[84px] border-t border-gray200 px-8 pb-6 pt-4 flex justify-end  gap-4">
         <PrimaryButton
-          disabled={stacks.length === skills.length}
+          onClick={async () => {
+            await mutateAsync(skills);
+          }}
+          disabled={data.stacks.length === skills.length}
           classes="w-[120px] h-11 gap-0"
         >
           Save

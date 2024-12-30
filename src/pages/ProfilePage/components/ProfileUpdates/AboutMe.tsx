@@ -10,9 +10,9 @@ const AboutMe = () => {
   const [update, setUpdate] = useState(false);
   const { firstName, lastName, description } = useUserData();
   const [formData, setFormData] = useState({
-    firstName: firstName || data[0].firstName,
-    lastName: lastName || data[0].lastName,
-    aboutMe: description || data[0].description,
+    firstName: data?.firstName || firstName,
+    lastName: data?.lastName || lastName,
+    aboutMe: data?.description || description,
   });
 
   const handleFormData = (
@@ -116,10 +116,11 @@ const AboutMe = () => {
             <p className="text-right text-xs font-normal text-gray700">
               <span
                 className={`${
-                  formData.aboutMe.length >= 400 && "text-red-500"
+                  // formData.aboutMe.length === 400 &&
+                  "text-red-500"
                 }`}
               >
-                {formData.aboutMe.length}
+                {/* {formData.aboutMe.length} */}
               </span>
               /400 words
             </p>
