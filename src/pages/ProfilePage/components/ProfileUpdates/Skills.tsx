@@ -2,21 +2,33 @@ import SecondaryButton from "../../../../components/SecondaryButton";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import { useUserData } from "../../../../context/useUserData";
 import { useState } from "react";
-import useFetchUserData from "../../../../hooks/useFetchUserData";
 import { useMutation } from "@tanstack/react-query";
 import { updateStacks } from "../../../../utils/queries/update";
 
 const Skills = () => {
   // Custom Hooks
-  const { data } = useFetchUserData();
-  const { stacks, suggestedSkills } = useUserData();
+  const { user } = useUserData();
+  const { stacks } = user;
 
   // States
   const [newSkill, setNewSkill] = useState("");
-  const [skills, setSkills] = useState([...data?.stacks]);
+  const [suggestedSkills, setSuggestedSkills] = useState<string[]>([
+    "Motion design",
+    "Framer",
+    "Branding",
+    "Figma",
+    "Sketch",
+    "Adobe Photoshop",
+    "AutoCAD",
+    "Corel Draw",
+    "MS Packages",
+    "Sketch",
+  ]);
+  const [skills, setSkills] = useState([...stacks]);
 
   // Functions
   const addSkill = (text: string) => {
+    setSuggestedSkills((prev) => prev.filter((suggest) => suggest != text));
     setSkills((prev) => (prev = [...prev, text]));
   };
   const removeSkill = (text: string) => {
@@ -95,7 +107,7 @@ const Skills = () => {
           onClick={async () => {
             await mutateAsync(skills);
           }}
-          disabled={data?.stacks.length === skills.length}
+          disabled={stacks.length === skills.length}
           classes="w-[120px] h-11 gap-0"
         >
           Save

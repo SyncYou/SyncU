@@ -18,14 +18,12 @@ interface Links {
 
 const PortfolioLinks = () => {
   // Custom Hooks
-  const { links } = useUserData();
-  const { data } = useFetchUserData();
+  const { user } = useUserData();
+  const { links } = user;
 
   // State
   const [error, setError] = useState(false);
-  const [portfolioLink, setPortfolioLink] = useState<Links[]>([
-    ...(data?.links || links),
-  ]);
+  const [portfolioLink, setPortfolioLink] = useState<Links[]>([...links]);
   const [suggestedLinks, setSuggestedLinks] = useState<Links[]>([
     { name: "Behance", url: "www.behance.net" },
     { name: "LinkedIn", url: "www.linkedIn.net" },
@@ -170,7 +168,7 @@ const PortfolioLinks = () => {
           onClick={async () => {
             await mutateAsync(portfolioLink);
           }}
-          disabled={(data.links || links).length === portfolioLink.length}
+          disabled={links.length === portfolioLink.length}
           classes="w-[120px] h-11 gap-0"
         >
           Save

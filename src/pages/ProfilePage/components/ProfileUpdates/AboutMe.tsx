@@ -3,21 +3,20 @@ import ProfileImageUpdate from "../ProfileImageUpdate";
 import SecondaryButton from "../../../../components/SecondaryButton";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import { useUserData } from "../../../../context/useUserData";
-import useFetchUserData from "../../../../hooks/useFetchUserData";
 import { useMutation } from "@tanstack/react-query";
 import { updateBiodata } from "../../../../utils/queries/update";
 
 const AboutMe = () => {
   // Custom Hooks
-  const { data } = useFetchUserData();
-  const { firstName, lastName, description } = useUserData();
+  const { user } = useUserData();
+  const { firstName, lastName, description, photoUrl } = user;
 
   // States
   const [update, setUpdate] = useState(false);
   const [formData, setFormData] = useState({
-    firstName: data?.firstName || firstName,
-    lastName: data?.lastName || lastName,
-    aboutMe: data?.description || description,
+    firstName: firstName,
+    lastName: lastName,
+    aboutMe: description,
   });
 
   // Functions
@@ -44,7 +43,9 @@ const AboutMe = () => {
     <div className="flex flex-col gap-6 pt-6 h-[622px] w-full">
       <div className="flex flex-col h-[490px] gap-8 px-8">
         <div className="flex gap-4 items-center">
-          <div className="h-20 w-20 bg-gray950 rounded-full"></div>
+          <div className="h-20 w-20 rounded-full border border-gray200">
+            <img src={photoUrl} alt="profile-photo" className="w-full" />
+          </div>
           <div className="">
             <p className="mb-1 font-normal text-sm text-gray700">
               Update profile picture
@@ -145,9 +146,9 @@ const AboutMe = () => {
             await mutateAsync(formData);
           }}
           disabled={
-            data?.firstName === formData.firstName &&
-            data?.lastName === formData.lastName &&
-            data?.description === formData.aboutMe
+            firstName === formData.firstName &&
+            lastName === formData.lastName &&
+            description === formData.aboutMe
           }
           classes="w-[120px] h-11 gap-0"
         >

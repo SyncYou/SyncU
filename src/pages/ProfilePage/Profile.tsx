@@ -9,7 +9,7 @@ import { PiEyes } from "react-icons/pi";
 import { FaHandshake } from "react-icons/fa";
 import Chip from "../../components/Chip";
 import CircularProgess from "./components/CircularProgess";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProfileUpdate from "./components/ProfileUpdate";
 import { useUserProgress } from "../../context/useUserProgress";
 import AvailablitySwitcher from "./components/AvailablitySwitcher";
@@ -23,15 +23,24 @@ const Profile = () => {
   const { status } = useUserProgress();
 
   // Custom Hooks
+  const { user, setUser } = useUserData();
   const {
     firstName,
     lastName,
     username,
     stacks,
     areaOfExpertise,
+    photoUrl,
     countryOfResidence,
-  } = useUserData();
+  } = user;
+
   const { data } = useFetchUserData();
+
+  useEffect(() => {
+    if (data) {
+      setUser(data);
+    }
+  }, [data]);
 
   const handleClick = () => {
     setHover((h) => !h);
@@ -47,7 +56,7 @@ const Profile = () => {
         <div className="flex flex-col gap-3 pt-4">
           <div className="flex justify-between">
             <div className="h-[96px] w-[96px] rounded-full border border-gray200">
-              <img src={data?.photoUrl} className="w-full" alt="" />
+              <img src={photoUrl} className="w-full" alt="" />
             </div>
             <div className="flex gap-4">
               <SecondaryButton classes="h-10 min-w-[129px] px-4 py-2">
@@ -60,11 +69,9 @@ const Profile = () => {
           </div>
           <div className="">
             <p className="font-semibold text-2xl text-gray950 mb-1">
-              {data?.firstName || firstName} {data?.lastName || lastName}
+              {firstName} {lastName}
             </p>
-            <p className="font-normal text-sm text-gray700">
-              @{data?.username || username}
-            </p>
+            <p className="font-normal text-sm text-gray700">@{username}</p>
           </div>
           <div className="flex relative">
             <div
@@ -86,12 +93,10 @@ const Profile = () => {
         <hr />
         <div className="flex flex-col pr-4 gap-4">
           <div className="flex gap-2 items-center">
-            <BiBriefcase />{" "}
-            <span>{data?.areaOfExpertise || areaOfExpertise}</span>
+            <BiBriefcase /> <span>{areaOfExpertise}</span>
           </div>
           <div className="flex gap-2 items-center">
-            <FaLocationDot />{" "}
-            <span>{data?.countryOfResidence || countryOfResidence}</span>
+            <FaLocationDot /> <span>{countryOfResidence}</span>
           </div>
           <div className="flex gap-2 items-center">
             <BiCalendarPlus /> <span>Joined 12 November, 2024</span>
@@ -125,7 +130,7 @@ const Profile = () => {
             Skills/stacks
           </p>
           <div className="py-[10px] px-4 flex gap-[10px]">
-            {(data?.stacks || stacks).map((stack) => {
+            {stacks.map((stack) => {
               return <Chip>{stack}</Chip>;
             })}
           </div>

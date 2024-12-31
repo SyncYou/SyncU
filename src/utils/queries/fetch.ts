@@ -8,10 +8,11 @@ export async function fetchUserData(): Promise<T> {
       .eq("id", "5d1a1cf2-3077-4e53-874e-aacfb3d85903")
       .single();
 
-    console.log(data);
-
+    if (error) {
+      throw new Error(error.message);
+    }
     return data;
   } catch (error) {
-    throw error;
+    console.error(error);
   }
 }

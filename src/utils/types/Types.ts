@@ -8,3 +8,17 @@ export interface BiodataFormData {
   lastName: string;
   aboutMe: string;
 }
+
+export interface UserData {
+  username: string;
+  firstName: string;
+  lastName: string;
+  fullname: string;
+  photoUrl: string;
+  email: string;
+  countryOfResidence: string;
+  areaOfExpertise: string;
+  description: string;
+  links: Links[];
+  stacks: string[];
+}

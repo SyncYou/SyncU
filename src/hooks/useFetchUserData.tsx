@@ -1,24 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchUserData } from "../utils/queries/fetch";
-
-interface Links {
-  name: string;
-  url: string;
-}
-
-interface UserData {
-  username: string;
-  firstName: string;
-  lastName: string;
-  fullname: string;
-  photoUrl: string;
-  email: string;
-  countryOfResidence: string;
-  areaOfExpertise: string;
-  description: string;
-  links: Links[];
-  stacks: string[];
-}
+import { UserData } from "../utils/types/Types";
+import supabase from "../config/Supabase";
 
 const useFetchUserData = (): {
   data: UserData;
@@ -26,8 +9,21 @@ const useFetchUserData = (): {
 } => {
   const { data, error } = useQuery({
     queryKey: ["users"],
-    queryFn: fetchUserData,
+    queryFn: async () => {
+      const { data, error: supabaseError } = await supabase
+        .from("Users")
+        .select()
+        .eq("id", "5d1a1cf2-3077-4e53-874e-aacfb3d85903")
+        .single();
+
+      if (supabaseError) {
+        throw new Error(supabaseError?.message);
+      }
+      return data;
+    },
   });
+
+  if (error) console.error(error);
 
   //   console.log(data, error);
   return { data, error };
