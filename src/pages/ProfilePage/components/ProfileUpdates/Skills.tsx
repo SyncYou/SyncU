@@ -2,7 +2,7 @@ import SecondaryButton from "../../../../components/SecondaryButton";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import { useUserData } from "../../../../context/useUserData";
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateStacks } from "../../../../utils/queries/update";
 
 const Skills = () => {
@@ -36,9 +36,16 @@ const Skills = () => {
   };
 
   // Queries
-  const { mutateAsync } = useMutation({
+  const client = useQueryClient()
+
+  const { mutateAsync, isPending } = useMutation({
     mutationKey: ["updateStacks"],
     mutationFn: updateStacks,
+    onSuccess: () => {
+      client.invalidateQueries({
+        queryKey: ["users"],
+      });
+    },
   });
 
   return (
@@ -107,10 +114,10 @@ const Skills = () => {
           onClick={async () => {
             await mutateAsync(skills);
           }}
-          disabled={stacks.length === skills.length}
+          disabled={stacks.length === skills.length || isPending}
           classes="w-[120px] h-11 gap-0"
         >
-          Save
+          {isPending ? "Saving...":"Save"}
         </PrimaryButton>
         <SecondaryButton classes="w-[120px] h-11 gap-0">Cancel</SecondaryButton>
       </div>

@@ -3,7 +3,7 @@ import ProfileImageUpdate from "../ProfileImageUpdate";
 import SecondaryButton from "../../../../components/SecondaryButton";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import { useUserData } from "../../../../context/useUserData";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateBiodata } from "../../../../utils/queries/update";
 
 const AboutMe = () => {
@@ -34,9 +34,16 @@ const AboutMe = () => {
   };
 
   // Queries
-  const { mutateAsync } = useMutation({
+  const client = useQueryClient()
+
+  const { mutateAsync, isPending } = useMutation({
     mutationKey: ["updateBiodata"],
     mutationFn: updateBiodata,
+    onSuccess: () => {
+      client.invalidateQueries({
+        queryKey: ["users"],
+      });
+    },
   });
 
   return (
@@ -148,11 +155,11 @@ const AboutMe = () => {
           disabled={
             firstName === formData.firstName &&
             lastName === formData.lastName &&
-            description === formData.aboutMe
+            description === formData.aboutMe || isPending
           }
           classes="w-[120px] h-11 gap-0"
         >
-          Save
+         {isPending ? "Saving..." : " Save"}
         </PrimaryButton>
         <SecondaryButton classes="w-[120px] h-11 gap-0">Cancel</SecondaryButton>
       </div>

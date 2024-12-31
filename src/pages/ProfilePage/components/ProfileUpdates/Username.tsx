@@ -4,7 +4,7 @@ import { BiCheckCircle } from "react-icons/bi";
 import { PiSpinner } from "react-icons/pi";
 import { useState } from "react";
 import { useUserData } from "../../../../context/useUserData";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateUsername } from "../../../../utils/queries/update";
 
 const Username = () => {
@@ -19,9 +19,16 @@ const Username = () => {
   const [success, setSuccess] = useState(false);
 
   // Queries
-  const { mutateAsync } = useMutation({
+  const client = useQueryClient();
+
+  const { mutateAsync, isPending } = useMutation({
     mutationKey: ["updateUsername"],
     mutationFn: updateUsername,
+    onSuccess: () => {
+      client.invalidateQueries({
+        queryKey: ["users"],
+      });
+    },
   });
 
   return (
@@ -81,10 +88,10 @@ const Username = () => {
           onClick={async () => {
             await mutateAsync(newUsername);
           }}
-          disabled={username === newUsername}
+          disabled={username === newUsername || isPending}
           classes="w-[120px] h-11 gap-0"
         >
-          Save
+          {isPending ? "Saving..." : "Save"}
         </PrimaryButton>
         <SecondaryButton classes="w-[120px] h-11 gap-0">Cancel</SecondaryButton>
       </div>

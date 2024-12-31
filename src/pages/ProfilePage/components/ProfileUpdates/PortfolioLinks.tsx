@@ -7,8 +7,7 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import { MdDragIndicator } from "react-icons/md";
 import { useUserData } from "../../../../context/useUserData";
 import Behance from "/assets/Behance.svg";
-import useFetchUserData from "../../../../hooks/useFetchUserData";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateLinks } from "../../../../utils/queries/update";
 
 interface Links {
@@ -60,9 +59,17 @@ const PortfolioLinks = () => {
   };
 
   // Queries
+
+  const client = useQueryClient();
+
   const { mutateAsync, error: mute } = useMutation({
     mutationKey: ["updateLinks"],
     mutationFn: updateLinks,
+    onSuccess: () => {
+      client.invalidateQueries({
+        queryKey: ["users"],
+      });
+    },
   });
 
   return (
