@@ -27,7 +27,7 @@ export const signInWithGithub = async () => {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "github",
     options: {
-      // redirectTo: `http://example.com/auth/callback`,
+      redirectTo: `https://sync-u-staging.vercel.app/onboarding/tell-us-about-yourself`,
     },
   });
   return { data, error };
@@ -37,7 +37,7 @@ export const signInWithGoogle = async () => {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
-      // redirectTo: `http://example.com/auth/callback`,
+      redirectTo: `https://sync-u-staging.vercel.app/onboarding/tell-us-about-yourself`,
     },
   });
   return { data, error };
