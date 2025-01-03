@@ -12,6 +12,8 @@ export default {
         logo: "  #2A2A33",
         white: "#FFF",
         pink: "#F77FED",
+        primary: "#8333D0",
+        secondary: "#40404D",
         "brand-400": "#A771E5",
         "brand-500": "#8F4BDD",
         "brand-600": "#7F56D9",
