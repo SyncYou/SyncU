@@ -8,6 +8,7 @@ if (user) {
     const parsedUser = JSON.parse(user);
     if (parsedUser && parsedUser.id) {
       userId = parsedUser.id as string;
+      console.log(userId)
     }
   } catch (error) {
     console.error("Failed to parse user data:", error);

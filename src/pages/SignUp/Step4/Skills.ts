@@ -11,7 +11,7 @@ export const Skills = [
   },
   {
     id: 3,
-    skill: "Banding",
+    skill: "Branding",
     selected: false,
   },
   {
