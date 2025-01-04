@@ -1,4 +1,4 @@
-import supabase from "../../config/Supabase";
+import { supabase } from "../../supabase/client";
 import { Links, BiodataFormData } from "../types/Types";
 
 export const updateUsername = async (username: string) => {

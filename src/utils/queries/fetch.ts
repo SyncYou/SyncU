@@ -1,6 +1,7 @@
-import supabase from "../../config/Supabase";
+import { supabase } from "../../supabase/client";
 
-export async function fetchUserData(): Promise<T> {
+
+export async function fetchUserData(){
   try {
     const { data, error } = await supabase
       .from("Users")

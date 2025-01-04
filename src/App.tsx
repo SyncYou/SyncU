@@ -1,16 +1,3 @@
-
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Layout from "./pages/HomeLayout";
-import ProjectContainer from "./pages/HomePage/components/ProjectContainer";
-import Activity from "./pages/ActivityPage/Activity";
-import Projects from "./pages/ProjectPage/Projects";
-import Profile from "./pages/ProfilePage/Profile";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-
-
-const client = new QueryClient();
-
 import TellUsAboutYourself from "./components/Profile/Tell-us-about-yourself";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
@@ -25,6 +12,14 @@ import Verifymail from "./components/Auth/Verify-mail.tsx";
 import Username from "./components/Profile/Username.tsx";
 import ProfileLayout from "./Layout/ProfileLayout.tsx";
 import SetUpYourProfile from "./components/Profile/Set-up-your-profile.tsx";
+import Layout from "./pages/HomeLayout";
+import ProjectContainer from "./pages/HomePage/components/ProjectContainer";
+import Activity from "./pages/ActivityPage/Activity";
+import Projects from "./pages/ProjectPage/Projects";
+import Profile from "./pages/ProfilePage/Profile";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const client = new QueryClient();
 
 const router = createBrowserRouter([
   {
@@ -59,7 +54,11 @@ const router = createBrowserRouter([
             path: "finishing",
             element: <Finishing />,
           },
-          {
+        ],
+      },
+    ],
+  },
+  {
     path: "",
     element: <Layout />,
     children: [
@@ -78,10 +77,6 @@ const router = createBrowserRouter([
       {
         path: "/profile",
         element: <Profile />,
-      },
-    ],
-  },
-        ],
       },
     ],
   },
@@ -105,7 +100,11 @@ const router = createBrowserRouter([
 
 // Main App component
 const App = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <QueryClientProvider client={client}>
+      <RouterProvider router={router} />;
+    </QueryClientProvider>
+  );
 };
 
 export default App;
