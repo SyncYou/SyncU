@@ -1,0 +1,268 @@
+[
+  {
+    "projectName": "EcoTrack",
+    "projectCategory": "Environment",
+    "requiredSkills": [
+      "React",
+      "Node.js",
+      "Tailwind CSS",
+      "MongoDB",
+      "REST API"
+    ],
+    "projectDescription": "EcoTrack is an eco-friendly app designed to help users monitor and reduce their carbon footprint. The app provides insights, personalized tips, and tools to promote sustainable living.",
+    "projectFeatures": [
+      {
+        "name": "Carbon Footprint Calculator",
+        "details": [
+          "Estimate daily carbon footprint based on user activity.",
+          "Suggest actionable ways to reduce emissions."
+        ]
+      },
+      {
+        "name": "Sustainability Goals",
+        "details": [
+          "Set short and long-term goals for sustainable living.",
+          "Track progress toward eco-friendly habits."
+        ]
+      },
+      {
+        "name": "Daily Eco-Tips",
+        "details": [
+          "Receive customized daily tips on eco-friendly practices.",
+          "Tips based on the user\u2019s lifestyle and location."
+        ]
+      },
+      {
+        "name": "Recycling Guide",
+        "details": [
+          "Provide a searchable guide for recyclable items.",
+          "Educate users about local recycling programs."
+        ]
+      },
+      {
+        "name": "Energy Usage Tracker",
+        "details": [
+          "Track and analyze household energy consumption.",
+          "Identify areas to improve energy efficiency."
+        ]
+      },
+      {
+        "name": "Community Forum",
+        "details": [
+          "Engage with a community of eco-conscious users.",
+          "Share ideas and learn from others' experiences."
+        ]
+      }
+    ],
+    "authorName": "Green Innovators",
+    "authorUsername": "green_team"
+  },
+  {
+    "projectName": "FitFusion",
+    "projectCategory": "Fitness",
+    "requiredSkills": ["Flutter", "Dart", "Firebase", "UI/UX Design"],
+    "projectDescription": "FitFusion is a mobile fitness app offering personalized workout plans, progress tracking, and a community for fitness enthusiasts to stay motivated.",
+    "projectFeatures": [
+      {
+        "name": "Workout Plan Generator",
+        "details": [
+          "Generate personalized workout plans based on goals.",
+          "Adapt plans to user performance over time."
+        ]
+      },
+      {
+        "name": "Progress Tracker",
+        "details": [
+          "Log daily workouts and track performance.",
+          "Visualize improvements using charts and graphs."
+        ]
+      },
+      {
+        "name": "Nutrition Tracker",
+        "details": [
+          "Log meals and calculate calorie intake.",
+          "Provide recommendations for a balanced diet."
+        ]
+      },
+      {
+        "name": "Goal Setting",
+        "details": [
+          "Set fitness goals for weight loss, muscle gain, or endurance.",
+          "Track goal progress and celebrate achievements."
+        ]
+      },
+      {
+        "name": "Community Challenges",
+        "details": [
+          "Participate in group challenges to stay motivated.",
+          "Earn badges and rewards for completing challenges."
+        ]
+      },
+      {
+        "name": "Live Fitness Classes",
+        "details": [
+          "Join live-streamed workout sessions.",
+          "Interact with trainers and other participants in real-time."
+        ]
+      }
+    ],
+    "authorName": "FitFusion Team",
+    "authorUsername": "fitfusion_dev"
+  },
+  {
+    "projectName": "EduLink",
+    "projectCategory": "Education",
+    "requiredSkills": ["Vue.js", "Django", "SQLite", "API Integration"],
+    "projectDescription": "EduLink is a collaborative learning platform that connects students and teachers for interactive online learning sessions and resource sharing.",
+    "projectFeatures": [
+      {
+        "name": "Live Classrooms",
+        "details": [
+          "Host interactive live classes with video and chat.",
+          "Enable real-time Q&A sessions during lessons."
+        ]
+      },
+      {
+        "name": "Resource Sharing Hub",
+        "details": [
+          "Upload and download study materials and notes.",
+          "Organize resources by subject or topic."
+        ]
+      },
+      {
+        "name": "Assignment Submission Portal",
+        "details": [
+          "Allow students to submit assignments online.",
+          "Enable teachers to review and grade submissions."
+        ]
+      },
+      {
+        "name": "Student Progress Dashboard",
+        "details": [
+          "Provide an overview of student performance.",
+          "Track grades and attendance statistics."
+        ]
+      },
+      {
+        "name": "Real-time Polls and Quizzes",
+        "details": [
+          "Engage students with live polls and quizzes.",
+          "Display instant results for interactive learning."
+        ]
+      },
+      {
+        "name": "Teacher-Student Chat",
+        "details": [
+          "Facilitate one-on-one and group chats.",
+          "Ensure conversations are moderated and secure."
+        ]
+      }
+    ],
+    "authorName": "EduTeam",
+    "authorUsername": "edulink"
+  },
+  {
+    "projectName": "MedSync",
+    "projectCategory": "Healthcare",
+    "requiredSkills": ["Angular", "Spring Boot", "PostgreSQL", "Cloud Hosting"],
+    "projectDescription": "MedSync is a healthcare management system designed for hospitals and clinics to streamline patient care and administrative tasks.",
+    "projectFeatures": [
+      {
+        "name": "Patient Records Management",
+        "details": [
+          "Store and retrieve patient medical history securely.",
+          "Ensure compliance with data privacy regulations."
+        ]
+      },
+      {
+        "name": "Appointment Scheduling",
+        "details": [
+          "Allow patients to book appointments online.",
+          "Send automated reminders to reduce no-shows."
+        ]
+      },
+      {
+        "name": "Telemedicine Integration",
+        "details": [
+          "Enable virtual consultations with doctors.",
+          "Securely share medical records during consultations."
+        ]
+      },
+      {
+        "name": "Billing and Invoicing",
+        "details": [
+          "Generate detailed invoices for treatments.",
+          "Support multiple payment options."
+        ]
+      },
+      {
+        "name": "Inventory Management",
+        "details": [
+          "Track and restock medical supplies efficiently.",
+          "Generate alerts for low-stock items."
+        ]
+      },
+      {
+        "name": "Analytics Dashboard",
+        "details": [
+          "Visualize patient trends and clinic performance.",
+          "Make data-driven decisions with advanced analytics."
+        ]
+      }
+    ],
+    "authorName": "Healthcare Solutions",
+    "authorUsername": "medsync_team"
+  },
+  {
+    "projectName": "HomeAutomate",
+    "projectCategory": "IoT",
+    "requiredSkills": ["React Native", "Python", "AWS IoT", "Supabase"],
+    "projectDescription": "HomeAutomate is a smart home application that allows users to control and monitor their home devices from anywhere.",
+    "projectFeatures": [
+      {
+        "name": "Device Control",
+        "details": [
+          "Remotely turn devices on/off using the app.",
+          "Set schedules for automatic operation."
+        ]
+      },
+      {
+        "name": "Energy Monitoring",
+        "details": [
+          "Track energy consumption of connected devices.",
+          "Get suggestions for reducing power usage."
+        ]
+      },
+      {
+        "name": "Security Alerts",
+        "details": [
+          "Receive instant notifications for suspicious activities.",
+          "Access live security camera feeds."
+        ]
+      },
+      {
+        "name": "Voice Control",
+        "details": [
+          "Integrate with Alexa and Google Assistant.",
+          "Control devices using voice commands."
+        ]
+      },
+      {
+        "name": "Custom Scenes",
+        "details": [
+          "Create and activate personalized scenes.",
+          "Combine multiple actions into one-click routines."
+        ]
+      },
+      {
+        "name": "User Profiles",
+        "details": [
+          "Set individual preferences for family members.",
+          "Restrict access to specific features for kids."
+        ]
+      }
+    ],
+    "authorName": "Smart Innovations",
+    "authorUsername": "home_automate"
+  }
+]
