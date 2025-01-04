@@ -14,11 +14,15 @@ import { signupWithOTP } from "../../utils/AuthRequest";
 import { useNavigate } from "react-router";
 import Loading from "../Reuseables/Loading";
 import { useUserStore } from "../../store/UseUserStore";
+import useToastNotifications from "../../hooks/useToastNotifications";
+import Toast from "../Reuseables/Toast";
 
 const Signup: React.FC = () => {
   const navigate = useNavigate();
   const [disable, setDisable] = useState(true);
   const { setUserDetails } = useUserStore();
+  const [showNotifications, setShowNotifications] = useState(false);
+  const { toast, showToast } = useToastNotifications();
 
   const {
     register,
@@ -49,12 +53,44 @@ const Signup: React.FC = () => {
       const { data: response, error } = await signupWithOTP(email);
 
       if (error) {
+        const showNotificationTimeout = setTimeout(() => {
+          setShowNotifications(true);
+          showToast("error", "An Error occurred", "Please try again.");
+        }, 3000);
+
+        const hideNotificationTimeout = setTimeout(() => {
+          setShowNotifications(false);
+        }, 10000);
+
         console.log(error);
-        return;
+        return () => {
+          clearTimeout(showNotificationTimeout);
+          clearTimeout(hideNotificationTimeout);
+        };
       }
 
-      navigate("/auth/verify-email");
-      console.log(response);
+      if (response) {
+        const showNotificationTimeout = setTimeout(() => {
+          setShowNotifications(true);
+          showToast(
+            "success",
+            "Authentication Successful",
+            "Check your email for your otp"
+          );
+        }, 3000);
+
+        const hideNotificationTimeout = setTimeout(() => {
+          setShowNotifications(false);
+        }, 10000);
+
+        console.log(error);
+        navigate("/auth/verify-email");
+        console.log(response);
+        return () => {
+          clearTimeout(showNotificationTimeout);
+          clearTimeout(hideNotificationTimeout);
+        };
+      }
 
       reset();
     } catch (error) {
@@ -64,6 +100,13 @@ const Signup: React.FC = () => {
 
   return (
     <>
+      {showNotifications && toast && (
+        <Toast
+          type={toast.type}
+          message={toast.message}
+          description={toast.description}
+        />
+      )}
       <section className="p-5 md:p-2 w-full">
         <div>
           <Header />

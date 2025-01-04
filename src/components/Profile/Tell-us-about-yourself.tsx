@@ -70,7 +70,8 @@ const TellUsAboutYourself: React.FC = () => {
         </div>
 
         <div className="space-y-5">
-          <div className="border border-[#E6E6F0] rounded-xl py-2 px-3 flex flex-col gap-2 focus:border focus:border-primary focus:shadow focus:shadow-[#EDE4FA]">
+          <div className="flex items-center gap-5">
+          <div className="border border-[#E6E6F0] rounded-xl py-2 px-3 flex flex-1 flex-col gap-2 focus:border focus:border-primary focus:shadow focus:shadow-[#EDE4FA]">
             <label
               className="text-secondary leading-6 text-[16px] font-normal"
               htmlFor="firstName"
@@ -87,7 +88,7 @@ const TellUsAboutYourself: React.FC = () => {
             />
           </div>
 
-          <div className="border border-[#E6E6F0] rounded-xl py-2 px-3 flex flex-col gap-2 focus:border focus:border-primary focus:shadow focus:shadow-[#EDE4FA]">
+          <div className="border border-[#E6E6F0] rounded-xl py-2 px-3 flex flex-1 flex-col gap-2 focus:border focus:border-primary focus:shadow focus:shadow-[#EDE4FA]">
             <label
               className="text-secondary leading-6 text-[16px] font-normal"
               htmlFor="lastName"
@@ -103,8 +104,9 @@ const TellUsAboutYourself: React.FC = () => {
               onChange={handleChange}
             />
           </div>
+          </div>
 
-          <div className="border border-[#E6E6F0] rounded-xl py-2 px-3 flex flex-col gap-2 focus:border focus:border-primary focus:shadow focus:shadow-[#EDE4FA] relative">
+          <div className="border border-[#E6E6F0] rounded-xl py-2 px-3 flex flex-col gap-2 focus:border focus:border-primary focus:shadow focus:shadow-[#EDE4FA] relative w-[389px]">
             <label
               className="text-secondary leading-6 text-[16px] font-normal"
               htmlFor="country"

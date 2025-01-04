@@ -32,11 +32,6 @@ const SetUpYourProfile: React.FC = () => {
   }, []);
   return (
     <section className="p-3">
-      {/* {showNotifications && (
-        <div className="fixed top-0 left-1/2 -translate-x-1/2 duration-1000 delay-1000">
-          <ToastNotifications />
-        </div>
-      )} */}
       {showNotifications && toast && (
         <Toast
           type={toast.type}

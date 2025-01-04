@@ -1,24 +1,25 @@
 import { MdClose } from "react-icons/md";
 import check from "/signUp-imgs/check.svg";
+import { IoCloseCircleSharp } from "react-icons/io5";
+import { IoIosWarning } from "react-icons/io";
 
 interface ToastProps {
-  type: 'success' | 'error' | 'warning';
+  type: "success" | "error" | "warning";
   message: string;
   description: string;
 }
 
 const Toast: React.FC<ToastProps> = ({ type, message, description }) => {
-  // This function determines what icon or style to use based on the toast type
   const checkType = () => {
     switch (type) {
       case "success":
         return <img src={check} alt="check" />;
       case "error":
-        return <img src={check} alt="error" />;
+        return <IoCloseCircleSharp size={25} color="#ff0000" />;
       case "warning":
-        return <img src={check} alt="warning" />;
+        return <IoIosWarning size={25} color="#FFEB3B" />;
       default:
-        return <div className="bg-blue-400" />;
+        return <img src={check} alt="check" />;
     }
   };
 
