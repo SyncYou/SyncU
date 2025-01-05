@@ -1,4 +1,4 @@
-import check from "/signUp-imgs/Check.svg";
+import check from "/signUp-imgs/check.svg";
 
 interface StackProps {
   stack: string;
