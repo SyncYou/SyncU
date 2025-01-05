@@ -76,13 +76,13 @@ const OnboardingLayout: React.FC = () => {
   };
 
   return (
-    <section className="w-full h-dvh ">
+    <section className="w-full h-dvh">
       {/* Desktop View */}
       <div className="hidden md:flex w-full h-dvh">
-        <div className="flex-1">
+        <div className="flex-1 h-dvh">
           <Signup />
         </div>
-        <div className="flex-1">{desktopOnboardingSteps()}</div>
+        <div className="flex-1 h-dvh">{desktopOnboardingSteps()}</div>
       </div>
       {/* mobile view */}
       <div className="w-full md:hidden">{mobileOnboardingSteps()}</div>
