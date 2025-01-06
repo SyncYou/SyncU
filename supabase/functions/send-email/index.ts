@@ -1,8 +1,14 @@
-import React from 'react'
+// Follow this setup guide to integrate the Deno language server with your editor:
+// https://deno.land/manual/getting_started/setup_your_environment
+// This enables autocomplete, go to definition, etc.
+
+// Setup type definitions for built-in Supabase Runtime APIs
+import React from 'npm:react@18.3.1'
 import { Webhook } from 'https://esm.sh/standardwebhooks@1.0.0'
 import { Resend } from 'npm:resend@4.0.0'
 import { renderAsync } from 'npm:@react-email/components@0.0.22'
-import { MagicLinkEmail } from './_templates/magic-link.tsx'
+import OtpEmail from './_templates/OtpEmail'
+
 
 const resend = new Resend(Deno.env.get('RESEND_API_KEY') as string)
 const hookSecret = Deno.env.get('SEND_EMAIL_HOOK_SECRET') as string
@@ -18,29 +24,19 @@ Deno.serve(async (req) => {
   try {
     const {
       user,
-      email_data: { token, token_hash, redirect_to, email_action_type },
+      email_data: { token },
     } = wh.verify(payload, headers) as {
       user: {
         email: string
       }
       email_data: {
         token: string
-        token_hash: string
-        redirect_to: string
-        email_action_type: string
-        site_url: string
-        token_new: string
-        token_hash_new: string
       }
     }
 
     const html = await renderAsync(
-      React.createElement(MagicLinkEmail, {
-        supabase_url: Deno.env.get('SUPABASE_URL') ?? '',
-        token,
-        token_hash,
-        redirect_to,
-        email_action_type,
+      React.createElement(OtpEmail, {
+        token
       })
     )
 
@@ -76,3 +72,14 @@ Deno.serve(async (req) => {
     headers: responseHeaders,
   })
 })
+/* To invoke locally:
+
+  1. Run `supabase start` (see: https://supabase.com/docs/reference/cli/supabase-start)
+  2. Make an HTTP request:
+
+  curl -i --location --request POST 'http://127.0.0.1:54321/functions/v1/send-email' \
+    --header 'Authorization: Bearer ' \
+    --header 'Content-Type: application/json' \
+    --data '{"name":"Functions"}'
+
+*/

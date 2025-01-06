@@ -7,42 +7,23 @@ import {
     Link,
     Preview,
     Text,
-  } from 'npm:@react-email/components@0.0.22'
+  } from '@react-email/components'
   
-  interface MagicLinkEmailProps {
-    supabase_url: string
-    email_action_type: string
-    redirect_to: string
-    token_hash: string
+  interface OtpEmailProps {
     token: string
   }
   
-  export const MagicLinkEmail = ({
-    token,
-    supabase_url,
-    email_action_type,
-    redirect_to,
-    token_hash,
-  }: MagicLinkEmailProps) => (
+  export const OtpEmail = ({
+    token
+  }: OtpEmailProps) => (
     <Html>
       <Head />
-      <Preview>Log in with this magic link</Preview>
+      <Preview>Log in with this OTP</Preview>
       <Body style={main}>
         <Container style={container}>
           <Heading style={h1}>Login</Heading>
-          <Link
-            href={`${supabase_url}/auth/v1/verify?token=${token_hash}&type=${email_action_type}&redirect_to=${redirect_to}`}
-            target="_blank"
-            style={{
-              ...link,
-              display: 'block',
-              marginBottom: '16px',
-            }}
-          >
-            Click here to log in with this magic link
-          </Link>
           <Text style={{ ...text, marginBottom: '14px' }}>
-            Or, copy and paste this temporary login code:
+           Here's your OTP code...:
           </Text>
           <code style={code}>{token}</code>
           <Text
@@ -61,16 +42,15 @@ import {
               target="_blank"
               style={{ ...link, color: '#898989' }}
             >
-              ACME Corp
+            Syncu
             </Link>
-            , the famouse demo corp.
           </Text>
         </Container>
       </Body>
     </Html>
   )
   
-  export default MagicLinkEmail
+  export default OtpEmail
   
   const main = {
     backgroundColor: '#ffffff',
