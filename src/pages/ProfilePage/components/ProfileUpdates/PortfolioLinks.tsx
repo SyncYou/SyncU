@@ -1,6 +1,6 @@
 import SecondaryButton from "../../../../components/SecondaryButton";
 import PrimaryButton from "../../../../components/PrimaryButton";
-import { BiCheckCircle, BiPlusCircle } from "react-icons/bi";
+import {  BiPlusCircle } from "react-icons/bi";
 import { PiSpinner } from "react-icons/pi";
 import { ChangeEvent, useState } from "react";
 import { RiDeleteBinLine } from "react-icons/ri";

@@ -4,7 +4,9 @@ import { useUserStore } from "../../../store/UseUserStore";
 import { ProfileImage } from "./ProfileImages";
 import { Avatar } from "./Avatar";
 import { sendUserDetails, uploadAvatar } from "../../../utils/SupabaseRequest";
-import { ChangeEvent, useEffect } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
+import useToastNotifications from "../../../hooks/useToastNotifications";
+import Toast from "../../../components/Reuseables/Toast";
 
 interface ProfileImageItem {
   id: number;
@@ -20,6 +22,8 @@ interface ProfileImageItem {
 export function LeftFill_3() {
   const { userDetails, setUserDetails } = useUserStore();
   // const [disable, setDisable] = useState(true);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const { toast, showToast } = useToastNotifications();
 
   async function handleImageUpload(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files ? e.target.files[0] : null;
@@ -66,9 +70,26 @@ export function LeftFill_3() {
   const handleRequest = async () => {
     if (isValid) {
       try {
-        const response = await sendUserDetails(userDetails);
-        console.log("Data sent to Supabase:", response);
-        return response;
+        const { data, error } = await sendUserDetails(userDetails);
+        if (error) {
+          const showNotificationTimeout = setTimeout(() => {
+            setShowNotifications(true);
+            showToast("error", "An Error occurred", "Please try again.");
+          }, 1000);
+
+          const hideNotificationTimeout = setTimeout(() => {
+            setShowNotifications(false);
+          }, 5000);
+
+          console.log(error);
+
+          return () => {
+            clearTimeout(showNotificationTimeout);
+            clearTimeout(hideNotificationTimeout);
+          };
+        }
+        console.log("Data sent to Supabase:", data);
+        return data;
       } catch (error) {
         console.error("Error sending data to Supabase:", error);
       }
@@ -76,64 +97,75 @@ export function LeftFill_3() {
   };
 
   return (
-    <section>
-      <div className="p-5 flex flex-col w-full">
-        <div className="gap-6 self-stretch flex-col ">
-          <h3 className="text-gray-600 font-medium text-sm my-5">
-            STEP 5 of 5
-          </h3>
-          <div className="gap-3 flex-col my-5">
-            <h1 className="text-[32px] font-semibold text-gray-950 my-3">
-              Add a photo...
-            </h1>
-            <p className="text-gray-800 text-lg font-normal my-3">
-              This will help increase your chances of being accepted to work on
-              a project.
-            </p>
-          </div>
+    <>
+      {showNotifications && toast && (
+        <div className="absolute top-0 flex items-center justify-center w-full z-50">
+          <Toast
+            type={toast.type}
+            message={toast.message}
+            description={toast.description}
+          />
         </div>
-
-        <div className="gap-4 flex-col relative">
-          <h3 className="text-gray-800 font-normal text-base my-3">
-            Select an avatar{" "}
-          </h3>
-          <span className="flex items-start gap-4 [&_img]:object-contain relative [&_img]:cursor-pointer">
-            {ProfileImage.map((items: ProfileImageItem) => (
-              <Avatar
-                key={items.id}
-                items={items}
-                handleAvatarSelect={handleAvatarSelect}
-              />
-            ))}
-          </span>
-          <div className="gap-4 flex-col">
-            <h3 className="text-gray-800 font-normal text-base my-5">
-              or upload an image{" "}
+      )}
+      <section>
+        <div className="p-5 flex flex-col w-full">
+          <div className="gap-6 self-stretch flex-col ">
+            <h3 className="text-gray-600 font-medium text-sm my-5">
+              STEP 5 of 5
             </h3>
-            <label className="rounded-full border-dashed  [&_img]:object-contain border bg-white border-gray-300 h-[80px] w-[80px] flex items-center justify-center *:w-8 *:h-8 cursor-pointer">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                className="hidden"
-              />
-              <img src={img} alt="update profile image" />
-            </label>
+            <div className="gap-3 flex-col my-5">
+              <h1 className="text-[32px] font-semibold text-gray-950 my-3">
+                Add a photo...
+              </h1>
+              <p className="text-gray-800 text-lg font-normal my-3">
+                This will help increase your chances of being accepted to work
+                on a project.
+              </p>
+            </div>
           </div>
-        </div>
 
-        <Nav_Btn
-          disabled={!isValid}
-          showPrevious={true}
-          handleRequest={handleRequest}
-          navTo="/onboarding/finishing"
-          btn_Style={`${
-            isValid
-              ? "bg-gray-950 text-opacity-100 text-white"
-              : "text-opacity-40 cursor-not-allowed"
-          }`}
-        />
-      </div>
-    </section>
+          <div className="gap-4 flex-col relative">
+            <h3 className="text-gray-800 font-normal text-base my-3">
+              Select an avatar{" "}
+            </h3>
+            <span className="flex items-start gap-4 [&_img]:object-contain relative [&_img]:cursor-pointer">
+              {ProfileImage.map((items: ProfileImageItem) => (
+                <Avatar
+                  key={items.id}
+                  items={items}
+                  handleAvatarSelect={handleAvatarSelect}
+                />
+              ))}
+            </span>
+            <div className="gap-4 flex-col">
+              <h3 className="text-gray-800 font-normal text-base my-5">
+                or upload an image{" "}
+              </h3>
+              <label className="rounded-full border-dashed  [&_img]:object-contain border bg-white border-gray-300 h-[80px] w-[80px] flex items-center justify-center *:w-8 *:h-8 cursor-pointer">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="hidden"
+                />
+                <img src={img} alt="update profile image" />
+              </label>
+            </div>
+          </div>
+
+          <Nav_Btn
+            disabled={!isValid}
+            showPrevious={true}
+            handleRequest={handleRequest}
+            navTo="/onboarding/finishing"
+            btn_Style={`${
+              isValid
+                ? "bg-gray-950 text-opacity-100 text-white"
+                : "text-opacity-40 cursor-not-allowed"
+            }`}
+          />
+        </div>
+      </section>
+    </>
   );
 }

@@ -77,15 +77,16 @@ const Login: React.FC = () => {
             "Authentication Successful",
             "Check your email for your otp"
           );
-        }, 3000);
+        }, 1000);
 
         const hideNotificationTimeout = setTimeout(() => {
           setShowNotifications(false);
-        }, 10000);
+        }, 5000);
 
         console.log(error);
         navigate("/auth/verify-email");
         console.log(response);
+        
         return () => {
           clearTimeout(showNotificationTimeout);
           clearTimeout(hideNotificationTimeout);
@@ -101,11 +102,13 @@ const Login: React.FC = () => {
   return (
     <>
       {showNotifications && toast && (
-        <Toast
-          type={toast.type}
-          message={toast.message}
-          description={toast.description}
-        />
+        <div className="absolute top-0 flex items-center justify-center w-full z-50">
+          <Toast
+            type={toast.type}
+            message={toast.message}
+            description={toast.description}
+          />
+        </div>
       )}
       <section className="p-5 md:p-2 w-full">
         <div>

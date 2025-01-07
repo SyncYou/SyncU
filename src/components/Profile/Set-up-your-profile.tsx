@@ -33,11 +33,13 @@ const SetUpYourProfile: React.FC = () => {
   return (
     <section className="p-3">
       {showNotifications && toast && (
-        <Toast
-          type={toast.type}
-          message={toast.message}
-          description={toast.description}
-        />
+        <div className="absolute top-0 flex items-center justify-center w-full z-50">
+          <Toast
+            type={toast.type}
+            message={toast.message}
+            description={toast.description}
+          />
+        </div>
       )}
       <div>
         <Header />

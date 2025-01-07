@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchUserData } from "../utils/queries/fetch";
+// import { fetchUserData } from "../utils/queries/fetch";
 import { UserData } from "../utils/types/Types";
 import { supabase } from "../supabase/client";
 

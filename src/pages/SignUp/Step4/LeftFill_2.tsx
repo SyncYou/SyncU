@@ -7,6 +7,8 @@ import { Skill } from "./Skill";
 import { Modal2 } from "../../../components/styles/Reuse/Modal2";
 import { FaTimes } from "react-icons/fa";
 import { sendUserDetails } from "../../../utils/SupabaseRequest";
+import useToastNotifications from "../../../hooks/useToastNotifications";
+import Toast from "../../../components/Reuseables/Toast";
 
 interface Skill {
   id: number;
@@ -23,6 +25,8 @@ export function LeftFill_2() {
   const [search, setSearch] = useState<string>("");
   const [isSearching, setIsSearching] = useState<boolean>(true);
   const [isValid, setIsValid] = useState<boolean>(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const { toast, showToast } = useToastNotifications();
 
   const valid =
     userDetails.firstName.trim() !== "" &&
@@ -79,119 +83,149 @@ export function LeftFill_2() {
 
   const handleRequest = async () => {
     try {
-      const response = await sendUserDetails(userDetails);
-      console.log("Data sent to Supabase:", response);
-      return response;
+      const { data, error } = await sendUserDetails(userDetails);
+      if (error) {
+        const showNotificationTimeout = setTimeout(() => {
+          setShowNotifications(true);
+          showToast("error", "An Error occurred", "Please try again.");
+        }, 1000);
+
+        const hideNotificationTimeout = setTimeout(() => {
+          setShowNotifications(false);
+        }, 5000);
+
+        console.log(error);
+
+        return () => {
+          clearTimeout(showNotificationTimeout);
+          clearTimeout(hideNotificationTimeout);
+        };
+      }
+      console.log("Data sent to Supabase:", data);
+      return data;
     } catch (error) {
       console.error("Error sending data to Supabase:", error);
     }
   };
 
   return (
-    <section>
-      <div className="p-5 flex flex-col w-full">
-        <div className="gap-6 self-stretch flex-col" ref={activeRef}>
-          <h3 className="text-gray-600 font-medium text-sm">STEP 4 of 5</h3>
-          <div className="gap-3 flex-col">
-            <h1 className="text-[32px] font-semibold text-gray-950 mt-5">
-              What are you skilled at?
-            </h1>
-            <p className="text-gray-800 text-lg font-normal my-3">
-              This will enable us to match you to projects that suit you.
-            </p>
-          </div>
+    <>
+      {showNotifications && toast && (
+        <div className="absolute top-0 flex items-center justify-center w-full z-50">
+          <Toast
+            type={toast.type}
+            message={toast.message}
+            description={toast.description}
+          />
         </div>
+      )}
+      <section>
+        <div className="p-5 flex flex-col w-full">
+          <div className="gap-6 self-stretch flex-col" ref={activeRef}>
+            <h3 className="text-gray-600 font-medium text-sm">STEP 4 of 5</h3>
+            <div className="gap-3 flex-col">
+              <h1 className="text-[32px] font-semibold text-gray-950 mt-5">
+                What are you skilled at?
+              </h1>
+              <p className="text-gray-800 text-lg font-normal my-3">
+                This will enable us to match you to projects that suit you.
+              </p>
+            </div>
+          </div>
 
-        <div className="gap-4 flex-col relative my-5">
-          <h3 className="text-gray-800 font-normal text-sm my-3">
-            Add at least 3/10 skills or stacks
-          </h3>
-          <span
-            className={`flex items-start justify-between py-2 px-3 border border-solid h-[90%] bg-white w-[62%] rounded-lg ${
-              active
-                ? "border-brand-400 shadow-active-state"
-                : "border-gray-200"
-            }`}
-          >
-            <span className="flex items-start flex-col gap-1 w-full">
-              <p className="text-gray-950 text-xs font-medium">Skills/stacks</p>
-              {isSearching ? (
-                <input
-                  type="text"
-                  name="skills"
-                  className="text-gray-800 text-base font-medium mb-[50px] w-full outline-none"
-                  placeholder="Type a skill or stack for e.g, UI design."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  onClick={() => {
-                    setActive(true);
-                    setShowModal(true);
-                  }}
-                />
-              ) : (
-                <div className="gap-4 [&_p]:text-gray-950 [&_p]:rounded-3xl [&_p]:border-gray-300 [&_p]:border [&_p]:py-1 [&_p]:px-[20px] w-full flex-wrap space-y-2">
-                  {userDetails.stacks.map(
-                    (skill, index) =>
-                      skill !== "N/A" && (
-                        <p
-                          key={index}
-                          className={`${
-                            skill === "N/A"
-                              ? "border-none"
-                              : "border  [&_span]:flex [&_span]:items-center [&_span]:gap-[10px] cursor-pointer [&_span]:text-brand-600 bg-skill"
-                          }`}
-                          onClick={() => handleRemoveSkill(skill)}
-                        >
-                          <span>
-                            {skill}
-                            <FaTimes />
-                          </span>
-                        </p>
-                      )
-                  )}
-                </div>
-              )}
+          <div className="gap-4 flex-col relative my-5">
+            <h3 className="text-gray-800 font-normal text-sm my-3">
+              Add at least 3/10 skills or stacks
+            </h3>
+            <span
+              className={`flex items-start justify-between py-2 px-3 border border-solid h-[90%] bg-white w-[62%] rounded-lg ${
+                active
+                  ? "border-brand-400 shadow-active-state"
+                  : "border-gray-200"
+              }`}
+            >
+              <span className="flex items-start flex-col gap-1 w-full">
+                <p className="text-gray-950 text-xs font-medium">
+                  Skills/stacks
+                </p>
+                {isSearching ? (
+                  <input
+                    type="text"
+                    name="skills"
+                    className="text-gray-800 text-base font-medium mb-[50px] w-full outline-none"
+                    placeholder="Type a skill or stack for e.g, UI design."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    onClick={() => {
+                      setActive(true);
+                      setShowModal(true);
+                    }}
+                  />
+                ) : (
+                  <div className="gap-4 [&_p]:text-gray-950 [&_p]:rounded-3xl [&_p]:border-gray-300 [&_p]:border [&_p]:py-1 [&_p]:px-[20px] w-full flex-wrap space-y-2">
+                    {userDetails.stacks.map(
+                      (skill, index) =>
+                        skill !== "N/A" && (
+                          <p
+                            key={index}
+                            className={`${
+                              skill === "N/A"
+                                ? "border-none"
+                                : "border  [&_span]:flex [&_span]:items-center [&_span]:gap-[10px] cursor-pointer [&_span]:text-brand-600 bg-skill"
+                            }`}
+                            onClick={() => handleRemoveSkill(skill)}
+                          >
+                            <span>
+                              {skill}
+                              <FaTimes />
+                            </span>
+                          </p>
+                        )
+                    )}
+                  </div>
+                )}
+              </span>
+              <img src={caret} alt="caretUpDown" />
             </span>
-            <img src={caret} alt="caretUpDown" />
-          </span>
 
-          <div className="absolute bottom-[25%] w-full" ref={modalRef}>
-            {showModal && (
-              <Modal2
-                filteredSkills={filteredSkills}
-                handleSkillClick={handleSkillClick}
-              />
-            )}
+            <div className="absolute bottom-[25%] w-full" ref={modalRef}>
+              {showModal && (
+                <Modal2
+                  filteredSkills={filteredSkills}
+                  handleSkillClick={handleSkillClick}
+                />
+              )}
+            </div>
           </div>
-        </div>
 
-        <div className="gap-2 flex-col my-5">
-          <h3 className="text-gray-800 font-normal text-sm my-3">
-            Suggested skills & stacks
-          </h3>
-          <span className="flex flex-wrap gap-2 [&_p]:text-gray-950 [&_p]:flex [&_p]:items-center [&_p]:gap-[10px] [&_p]:rounded-3xl [&_p]:border-gray-300 [&_p]:border [&_p]:border-solid [&_p]:py-1 [&_p]:px-[20px] [&_p]:hover:cursor-pointer">
-            {Skills.map((skill: Skill) => (
-              <Skill
-                setIsSearching={setIsSearching}
-                key={skill.id}
-                skill={skill.skill}
-              />
-            ))}
-          </span>
-        </div>
+          <div className="gap-2 flex-col my-5">
+            <h3 className="text-gray-800 font-normal text-sm my-3">
+              Suggested skills & stacks
+            </h3>
+            <span className="flex flex-wrap gap-2 [&_p]:text-gray-950 [&_p]:flex [&_p]:items-center [&_p]:gap-[10px] [&_p]:rounded-3xl [&_p]:border-gray-300 [&_p]:border [&_p]:border-solid [&_p]:py-1 [&_p]:px-[20px] [&_p]:hover:cursor-pointer">
+              {Skills.map((skill: Skill) => (
+                <Skill
+                  setIsSearching={setIsSearching}
+                  key={skill.id}
+                  skill={skill.skill}
+                />
+              ))}
+            </span>
+          </div>
 
-        <Nav_Btn
-          disabled={!isValid}
-          showPrevious={true}
-          handleRequest={handleRequest}
-          navTo="/onboarding/profile-image"
-          btn_Style={`${
-            isValid
-              ? "bg-gray-950 text-opacity-100 text-white"
-              : "text-opacity-40 cursor-not-allowed"
-          }`}
-        />
-      </div>
-    </section>
+          <Nav_Btn
+            disabled={!isValid}
+            showPrevious={true}
+            handleRequest={handleRequest}
+            navTo="/onboarding/profile-image"
+            btn_Style={`${
+              isValid
+                ? "bg-gray-950 text-opacity-100 text-white"
+                : "text-opacity-40 cursor-not-allowed"
+            }`}
+          />
+        </div>
+      </section>
+    </>
   );
 }
