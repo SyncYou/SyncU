@@ -7,7 +7,8 @@ import {
     Link,
     Preview,
     Text,
-  } from '@react-email/components'
+  } from 'npm:@react-email/components@0.0.22'
+  import * as React from 'npm:react@18.3.1'
   
   interface OtpEmailProps {
     token: string
@@ -38,7 +39,7 @@ import {
           </Text>
           <Text style={footer}>
             <Link
-              href="https://demo.vercel.store/"
+              href="https://syncu.net/"
               target="_blank"
               style={{ ...link, color: '#898989' }}
             >

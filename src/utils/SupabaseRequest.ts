@@ -1,23 +1,28 @@
 import { supabase } from "../supabase/client";
 
-const user = localStorage.getItem("newUser");
-let userId: string | undefined;
+const getUserIdFromLocalStorage = () => {
+  const user = localStorage.getItem("newUser");
+  let userId: string | undefined;
 
-if (user) {
-  try {
-    const parsedUser = JSON.parse(user);
-    if (parsedUser && parsedUser.id) {
-      userId = parsedUser.id as string;
-      console.log(userId)
+  if (user) {
+    try {
+      const parsedUser = JSON.parse(user);
+      if (parsedUser && parsedUser.id) {
+        userId = parsedUser.id;
+        console.log("User ID:", userId);
+      }
+    } catch (error) {
+      console.error("Failed to parse user data:", error);
     }
-  } catch (error) {
-    console.error("Failed to parse user data:", error);
   }
-}
 
-// console.log(userId);
+  return userId;
+};
+
+
 
 export const sendUserDetails = async (userData: any) => {
+  const userId = getUserIdFromLocalStorage();
   const { data, error } = await supabase
     .from("Users")
     .upsert([{ id: userId, ...userData }], { onConflict: "id" });

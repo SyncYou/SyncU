@@ -7,7 +7,7 @@ import React from 'npm:react@18.3.1'
 import { Webhook } from 'https://esm.sh/standardwebhooks@1.0.0'
 import { Resend } from 'npm:resend@4.0.0'
 import { renderAsync } from 'npm:@react-email/components@0.0.22'
-import OtpEmail from './_templates/OtpEmail'
+import OtpEmail from './_templates/OtpEmail.tsx'
 
 
 const resend = new Resend(Deno.env.get('RESEND_API_KEY') as string)
@@ -41,9 +41,9 @@ Deno.serve(async (req) => {
     )
 
     const { error } = await resend.emails.send({
-      from: 'welcome <onboarding@resend.dev>',
+      from: 'syncu <team@syncu.net>',
       to: [user.email],
-      subject: 'Supa Custom MagicLink!',
+      subject: 'Welcome to Syncu',
       html,
     })
     if (error) {
