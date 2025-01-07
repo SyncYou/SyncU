@@ -70,6 +70,10 @@ const PortfolioLinks = () => {
         queryKey: ["users"],
       });
     },
+    onError: () => {
+      setError(true)
+      console.log(mute)
+    }
   });
 
   return (

@@ -3,7 +3,7 @@ import x from "/assets/X.svg";
 import slack from "/assets/slack.svg";
 import { BsShare } from "react-icons/bs";
 import { HiOutlineBriefcase, HiOutlineLockClosed } from "react-icons/hi";
-import { PiSortAscending, PiTagChevron } from "react-icons/pi";
+import { PiTagChevron } from "react-icons/pi";
 import { FaRegCalendarMinus } from "react-icons/fa";
 import { useState } from "react";
 import { IoCheckmarkCircle } from "react-icons/io5";
