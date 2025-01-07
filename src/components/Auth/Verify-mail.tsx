@@ -5,11 +5,15 @@ import { signupWithOTP, verifyEmail } from "../../utils/AuthRequest";
 import { useNavigate } from "react-router";
 import { useUserStore } from "../../store/UseUserStore";
 import { Loading } from "../styles/Reuse/Loading";
+import useToastNotifications from "../../hooks/useToastNotifications";
+import Toast from "../Reuseables/Toast";
 
 const Verifymail: React.FC = () => {
   const navigate = useNavigate();
   const { userDetails } = useUserStore();
   const [isLoading, setIsLoading] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const { toast, showToast } = useToastNotifications();
 
   const email: string | undefined =
     userDetails?.email ?? "thatguyvergil@gmail.com";
@@ -66,13 +70,39 @@ const Verifymail: React.FC = () => {
     const { session, error } = await verifyEmail(email, otpString);
     if (error) {
       setIsLoading(false);
+      const showNotificationTimeout = setTimeout(() => {
+        setShowNotifications(true);
+        showToast("error", "An Error occurred", "Invalid otp.");
+      }, 3000);
+
+      const hideNotificationTimeout = setTimeout(() => {
+        setShowNotifications(false);
+      }, 10000);
+
       console.log(error);
-      return
+      return () => {
+        clearTimeout(showNotificationTimeout);
+        clearTimeout(hideNotificationTimeout);
+      };
     }
 
-    if(session){
+    if (session) {
+      const showNotificationTimeout = setTimeout(() => {
+        setShowNotifications(true);
+        showToast("success", "Authentication Successful", "Welcome to syncu");
+      }, 1000);
+
+      const hideNotificationTimeout = setTimeout(() => {
+        setShowNotifications(false);
+      }, 5000);
+
       localStorage.setItem("newUser", JSON.stringify(session?.user));
       navigate("/auth/set-up-your-profile");
+
+      return () => {
+        clearTimeout(showNotificationTimeout);
+        clearTimeout(hideNotificationTimeout);
+      };
     }
 
     setIsLoading(false);
@@ -98,6 +128,15 @@ const Verifymail: React.FC = () => {
 
   return (
     <>
+      {showNotifications && toast && (
+        <div className="absolute top-0 flex items-center justify-center w-full z-50">
+          <Toast
+            type={toast.type}
+            message={toast.message}
+            description={toast.description}
+          />
+        </div>
+      )}
       <section className="p-5">
         <div>
           <Header />
