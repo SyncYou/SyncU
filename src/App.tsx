@@ -63,7 +63,7 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       {
-        path: "/container",
+        path: "/collaborate",
         element: <ProjectContainer />,
       },
       {

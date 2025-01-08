@@ -1,29 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { supabase } from "../../../supabase/client";
+import { ProjectCabins } from "../../../types/ProjectCabins";
+import { data } from "react-router-dom";
 
 export const Cards = () => {
   const [cards, setCards] = useState("");
+
   useEffect(() => {
-    fetchedCards();
+    ProjectCabins().then((data) => console.log(data));
   }, []);
 
-  const fetchedCards = async () => {
-    const { data, error } = await supabase.from("Projects").select("*");
-    if (error) {
-      console.log("Error fetching:", error);
-    } else {
-      setCards(data);
-      console.log(data);
-    }
-  };
-
-  return (
-    <div>
-      {/* {cards.map((data) => (
-            <p>
-                {data}
-        </p>
-    ))} */}
-    </div>
-  );
+  return <p>Hey Bruv</p>;
 };
