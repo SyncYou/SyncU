@@ -42,3 +42,8 @@ export const signInWithGoogle = async () => {
   });
   return { data, error };
 };
+
+export const getLoggedInUser = async () => {
+  const { data: { user: loggedInUser } } = await supabase.auth.getUser()
+return loggedInUser
+}

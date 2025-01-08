@@ -10,7 +10,7 @@ import Toast from "../Reuseables/Toast";
 const TellUsAboutYourself: React.FC = () => {
   const [disable, setDisable] = useState(true);
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const { userDetails, setUserDetails } = useUserStore();
+  const { userDetails, setUserDetails, loggedInUser } = useUserStore();
   const [modalOpen, setModalOpen] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const { toast, showToast } = useToastNotifications();
@@ -41,6 +41,13 @@ const TellUsAboutYourself: React.FC = () => {
     localStorage.setItem("userDetails", JSON.stringify(userDetails));
     setDisable(!isValid);
   }, [userDetails, isValid]);
+
+  useEffect(() => {
+    if (loggedInUser) {
+      setUserDetails("firstName", loggedInUser.firstName);
+      setUserDetails("lastName", loggedInUser.lastName);
+    }
+  }, [loggedInUser, setUserDetails]);
 
   const handleRequest = async () => {
     if (isValid) {
