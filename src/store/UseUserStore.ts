@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { User } from '@supabase/supabase-js';
 import { getLoggedInUser } from "../utils/AuthRequest";
 
 
@@ -28,7 +29,7 @@ interface UserDetails {
 
 interface UserStore {
   userDetails: UserDetails;
-  loggedInUser: any | null;
+  loggedInUser: User | null;
   currentStep: number; 
   setUserDetails: (key: keyof UserDetails, value: string) => void;
   setLoggedInUser: (loggedInUser: any) => void;

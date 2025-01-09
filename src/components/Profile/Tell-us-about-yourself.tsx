@@ -44,8 +44,12 @@ const TellUsAboutYourself: React.FC = () => {
 
   useEffect(() => {
     if (loggedInUser) {
-      setUserDetails("firstName", loggedInUser.firstName);
-      setUserDetails("lastName", loggedInUser.lastName);
+      console.log(loggedInUser);
+      const fullName = loggedInUser?.user_metadata?.name as string;
+      const [firstName, lastName] = fullName.split(" ");
+      setUserDetails("email", loggedInUser?.email as string);
+      setUserDetails("firstName", firstName);
+      setUserDetails("lastName", lastName);
     }
   }, [loggedInUser, setUserDetails]);
 

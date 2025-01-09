@@ -1,31 +1,33 @@
 import { supabase } from "../supabase/client";
+import {getLoggedInUser} from './AuthRequest'
 
-const getUserIdFromLocalStorage = () => {
-  const user = localStorage.getItem("newUser");
-  let userId: string | undefined;
+// const getUserIdFromLocalStorage = () => {
+//   const user = localStorage.getItem("newUser");
+//   let userId: string | undefined;
 
-  if (user) {
-    try {
-      const parsedUser = JSON.parse(user);
-      if (parsedUser && parsedUser.id) {
-        userId = parsedUser.id;
-        console.log("User ID:", userId);
-      }
-    } catch (error) {
-      console.error("Failed to parse user data:", error);
-    }
-  }
+//   if (user) {
+//     try {
+//       const parsedUser = JSON.parse(user);
+//       if (parsedUser && parsedUser.id) {
+//         userId = parsedUser.id;
+//         console.log("User ID:", userId);
+//       }
+//     } catch (error) {
+//       console.error("Failed to parse user data:", error);
+//     }
+//   }
 
-  return userId;
-};
+//   return userId;
+// };
 
 
 
 export const sendUserDetails = async (userData: any) => {
-  const userId = getUserIdFromLocalStorage();
+  const user = await getLoggedInUser()
+  // const userId = getUserIdFromLocalStorage();
   const { data, error } = await supabase
     .from("Users")
-    .upsert([{ id: userId, ...userData }], { onConflict: "id" });
+    .upsert([{ id: user?.id, ...userData }], { onConflict: "id" });
 
   if (error) {
     throw new Error(error.message);
