@@ -6,15 +6,11 @@ import { Stack } from "./Stack";
 import { Niches } from "./Niches";
 import { useUserStore } from "../../../store/UseUserStore";
 import { sendUserDetails } from "../../../utils/SupabaseRequest";
-import useToastNotifications from "../../../hooks/useToastNotifications";
-import Toast from "../../../components/Reuseables/Toast";
 
 export function User_LeftFill1() {
   const { userDetails, setUserDetails } = useUserStore();
   const [checked, setChecked] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showNotifications, setShowNotifications] = useState(false);
-  const { toast, showToast } = useToastNotifications();
 
   const selectedStack = Niches.find((niche) => niche.id === checked) || null;
 
@@ -44,24 +40,14 @@ export function User_LeftFill1() {
       try {
         const { data, error } = await sendUserDetails(userDetails);
         if (error) {
-          const showNotificationTimeout = setTimeout(() => {
-            setShowNotifications(true);
-            showToast("error", "An Error occurred", "Please try again.");
-          }, 1000);
-
-          const hideNotificationTimeout = setTimeout(() => {
-            setShowNotifications(false);
-          }, 5000);
-
+        
           console.log(error);
+          throw new Error("An error occurred")
 
-          return () => {
-            clearTimeout(showNotificationTimeout);
-            clearTimeout(hideNotificationTimeout);
-          };
+         
         }
         console.log("Data sent to Supabase:", data);
-        return data;
+        return {data, error};
       } catch (error) {
         console.error("Error sending data to Supabase:", error);
       }
@@ -70,15 +56,6 @@ export function User_LeftFill1() {
 
   return (
     <>
-      {showNotifications && toast && (
-        <div className="absolute top-0 flex items-center justify-center w-full z-50">
-          <Toast
-            type={toast.type}
-            message={toast.message}
-            description={toast.description}
-          />
-        </div>
-      )}
       <section>
         <div className="p-5 flex flex-col w-full">
           <div className="gap-6 self-stretch flex-col ">

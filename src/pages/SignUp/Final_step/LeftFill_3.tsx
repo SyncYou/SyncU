@@ -4,9 +4,7 @@ import { useUserStore } from "../../../store/UseUserStore";
 import { ProfileImage } from "./ProfileImages";
 import { Avatar } from "./Avatar";
 import { sendUserDetails, uploadAvatar } from "../../../utils/SupabaseRequest";
-import { ChangeEvent, useEffect, useState } from "react";
-import useToastNotifications from "../../../hooks/useToastNotifications";
-import Toast from "../../../components/Reuseables/Toast";
+import { ChangeEvent, useEffect } from "react";
 
 interface ProfileImageItem {
   id: number;
@@ -22,8 +20,6 @@ interface ProfileImageItem {
 export function LeftFill_3() {
   const { userDetails, setUserDetails } = useUserStore();
   // const [disable, setDisable] = useState(true);
-  const [showNotifications, setShowNotifications] = useState(false);
-  const { toast, showToast } = useToastNotifications();
 
   async function handleImageUpload(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files ? e.target.files[0] : null;
@@ -84,21 +80,8 @@ export function LeftFill_3() {
       try {
         const { data, error } = await sendUserDetails(userDetails);
         if (error) {
-          const showNotificationTimeout = setTimeout(() => {
-            setShowNotifications(true);
-            showToast("error", "An Error occurred", "Please try again.");
-          }, 1000);
-
-          const hideNotificationTimeout = setTimeout(() => {
-            setShowNotifications(false);
-          }, 5000);
-
           console.log(error);
-
-          return () => {
-            clearTimeout(showNotificationTimeout);
-            clearTimeout(hideNotificationTimeout);
-          };
+          throw new Error("An error occurred");
         }
         console.log("Data sent to Supabase:", data);
         return data;
@@ -110,15 +93,6 @@ export function LeftFill_3() {
 
   return (
     <>
-      {showNotifications && toast && (
-        <div className="absolute top-0 flex items-center justify-center w-full z-50">
-          <Toast
-            type={toast.type}
-            message={toast.message}
-            description={toast.description}
-          />
-        </div>
-      )}
       <section>
         <div className="p-5 flex flex-col w-full">
           <div className="gap-6 self-stretch flex-col ">
