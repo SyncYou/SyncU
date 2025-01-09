@@ -4,6 +4,7 @@ import CountryModal from "../Reuseables/CountryModal";
 import { useUserStore } from "../../store/UseUserStore";
 import Nav_Btn from "../styles/Reuse/Nav_Btn";
 import { sendUserDetails } from "../../utils/SupabaseRequest";
+import { getLoggedInUser } from "../../utils/AuthRequest";
 
 const TellUsAboutYourself: React.FC = () => {
   const [disable, setDisable] = useState(true);
@@ -39,6 +40,14 @@ const TellUsAboutYourself: React.FC = () => {
   }, [userDetails, isValid]);
 
   useEffect(() => {
+    const fetchUser = async () => {
+      const user = await getLoggedInUser();
+      localStorage.setItem("loggedInUser", JSON.stringify(user));
+    };
+    fetchUser();
+  }, []);
+
+  useEffect(() => {
     const storedUser = localStorage.getItem("loggedInUser");
 
     if (storedUser) {
@@ -62,7 +71,7 @@ const TellUsAboutYourself: React.FC = () => {
         const { data, error } = await sendUserDetails(userDetails);
         if (error) {
           console.log(error);
-          throw new Error("An error occurred")
+          throw new Error("An error occurred");
         }
         console.log("Data sent to Supabase:", data);
         return { data, error };
