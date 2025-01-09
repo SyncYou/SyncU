@@ -51,7 +51,7 @@ const TellUsAboutYourself: React.FC = () => {
       setUserDetails("firstName", firstName);
       setUserDetails("lastName", lastName);
     }
-  }, [loggedInUser, setUserDetails]);
+  }, []);
 
   const handleRequest = async () => {
     if (isValid) {

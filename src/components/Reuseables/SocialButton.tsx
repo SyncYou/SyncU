@@ -10,11 +10,11 @@ const SocialButton: React.FC<Props> = ({ icon, label }) => {
   const handleAuth = async () => {
     if (label == "continue with Github") {
       const { data, error } = await signInWithGithub();
-      localStorage.setItem("Github", JSON.stringify(data))
+      // localStorage.setItem("Github", JSON.stringify(data))
       console.log(data, error);
     } else if (label == "continue with Google") {
       const { data, error } = await signInWithGoogle();
-      localStorage.setItem("Google", JSON.stringify(data))
+      // localStorage.setItem("Google", JSON.stringify(data))
       console.log(data, error);
       
     }

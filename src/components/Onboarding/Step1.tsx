@@ -24,7 +24,7 @@ const Step1: React.FC<Props> = ({ handlePrevStep, handleNextStep }) => {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
   return (
-    <section className="h-dvh w-full bg-gradient-to-b from-[#B179F90D] to-[#B179F954] relative">
+    <section className="h-[100vh] overflow-hidden w-full bg-gradient-to-b from-[#B179F90D] to-[#B179F954] relative">
       <div className="pt-20 md:pt-10 px-16 flex items-center justify-center w-full text-center ">
         <h1 className="font-semibold tracking-tight text-center text-[32px] leading-[40px] text-primary w-[350px]">
           Collaborate & build with like-minded techies.
