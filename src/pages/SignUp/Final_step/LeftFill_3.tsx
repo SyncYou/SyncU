@@ -67,6 +67,18 @@ export function LeftFill_3() {
     localStorage.setItem("userDetails", JSON.stringify(userDetails));
   }, [userDetails, isValid]);
 
+  useEffect(() => {
+    const storedUser = localStorage.getItem("loggedInUser");
+
+    if (storedUser) {
+      const loggedInUser = JSON.parse(storedUser);
+
+      if (loggedInUser?.user_metadata?.avatar_url) {
+        setUserDetails("photoUrl", loggedInUser?.user_metadata.avatar_url);
+      }
+    }
+  }, [setUserDetails]);
+
   const handleRequest = async () => {
     if (isValid) {
       try {

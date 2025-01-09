@@ -10,7 +10,7 @@ import Toast from "../Reuseables/Toast";
 const TellUsAboutYourself: React.FC = () => {
   const [disable, setDisable] = useState(true);
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const { userDetails, setUserDetails, loggedInUser } = useUserStore();
+  const { userDetails, setUserDetails } = useUserStore();
   const [modalOpen, setModalOpen] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const { toast, showToast } = useToastNotifications();
@@ -43,15 +43,22 @@ const TellUsAboutYourself: React.FC = () => {
   }, [userDetails, isValid]);
 
   useEffect(() => {
-    if (loggedInUser) {
-      console.log(loggedInUser);
-      const fullName = loggedInUser?.user_metadata?.name as string;
-      const [firstName, lastName] = fullName.split(" ");
-      setUserDetails("email", loggedInUser?.email as string);
-      setUserDetails("firstName", firstName);
-      setUserDetails("lastName", lastName);
+    const storedUser = localStorage.getItem("loggedInUser");
+
+    if (storedUser) {
+      const loggedInUser = JSON.parse(storedUser);
+
+      if (loggedInUser?.email) {
+        setUserDetails("email", loggedInUser.email);
+      }
+      if (loggedInUser?.user_metadata?.name) {
+        const fullName = loggedInUser.user_metadata.name;
+        const [firstName, lastName] = fullName.split(" ");
+        setUserDetails("firstName", firstName);
+        setUserDetails("lastName", lastName);
+      }
     }
-  }, []);
+  }, [setUserDetails]);
 
   const handleRequest = async () => {
     if (isValid) {

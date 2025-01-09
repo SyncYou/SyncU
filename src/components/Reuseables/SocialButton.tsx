@@ -1,5 +1,5 @@
 import React from "react";
-import { signInWithGithub, signInWithGoogle } from "../../utils/AuthRequest";
+import { signInWithGithub, signInWithGoogle, getLoggedInUser } from "../../utils/AuthRequest";
 
 interface Props {
   icon: string;
@@ -10,11 +10,13 @@ const SocialButton: React.FC<Props> = ({ icon, label }) => {
   const handleAuth = async () => {
     if (label == "continue with Github") {
       const { data, error } = await signInWithGithub();
-      // localStorage.setItem("Github", JSON.stringify(data))
+      const user = await getLoggedInUser()
+      localStorage.setItem("loggedInUser", JSON.stringify(user))
       console.log(data, error);
     } else if (label == "continue with Google") {
       const { data, error } = await signInWithGoogle();
-      // localStorage.setItem("Google", JSON.stringify(data))
+      const user = await getLoggedInUser()
+      localStorage.setItem("loggedInUser", JSON.stringify(user))
       console.log(data, error);
       
     }
