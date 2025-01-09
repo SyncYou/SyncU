@@ -4,16 +4,13 @@ import CountryModal from "../Reuseables/CountryModal";
 import { useUserStore } from "../../store/UseUserStore";
 import Nav_Btn from "../styles/Reuse/Nav_Btn";
 import { sendUserDetails } from "../../utils/SupabaseRequest";
-import useToastNotifications from "../../hooks/useToastNotifications";
-import Toast from "../Reuseables/Toast";
+import { getLoggedInUser } from "../../utils/AuthRequest";
 
 const TellUsAboutYourself: React.FC = () => {
   const [disable, setDisable] = useState(true);
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const { userDetails, setUserDetails, loggedInUser } = useUserStore();
+  const { userDetails, setUserDetails } = useUserStore();
   const [modalOpen, setModalOpen] = useState(false);
-  const [showNotifications, setShowNotifications] = useState(false);
-  const { toast, showToast } = useToastNotifications();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -43,32 +40,38 @@ const TellUsAboutYourself: React.FC = () => {
   }, [userDetails, isValid]);
 
   useEffect(() => {
-    if (loggedInUser) {
-      setUserDetails("firstName", loggedInUser.firstName);
-      setUserDetails("lastName", loggedInUser.lastName);
+    const fetchUser = async () => {
+      const user = await getLoggedInUser();
+      localStorage.setItem("loggedInUser", JSON.stringify(user));
+    };
+    fetchUser();
+  }, []);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("loggedInUser");
+
+    if (storedUser) {
+      const loggedInUser = JSON.parse(storedUser);
+
+      if (loggedInUser?.email) {
+        setUserDetails("email", loggedInUser.email);
+      }
+      if (loggedInUser?.user_metadata?.name) {
+        const fullName = loggedInUser.user_metadata.name;
+        const [firstName, lastName] = fullName.split(" ");
+        setUserDetails("firstName", firstName);
+        setUserDetails("lastName", lastName);
+      }
     }
-  }, [loggedInUser, setUserDetails]);
+  }, [setUserDetails]);
 
   const handleRequest = async () => {
     if (isValid) {
       try {
         const { data, error } = await sendUserDetails(userDetails);
         if (error) {
-          const showNotificationTimeout = setTimeout(() => {
-            setShowNotifications(true);
-            showToast("error", "An Error occurred", "Please try again.");
-          }, 1000);
-
-          const hideNotificationTimeout = setTimeout(() => {
-            setShowNotifications(false);
-          }, 5000);
-
           console.log(error);
-
-          return () => {
-            clearTimeout(showNotificationTimeout);
-            clearTimeout(hideNotificationTimeout);
-          };
+          throw new Error("An error occurred");
         }
         console.log("Data sent to Supabase:", data);
         return { data, error };
@@ -80,15 +83,6 @@ const TellUsAboutYourself: React.FC = () => {
 
   return (
     <>
-      {showNotifications && toast && (
-        <div className="absolute top-0 flex items-center justify-center w-full z-50">
-          <Toast
-            type={toast.type}
-            message={toast.message}
-            description={toast.description}
-          />
-        </div>
-      )}
       <section>
         <div className="py-10 px-3 md:p-5 flex flex-col w-full">
           <small className="font-medium text-[14px] leading-5 text-[#8C8C99]">

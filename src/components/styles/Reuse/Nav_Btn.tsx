@@ -2,6 +2,9 @@ import { useNavigate } from "react-router-dom";
 import { BsArrowLeft } from "react-icons/bs";
 import Button from "./Button";
 import { useUserStore } from "../../../store/UseUserStore";
+import Toast from "../../Reuseables/Toast";
+import useToastNotifications from "../../../hooks/useToastNotifications";
+import { useState } from "react";
 
 interface Nav_BtnProps<T = unknown> {
   navTo: string;
@@ -9,10 +12,6 @@ interface Nav_BtnProps<T = unknown> {
   disabled: boolean;
   handleRequest?: () => Promise<T>;
   showPrevious: boolean;
-}
-interface Response {
-  data: any;
-  error?: string;
 }
 
 export default function Nav_Btn({
@@ -24,6 +23,8 @@ export default function Nav_Btn({
 }: Nav_BtnProps) {
   const navigate = useNavigate();
   const { currentStep, setCurrentStep } = useUserStore();
+  const [showNotifications, setShowNotifications] = useState(false);
+  const { toast, showToast } = useToastNotifications();
 
   async function handleNext() {
     if (!disabled) {
@@ -31,21 +32,55 @@ export default function Nav_Btn({
       setCurrentStep(nextStep);
 
       if (handleRequest) {
-        const result = await handleRequest();
+        try {
+          const { data, error } = (await handleRequest()) as {
+            data: any;
+            error: any;
+          };
 
-        if (typeof result === "object" && result !== null && "data" in result) {
-          const { data, error }: Response = result;
+          // if (typeof result === "object" && result !== null) {
 
           if (error) {
+            // console.log('An error occurred')
+            // throw new Error(error)
+            const showNotificationTimeout = setTimeout(() => {
+              setShowNotifications(true);
+              showToast("error", "An Error occurred", "Please try again.");
+            }, 1000);
+
+            const hideNotificationTimeout = setTimeout(() => {
+              setShowNotifications(false);
+            }, 5000);
+
             console.log(error);
-            throw new Error(error);
+
+            return () => {
+              clearTimeout(showNotificationTimeout);
+              clearTimeout(hideNotificationTimeout);
+            };
           }
 
           navigate(navTo);
-          console.log(data);
-        } else {
-          console.error("Invalid response format", result);
+          console.log(data)
+        } catch (error) {
+          const showNotificationTimeout = setTimeout(() => {
+            setShowNotifications(true);
+            showToast("error", "An Error occurred", "Please try again.");
+          }, 1000);
+
+          const hideNotificationTimeout = setTimeout(() => {
+            setShowNotifications(false);
+          }, 5000);
+
+          console.log(error);
+
+          return () => {
+            clearTimeout(showNotificationTimeout);
+            clearTimeout(hideNotificationTimeout);
+          };
         }
+
+        // }
       }
     }
   }
@@ -57,25 +92,36 @@ export default function Nav_Btn({
   }
 
   return (
-    <span className="gap-6 items-center flex w-full">
-      {/* Previous Button */}
-      {showPrevious && (
-        <Button
-          onClick={handlePrev}
-          style="rounded-full py-[12px] px-[12px] bg-white shadow-xs"
-        >
-          <BsArrowLeft />
-        </Button>
+    <>
+      {showNotifications && toast && (
+        <div className="absolute top-0 flex items-center justify-center w-full z-50">
+          <Toast
+            type={toast.type}
+            message={toast.message}
+            description={toast.description}
+          />
+        </div>
       )}
+      <span className="gap-6 items-center flex w-full">
+        {/* Previous Button */}
+        {showPrevious && (
+          <Button
+            onClick={handlePrev}
+            style="rounded-full py-[12px] px-[12px] bg-white shadow-xs"
+          >
+            <BsArrowLeft />
+          </Button>
+        )}
 
-      {/* Next Button */}
-      <Button
-        style={`w-[30%] ${btn_Style}`}
-        disabled={disabled}
-        onClick={handleNext}
-      >
-        Next
-      </Button>
-    </span>
+        {/* Next Button */}
+        <Button
+          style={`w-[30%] ${btn_Style}`}
+          disabled={disabled}
+          onClick={handleNext}
+        >
+          Next
+        </Button>
+      </span>
+    </>
   );
 }
