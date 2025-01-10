@@ -7,8 +7,6 @@ import { Skill } from "./Skill";
 import { Modal2 } from "../../../components/styles/Reuse/Modal2";
 import { FaTimes } from "react-icons/fa";
 import { sendUserDetails } from "../../../utils/SupabaseRequest";
-import useToastNotifications from "../../../hooks/useToastNotifications";
-import Toast from "../../../components/Reuseables/Toast";
 
 interface Skill {
   id: number;
@@ -25,8 +23,6 @@ export function LeftFill_2() {
   const [search, setSearch] = useState<string>("");
   const [isSearching, setIsSearching] = useState<boolean>(true);
   const [isValid, setIsValid] = useState<boolean>(false);
-  const [showNotifications, setShowNotifications] = useState(false);
-  const { toast, showToast } = useToastNotifications();
 
   const valid =
     userDetails.firstName.trim() !== "" &&
@@ -85,21 +81,8 @@ export function LeftFill_2() {
     try {
       const { data, error } = await sendUserDetails(userDetails);
       if (error) {
-        const showNotificationTimeout = setTimeout(() => {
-          setShowNotifications(true);
-          showToast("error", "An Error occurred", "Please try again.");
-        }, 1000);
-
-        const hideNotificationTimeout = setTimeout(() => {
-          setShowNotifications(false);
-        }, 5000);
-
         console.log(error);
-
-        return () => {
-          clearTimeout(showNotificationTimeout);
-          clearTimeout(hideNotificationTimeout);
-        };
+        throw new Error("An error occurred")
       }
       console.log("Data sent to Supabase:", data);
       return data;
@@ -110,15 +93,6 @@ export function LeftFill_2() {
 
   return (
     <>
-      {showNotifications && toast && (
-        <div className="absolute top-0 flex items-center justify-center w-full z-50">
-          <Toast
-            type={toast.type}
-            message={toast.message}
-            description={toast.description}
-          />
-        </div>
-      )}
       <section>
         <div className="p-5 flex flex-col w-full">
           <div className="gap-6 self-stretch flex-col" ref={activeRef}>
