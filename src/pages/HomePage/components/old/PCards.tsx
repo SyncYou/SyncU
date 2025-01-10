@@ -2,12 +2,28 @@ import { useEffect, useState } from "react";
 import logo from "/assets/Union.svg";
 import ProjectDetails from "./ProjectDetails";
 import Chip from "../../../components/Chip";
+// import newTag from "/assets/New tag.svg";
 
-const ProjectCard = ({ data }) => {
+type PropsType = {
+  data: {
+    projectName: string;
+    projectCategory: string;
+    requiredSkills: string[];
+    projectDescription: string;
+    projectFeatures: {
+      name: string;
+      details: string[];
+    }[];
+    authorName: string;
+    authorUsername: string;
+  };
+};
+
+const ProjectCard = ({ data }: PropsType) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [viewDetails, setViewDetails] = useState<boolean>(false);
 
-  const num = data.required_roles.length - 3;
+  const num = data.requiredSkills.length - 3;
 
   useEffect(() => {
     setInterval(() => {
@@ -21,7 +37,7 @@ const ProjectCard = ({ data }) => {
 
   return (
     <div
-      key={data.title}
+      key={data.authorName}
       className="h-[302px] md:max-w-[304px] max-w-[358px] text-gray950"
     >
       <div className="w-full h-[46px] relative">
@@ -54,15 +70,15 @@ const ProjectCard = ({ data }) => {
           <div className="w-full h-full flex flex-col z-10 bg-white py-4 px-[15px] rounded-b-md gap-4 border border-y-0 border-solid border-gray200">
             <div className="h-[168px] w-full flex flex-col gap-6">
               <div className="h-[46px] w-full flex flex-col gap-[2px]">
-                <p className="text-base font-medium">{data.title}</p>
+                <p className="text-base font-medium">{data.projectName}</p>
                 <p className="text-sm font-normal text-gray700">
-                  {data.industry}
+                  {data.projectCategory}
                 </p>
               </div>
               <div className="h-[95px] w-full flex flex-col gap-2">
                 <p className="text-xs font-normal text-gray700">Required</p>
                 <div className="h-[68px] grid grid-cols-3 gap-2">
-                  {data.required_roles.slice(0, 4).map((skill, index) => {
+                  {data.requiredSkills.slice(0, 4).map((skill, index) => {
                     return (
                       <Chip key={index}>
                         {skill.length > 7 ? `${skill.slice(0, 7)}...` : skill}

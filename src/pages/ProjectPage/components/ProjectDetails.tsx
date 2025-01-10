@@ -14,18 +14,6 @@ import Chip from "../../../components/Chip";
 
 interface PropsType {
   state: () => void;
-  data: {
-    projectName: string;
-    projectCategory: string;
-    requiredSkills: string[];
-    projectDescription: string;
-    projectFeatures: {
-      name: string;
-      details: string[];
-    }[];
-    authorName: string;
-    authorUsername: string;
-  };
 }
 
 const ProjectDetails = ({ state, data }: PropsType) => {
@@ -104,9 +92,9 @@ const ProjectDetails = ({ state, data }: PropsType) => {
         <div className="h-full w-full pr-5 flex flex-col gap-8 overflow-y-scroll scrollbar-thin scrollbar-thumb-white scrollbar-track-gray100">
           <div className="h-16 flex justify-between">
             <div className="flex flex-col gap-2">
-              <h3 className="font-semibold text-2xl">{data.projectName}</h3>
+              <h3 className="font-semibold text-2xl">{data.title}</h3>
               <p className="font-normal text-base text-gray700">
-                {data.projectCategory}
+                {data.industry}
               </p>
             </div>
             <div className="h-10 w-10 cursor-pointer rounded-[100px] flex justify-center items-center border-[0.5px] border-gray300 my-auto">
@@ -114,9 +102,9 @@ const ProjectDetails = ({ state, data }: PropsType) => {
             </div>
           </div>
           <div className="h-[99px] flex flex-col gap-3">
-            <p className="font-medium text-sm">Required</p>
+            <p className="font-medium text-sm">Required Roles</p>
             <div className="flex gap-[11px]">
-              {data.requiredSkills.map((skill) => {
+              {data.required_roles.map((skill) => {
                 return <Chip>{skill}</Chip>;
               })}
             </div>
@@ -124,10 +112,11 @@ const ProjectDetails = ({ state, data }: PropsType) => {
           <div className="w-full">
             <p className="mb-3 text-gray950 font-medium">Description</p>
             <div className="text-[#374151] font-normal">
-              <p>{data.projectDescription}</p>
+              <p>{data.description}</p>
               <h2 className="mt-4">Core Features</h2>
               <ol className="list-decimal pl-4">
-                {data.projectFeatures.map((feature) => {
+                {/* This is to display the features for project descriptions */}
+                {/* {data.projectFeatures.map((feature) => {
                   return (
                     <li>
                       {feature.name}
@@ -138,7 +127,7 @@ const ProjectDetails = ({ state, data }: PropsType) => {
                       </ul>
                     </li>
                   );
-                })}
+                })} */}
               </ol>
             </div>
           </div>
@@ -212,9 +201,9 @@ const ProjectDetails = ({ state, data }: PropsType) => {
           <div className="w-[670px] max-h-[661px] pr-5 flex flex-col gap-8 overflow-y-scroll scrollbar-thin scrollbar-thumb-white scrollbar-track-gray100">
             <div className="h-16 flex justify-between">
               <div className="flex flex-col gap-2">
-                <h3 className="font-semibold text-2xl">{data.projectName}</h3>
+                <h3 className="font-semibold text-2xl">{data.title}</h3>
                 <p className="font-normal text-base text-gray700">
-                  {data.projectCategory}
+                  {data.industry}
                 </p>
               </div>
               <div className="h-10 w-10 cursor-pointer rounded-[100px] flex justify-center items-center border-[0.5px] border-gray300 my-auto">
@@ -224,7 +213,7 @@ const ProjectDetails = ({ state, data }: PropsType) => {
             <div className="h-[99px] flex flex-col gap-3">
               <p className="font-medium text-sm">Required</p>
               <div className="flex gap-[11px]">
-                {data.requiredSkills.map((skill) => {
+                {data.required_stacks.map((skill) => {
                   return <Chip>{skill}</Chip>;
                 })}
               </div>
@@ -232,10 +221,10 @@ const ProjectDetails = ({ state, data }: PropsType) => {
             <div className="w-full">
               <p className="mb-3 text-gray950 font-medium">Description</p>
               <div className="text-[#374151] font-normal">
-                <p>{data.projectDescription}</p>
+                <p>{data.description}</p>
                 <h2 className="mt-4">Core Features</h2>
                 <ol className="list-decimal pl-4">
-                  {data.projectFeatures.map((feature) => {
+                  {/* {data.projectFeatures.map((feature) => {
                     return (
                       <li>
                         {feature.name}
@@ -246,7 +235,7 @@ const ProjectDetails = ({ state, data }: PropsType) => {
                         </ul>
                       </li>
                     );
-                  })}
+                  })} */}
                 </ol>
               </div>
             </div>
@@ -274,9 +263,7 @@ const ProjectDetails = ({ state, data }: PropsType) => {
                   <div className="flex items-center gap-2 w-20">
                     <PiTagChevron /> Industry
                   </div>
-                  <p className="text-gray950 font-medium">
-                    {data.projectCategory}
-                  </p>
+                  <p className="text-gray950 font-medium">{data.industry}</p>
                 </div>
                 <div className="flex justify-between h-10 px-3 py-2">
                   <div className="flex items-center gap-2">

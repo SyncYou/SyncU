@@ -1,6 +1,7 @@
 import { supabase } from "../supabase/client";
+import { CardsData } from "./types/Types";
 
-export async function ProjectCabins() {
+export const useFetchProjectCabins = async () => {
   const { data, error } = await supabase.from("Projects").select("*");
   if (error) {
     console.log(error);
@@ -8,4 +9,4 @@ export async function ProjectCabins() {
   }
 
   return data;
-}
+};
