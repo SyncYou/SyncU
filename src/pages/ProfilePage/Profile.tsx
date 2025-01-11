@@ -9,12 +9,11 @@ import { PiEyes } from "react-icons/pi";
 import { FaHandshake } from "react-icons/fa";
 import Chip from "../../components/Chip";
 import CircularProgess from "./components/CircularProgess";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ProfileUpdate from "./components/ProfileUpdate";
 import { useUserProgress } from "../../context/useUserProgress";
 import AvailablitySwitcher from "./components/AvailablitySwitcher";
 import { useUserData } from "../../context/useUserData";
-import useFetchUserData from "../../hooks/useFetchUserData";
 
 const Profile = () => {
   const [hover, setHover] = useState(false);
@@ -23,7 +22,7 @@ const Profile = () => {
   const { status } = useUserProgress();
 
   // Custom Hooks
-  const { user, setUser } = useUserData();
+  const { user } = useUserData();
   const {
     firstName,
     lastName,
@@ -33,14 +32,6 @@ const Profile = () => {
     photoUrl,
     countryOfResidence,
   } = user;
-
-  const { data } = useFetchUserData();
-
-  useEffect(() => {
-    if (data) {
-      setUser(data);
-    }
-  }, [data]);
 
   const handleClick = () => {
     setHover((h) => !h);
@@ -56,7 +47,7 @@ const Profile = () => {
         <div className="flex flex-col gap-3 pt-4">
           <div className="flex justify-between">
             <div className="h-[96px] w-[96px] rounded-full border border-gray200">
-              <img src={photoUrl} className="w-full" alt="" />
+              <img src={photoUrl} className="w-full rounded-full" alt="" />
             </div>
             <div className="flex gap-4">
               <SecondaryButton classes="h-10 min-w-[129px] px-4 py-2">
@@ -76,7 +67,7 @@ const Profile = () => {
           <div className="flex relative">
             <div
               onClick={() => setShowSwitcher(!showSwitcher)}
-              className="py-[2px] px-2 border h-6 border-gray200 max-w-[202px] rounded-[100px] flex gap-1 items-center"
+              className="py-[2px] px-2 border h-6 border-gray200 max-w-[210px] rounded-[100px] flex gap-1 items-center"
             >
               <span
                 className={`w-2 h-2 rounded-full ${

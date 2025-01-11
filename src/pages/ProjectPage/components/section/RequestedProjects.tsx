@@ -1,8 +1,23 @@
+import { useEffect, useState } from "react";
 import empty from "/assets/Empty.svg";
-import { useUserProjects } from "../../../../context/useUserProject";
+import { useQuery } from "@tanstack/react-query";
+import { fetchUserRequestedProject } from "../../../../utils/queries/fetch";
+import ProjectCard from "../ProjectCard";
 
 const RequestedProjects = () => {
-  const { isEmpty } = useUserProjects();
+  const [isEmpty, setIsEmpty] = useState(true);
+
+  const { data, error } = useQuery({
+    queryKey: ["Requested-projects"],
+    queryFn: fetchUserRequestedProject,
+  });
+
+  useEffect(() => {
+    if (data) {
+      setIsEmpty(false);
+      console.log(data);
+    }
+  }, []);
 
   return (
     <section className="md:px-8 px-4 md:py-6 pt-6 pb-20 md:w-full w-screen">
@@ -19,7 +34,11 @@ const RequestedProjects = () => {
           </div>
         </div>
       ) : (
-        <section className="grid md:grid-cols-3 min-h-full gap-8 md:max-w-full max-w-screen"></section>
+        <section className="grid md:grid-cols-3 min-h-full gap-8 md:max-w-full max-w-screen">
+          {data?.map((project) => {
+            return <ProjectCard data={project} />;
+          })}
+        </section>
       )}
     </section>
   );

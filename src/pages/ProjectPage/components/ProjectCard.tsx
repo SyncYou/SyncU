@@ -6,16 +6,19 @@ import Chip from "../../../components/Chip";
 
 type PropsType = {
   data: {
-    projectName: string;
-    projectCategory: string;
-    requiredSkills: string[];
-    projectDescription: string;
-    projectFeatures: {
-      name: string;
-      details: string[];
-    }[];
-    authorName: string;
-    authorUsername: string;
+    created_at: string;
+    created_by: string;
+    description: string;
+    id: string;
+    industry: string;
+    participants: string[];
+    project_views: number;
+    requests: number;
+    required_roles: string[];
+    required_stacks: string[];
+    title: string;
+    updated_at?: string;
+    username?: string;
   };
 };
 
@@ -23,7 +26,7 @@ const ProjectCard = ({ data }: PropsType) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [viewDetails, setViewDetails] = useState<boolean>(false);
 
-  const num = data.requiredSkills.length - 3;
+  const num = data.required_stacks.length - 3;
 
   useEffect(() => {
     setInterval(() => {
@@ -37,7 +40,7 @@ const ProjectCard = ({ data }: PropsType) => {
 
   return (
     <div
-      key={data.authorName}
+      key={data.username}
       className="h-[302px] md:max-w-[304px] max-w-[358px] text-gray950"
     >
       <div className="w-full h-[46px] relative">
@@ -70,15 +73,15 @@ const ProjectCard = ({ data }: PropsType) => {
           <div className="w-full h-full flex flex-col z-10 bg-white py-4 px-[15px] rounded-b-md gap-4 border border-y-0 border-solid border-gray200">
             <div className="h-[168px] w-full flex flex-col gap-6">
               <div className="h-[46px] w-full flex flex-col gap-[2px]">
-                <p className="text-base font-medium">{data.projectName}</p>
+                <p className="text-base font-medium">{data.title}</p>
                 <p className="text-sm font-normal text-gray700">
-                  {data.projectCategory}
+                  {data.industry}
                 </p>
               </div>
               <div className="h-[95px] w-full flex flex-col gap-2">
                 <p className="text-xs font-normal text-gray700">Required</p>
                 <div className="h-[68px] grid grid-cols-3 gap-2">
-                  {data.requiredSkills.slice(0, 4).map((skill) => {
+                  {data.required_stacks.slice(0, 4).map((skill) => {
                     return (
                       <Chip>
                         {skill.length > 7 ? `${skill.slice(0, 7)}...` : skill}
@@ -95,7 +98,7 @@ const ProjectCard = ({ data }: PropsType) => {
               <div className="flex gap-2 items-center h-full">
                 <div className="h-6 w-6 bg-black rounded-full"></div>
                 <span className="text-gray950 font-normal text-xs">
-                  @{data.authorUsername}
+                  @{data.username}
                 </span>
                 <span className="text-gray300">-</span>
                 <span className="text-gray700 font-normal text-xs">

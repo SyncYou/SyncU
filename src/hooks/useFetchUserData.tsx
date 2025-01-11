@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 // import { fetchUserData } from "../utils/queries/fetch";
 import { UserData } from "../utils/types/Types";
 import { supabase } from "../supabase/client";
-
+import { user } from "../utils/queries/fetch";
 
 const useFetchUserData = (): {
   data: UserData;
@@ -14,7 +14,7 @@ const useFetchUserData = (): {
       const { data, error: supabaseError } = await supabase
         .from("Users")
         .select()
-        .eq("id", "5d1a1cf2-3077-4e53-874e-aacfb3d85903")
+        .eq("id", user.data.user?.id)
         .single();
 
       if (supabaseError) {
