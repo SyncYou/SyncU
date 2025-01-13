@@ -1,5 +1,6 @@
+import { RealtimePostgresUpdatePayload } from "@supabase/supabase-js";
 import { supabase } from "../supabase/client";
-import {getLoggedInUser} from './AuthRequest'
+import { getLoggedInUser, getUserById } from "./AuthRequest";
 
 // const getUserIdFromLocalStorage = () => {
 //   const user = localStorage.getItem("newUser");
@@ -20,10 +21,8 @@ import {getLoggedInUser} from './AuthRequest'
 //   return userId;
 // };
 
-
-
 export const sendUserDetails = async (userData: any) => {
-  const user = await getLoggedInUser()
+  const user = await getLoggedInUser();
   // const userId = getUserIdFromLocalStorage();
   const { data, error } = await supabase
     .from("Users")
@@ -34,10 +33,8 @@ export const sendUserDetails = async (userData: any) => {
   }
 
   console.log(data);
-  return {data, error};
+  return { data, error };
 };
-
-
 
 export async function uploadAvatar(file: File) {
   const fileExt = file.name.split(".").pop();
@@ -46,7 +43,7 @@ export async function uploadAvatar(file: File) {
 
   try {
     const { error: uploadError } = await supabase.storage
-      .from("avatar") 
+      .from("avatar")
       .upload(filePath, file);
 
     if (uploadError) {
@@ -57,7 +54,7 @@ export async function uploadAvatar(file: File) {
       data: { publicUrl },
     } = supabase.storage.from("avatar").getPublicUrl(filePath);
 
-    console.log("Uploaded image URL:", publicUrl); 
+    console.log("Uploaded image URL:", publicUrl);
 
     return publicUrl;
   } catch (error) {
@@ -72,64 +69,93 @@ export const requestTojoinProject = async (projectId: any) => {
   // Notify the project owner about the request
   // Listen for changes realtime on the table, when the request column changes
 
-  const user = await getLoggedInUser()
+  const user = await getLoggedInUser();
+
+  const { data, error: fetchError } = await supabase
+    .from("Projects")
+    .select("requests")
+    .eq("id", projectId)
+    .single();
+
+  if (fetchError) {
+    console.error("Error fetching project data:", fetchError);
+    return;
+  }
+
+  let updatedRequests = data?.requests || [];
+
+  updatedRequests.push({
+    userId: user?.id,
+    status: "pending",
+  });
 
   const { error } = await supabase
-  .from('Projects')
-  .update({ Requests: {
-    userId: user?.id,
-    status: 'pending'
-  } })
- .eq('id', projectId); 
+    .from("Projects")
+    .update({ requests: updatedRequests })
+    .eq("id", projectId);
 
-  console.log(error)
-  
+  if (error) {
+    console.error("Error updating project data:", error);
+  } else {
+    console.log("Successfully updated the project with the new request");
+  }
+};
 
+const handleUpdates = (
+  payload: RealtimePostgresUpdatePayload<{
+    [key: string]: any;
+  }>
+) => {
+  // replace with creatorId later
+  sendNotification(payload, 'creatorId')
+  console.log("Change received!", payload);
+};
+
+const notificationChannel = supabase
+  .channel("notifications")
+  .on(
+    "postgres_changes",
+    { event: "UPDATE", schema: "public", table: "Projects" },
+    handleUpdates
+  );
+
+supabase.removeChannel(notificationChannel);
+
+export const sendNotification = async (payload: RealtimePostgresUpdatePayload<{
+  [key: string]: any;
+}>, id: string) => {
+  console.log(payload)
+  // replace the id with the id in the payload
+  const user = await getUserById('userId')
+  // Send notification to the project owner with the user name
+
+  const { data, error: fetchError } = await supabase
+  .from("Users")
+  .select("notifications")
+  .eq("id", id)
+  .single();
+
+if (fetchError) {
+  console.error("Error fetching project data:", fetchError);
+  return;
 }
 
+let updateNotifications = data?.notifications || [];
 
+updateNotifications.push({
+  userId: user,
+  status: "pending",
+});
 
-// export const sendNotifications = async (request: any) => {
-//   const projectsChannel = supabase
-//   .channel('projects_channel')
-//   .on('postgres_changes', 
-//       { event: 'UPDATE', schema: 'public', table: 'projects', column: 'request' }, 
-//       payload => {
-//         const project = payload.new;
-        
-//         // Check if there’s a new request
-//         const newRequest = project.request.find(r => r.status === 'pending');
-        
-//         if (newRequest) {
-//           // Notify project owner about the new join request
-//           sentEmailNotifications(project.owner_id, newRequest.user_id);
-//         }
-//       })
-//   .subscribe();
-// }
+const { error } = await supabase
+.from("Users")
+.update({ notifications: updateNotifications })
+.eq("id", id);
 
-// export const sentEmailNotifications = async (ownerId: any, userId: any) => {
-//   const { data: ownerData, error: ownerError } = await supabase
-//   .from('users')
-//   .select('email')
-//   .eq('id', ownerId)
-//   .single();
+if (error) {
+console.error("Error updating project data:", error);
+} else {
+console.log("Successfully updated the project with the new request");
+}
+}
 
-// if (ownerData) {
-//   const email = ownerData.email;
-
-// }
-// }
-
-// export const updateRequestStatus = async () => {
-//   const { data, error } = await supabase
-//   .from('projects')
-//   .update({
-//     request: supabase.raw(
-//       'array_replace(request, ?, ?)',
-//       [{ user_id: 'user-uuid', status: 'pending' }],
-//       { user_id: 'user-uuid', status: 'accepted' }
-//     )
-//   })
-//   .eq('id', projectId);
-// }

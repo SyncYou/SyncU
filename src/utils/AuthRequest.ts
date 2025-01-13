@@ -50,3 +50,15 @@ export const getLoggedInUser = async () => {
   const { data: { user: loggedInUser } } = await supabase.auth.getUser()
 return loggedInUser
 }
+
+export const getUserById = async (userId: string) => {
+  const { data, error } = await supabase
+  .from('Users') 
+  .select() 
+  .eq('id', userId) 
+  .single();
+
+  if(error) throw new Error()
+
+  return data
+}
