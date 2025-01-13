@@ -5,12 +5,16 @@ import { useUserStore } from "../../store/UseUserStore";
 import Nav_Btn from "../styles/Reuse/Nav_Btn";
 import { sendUserDetails } from "../../utils/SupabaseRequest";
 import { getLoggedInUser } from "../../utils/AuthRequest";
+import useToastNotifications from "../../hooks/useToastNotifications";
+import Toast from "../Reuseables/Toast";
 
 const TellUsAboutYourself: React.FC = () => {
   const [disable, setDisable] = useState(true);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const { userDetails, setUserDetails } = useUserStore();
   const [modalOpen, setModalOpen] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const { toast, showToast } = useToastNotifications();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -70,8 +74,21 @@ const TellUsAboutYourself: React.FC = () => {
       try {
         const { error } = await sendUserDetails(userDetails);
         if (error) {
-          console.log(error);
-          throw new Error("An error occurred");
+            const showNotificationTimeout = setTimeout(() => {
+              setShowNotifications(true);
+              showToast("error", "An Error occurred", "Please try again.");
+            }, 1000);
+
+            const hideNotificationTimeout = setTimeout(() => {
+              setShowNotifications(false);
+            }, 5000);
+
+            console.log(error);
+
+            return () => {
+              clearTimeout(showNotificationTimeout);
+              clearTimeout(hideNotificationTimeout);
+            };
         }
         // console.log("Data sent to Supabase:", data);
         return error ;
@@ -83,6 +100,15 @@ const TellUsAboutYourself: React.FC = () => {
 
   return (
     <>
+    {showNotifications && toast && (
+        <div className="absolute top-0 flex items-center justify-center w-full z-50">
+          <Toast
+            type={toast.type}
+            message={toast.message}
+            description={toast.description}
+          />
+        </div>
+      )}
       <section>
         <div className="py-10 px-3 md:p-5 flex flex-col w-full">
           <small className="font-medium text-[14px] leading-5 text-[#8C8C99]">
