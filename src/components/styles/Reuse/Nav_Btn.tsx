@@ -33,35 +33,33 @@ export default function Nav_Btn({
 
       if (handleRequest) {
         try {
-          const { data, error } = (await handleRequest()) as {
-            data: any;
-            error: any;
-          };
+          // const {  error } = (await handleRequest()) as {
+          //   error: any;
+          // };
 
           // if (typeof result === "object" && result !== null) {
 
-          if (error) {
-            // console.log('An error occurred')
-            // throw new Error(error)
-            const showNotificationTimeout = setTimeout(() => {
-              setShowNotifications(true);
-              showToast("error", "An Error occurred", "Please try again.");
-            }, 1000);
+          // if (error) {
+          //   // console.log('An error occurred')
+          //   // throw new Error(error)
+          //   const showNotificationTimeout = setTimeout(() => {
+          //     setShowNotifications(true);
+          //     showToast("error", "An Error occurred", "Please try again.");
+          //   }, 1000);
 
-            const hideNotificationTimeout = setTimeout(() => {
-              setShowNotifications(false);
-            }, 5000);
+          //   const hideNotificationTimeout = setTimeout(() => {
+          //     setShowNotifications(false);
+          //   }, 5000);
 
-            console.log(error);
+          //   console.log(error);
 
-            return () => {
-              clearTimeout(showNotificationTimeout);
-              clearTimeout(hideNotificationTimeout);
-            };
-          }
+          //   return () => {
+          //     clearTimeout(showNotificationTimeout);
+          //     clearTimeout(hideNotificationTimeout);
+          //   };
+          // }
 
           navigate(navTo);
-          console.log(data)
         } catch (error) {
           const showNotificationTimeout = setTimeout(() => {
             setShowNotifications(true);

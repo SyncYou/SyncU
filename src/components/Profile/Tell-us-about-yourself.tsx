@@ -68,13 +68,13 @@ const TellUsAboutYourself: React.FC = () => {
   const handleRequest = async () => {
     if (isValid) {
       try {
-        const { data, error } = await sendUserDetails(userDetails);
+        const { error } = await sendUserDetails(userDetails);
         if (error) {
           console.log(error);
           throw new Error("An error occurred");
         }
-        console.log("Data sent to Supabase:", data);
-        return { data, error };
+        // console.log("Data sent to Supabase:", data);
+        return error ;
       } catch (error) {
         console.error("Error sending data to Supabase:", error);
       }

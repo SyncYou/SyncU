@@ -6,7 +6,6 @@ const useToastNotifications = () => {
   const showToast = (type: 'success' | 'error' | 'warning', message: string, description: string) => {
     setToast({ type, message, description });
 
-    // Automatically hide the toast after 5 seconds
     setTimeout(() => {
       setToast(null);
     }, 5000);
