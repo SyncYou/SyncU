@@ -33,6 +33,7 @@ export default function Nav_Btn({
 
       if (handleRequest) {
         try {
+          await handleRequest()
           // const {  error } = (await handleRequest()) as {
           //   error: any;
           // };
