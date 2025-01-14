@@ -13,7 +13,7 @@ type PropsType = {
     industry: string;
     participants: string[];
     project_views: number;
-    requests: number;
+    requests: object[];
     required_roles: string[];
     required_stacks: string[];
     title: string;
@@ -26,7 +26,7 @@ const ProjectCard = ({ data }: PropsType) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [viewDetails, setViewDetails] = useState<boolean>(false);
 
-  const num = data.required_stacks.length - 3;
+  const num = data.required_roles.length - 3;
 
   useEffect(() => {
     setInterval(() => {
@@ -79,17 +79,21 @@ const ProjectCard = ({ data }: PropsType) => {
                 </p>
               </div>
               <div className="h-[95px] w-full flex flex-col gap-2">
-                <p className="text-xs font-normal text-gray700">Required</p>
-                <div className="h-[68px] grid grid-cols-3 gap-2">
-                  {data.required_stacks.slice(0, 4).map((skill) => {
+                <p className="text-xs font-normal text-gray700">
+                  Required roles
+                </p>
+                <div className="h-[68px] flex flex-wrap gap-[4.5px]">
+                  {data.required_roles.slice(0, 3).map((skill) => {
                     return (
                       <Chip>
-                        {skill.length > 7 ? `${skill.slice(0, 7)}...` : skill}
+                        {skill.length > 11 ? `${skill.slice(0, 11)}...` : skill}
                       </Chip>
                     );
                   })}
 
-                  <span className="h-7 w-[43px] max-w-[131px] rounded-3xl bg-gray100 flex justify-center items-center">{`+${num}`}</span>
+                  {data.required_roles.length > 3 && (
+                    <span className="h-7 w-[43px] max-w-[131px] rounded-3xl bg-gray100 flex justify-center items-center">{`+${num}`}</span>
+                  )}
                 </div>
               </div>
             </div>

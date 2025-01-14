@@ -1,27 +1,17 @@
-import { useEffect, useState } from "react";
 import empty from "/assets/Empty.svg";
 import { useQuery } from "@tanstack/react-query";
 import { fetchUserRequestedProject } from "../../../../utils/queries/fetch";
 import ProjectCard from "../ProjectCard";
 
 const RequestedProjects = () => {
-  const [isEmpty, setIsEmpty] = useState(true);
-
   const { data, error } = useQuery({
     queryKey: ["Requested-projects"],
     queryFn: fetchUserRequestedProject,
   });
 
-  useEffect(() => {
-    if (data) {
-      setIsEmpty(false);
-      console.log(data);
-    }
-  }, []);
-
   return (
     <section className="md:px-8 px-4 md:py-6 pt-6 pb-20 md:w-full w-screen">
-      {isEmpty ? (
+      {!data ? (
         <div className="mx-auto w-[261px] flex flex-col gap-6">
           <img className="w-[124px] mx-auto" src={empty} alt="" />
           <div className="">

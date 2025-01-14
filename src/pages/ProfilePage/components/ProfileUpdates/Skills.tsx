@@ -36,7 +36,7 @@ const Skills = () => {
   };
 
   // Queries
-  const client = useQueryClient()
+  const client = useQueryClient();
 
   const { mutateAsync, isPending } = useMutation({
     mutationKey: ["updateStacks"],
@@ -94,7 +94,7 @@ const Skills = () => {
               Suggested skills & stacks
             </p>
             <div className="flex flex-wrap gap-2">
-              {suggestedSkills.map((skill, i) => {
+              {suggestedSkills?.map((skill, i) => {
                 return (
                   <button
                     onClick={() => addSkill(skill)}
@@ -117,7 +117,7 @@ const Skills = () => {
           disabled={stacks.length === skills.length || isPending}
           classes="w-[120px] h-11 gap-0"
         >
-          {isPending ? "Saving...":"Save"}
+          {isPending ? "Saving..." : "Save"}
         </PrimaryButton>
         <SecondaryButton classes="w-[120px] h-11 gap-0">Cancel</SecondaryButton>
       </div>
