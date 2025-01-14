@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import onboarding from "/onboarding.svg";
 import usercard from "/user-card.svg";
-import arrowRight from "/arrow-right.svg";
-import arrowLeft from "/arrow-left.svg";
+import { IoArrowBackCircleOutline } from "react-icons/io5";
+import { IoArrowForwardCircleOutline } from "react-icons/io5";
 
 interface Props {
   handlePrevStep: () => void;
@@ -53,17 +53,16 @@ const Step1: React.FC<Props> = ({ handlePrevStep, handleNextStep }) => {
             <div className="w-3 h-3 rounded-full bg-secondary" />
             <div className="w-3 h-3 rounded-full border-[1.5px] border-[#96969c]" />
           </div>
-          <img onClick={handleNextStep} className="" src={arrowRight} alt="" />
         </div>
       ) : (
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center justify-center gap-5">
-          <img onClick={handlePrevStep} className="cursor-pointer bg-transparent h-10 w-10" src={arrowLeft} alt="" />
+          <IoArrowBackCircleOutline onClick={handlePrevStep} className="cursor-pointer h-10 w-10 text-white" />
           
           <div className="w-28 flex items-center gap-5 justify-center my-5">
             <div className="w-3 h-3 rounded-full bg-[#F5F5FA]" />
             <div className="w-3 h-3 rounded-full border-[1.5px] border-[#96969c]" />
           </div>
-          <img onClick={handleNextStep} className="cursor-pointer h-10 w-10" src={arrowRight} alt="" />
+          <IoArrowForwardCircleOutline onClick={handleNextStep} className="cursor-pointer h-10 w-10 text-white" />
         </div>
       )}
     </section>

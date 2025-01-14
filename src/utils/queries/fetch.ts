@@ -43,11 +43,11 @@ export async function fetchUserRequestedProject() {
       throw new Error(error.message);
     }
 
-    const filteredProjects = data?.filter((project) =>
-      project.requests?.filter((req) => (req.id = ""))
-    );
+    // const filteredProjects = data?.filter((project) =>
+    //   project.requests?.filter((req) => (req.id = ""))
+    // );
 
-    return filteredProjects;
+    return data;
   } catch (error) {
     console.error(error);
   }

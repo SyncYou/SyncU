@@ -1,9 +1,6 @@
 import { AuthResponse } from "@supabase/supabase-js";
 import { supabase } from "../supabase/client";
 
-
-
-
 export const signupWithOTP = async (email: string): Promise<AuthResponse> => {
   const { data, error } = await supabase.auth.signInWithOtp({
     email: email,
@@ -47,6 +44,20 @@ export const signInWithGoogle = async () => {
 };
 
 export const getLoggedInUser = async () => {
-  const { data: { user: loggedInUser } } = await supabase.auth.getUser()
-return loggedInUser
-}
+  const {
+    data: { user: loggedInUser },
+  } = await supabase.auth.getUser();
+  return loggedInUser;
+};
+
+export const getUserById = async (userId: string) => {
+  const { data, error } = await supabase
+    .from("Users")
+    .select()
+    .eq("id", userId)
+    .single();
+
+  if (error) throw new Error();
+
+  return data;
+};

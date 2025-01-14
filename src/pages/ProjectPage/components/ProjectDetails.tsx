@@ -11,6 +11,7 @@ import Overlay from "../../../components/Overlay";
 import PrimaryButton from "../../../components/PrimaryButton";
 import SecondaryButton from "../../../components/SecondaryButton";
 import Chip from "../../../components/Chip";
+import { requestTojoinProject } from "../../../utils/SupabaseRequest";
 
 interface PropsType {
   state: () => void;
@@ -33,22 +34,41 @@ interface PropsType {
 
 const ProjectDetails = ({ state, data }: PropsType) => {
   const [isRequested, setIsRequested] = useState<boolean>(false);
+  const [showNotifications, setShowNotifications] = useState<boolean>(false);
   const [currentView, setCurrentView] = useState<string>("About");
 
   const handleRequest = async () => {
-    setIsRequested((i) => !i);
+    try {
+      const req = await requestTojoinProject(data.id);
+      if (req) {
+        // setIsRequested(true);
+        const showNotificationTimeout = setTimeout(() => {
+          setShowNotifications(true);
+        }, 1000);
+
+        const hideNotificationTimeout = setTimeout(() => {
+          setShowNotifications(false);
+        }, 5000);
+
+        return () => {
+          clearTimeout(showNotificationTimeout);
+          clearTimeout(hideNotificationTimeout);
+        };
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    // setIsRequested((i) => !i);
   };
+
+  async () => {};
 
   return (
     <Overlay>
-      {isRequested && (
-        <div className="absolute z-20 h-screen w-screen flex justify-center items-center">
-          <div className="h-10 w-[145px] rounded-lg bg-[#2A2A33CC] flex items-center justify-center gap-[10px]">
-            <IoCheckmarkCircle className="text-success700" />
-            <span className="font-normal text-base text-white">
-              Request sent
-            </span>
-          </div>
+      {showNotifications && (
+        <div className="absolute z-20 h-10 w-[145px] rounded-lg bg-[#2A2A33CC] flex items-center justify-center gap-[10px]">
+          <IoCheckmarkCircle className="text-success700" />
+          <span className="font-normal text-base text-white">Request sent</span>
         </div>
       )}
       <div className="h-screen w-screen bg-white md:hidden">
