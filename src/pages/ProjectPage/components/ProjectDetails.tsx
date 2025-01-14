@@ -5,7 +5,7 @@ import { BsShare } from "react-icons/bs";
 import { HiOutlineBriefcase, HiOutlineLockClosed } from "react-icons/hi";
 import { PiTagChevron } from "react-icons/pi";
 import { FaRegCalendarMinus } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import Overlay from "../../../components/Overlay";
 import PrimaryButton from "../../../components/PrimaryButton";
@@ -23,7 +23,10 @@ interface PropsType {
     industry: string;
     participants: string[];
     project_views: number;
-    requests: object[];
+    requests: {
+      userId: string;
+      status: string;
+    }[];
     required_roles: string[];
     required_stacks: string[];
     title: string;
@@ -61,7 +64,14 @@ const ProjectDetails = ({ state, data }: PropsType) => {
     // setIsRequested((i) => !i);
   };
 
-  async () => {};
+  useEffect(() => {
+    const checkIfRequested = data.requests?.map((req) => req.userId === "");
+    if (checkIfRequested) {
+      setIsRequested(true);
+    } else {
+      setIsRequested(false);
+    }
+  }, []);
 
   return (
     <Overlay>

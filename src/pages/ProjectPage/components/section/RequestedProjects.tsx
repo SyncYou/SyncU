@@ -4,7 +4,7 @@ import { fetchUserRequestedProject } from "../../../../utils/queries/fetch";
 import ProjectCard from "../ProjectCard";
 
 const RequestedProjects = () => {
-  const { data, error } = useQuery({
+  const { data, error, isFetching } = useQuery({
     queryKey: ["Requested-projects"],
     queryFn: fetchUserRequestedProject,
   });
@@ -25,8 +25,8 @@ const RequestedProjects = () => {
         </div>
       ) : (
         <section className="grid md:grid-cols-3 min-h-full gap-8 md:max-w-full max-w-screen">
-          {data?.map((project) => {
-            return <ProjectCard data={project} />;
+          {data?.map((project, i) => {
+            return <ProjectCard key={i} data={project} />;
           })}
         </section>
       )}
