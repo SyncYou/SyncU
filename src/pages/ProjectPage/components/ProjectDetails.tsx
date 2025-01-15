@@ -11,7 +11,12 @@ import Overlay from "../../../components/Overlay";
 import PrimaryButton from "../../../components/PrimaryButton";
 import SecondaryButton from "../../../components/SecondaryButton";
 import Chip from "../../../components/Chip";
-import { requestTojoinProject } from "../../../utils/SupabaseRequest";
+import {
+  requestTojoinProject,
+  sendNotification,
+} from "../../../utils/SupabaseRequest";
+import { getLoggedInUser } from "../../../utils/AuthRequest";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface PropsType {
   state: () => void;
@@ -44,14 +49,15 @@ const ProjectDetails = ({ state, data }: PropsType) => {
     try {
       const req = await requestTojoinProject(data.id);
       if (req) {
-        // setIsRequested(true);
+        // await sendNotification()
         const showNotificationTimeout = setTimeout(() => {
           setShowNotifications(true);
         }, 1000);
 
         const hideNotificationTimeout = setTimeout(() => {
           setShowNotifications(false);
-        }, 5000);
+        }, 3000);
+        setIsRequested(true);
 
         return () => {
           clearTimeout(showNotificationTimeout);
@@ -64,13 +70,25 @@ const ProjectDetails = ({ state, data }: PropsType) => {
     // setIsRequested((i) => !i);
   };
 
+  const client = useQueryClient();
+
   useEffect(() => {
-    const checkIfRequested = data.requests?.map((req) => req.userId === "");
-    if (checkIfRequested) {
-      setIsRequested(true);
-    } else {
-      setIsRequested(false);
-    }
+    const ifRequested = async () => {
+      const user = await getLoggedInUser();
+      const checkIfRequested = data.requests?.filter(
+        (req) => req.userId === user?.id
+      );
+      if (checkIfRequested.length != 0) {
+        setIsRequested(true);
+        await client.invalidateQueries({
+          queryKey: ["Created-projects"],
+        });
+      } else {
+        setIsRequested(false);
+      }
+    };
+
+    ifRequested();
   }, []);
 
   return (

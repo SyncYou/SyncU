@@ -109,7 +109,7 @@ const handleUpdates = (
   }>
 ) => {
   // replace with creatorId later
-  sendNotification(payload, "creatorId");
+  sendNotification(payload, payload.new?.created_by);
   console.log("Change received!", payload);
 };
 
@@ -119,9 +119,10 @@ const notificationChannel = supabase
     "postgres_changes",
     { event: "UPDATE", schema: "public", table: "Projects" },
     handleUpdates
-  );
+  )
+  .subscribe();
 
-supabase.removeChannel(notificationChannel);
+// supabase.removeChannel(notificationChannel);
 
 export const sendNotification = async (
   payload: RealtimePostgresUpdatePayload<{

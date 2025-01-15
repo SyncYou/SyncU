@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import Overlay from "../../../components/Overlay";
 import SubSection from "../../../components/SubSection";
+import { useState } from "react";
 
 interface PostProjectFormType {
   created_at: string;
@@ -21,7 +22,10 @@ interface PostProjectFormType {
   username?: string;
 }
 
+type WorkSpace = "Slack" | "Discord" | "Microsoft teams";
+
 function PostProjectForm() {
+  const [workspace, setWorkspace] = useState<WorkSpace>();
   const { register } = useForm<PostProjectFormType>({
     defaultValues: {
       created_at: "",
@@ -39,6 +43,11 @@ function PostProjectForm() {
       username: "",
     },
   });
+
+  const handleWorkspaceChange = (text: WorkSpace) => {
+    setWorkspace(text);
+  };
+
   return (
     <Overlay>
       <div className="h-[699px] w-[770px] rounded-[20px] bg-white">
@@ -184,15 +193,30 @@ function PostProjectForm() {
             </h2>
             <div className="flex flex-col gap-4 w-[435px]">
               <div className="flex gap-4">
-                <input type="radio" />
+                <input
+                  type="radio"
+                  className="accent-brand-600 w-5 h-5"
+                  checked={workspace === "Slack"}
+                  onClick={() => handleWorkspaceChange("Slack")}
+                />
                 <h2>Slack</h2>
               </div>
               <div className="flex gap-4">
-                <input type="radio" />
+                <input
+                  type="radio"
+                  className="accent-brand-600 w-5 h-5"
+                  checked={workspace === "Discord"}
+                  onClick={() => handleWorkspaceChange("Discord")}
+                />
                 <h2>Discord</h2>
               </div>
               <div className="flex gap-4">
-                <input type="radio" />
+                <input
+                  className="accent-brand-600 w-5 h-5"
+                  type="radio"
+                  checked={workspace === "Microsoft teams"}
+                  onClick={() => handleWorkspaceChange("Microsoft teams")}
+                />
                 <h2>Microsoft teams</h2>
               </div>
             </div>
