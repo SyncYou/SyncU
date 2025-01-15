@@ -3,10 +3,7 @@ import { supabase } from "../supabase/client";
 
 export const signupWithOTP = async (email: string): Promise<AuthResponse> => {
   const { data, error } = await supabase.auth.signInWithOtp({
-    email: email,
-    options: {
-      // shouldCreateUser: true,
-    },
+    email: email
   });
   return { data, error };
 };
