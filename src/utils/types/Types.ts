@@ -23,6 +23,16 @@ export interface UserData {
   stacks: string[];
 }
 
+export interface CardsData {
+  id: number;
+  title: string;
+  description: string;
+  required_roles: string[];
+  industry: string;
+  project_views: number;
+  request: number;
+  required_stacks: string[];
+}
 export interface ProjectType {
   created_at: string;
   created_by: string;
