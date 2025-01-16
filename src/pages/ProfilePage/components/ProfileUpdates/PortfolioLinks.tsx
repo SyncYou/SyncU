@@ -1,6 +1,6 @@
 import SecondaryButton from "../../../../components/SecondaryButton";
 import PrimaryButton from "../../../../components/PrimaryButton";
-import {  BiPlusCircle } from "react-icons/bi";
+import { BiPlusCircle } from "react-icons/bi";
 import { PiSpinner } from "react-icons/pi";
 import { ChangeEvent, useState } from "react";
 import { RiDeleteBinLine } from "react-icons/ri";
@@ -22,7 +22,7 @@ const PortfolioLinks = () => {
 
   // State
   const [error, setError] = useState(false);
-  const [portfolioLink, setPortfolioLink] = useState<Links[]>([...links]);
+  const [portfolioLink, setPortfolioLink] = useState<Links[]>(links);
   const [suggestedLinks, setSuggestedLinks] = useState<Links[]>([
     { name: "Behance", url: "www.behance.net" },
     { name: "LinkedIn", url: "www.linkedIn.net" },
@@ -71,9 +71,9 @@ const PortfolioLinks = () => {
       });
     },
     onError: () => {
-      setError(true)
-      console.log(mute)
-    }
+      setError(true);
+      console.log(mute);
+    },
   });
 
   return (
@@ -115,7 +115,7 @@ const PortfolioLinks = () => {
               Add or arrange links
             </p>
             <div className="flex flex-col gap-4 h-[350px] overflow-y-auto">
-              {portfolioLink.map((link, i) => {
+              {portfolioLink?.map((link, i) => {
                 return (
                   <div className="">
                     <div key={i} className="flex gap-3 h-[60px] w-[503.5px]">
@@ -179,7 +179,7 @@ const PortfolioLinks = () => {
           onClick={async () => {
             await mutateAsync(portfolioLink);
           }}
-          disabled={links.length === portfolioLink.length}
+          disabled={links?.length === portfolioLink?.length}
           classes="w-[120px] h-11 gap-0"
         >
           Save

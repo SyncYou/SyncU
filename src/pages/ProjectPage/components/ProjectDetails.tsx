@@ -11,44 +11,67 @@ import Overlay from "../../../components/Overlay";
 import PrimaryButton from "../../../components/PrimaryButton";
 import SecondaryButton from "../../../components/SecondaryButton";
 import Chip from "../../../components/Chip";
+import { requestTojoinProject } from "../../../utils/SupabaseRequest";
 
 interface PropsType {
   state: () => void;
   data: {
-    projectName: string;
-    projectCategory: string;
-    requiredSkills: string[];
-    projectDescription: string;
-    projectFeatures: {
-      name: string;
-      details: string[];
-    }[];
-    authorName: string;
-    authorUsername: string;
+    created_at: string;
+    created_by: string;
+    description: string;
+    id: string;
+    industry: string;
+    participants: string[];
+    project_views: number;
+    requests: object[];
+    required_roles: string[];
+    required_stacks: string[];
+    title: string;
+    updated_at?: string;
+    username?: string;
   };
 }
 
 const ProjectDetails = ({ state, data }: PropsType) => {
   const [isRequested, setIsRequested] = useState<boolean>(false);
+  const [showNotifications, setShowNotifications] = useState<boolean>(false);
   const [currentView, setCurrentView] = useState<string>("About");
 
   const handleRequest = async () => {
-    setIsRequested((i) => !i);
+    try {
+      const req = await requestTojoinProject(data.id);
+      if (req) {
+        // setIsRequested(true);
+        const showNotificationTimeout = setTimeout(() => {
+          setShowNotifications(true);
+        }, 1000);
+
+        const hideNotificationTimeout = setTimeout(() => {
+          setShowNotifications(false);
+        }, 5000);
+
+        return () => {
+          clearTimeout(showNotificationTimeout);
+          clearTimeout(hideNotificationTimeout);
+        };
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    // setIsRequested((i) => !i);
   };
+
+  async () => {};
 
   return (
     <Overlay>
-      {isRequested && (
-        <div className="absolute z-20 h-screen w-screen flex justify-center items-center">
-          <div className="h-10 w-[145px] rounded-lg bg-[#2A2A33CC] flex items-center justify-center gap-[10px]">
-            <IoCheckmarkCircle className="text-success700" />
-            <span className="font-normal text-base text-white">
-              Request sent
-            </span>
-          </div>
+      {showNotifications && (
+        <div className="absolute z-20 h-10 w-[145px] rounded-lg bg-[#2A2A33CC] flex items-center justify-center gap-[10px]">
+          <IoCheckmarkCircle className="text-success700" />
+          <span className="font-normal text-base text-white">Request sent</span>
         </div>
       )}
-      <div className="h-screen w-screen bg-white">
+      <div className="h-screen w-screen bg-white md:hidden">
         <div className="w-full border-b border-gray200 bg-white">
           <div className="flex gap-[10px] py-[10px] px-4 border-b border-gray200">
             <div className="flex gap-2 items-center">
@@ -104,9 +127,9 @@ const ProjectDetails = ({ state, data }: PropsType) => {
         <div className="h-full w-full pr-5 flex flex-col gap-8 overflow-y-scroll scrollbar-thin scrollbar-thumb-white scrollbar-track-gray100">
           <div className="h-16 flex justify-between">
             <div className="flex flex-col gap-2">
-              <h3 className="font-semibold text-2xl">{data.projectName}</h3>
+              <h3 className="font-semibold text-2xl">{data.title}</h3>
               <p className="font-normal text-base text-gray700">
-                {data.projectCategory}
+                {data.industry}
               </p>
             </div>
             <div className="h-10 w-10 cursor-pointer rounded-[100px] flex justify-center items-center border-[0.5px] border-gray300 my-auto">
@@ -116,7 +139,7 @@ const ProjectDetails = ({ state, data }: PropsType) => {
           <div className="h-[99px] flex flex-col gap-3">
             <p className="font-medium text-sm">Required</p>
             <div className="flex gap-[11px]">
-              {data.requiredSkills.map((skill) => {
+              {data.required_stacks.map((skill) => {
                 return <Chip>{skill}</Chip>;
               })}
             </div>
@@ -124,8 +147,8 @@ const ProjectDetails = ({ state, data }: PropsType) => {
           <div className="w-full">
             <p className="mb-3 text-gray950 font-medium">Description</p>
             <div className="text-[#374151] font-normal">
-              <p>{data.projectDescription}</p>
-              <h2 className="mt-4">Core Features</h2>
+              <p>{data.description}</p>
+              {/* <h2 className="mt-4">Core Features</h2>
               <ol className="list-decimal pl-4">
                 {data.projectFeatures.map((feature) => {
                   return (
@@ -139,7 +162,7 @@ const ProjectDetails = ({ state, data }: PropsType) => {
                     </li>
                   );
                 })}
-              </ol>
+              </ol> */}
             </div>
           </div>
         </div>
@@ -169,7 +192,7 @@ const ProjectDetails = ({ state, data }: PropsType) => {
             <div className="">
               <p className="font-normal text-base">@ameenu</p>
               <p className="font-normal text-xs text-gray700">
-                Posted yesterday
+                is looking for collaborators
               </p>
             </div>
           </div>
@@ -209,32 +232,43 @@ const ProjectDetails = ({ state, data }: PropsType) => {
           </div>
         </div>
         <div className="w-full h-full px-6 flex justify-between">
-          <div className="w-[670px] max-h-[661px] pr-5 flex flex-col gap-8 overflow-y-scroll scrollbar-thin scrollbar-thumb-white scrollbar-track-gray100">
+          <div className="w-[670px] max-h-[661px] pr-5 flex flex-col gap-6 overflow-y-scroll scrollbar-thin scrollbar-thumb-white scrollbar-track-gray100">
             <div className="h-16 flex justify-between">
               <div className="flex flex-col gap-2">
-                <h3 className="font-semibold text-2xl">{data.projectName}</h3>
+                <h3 className="font-semibold text-2xl">{data.title}</h3>
                 <p className="font-normal text-base text-gray700">
-                  {data.projectCategory}
+                  {data.industry}
                 </p>
               </div>
               <div className="h-10 w-10 cursor-pointer rounded-[100px] flex justify-center items-center border-[0.5px] border-gray300 my-auto">
                 <BsShare className="rotate-180 text-[24px]" />
               </div>
             </div>
+            <hr />
             <div className="h-[99px] flex flex-col gap-3">
-              <p className="font-medium text-sm">Required</p>
-              <div className="flex gap-[11px]">
-                {data.requiredSkills.map((skill) => {
+              <p className="font-medium text-sm">Required roles</p>
+              <div className="flex flex-wrap gap-[11px]">
+                {data.required_roles.map((skill) => {
                   return <Chip>{skill}</Chip>;
                 })}
               </div>
             </div>
+            <hr />
+            <div className="h-[99px] flex flex-col gap-3">
+              <p className="font-medium text-sm">Required skills or stacks</p>
+              <div className="flex flex-wrap gap-[11px]">
+                {data.required_stacks.map((skill) => {
+                  return <Chip>{skill}</Chip>;
+                })}
+              </div>
+            </div>
+            <hr />
             <div className="w-full">
               <p className="mb-3 text-gray950 font-medium">Description</p>
               <div className="text-[#374151] font-normal">
-                <p>{data.projectDescription}</p>
-                <h2 className="mt-4">Core Features</h2>
-                <ol className="list-decimal pl-4">
+                <p>{data.description}</p>
+                {/* <h2 className="mt-4">Core Features</h2> */}
+                {/* <ol className="list-decimal pl-4">
                   {data.projectFeatures.map((feature) => {
                     return (
                       <li>
@@ -247,7 +281,7 @@ const ProjectDetails = ({ state, data }: PropsType) => {
                       </li>
                     );
                   })}
-                </ol>
+                </ol> */}
               </div>
             </div>
           </div>
@@ -274,9 +308,7 @@ const ProjectDetails = ({ state, data }: PropsType) => {
                   <div className="flex items-center gap-2 w-20">
                     <PiTagChevron /> Industry
                   </div>
-                  <p className="text-gray950 font-medium">
-                    {data.projectCategory}
-                  </p>
+                  <p className="text-gray950 font-medium">{data.industry}</p>
                 </div>
                 <div className="flex justify-between h-10 px-3 py-2">
                   <div className="flex items-center gap-2">
@@ -290,11 +322,15 @@ const ProjectDetails = ({ state, data }: PropsType) => {
               <div className="h-20">
                 <div className="flex justify-between h-10 px-3 py-2">
                   <div className="">Project views</div>
-                  <p className="text-gray950 font-medium">108</p>
+                  <p className="text-gray950 font-medium">
+                    {data.project_views}
+                  </p>
                 </div>
                 <div className="flex justify-between h-10 px-3 py-2">
                   <div>Requests</div>
-                  <p className="text-gray950 font-medium">40</p>
+                  <p className="text-gray950 font-medium">
+                    {data.requests?.length}
+                  </p>
                 </div>
               </div>
             </div>

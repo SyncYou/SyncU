@@ -54,7 +54,7 @@ const Username: React.FC = () => {
           };
         }
         // console.log("Data sent to Supabase:", data);
-        return error ;
+        return error;
       } catch (error) {
         console.error("Error sending data to Supabase:", error);
       }
@@ -63,7 +63,7 @@ const Username: React.FC = () => {
 
   return (
     <>
-     {showNotifications && toast && (
+      {showNotifications && toast && (
         <div className="absolute top-0 flex items-center justify-center w-full z-50">
           <Toast
             type={toast.type}

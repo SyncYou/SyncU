@@ -35,7 +35,7 @@ const Verifymail: React.FC = () => {
       });
 
       if (value && inputRefs.current[idx + 1]) {
-        inputRefs.current[idx + 1]?.focus(); // Focus next input
+        inputRefs.current[idx + 1]?.focus();
       }
     },
     [otp]
