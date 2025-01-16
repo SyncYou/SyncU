@@ -28,7 +28,7 @@ const ControlledInput: React.FC<Props> = ({
     <>
       <div
         onClick={() => inputRef.current?.focus()}
-        className={`border rounded-xl py-2 px-3 flex flex-col gap-2 ${
+        className={`border rounded-xl py-[0.23rem] px-3 flex flex-col gap-2 ${
           isFocused
             ? "border-[#A771E5] shadow-lg shadow-[#EDE4FA]"
             : "border-[#E6E6F0]"

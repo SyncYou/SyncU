@@ -2,9 +2,21 @@ import { Outlet } from "react-router-dom";
 import SideBar from "./HomePage/components/SideBar";
 import Header from "./HomePage/components/Header";
 import { useSidebar } from "../context/useSidebar";
+import { useEffect } from "react";
+import useFetchUserData from "../hooks/useFetchUserData";
+import { useUserData } from "../context/useUserData";
 
 const Layout = () => {
   const { isOpen } = useSidebar();
+  const { setUser } = useUserData();
+
+  const { data } = useFetchUserData();
+
+  useEffect(() => {
+    if (data) {
+      setUser(data);
+    }
+  }, [data]);
 
   return (
     <main>

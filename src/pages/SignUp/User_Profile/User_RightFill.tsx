@@ -135,7 +135,7 @@ export function User_RightFill({ rightStyle }: UserRightFillProps) {
                     key={index}
                     className={`${
                       skill === "N/A"
-                        ? "border-dashed "
+                        ? "border-dashed"
                         : "border-solid shadow-xs"
                     }`}
                   >

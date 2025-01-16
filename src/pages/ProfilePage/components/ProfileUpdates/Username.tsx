@@ -2,7 +2,7 @@ import SecondaryButton from "../../../../components/SecondaryButton";
 import PrimaryButton from "../../../../components/PrimaryButton";
 import { BiCheckCircle } from "react-icons/bi";
 import { PiSpinner } from "react-icons/pi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useUserData } from "../../../../context/useUserData";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateUsername } from "../../../../utils/queries/update";
@@ -20,6 +20,12 @@ const Username = () => {
 
   // Queries
   const client = useQueryClient();
+
+  useEffect(() => {
+    setError(false)
+    setChecking(false)
+    setSuccess(false)
+  }, [])
 
   const { mutateAsync, isPending } = useMutation({
     mutationKey: ["updateUsername"],

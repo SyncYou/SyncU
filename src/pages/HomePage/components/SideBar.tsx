@@ -11,10 +11,12 @@ import {
 } from "react-icons/fa";
 import { useSidebar } from "../../../context/useSidebar";
 import { useUserProgress } from "../../../context/useUserProgress";
+import { useUserData } from "../../../context/useUserData";
 
 const SideBar = () => {
   const { isOpen } = useSidebar();
   const { status } = useUserProgress();
+  const { user: userData } = useUserData();
 
   return (
     <aside
@@ -61,10 +63,16 @@ const SideBar = () => {
           isOpen ? "w-[191px]" : "w-12"
         } items-center rounded-sm hover:bg-[#E6E6F0B2] h-12 px-3 py-2 gap-2 hidden`}
       >
-        <img src={user} alt="user-logo" />
+        <img
+          src={userData.photoUrl || user}
+          className="w-8 h-8 rounded-full"
+          alt="user-logo"
+        />
         {isOpen && (
           <div className="flex flex-col">
-            <span className="text-base text-gray950 font-normal">Vergil</span>
+            <span className="text-base text-gray950 font-normal">
+              {userData.firstName}
+            </span>
             <span className="text-gray700 font-normal text-xs flex items-center gap-1">
               <span
                 className={`w-2 h-2 rounded-full ${
