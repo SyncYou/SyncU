@@ -1,72 +1,25 @@
-import { useEffect, useState } from "react";
 import caret from "/signUp-imgs/CaretUpDown.svg";
 import { StackDropDown } from "../../Reuseables/StackDropDown";
 import Nav_Btn from "../../Reuseables/Nav_Btn";
 import { Stack } from "./Stack";
 import { Niches } from "./Niches";
-import { useUserStore } from "../../../store/UseUserStore";
-import { sendUserDetails } from "../../../utils/SupabaseRequest";
-import useToastNotifications from "../../../hooks/useToastNotifications";
 import Toast from "../../Reuseables/Toast";
+import { useLeftFill1 } from "../../../hooks/useLeftFill1";
 
 export function User_LeftFill1() {
-  const { userDetails, setUserDetails } = useUserStore();
-  const [checked, setChecked] = useState<number | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showNotifications, setShowNotifications] = useState(false);
-  const { toast, showToast } = useToastNotifications();
-
-  const selectedStack = Niches.find((niche) => niche.id === checked) || null;
-
-  function handleAreaClick(area: string) {
-    setUserDetails("areaOfExpertise", area);
-    setIsModalOpen(false);
-  }
-
-  const isValid =
-    userDetails.firstName.trim() !== "" &&
-    userDetails.lastName.trim() !== "" &&
-    userDetails.countryOfResidence.trim() !== "" &&
-    userDetails.firstName !== "N/A" &&
-    userDetails.lastName !== "N/A" &&
-    userDetails.email !== "" &&
-    userDetails.countryOfResidence !== "N/A" &&
-    userDetails.username.trim() !== "" &&
-    userDetails.areaOfExpertise !== "";
-
-  useEffect(() => {
-    localStorage.setItem("userDetails", JSON.stringify(userDetails));
-    // setDisable(!isValid);
-  }, [userDetails, isValid]);
-
-  const handleRequest = async () => {
-    if (isValid) {
-      try {
-        const { error } = await sendUserDetails(userDetails);
-        if (error) {
-          const showNotificationTimeout = setTimeout(() => {
-            setShowNotifications(true);
-            showToast("error", "An Error occurred", "Please try again.");
-          }, 1000);
-
-          const hideNotificationTimeout = setTimeout(() => {
-            setShowNotifications(false);
-          }, 5000);
-
-          console.log(error);
-
-          return () => {
-            clearTimeout(showNotificationTimeout);
-            clearTimeout(hideNotificationTimeout);
-          };
-        }
-        // console.log("Data sent to Supabase:", data);
-        return error;
-      } catch (error) {
-        console.error("Error sending data to Supabase:", error);
-      }
-    }
-  };
+  const {
+    checked,
+    setChecked,
+    isModalOpen,
+    setIsModalOpen,
+    showNotifications,
+    toast,
+    selectedStack,
+    handleAreaClick,
+    isValid,
+    userDetails,
+    handleRequest,
+  } = useLeftFill1();
 
   return (
     <>

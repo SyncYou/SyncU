@@ -4,7 +4,7 @@ import { useUserStore } from "../../../store/UseUserStore";
 // Define the type for the props
 interface SkillProps {
   skill: string;
-  setIsSearching: React.Dispatch<React.SetStateAction<boolean>>; // Function to set the search state
+  setIsSearching: React.Dispatch<React.SetStateAction<boolean>>; 
 }
 
 export function Skill({ skill, setIsSearching }: SkillProps) {
@@ -13,8 +13,8 @@ export function Skill({ skill, setIsSearching }: SkillProps) {
   return (
     <p
       onClick={() => {
-        toggleSkill(skill); // This now properly adds or removes the skill
-        setIsSearching(false); // Optionally stop searching after clicking
+        toggleSkill(skill); 
+        setIsSearching(false);
       }}
       className={`${
         userDetails.stacks.includes(skill) ? "bg-gray-100 text-white" : ""

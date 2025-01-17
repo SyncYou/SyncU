@@ -1,12 +1,9 @@
 import img from "/signUp-imgs/img.svg";
 import Nav_Btn from "../../Reuseables/Nav_Btn";
-import { useUserStore } from "../../../store/UseUserStore";
 import { ProfileImage } from "./ProfileImages";
 import { Avatar } from "./Avatar";
-import { sendUserDetails, uploadAvatar } from "../../../utils/SupabaseRequest";
-import { ChangeEvent, useEffect, useState } from "react";
 import Toast from "../../Reuseables/Toast";
-import useToastNotifications from "../../../hooks/useToastNotifications";
+import { useProfileImage } from "../../../hooks/useProfileImage";
 
 interface ProfileImageItem {
   id: number;
@@ -20,93 +17,15 @@ interface ProfileImageItem {
 // }
 
 export function LeftFill_3() {
-  const { userDetails, setUserDetails } = useUserStore();
-  const [showNotifications, setShowNotifications] = useState(false);
-  const { toast, showToast } = useToastNotifications();
-  // const [disable, setDisable] = useState(true);
+  const {
+    showNotifications,
+    toast,
+    handleAvatarSelect,
+    handleImageUpload,
+    handleRequest,
+    isValid,
+  } = useProfileImage();
 
-  async function handleImageUpload(e: ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files ? e.target.files[0] : null;
-    if (file) {
-      const reader = new FileReader();
-
-      reader.onload = async () => {
-        // const uploadImage = reader.result as string;
-
-        try {
-          const avatarUrl = await uploadAvatar(file);
-          console.log(avatarUrl);
-
-          setUserDetails("photoUrl", avatarUrl);
-        } catch (error) {
-          console.error("Error uploading image:", error);
-        }
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
-  function handleAvatarSelect(image: string) {
-    setUserDetails("photoUrl", image);
-  }
-
-  const isValid =
-    userDetails.firstName.trim() !== "" &&
-    userDetails.lastName.trim() !== "" &&
-    userDetails.countryOfResidence.trim() !== "" &&
-    userDetails.firstName !== "N/A" &&
-    userDetails.lastName !== "N/A" &&
-    userDetails.email !== "" &&
-    userDetails.countryOfResidence !== "N/A" &&
-    userDetails.username.trim() !== "" &&
-    userDetails.areaOfExpertise !== "" &&
-    userDetails.photoUrl !== "" &&
-    userDetails.stacks.length > 0;
-
-  useEffect(() => {
-    localStorage.setItem("userDetails", JSON.stringify(userDetails));
-  }, [userDetails, isValid]);
-
-  useEffect(() => {
-    const storedUser = localStorage.getItem("loggedInUser");
-
-    if (storedUser) {
-      const loggedInUser = JSON.parse(storedUser);
-
-      if (loggedInUser?.user_metadata?.avatar_url) {
-        setUserDetails("photoUrl", loggedInUser?.user_metadata.avatar_url);
-      }
-    }
-  }, [setUserDetails]);
-
-  const handleRequest = async () => {
-    if (isValid) {
-      try {
-        const { error } = await sendUserDetails(userDetails);
-        if (error) {
-          const showNotificationTimeout = setTimeout(() => {
-            setShowNotifications(true);
-            showToast("error", "An Error occurred", "Please try again.");
-          }, 1000);
-
-          const hideNotificationTimeout = setTimeout(() => {
-            setShowNotifications(false);
-          }, 5000);
-
-          console.log(error);
-
-          return () => {
-            clearTimeout(showNotificationTimeout);
-            clearTimeout(hideNotificationTimeout);
-          };
-        }
-        // console.log("Data sent to Supabase:", data);
-        return error;
-      } catch (error) {
-        console.error("Error sending data to Supabase:", error);
-      }
-    }
-  };
 
   return (
     <>
