@@ -1,4 +1,5 @@
 import { supabase } from "../../supabase/client";
+import { ProjectType } from "../types/Types";
 
 export const user = await supabase.auth.getUser();
 
@@ -19,36 +20,29 @@ export async function fetchUserData() {
   }
 }
 
-export async function fetchUserCreatedProject() {
-  try {
-    const { data, error } = await supabase
-      .from("Projects")
-      .select()
-      .eq("created_by", "9fe69c1c-5cac-4d49-b470-5f69559b03a3");
-
-    if (error) {
-      throw new Error(error.message);
-    }
-    return data;
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-export async function fetchUserRequestedProject() {
+export async function fetchProjects(): Promise<ProjectType[] | undefined> {
   try {
     const { data, error } = await supabase.from("Projects").select();
 
     if (error) {
       throw new Error(error.message);
     }
-
-    // const filteredProjects = data?.filter((project) =>
-    //   project.requests?.filter((req) => (req.id = ""))
-    // );
-
     return data;
   } catch (error) {
     console.error(error);
   }
 }
+
+export const fetchProject = async (
+  projectId: string
+): Promise<ProjectType | undefined> => {
+  try {
+    const { data, error } = await supabase
+      .from("Projects")
+      .select()
+      .eq("id", projectId)
+      .single();
+
+    return data;
+  } catch (error) {}
+};

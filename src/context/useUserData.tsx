@@ -1,9 +1,13 @@
 import { create } from "zustand";
-import { UserData } from "../utils/types/Types";
+import { ProjectType, UserData } from "../utils/types/Types";
 
 interface Data {
   user: UserData;
   setUser: (fetchedUser: UserData) => void;
+}
+interface Project {
+  projects?: ProjectType[];
+  setProjects: (fetchedUser?: ProjectType[]) => void;
 }
 
 export const useUserData = create<Data>((set) => ({
@@ -19,6 +23,13 @@ export const useUserData = create<Data>((set) => ({
     description: "",
     links: [],
     stacks: ["UI design", "User research", "UX design"],
+    notifications: [],
   },
   setUser: (fetch) => set((state) => ({ user: (state.user = fetch) })),
+}));
+
+export const useProjects = create<Project>((set) => ({
+  projects: [],
+  setProjects: (fetch) =>
+    set((state) => ({ projects: (state.projects = fetch) })),
 }));

@@ -21,6 +21,7 @@ export interface UserData {
   description: string;
   links: Links[];
   stacks: string[];
+  notifications: object[];
 }
 
 export interface ProjectType {
@@ -31,7 +32,10 @@ export interface ProjectType {
   industry: string;
   participants: string[];
   project_views: number;
-  requests: number;
+  requests: {
+    userId: string;
+    status: string;
+  }[];
   required_roles: string[];
   required_stacks: string[];
   title: string;

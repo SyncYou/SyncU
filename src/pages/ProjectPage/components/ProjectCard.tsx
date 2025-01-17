@@ -1,33 +1,16 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import logo from "/assets/Union.svg";
 import ProjectDetails from "./ProjectDetails";
 import Chip from "../../../components/Chip";
+import { ProjectType } from "../../../utils/types/Types";
 // import newTag from "/assets/New tag.svg";
 
 type PropsType = {
-  data: {
-    created_at: string;
-    created_by: string;
-    description: string;
-    id: string;
-    industry: string;
-    participants: string[];
-    project_views: number;
-    requests: {
-      userId: string;
-      status: string;
-    }[];
-    required_roles: string[];
-    required_stacks: string[];
-    title: string;
-    updated_at?: string;
-    username?: string;
-  };
+  data: ProjectType;
   fetching?: boolean;
 };
 
 const ProjectCard = ({ data, fetching }: PropsType) => {
-  // const [loading, setLoading] = useState<boolean>(true);
   const [viewDetails, setViewDetails] = useState<boolean>(false);
 
   const num = data.required_roles.length - 3;
@@ -51,7 +34,7 @@ const ProjectCard = ({ data, fetching }: PropsType) => {
         {!fetching && (
           <div className="max-w-[99%] h-5 relative">
             {viewDetails && (
-              <ProjectDetails state={handleViewDetails} data={data} />
+              <ProjectDetails state={handleViewDetails} projectId={data.id} />
             )}
             <div
               onClick={handleViewDetails}

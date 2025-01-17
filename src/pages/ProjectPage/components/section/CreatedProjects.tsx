@@ -1,21 +1,21 @@
 import { FiPlus } from "react-icons/fi";
 import empty from "/assets/Empty.svg";
 import SecondaryButton from "../../../../components/SecondaryButton";
-import { useQuery } from "@tanstack/react-query";
-import { fetchUserCreatedProject } from "../../../../utils/queries/fetch";
+import { useProjects } from "../../../../context/useUserData";
+import { user } from "../../../../utils/queries/fetch";
 import ProjectCard from "../ProjectCard";
-// import PostProjectForm from "../PostProjectForm";
 
 const CreatedProjects = () => {
-  const { data, error } = useQuery({
-    queryKey: ["Created-projects"],
-    queryFn: fetchUserCreatedProject,
-  });
+  const { projects } = useProjects();
+
+  const createdProjects = projects?.filter(
+    (pg) => pg.created_by === user.data.user?.id
+  );
 
   return (
     <section className="md:px-8 px-4 md:py-6 pt-6 pb-20 md:w-full w-screen">
       {/* <PostProjectForm /> */}
-      {!data ? (
+      {createdProjects?.length === 0 ? (
         <div className="mx-auto w-[261px] flex flex-col gap-6">
           <img className="w-[124px] mx-auto" src={empty} alt="" />
           <div className="">
@@ -33,7 +33,7 @@ const CreatedProjects = () => {
         </div>
       ) : (
         <section className="grid md:grid-cols-3 min-h-full gap-8 md:max-w-full max-w-screen">
-          {data?.map((project) => {
+          {createdProjects?.map((project) => {
             return <ProjectCard data={project} />;
           })}
         </section>

@@ -1,12 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
-// import { fetchUserData } from "../utils/queries/fetch";
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { UserData } from "../utils/types/Types";
 import { supabase } from "../supabase/client";
-import { user } from "../utils/queries/fetch";
+import { fetchProjects, user } from "../utils/queries/fetch";
 
-const useFetchUserData = (): {
+const useAllFetch = (): {
   data: UserData;
   error: any;
+  projects: UseQueryResult<any[] | undefined, Error>;
 } => {
   const { data, error } = useQuery({
     queryKey: ["users"],
@@ -24,10 +24,12 @@ const useFetchUserData = (): {
     },
   });
 
-  if (error) console.error(error);
+  const projects = useQuery({
+    queryKey: ["projects"],
+    queryFn: fetchProjects,
+  });
 
-  //   console.log(data, error);
-  return { data, error };
+  return { data, error, projects };
 };
 
-export default useFetchUserData;
+export default useAllFetch;

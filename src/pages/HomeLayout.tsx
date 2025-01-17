@@ -3,18 +3,22 @@ import SideBar from "./HomePage/components/SideBar";
 import Header from "./HomePage/components/Header";
 import { useSidebar } from "../context/useSidebar";
 import { useEffect } from "react";
-import useFetchUserData from "../hooks/useFetchUserData";
-import { useUserData } from "../context/useUserData";
+import useAllFetch from "../hooks/useAllFetch";
+import { useProjects, useUserData } from "../context/useUserData";
 
 const Layout = () => {
   const { isOpen } = useSidebar();
   const { setUser } = useUserData();
+  const { setProjects } = useProjects();
 
-  const { data } = useFetchUserData();
+  const { data, projects } = useAllFetch();
 
   useEffect(() => {
     if (data) {
       setUser(data);
+    }
+    if (projects) {
+      setProjects(projects.data);
     }
   }, [data]);
 
