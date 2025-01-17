@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import logo from "/assets/Union.svg";
 import ProjectDetails from "./ProjectDetails";
 import Chip from "../../../components/Chip";
+// import newTag from "/assets/New tag.svg";
 
 type PropsType = {
   data: {
@@ -12,23 +13,32 @@ type PropsType = {
     industry: string;
     participants: string[];
     project_views: number;
-    requests: object[];
+    requests: {
+      userId: string;
+      status: string;
+    }[];
     required_roles: string[];
     required_stacks: string[];
     title: string;
     updated_at?: string;
     username?: string;
   };
+  fetching?: boolean;
 };
 
+const ProjectCard = ({ data, fetching }: PropsType) => {
+  // const [loading, setLoading] = useState<boolean>(true);
+  const [viewDetails, setViewDetails] = useState<boolean>(false);
 
+  const num = data.required_roles.length - 3;
 
-const ProjectCard = ({ data }) => {
-
-
+  const handleViewDetails = () => {
+    setViewDetails((v) => !v);
+  };
 
   return (
-    <div ey={data.title}
+    <div
+      key={data.username}
       className="h-[302px] md:max-w-[304px] max-w-[358px] text-gray950"
     >
       <div className="w-full h-[46px] relative">
@@ -38,7 +48,7 @@ const ProjectCard = ({ data }) => {
           className="absolute top-[5px] z-10 -left-[2px]"
         /> */}
         <img src={logo} alt="" className="absolute bottom-0 left-0" />
-        {!loading && (
+        {!fetching && (
           <div className="max-w-[99%] h-5 relative">
             {viewDetails && (
               <ProjectDetails state={handleViewDetails} data={data} />
@@ -53,7 +63,7 @@ const ProjectCard = ({ data }) => {
         )}
       </div>
       <div className="w-full h-[256px] relative bg-ash rounded-b-md border border-t-0 border-solid border-gray200">
-        {loading ? (
+        {fetching ? (
           <div className="h-full w-full flex justify-center items-center">
             <div className="w-10 h-10 border-4 border-gray-800 border-solid border-t-transparent rounded-full animate-spin"></div>
           </div>
@@ -67,12 +77,14 @@ const ProjectCard = ({ data }) => {
                 </p>
               </div>
               <div className="h-[95px] w-full flex flex-col gap-2">
-                <p className="text-xs font-normal text-gray700">Required</p>
-                <div className="h-[68px] grid grid-cols-3 gap-2">
-                  {data.required_roles.slice(0, 4).map((skill, index) => {
+                <p className="text-xs font-normal text-gray700">
+                  Required roles
+                </p>
+                <div className="h-[68px] flex flex-wrap gap-[4.5px]">
+                  {data.required_roles.slice(0, 3).map((skill, i) => {
                     return (
-                      <Chip key={index}>
-                        {skill.length > 7 ? `${skill.slice(0, 7)}...` : skill}
+                      <Chip key={i}>
+                        {skill.length > 11 ? `${skill.slice(0, 11)}...` : skill}
                       </Chip>
                     );
                   })}

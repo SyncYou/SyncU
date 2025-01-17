@@ -5,13 +5,18 @@ import { BsShare } from "react-icons/bs";
 import { HiOutlineBriefcase, HiOutlineLockClosed } from "react-icons/hi";
 import { PiTagChevron } from "react-icons/pi";
 import { FaRegCalendarMinus } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import Overlay from "../../../components/Overlay";
 import PrimaryButton from "../../../components/PrimaryButton";
 import SecondaryButton from "../../../components/SecondaryButton";
 import Chip from "../../../components/Chip";
-import { requestTojoinProject } from "../../../utils/SupabaseRequest";
+import {
+  requestTojoinProject,
+  sendNotification,
+} from "../../../utils/SupabaseRequest";
+import { getLoggedInUser } from "../../../utils/AuthRequest";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface PropsType {
   state: () => void;
@@ -23,7 +28,10 @@ interface PropsType {
     industry: string;
     participants: string[];
     project_views: number;
-    requests: object[];
+    requests: {
+      userId: string;
+      status: string;
+    }[];
     required_roles: string[];
     required_stacks: string[];
     title: string;
@@ -41,14 +49,15 @@ const ProjectDetails = ({ state, data }: PropsType) => {
     try {
       const req = await requestTojoinProject(data.id);
       if (req) {
-        // setIsRequested(true);
+        // await sendNotification()
         const showNotificationTimeout = setTimeout(() => {
           setShowNotifications(true);
         }, 1000);
 
         const hideNotificationTimeout = setTimeout(() => {
           setShowNotifications(false);
-        }, 5000);
+        }, 3000);
+        setIsRequested(true);
 
         return () => {
           clearTimeout(showNotificationTimeout);
@@ -61,7 +70,26 @@ const ProjectDetails = ({ state, data }: PropsType) => {
     // setIsRequested((i) => !i);
   };
 
-  async () => {};
+  const client = useQueryClient();
+
+  useEffect(() => {
+    const ifRequested = async () => {
+      const user = await getLoggedInUser();
+      const checkIfRequested = data.requests?.filter(
+        (req) => req.userId === user?.id
+      );
+      if (checkIfRequested.length != 0) {
+        setIsRequested(true);
+        await client.invalidateQueries({
+          queryKey: ["Created-projects"],
+        });
+      } else {
+        setIsRequested(false);
+      }
+    };
+
+    ifRequested();
+  }, []);
 
   return (
     <Overlay>
@@ -137,10 +165,9 @@ const ProjectDetails = ({ state, data }: PropsType) => {
             </div>
           </div>
           <div className="h-[99px] flex flex-col gap-3">
-            <p className="font-medium text-sm">Required Roles</p>
+            <p className="font-medium text-sm">Required</p>
             <div className="flex gap-[11px]">
-
-              {data.required_roles.map((skill) => {
+              {data.required_stacks.map((skill) => {
                 return <Chip>{skill}</Chip>;
               })}
             </div>
@@ -149,11 +176,9 @@ const ProjectDetails = ({ state, data }: PropsType) => {
             <p className="mb-3 text-gray950 font-medium">Description</p>
             <div className="text-[#374151] font-normal">
               <p>{data.description}</p>
-              <h2 className="mt-4">Core Features</h2>
               {/* <h2 className="mt-4">Core Features</h2>
               <ol className="list-decimal pl-4">
-                {/* This is to display the features for project descriptions */}
-                {/* {data.projectFeatures.map((feature) => {
+                {data.projectFeatures.map((feature) => {
                   return (
                     <li>
                       {feature.name}
@@ -164,8 +189,8 @@ const ProjectDetails = ({ state, data }: PropsType) => {
                       </ul>
                     </li>
                   );
-                })} */}
-              </ol>
+                })}
+              </ol> */}
             </div>
           </div>
         </div>
@@ -249,9 +274,9 @@ const ProjectDetails = ({ state, data }: PropsType) => {
             </div>
             <hr />
             <div className="h-[99px] flex flex-col gap-3">
-              <p className="font-medium text-sm">Required</p>
-              <div className="flex gap-[11px]">
-                {data.required_stacks.map((skill) => {
+              <p className="font-medium text-sm">Required roles</p>
+              <div className="flex flex-wrap gap-[11px]">
+                {data.required_roles.map((skill) => {
                   return <Chip>{skill}</Chip>;
                 })}
               </div>
@@ -270,9 +295,6 @@ const ProjectDetails = ({ state, data }: PropsType) => {
               <p className="mb-3 text-gray950 font-medium">Description</p>
               <div className="text-[#374151] font-normal">
                 <p>{data.description}</p>
-                <h2 className="mt-4">Core Features</h2>
-                <ol className="list-decimal pl-4">
-                  {/* {data.projectFeatures.map((feature) => {
                 {/* <h2 className="mt-4">Core Features</h2> */}
                 {/* <ol className="list-decimal pl-4">
                   {data.projectFeatures.map((feature) => {
@@ -286,8 +308,8 @@ const ProjectDetails = ({ state, data }: PropsType) => {
                         </ul>
                       </li>
                     );
-                  })} */}
-                </ol>
+                  })}
+                </ol> */}
               </div>
             </div>
           </div>
