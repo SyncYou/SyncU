@@ -4,7 +4,7 @@ import useToastNotifications from "./useToastNotifications";
 import { Skills } from "../components/Profile/Step4/Skills";
 import { sendUserDetails } from "../utils/SupabaseRequest";
 
-// Custom Hook to manage user skills logic
+
 export const useUserSkills = () => {
   const { userDetails, toggleSkill, removeSkill } = useUserStore();
   const [active, setActive] = useState(false);
