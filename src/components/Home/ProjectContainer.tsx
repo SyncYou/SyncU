@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { CardsData } from "../../../utils/types/Types";
+import { CardsData } from "../../utils/types/Types";
 import ProjectCard from "../../Project/components/ProjectCard";
-import useFetchProjectData from "../../../hooks/useFetchProjectData";
+import useFetchProjectData from "../../hooks/useFetchProjectData";
 
 const ProjectContainer = () => {
   const [data, setData] = useState<CardsData[]>([]);

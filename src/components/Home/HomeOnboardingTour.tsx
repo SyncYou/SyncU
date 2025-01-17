@@ -1,8 +1,8 @@
-import Overlay from "../../../components/Reuseables/Overlay";
+import Overlay from "../Reuseables/Overlay";
 import tourImage from "/assets/Illustration.svg";
-import PrimaryButton from "../../../components/Reuseables/PrimaryButton";
+import PrimaryButton from "../Reuseables/PrimaryButton";
 import { FiArrowRight } from "react-icons/fi";
-import SecondaryButton from "../../../components/Reuseables/SecondaryButton";
+import SecondaryButton from "../Reuseables/SecondaryButton";
 import Shepherd from "shepherd.js";
 import "shepherd.js/dist/css/shepherd.css";
 

@@ -1,6 +1,7 @@
+import CreatedProjects from "../../components/Projects/section/CreatedProjects";
+import RequestedProjects from "../../components/Projects/section/RequestedProjects";
 import { useUserProjects } from "../../context/useUserProject";
-import CreatedProjects from "./components/section/CreatedProjects";
-import RequestedProjects from "./components/section/RequestedProjects";
+
 
 const Projects = () => {
   const { currentView } = useUserProjects();

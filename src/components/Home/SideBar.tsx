@@ -9,9 +9,9 @@ import {
   FaRegHandshake,
   FaRegUser,
 } from "react-icons/fa";
-import { useSidebar } from "../../../context/useSidebar";
-import { useUserProgress } from "../../../context/useUserProgress";
-import { useUserData } from "../../../context/useUserData";
+import { useSidebar } from "../../context/useSidebar";
+import { useUserProgress } from "../../context/useUserProgress";
+import { useUserData } from "../../context/useUserData";
 
 const SideBar = () => {
   const { isOpen } = useSidebar();

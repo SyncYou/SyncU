@@ -13,7 +13,7 @@ import Username from "./components/Profile/Username.tsx";
 import ProfileLayout from "./Layout/ProfileLayout.tsx";
 import SetUpYourProfile from "./components/Profile/Set-up-your-profile.tsx";
 import Layout from "./pages/HomeLayout";
-import ProjectContainer from "./pages/Home/components/ProjectContainer.tsx";
+import ProjectContainer from "./components/Home/ProjectContainer.tsx";
 import Activity from "./pages/Activity/Activity.tsx";
 import Projects from "./pages/Project/Projects.tsx";
 import Profile from "./pages/Profile/Profile.tsx";
