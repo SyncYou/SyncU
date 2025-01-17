@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import dropdown from "/scroll.svg";
 import CountryModal from "../Reuseables/CountryModal";
 import { useUserStore } from "../../store/UseUserStore";
-import Nav_Btn from "../styles/Reuse/Nav_Btn";
+import Nav_Btn from "../Reuseables/Nav_Btn";
 import { sendUserDetails } from "../../utils/SupabaseRequest";
 import { getLoggedInUser } from "../../utils/AuthRequest";
 import useToastNotifications from "../../hooks/useToastNotifications";
@@ -74,24 +74,24 @@ const TellUsAboutYourself: React.FC = () => {
       try {
         const { error } = await sendUserDetails(userDetails);
         if (error) {
-            const showNotificationTimeout = setTimeout(() => {
-              setShowNotifications(true);
-              showToast("error", "An Error occurred", "Please try again.");
-            }, 1000);
+          const showNotificationTimeout = setTimeout(() => {
+            setShowNotifications(true);
+            showToast("error", "An Error occurred", "Please try again.");
+          }, 1000);
 
-            const hideNotificationTimeout = setTimeout(() => {
-              setShowNotifications(false);
-            }, 5000);
+          const hideNotificationTimeout = setTimeout(() => {
+            setShowNotifications(false);
+          }, 5000);
 
-            console.log(error);
+          console.log(error);
 
-            return () => {
-              clearTimeout(showNotificationTimeout);
-              clearTimeout(hideNotificationTimeout);
-            };
+          return () => {
+            clearTimeout(showNotificationTimeout);
+            clearTimeout(hideNotificationTimeout);
+          };
         }
         // console.log("Data sent to Supabase:", data);
-        return error ;
+        return error;
       } catch (error) {
         console.error("Error sending data to Supabase:", error);
       }
@@ -100,7 +100,7 @@ const TellUsAboutYourself: React.FC = () => {
 
   return (
     <>
-    {showNotifications && toast && (
+      {showNotifications && toast && (
         <div className="absolute top-0 flex items-center justify-center w-full z-50">
           <Toast
             type={toast.type}

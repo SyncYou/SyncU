@@ -4,7 +4,7 @@ import mail from "/mail.svg";
 import { signupWithOTP, verifyEmail } from "../../utils/AuthRequest";
 import { useNavigate } from "react-router";
 import { useUserStore } from "../../store/UseUserStore";
-import { Loading } from "../styles/Reuse/Loading";
+import { Loading } from "../Reuseables/Loading";
 import useToastNotifications from "../../hooks/useToastNotifications";
 import Toast from "../Reuseables/Toast";
 import { BsDot } from "react-icons/bs";
@@ -16,7 +16,6 @@ const Verifymail: React.FC = () => {
   const [showNotifications, setShowNotifications] = useState(false);
   const { toast, showToast } = useToastNotifications();
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
-
 
   const email: string | undefined =
     userDetails?.email ?? "thatguyvergil@gmail.com";
@@ -43,8 +42,6 @@ const Verifymail: React.FC = () => {
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>, idx: number) => {
-
-
       if (e.key === "Backspace" && otp[idx] === "") {
         if (idx > 0) {
           setOtp((prevOtp) => {
@@ -52,7 +49,7 @@ const Verifymail: React.FC = () => {
             newOtp[idx - 1] = "";
             return newOtp;
           });
-          
+
           inputRefs.current[idx - 1]?.focus();
         }
       }
@@ -169,12 +166,15 @@ const Verifymail: React.FC = () => {
                       onChange={(e) => handleChange(e, idx)}
                       onKeyDown={(e) => handleKeyDown(e, idx)}
                       className=" w-[4rem] h-[4rem] text-black focus:outline-none text-center border border-[#D6D6E0] rounded-lg bg-transparent z-50 text-3xl"
-                      />
-                      {!digit && (
-                      <label htmlFor={`input-${idx}`} className="absolute top-1/2 right-1/2 text-[2.7rem] translate-x-1/2 -translate-y-1/2">
+                    />
+                    {!digit && (
+                      <label
+                        htmlFor={`input-${idx}`}
+                        className="absolute top-1/2 right-1/2 text-[2.7rem] translate-x-1/2 -translate-y-1/2"
+                      >
                         <BsDot className="opacity-50" />
                       </label>
-                      )}
+                    )}
                   </div>
                 ))}
               </div>

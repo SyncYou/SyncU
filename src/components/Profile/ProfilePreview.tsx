@@ -7,18 +7,15 @@ import target from "/target.svg";
 import stack from "/stack-star.svg";
 import { useUserStore } from "../../store/UseUserStore";
 import { useLocation, useNavigate } from "react-router-dom";
-import Button from "../styles/Reuse/Button";
+import Button from "../Reuseables/Button";
 import { IoLocationOutline } from "react-icons/io5";
-import { Loading } from "../styles/Reuse/Loading";
+import { Loading } from "../Reuseables/Loading";
 
 const ProfilePreview: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { userDetails} = useUserStore();
+  const { userDetails } = useUserStore();
   const location = useLocation();
   const navigate = useNavigate();
-
- 
-
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -46,7 +43,9 @@ const ProfilePreview: React.FC = () => {
               src={userDetails.photoUrl || profile}
               alt="User Profile Image "
               className={`rounded-full object-cover border-4 border-[#E5E5E9] ${
-                userDetails.photoUrl ? "w-[108px] h-[108px]" : "w-[108px] h-[108px]"
+                userDetails.photoUrl
+                  ? "w-[108px] h-[108px]"
+                  : "w-[108px] h-[108px]"
               } `}
             />
           }

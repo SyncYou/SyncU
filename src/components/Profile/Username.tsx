@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Nav_Btn from "../styles/Reuse/Nav_Btn";
+import Nav_Btn from "../Reuseables/Nav_Btn";
 import { sendUserDetails } from "../../utils/SupabaseRequest";
 import { useUserStore } from "../../store/UseUserStore";
 import useToastNotifications from "../../hooks/useToastNotifications";
