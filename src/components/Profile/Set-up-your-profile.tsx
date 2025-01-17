@@ -1,35 +1,15 @@
-import React, { useEffect, useState } from "react";
-import Header from "../Reuseables/Header";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FaArrowRightLong } from "react-icons/fa6";
 import profile from "/signUp-imgs/profile.svg";
-import useToastNotifications from "../../hooks/useToastNotifications";
+import Header from "../Reuseables/Header";
 import Toast from "../Reuseables/Toast";
+import { useNotification } from "../../hooks/useNotification";
 
 const SetUpYourProfile: React.FC = () => {
   const navigate = useNavigate();
-  const [showNotifications, setShowNotifications] = useState(false);
-  const { toast, showToast } = useToastNotifications();
+  const { showNotifications, toast } = useNotification();
 
-  useEffect(() => {
-    const showNotificationTimeout = setTimeout(() => {
-      setShowNotifications(true);
-      showToast(
-        "success",
-        "Email Verified",
-        "Your email has been successfully verified."
-      );
-    }, 3000);
-
-    const hideNotificationTimeout = setTimeout(() => {
-      setShowNotifications(false);
-    }, 10000);
-
-    return () => {
-      clearTimeout(showNotificationTimeout);
-      clearTimeout(hideNotificationTimeout);
-    };
-  }, []);
   return (
     <section className="p-3">
       {showNotifications && toast && (

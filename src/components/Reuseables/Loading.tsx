@@ -1,14 +1,9 @@
-import React from 'react'
-import logo from '/Logo.svg'
+import Logo from '/signUp-imgs/Logo.svg'
 
-const Loading: React.FC = () => {
-  return (
-    <section className='bg_overlay flex items-center justify-center'>
-            <div className='bg-transparent'>
-                <img src={logo} alt="syncu" />
-            </div>
-    </section>
-  )
+export function Loading() {
+    return (
+        <div className='absolute top-0 bottom-0 left-0 right-0 overflow-hidden bg-loading z-20 backdrop-blur-[2px] flex items-center justify-center [&_img]:w-[63px] [&_img]:h-[63px] [&_img]:object-contain [&_img]:mb-[5%]'>
+            <img src={Logo} alt="synU" />
+        </div>
+    )
 }
-
-export default Loading
