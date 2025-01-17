@@ -11,10 +11,7 @@ import Overlay from "../../../components/Reuseables/Overlay";
 import PrimaryButton from "../../../components/Reuseables/PrimaryButton";
 import SecondaryButton from "../../../components/Reuseables/SecondaryButton";
 import Chip from "../../../components/Reuseables/Chip";
-import {
-  requestTojoinProject,
-  sendNotification,
-} from "../../../utils/SupabaseRequest";
+import { requestToJoinProject } from "../../../utils/SupabaseRequest";
 import { getLoggedInUser } from "../../../utils/AuthRequest";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -47,7 +44,7 @@ const ProjectDetails = ({ state, data }: PropsType) => {
 
   const handleRequest = async () => {
     try {
-      const req = await requestTojoinProject(data.id);
+      const req = await requestToJoinProject(data.id, data.created_by);
       if (req) {
         // await sendNotification()
         const showNotificationTimeout = setTimeout(() => {

@@ -1,6 +1,6 @@
-import { RealtimePostgresUpdatePayload } from "@supabase/supabase-js";
 import { supabase } from "../supabase/client";
-import { getLoggedInUser, getUserById } from "./AuthRequest";
+import { getLoggedInUser } from "./AuthRequest";
+import { fetchUserData } from "./queries/fetch";
 
 // Updating the user deatils(onboarding)
 export const sendUserDetails = async (userData: any) => {
@@ -46,111 +46,126 @@ export async function uploadAvatar(file: File) {
 }
 
 // Send request to join a project
-export const requestTojoinProject = async (projectId: any) => {
-  // get the project_id to send request to the database
-  // update the request column in the project with the loggedInUser(details)
-  // Notify the project owner about the request
-  // Listen for changes realtime on the table, when the request column changes
+export const requestToJoinProject = async (
+  projectId: string,
+  creatorId: string
+) => {
+  // Get the current user data
+  const user = await fetchUserData();
+  if (!user) {
+    console.error("User is not logged in");
+    return;
+  }
 
-  // Get the current loggedInUser
-  const user = await getLoggedInUser();
-
-  // Fetch the previous data from the database
-  const { data, error: fetchError } = await supabase
+  //  Fetch the previous data from the database
+  const { data: requests, error: fetchError } = await supabase
     .from("Projects")
     .select("requests")
     .eq("id", projectId)
     .single();
 
-  if (fetchError) {
-    console.error("Error fetching project data:", fetchError);
+  if (fetchError || !requests) {
+    console.error("Error fetching project:", fetchError);
     return;
   }
 
-  let updatedRequests = data?.requests || [];
-
-  // Update the the column with the name data
-  updatedRequests.push({
-    userId: user?.id,
+  // Prepare the new request object
+  const newRequest = {
+    userId: user.id,
     status: "pending",
-  });
+  };
 
-  // Sent the data to the database
-  const { error } = await supabase
+  const updatedRequests = [...(requests.requests || []), newRequest];
+
+  // Update the project with the new request
+  const { error: updateError } = await supabase
     .from("Projects")
     .update({ requests: updatedRequests })
     .eq("id", projectId);
 
-  if (error) {
-    console.error("Error updating project data:", error);
-    return false;
-  } else {
-    console.log("Successfully updated the project with the new request");
-    return true;
+  if (updateError) {
+    console.error("Error updating project with the new request:", updateError);
+    return;
+  }
+
+  // Prepare the notification for the project owner (creator)
+  const notificationMessage = `User ${user.firstname} has requested to join your project.`;
+  const notification = {
+    from: user.id,
+    to: creatorId,
+    status: "pending",
+    message: notificationMessage,
+  };
+
+  // Insert the notification into the 'Notifications' table
+  const { data, error: insertError } = await supabase
+    .from("Notifications")
+    .insert([notification]);
+
+  if (insertError) {
+    // Update the ui with the error toast
+    console.error("Error creating notification:", insertError);
+    return;
+  }
+
+  // Send notification to the project owner
+  await sendNotification(user.id, creatorId, notificationMessage);
+
+  // Update the Ui with the success toast
+  console.log("Request sent successfully and notification created:", data);
+  return true;
+};
+
+// Callback function to handle real-time updates
+const handleNotificationUpdate = async (payload: any) => {
+  // Payload contains the new notification data
+  const { from, to, status, message } = payload.new;
+  console.log("New Notification:", message);
+
+  if (status === "pending") {
+    // Handle pending notifications (e.g., user requesting to join)
+    console.log(`Notification from ${from} to ${to}: ${message}`);
   }
 };
 
-const handleUpdates = (
-  payload: RealtimePostgresUpdatePayload<{
-    [key: string]: any;
-  }>
-) => {
-  // replace with creatorId later
-  sendNotification(payload);
-  console.log("Change received!", payload);
-};
-
-// Realtime subsciption
+// Realtime subscription to notifications table
 const notificationChannel = supabase
   .channel("notifications")
   .on(
     "postgres_changes",
-    { event: "UPDATE", schema: "public", table: "Projects" },
-    handleUpdates
+    { event: "INSERT", schema: "public", table: "notifications" },
+    handleNotificationUpdate
   )
   .subscribe();
 
-// supabase.removeChannel(notificationChannel);
+// Unsubscribe from the channel when no longer needed (e.g., component unmounts)
+const unsubscribeFromNotifications = () => {
+  supabase.removeChannel(notificationChannel);
+};
 
-// Send notification to the project owner
+// Function to send notification to project owner (this is called within `requestToJoinProject`)
 export const sendNotification = async (
-  payload: RealtimePostgresUpdatePayload<{
-    [key: string]: any;
-  }>
+  from: string,
+  to: string,
+  message: string
 ) => {
-  console.log(payload);
-  // project owner Id
-  const creatorId = payload.new.created_by;
-  const user = await getUserById(creatorId);
+  const notification = {
+    from: from,
+    to: to,
+    status: "pending",
+    message: message,
+  };
 
-  // Fetch the User notifications
-  const { data, error: fetchError } = await supabase
-    .from("Users")
-    .select("notifications")
-    .eq("id", creatorId)
-    .single();
+  // Insert the notification into the 'notifications' table
+  const { data, error: insertError } = await supabase
+    .from("Notifications")
+    .insert([notification]);
 
-  if (fetchError) {
-    console.error("Error fetching project data:", fetchError);
+  if (insertError) {
+    console.error("Error sending notification:", insertError);
     return;
   }
 
-  let updateNotifications = data?.notifications || [];
-
-  // Update the notifications column
-  updateNotifications.push({
-    user: user,
-    status: "pending",
-  });
-
-  const { error } = await supabase
-    .from("Users")
-    .update({ notifications: updateNotifications })
-    .eq("id", creatorId);
-
-  if (error) {
-    console.error("Error updating project data:", error);
-  } else {
-    console.log("Successfully updated the project with the new request");
-  }
+  console.log("Notification sent successfully:", data);
+  return data;
 };
