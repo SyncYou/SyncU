@@ -3,10 +3,7 @@ import { supabase } from "../supabase/client";
 
 export const signupWithOTP = async (email: string): Promise<AuthResponse> => {
   const { data, error } = await supabase.auth.signInWithOtp({
-    email: email,
-    options: {
-      // shouldCreateUser: true,
-    },
+    email: email
   });
   return { data, error };
 };
@@ -27,7 +24,7 @@ export const signInWithGithub = async () => {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "github",
     options: {
-      redirectTo: `https://sync-u-staging.vercel.app/onboarding/tell-us-about-yourself`,
+      redirectTo: `http://localhost:5173/onboarding/tell-us-about-yourself`,
     },
   });
   return { data, error };
@@ -37,8 +34,27 @@ export const signInWithGoogle = async () => {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
-      redirectTo: `https://sync-u-staging.vercel.app/onboarding/tell-us-about-yourself`,
+      redirectTo: `http://localhost:5173/onboarding/tell-us-about-yourself`,
     },
   });
   return { data, error };
+};
+
+export const getLoggedInUser = async () => {
+  const {
+    data: { user: loggedInUser },
+  } = await supabase.auth.getUser();
+  return loggedInUser;
+};
+
+export const getUserById = async (userId: string) => {
+  const { data, error } = await supabase
+    .from("Users")
+    .select()
+    .eq("id", userId)
+    .single();
+
+  if (error) throw new Error();
+
+  return data;
 };

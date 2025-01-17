@@ -5,6 +5,12 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
 .active-tab {
   background: #ffffff;
 }

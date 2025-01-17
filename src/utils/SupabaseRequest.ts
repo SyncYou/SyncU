@@ -1,78 +1,156 @@
+import { RealtimePostgresUpdatePayload } from "@supabase/supabase-js";
 import { supabase } from "../supabase/client";
+import { getLoggedInUser, getUserById } from "./AuthRequest";
 
-const user = localStorage.getItem("newUser");
-let userId: string | undefined;
-
-if (user) {
-  try {
-    const parsedUser = JSON.parse(user);
-    if (parsedUser && parsedUser.id) {
-      userId = parsedUser.id as string;
-      console.log(userId)
-    }
-  } catch (error) {
-    console.error("Failed to parse user data:", error);
-  }
-}
-
-// console.log(userId);
-
+// Updating the user deatils(onboarding)
 export const sendUserDetails = async (userData: any) => {
+  const user = await getLoggedInUser();
   const { data, error } = await supabase
     .from("Users")
-    .upsert([{ id: userId, ...userData }], { onConflict: "id" });
+    .upsert([{ id: user?.id, ...userData }], { onConflict: "id" });
 
   if (error) {
     throw new Error(error.message);
   }
 
   console.log(data);
-  return {data, error};
+  return { data, error };
 };
 
-// export const updateUserDetails = async (data: any) => {
-//   const { data: response, error } = await supabase
-//     .from("Users")
-//     .upsert(data)
-//     .select();
-
-//   if (error) {
-//     throw new Error(error.message);
-//   }
-//   console.log(response);
-//   return response;
-// };
-
+// Upload images to supabase bucket
 export async function uploadAvatar(file: File) {
-  // Get the file extension
   const fileExt = file.name.split(".").pop();
-  // Generate a random file name
   const fileName = `${Math.random()}.${fileExt}`;
-  // Define the file path for uploading
   const filePath = `avatar/${fileName}`;
 
   try {
-    // Upload the file to Supabase storage
     const { error: uploadError } = await supabase.storage
-      .from("avatar") // Ensure this bucket exists in your Supabase project
+      .from("avatar")
       .upload(filePath, file);
 
-    // If there was an error during upload, throw it
     if (uploadError) {
       throw uploadError;
     }
 
-    // Retrieve the public URL of the uploaded file
     const {
       data: { publicUrl },
     } = supabase.storage.from("avatar").getPublicUrl(filePath);
 
-    console.log("Uploaded image URL:", publicUrl); // Log the URL for debugging
+    console.log("Uploaded image URL:", publicUrl);
 
-    // Return the public URL of the uploaded image
     return publicUrl;
   } catch (error) {
     console.error("Error uploading image:", error);
     throw new Error("Failed to upload avatar.");
   }
 }
+
+// Send request to join a project
+export const requestTojoinProject = async (projectId: any) => {
+  // get the project_id to send request to the database
+  // update the request column in the project with the loggedInUser(details)
+  // Notify the project owner about the request
+  // Listen for changes realtime on the table, when the request column changes
+
+  // Get the current loggedInUser
+  const user = await getLoggedInUser();
+
+  // Fetch the previous data from the database
+  const { data, error: fetchError } = await supabase
+    .from("Projects")
+    .select("requests")
+    .eq("id", projectId)
+    .single();
+
+  if (fetchError) {
+    console.error("Error fetching project data:", fetchError);
+    return;
+  }
+
+  let updatedRequests = data?.requests || [];
+
+  // Update the the column with the name data
+  updatedRequests.push({
+    userId: user?.id,
+    status: "pending",
+  });
+
+  // Sent the data to the database
+  const { error } = await supabase
+    .from("Projects")
+    .update({ requests: updatedRequests })
+    .eq("id", projectId);
+
+  if (error) {
+    console.error("Error updating project data:", error);
+    return false;
+  } else {
+    console.log("Successfully updated the project with the new request");
+    return true;
+  }
+};
+
+const handleUpdates = (
+  payload: RealtimePostgresUpdatePayload<{
+    [key: string]: any;
+  }>
+) => {
+  // replace with creatorId later
+  sendNotification(payload);
+  console.log("Change received!", payload);
+};
+
+// Realtime subsciption
+const notificationChannel = supabase
+  .channel("notifications")
+  .on(
+    "postgres_changes",
+    { event: "UPDATE", schema: "public", table: "Projects" },
+    handleUpdates
+  )
+  .subscribe();
+
+// supabase.removeChannel(notificationChannel);
+
+// Send notification to the project owner
+export const sendNotification = async (
+  payload: RealtimePostgresUpdatePayload<{
+    [key: string]: any;
+  }>
+) => {
+  console.log(payload);
+  // project owner Id
+  const creatorId = payload.new.created_by;
+  const user = await getUserById(creatorId);
+
+  // Fetch the User notifications
+  const { data, error: fetchError } = await supabase
+    .from("Users")
+    .select("notifications")
+    .eq("id", creatorId)
+    .single();
+
+  if (fetchError) {
+    console.error("Error fetching project data:", fetchError);
+    return;
+  }
+
+  let updateNotifications = data?.notifications || [];
+
+  // Update the notifications column
+  updateNotifications.push({
+    user: user,
+    status: "pending",
+  });
+
+  const { error } = await supabase
+    .from("Users")
+    .update({ notifications: updateNotifications })
+    .eq("id", creatorId);
+
+  if (error) {
+    console.error("Error updating project data:", error);
+  } else {
+    console.log("Successfully updated the project with the new request");
+  }
+};

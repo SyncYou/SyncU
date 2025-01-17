@@ -8,11 +8,13 @@ import ProjectTabs from "../../ProjectPage/components/ProjectTabs";
 import PrimaryButton from "../../../components/PrimaryButton";
 import { useSidebar } from "../../../context/useSidebar";
 import usePageHeader from "../../../hooks/usePageHeader";
+import { useUserData } from "../../../context/useUserData";
 
 const Header = () => {
   const location = useLocation();
   const { isOpen, change } = useSidebar();
   const { header, height } = usePageHeader();
+  const { user: userData } = useUserData();
 
   return (
     <header
@@ -38,7 +40,11 @@ const Header = () => {
             New Project
           </PrimaryButton>
           <NavLink to="/profile">
-            <img src={user} alt="user" />
+            <img
+              src={userData.photoUrl || user}
+              className="h-8 w-8 rounded-full"
+              alt="user"
+            />
           </NavLink>
         </div>
       </div>
@@ -50,7 +56,11 @@ const Header = () => {
             <FaSearch />
           </a>
           <NavLink to="/profile">
-            <img src={user} alt="user" />
+            <img
+              src={userData.photoUrl || user}
+              className="h-8 w-8 rounded-full"
+              alt="user"
+            />
           </NavLink>
         </div>
       </div>

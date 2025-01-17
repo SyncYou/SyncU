@@ -33,22 +33,24 @@ const SetUpYourProfile: React.FC = () => {
   return (
     <section className="p-3">
       {showNotifications && toast && (
-        <Toast
-          type={toast.type}
-          message={toast.message}
-          description={toast.description}
-        />
+        <div className="absolute top-0 flex items-center justify-center w-full z-50">
+          <Toast
+            type={toast.type}
+            message={toast.message}
+            description={toast.description}
+          />
+        </div>
       )}
       <div>
         <Header />
       </div>
       <div className="h-full w-full flex flex-col items-center justify-center mt-20 space-y-5">
-        <img className="my-5" src={profile} alt="" />
+        <img className="my-5 mb-1" src={profile} alt="" />
         <div>
-          <h2 className="font-semibold text-secondary text-center text-[28px] leading-[32px]">
+          <h2 className="font-semibold text-secondary text-center text-[2rem] leading-[32px]">
             Set up your profile🌟
           </h2>
-          <p className="text-gray text-center leading-6 font-normal text-[16px]">
+          <p className="text-gray text-center leading-6 font-normal text-[16px] my-5">
             Just a few more steps to go...
           </p>
         </div>

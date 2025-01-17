@@ -1,17 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-
- 
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
 
   theme: {
-   
     extend: {
       colors: {
-         alert: {
+        alert: {
           600: "#F04848",
         },
         ash: "#F5F5FAB2",
@@ -60,5 +54,5 @@ export default {
       },
     },
   },
-   plugins: [require("tailwind-scrollbar")],
+  plugins: [require("tailwind-scrollbar")],
 };

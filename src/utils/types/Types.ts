@@ -33,3 +33,18 @@ export interface CardsData {
   request: number;
   required_stacks: string[];
 }
+export interface ProjectType {
+  created_at: string;
+  created_by: string;
+  description: string;
+  id: string;
+  industry: string;
+  participants: string[];
+  project_views: number;
+  requests: number;
+  required_roles: string[];
+  required_stacks: string[];
+  title: string;
+  updated_at?: string;
+  username?: string;
+}

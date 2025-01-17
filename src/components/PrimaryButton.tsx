@@ -12,7 +12,7 @@ const PrimaryButton = ({ children, classes, disabled, onClick }: PropsType) => {
     <button
       disabled={disabled}
       onClick={onClick}
-      className={`bg-gray950 py-4 px-6 hover:text-gray500 flex items-center justify-center gap-2 rounded-full text-gray100 font-medium text-base ${classes} disabled:bg-white disabled:border disabled:opacity-65 disabled:text-opacity-80 disabled:text-gray700 disabled:border-gray200`}
+      className={`bg-gray950 hover:text-gray500 flex items-center justify-center rounded-full text-gray100 font-medium text-base ${classes} disabled:bg-white disabled:border disabled:opacity-65 disabled:text-opacity-80 disabled:text-gray700 disabled:border-gray200`}
     >
       {children}
     </button>

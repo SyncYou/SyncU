@@ -3,25 +3,32 @@ import logo from "/assets/Union.svg";
 import ProjectDetails from "./ProjectDetails";
 import Chip from "../../../components/Chip";
 
-const ProjectCard = ({ data }) => {
-  const [loading, setLoading] = useState<boolean>(true);
-  const [viewDetails, setViewDetails] = useState<boolean>(false);
-
-  const num = data.required_roles.length - 3;
-
-  useEffect(() => {
-    setInterval(() => {
-      setLoading(false);
-    }, 500);
-  }, []);
-
-  const handleViewDetails = () => {
-    setViewDetails((v) => !v);
+type PropsType = {
+  data: {
+    created_at: string;
+    created_by: string;
+    description: string;
+    id: string;
+    industry: string;
+    participants: string[];
+    project_views: number;
+    requests: object[];
+    required_roles: string[];
+    required_stacks: string[];
+    title: string;
+    updated_at?: string;
+    username?: string;
   };
+};
+
+
+
+const ProjectCard = ({ data }) => {
+
+
 
   return (
-    <div
-      key={data.title}
+    <div ey={data.title}
       className="h-[302px] md:max-w-[304px] max-w-[358px] text-gray950"
     >
       <div className="w-full h-[46px] relative">
@@ -70,7 +77,9 @@ const ProjectCard = ({ data }) => {
                     );
                   })}
 
-                  <span className="h-7 w-[43px] max-w-[131px] rounded-3xl bg-gray100 flex justify-center items-center">{`+${num}`}</span>
+                  {data.required_roles.length > 3 && (
+                    <span className="h-7 w-[43px] max-w-[131px] rounded-3xl bg-gray100 flex justify-center items-center">{`+${num}`}</span>
+                  )}
                 </div>
               </div>
             </div>
@@ -79,7 +88,7 @@ const ProjectCard = ({ data }) => {
               <div className="flex gap-2 items-center h-full">
                 <div className="h-6 w-6 bg-black rounded-full"></div>
                 <span className="text-gray950 font-normal text-xs">
-                  @{data.authorUsername}
+                  @{data.username}
                 </span>
                 <span className="text-gray300">-</span>
                 <span className="text-gray700 font-normal text-xs">

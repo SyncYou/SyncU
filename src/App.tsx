@@ -23,11 +23,11 @@ const client = new QueryClient();
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/onboarding",
     element: <RootLayout />,
     children: [
       {
-        path: "/onboarding",
+        path: "",
         element: <ProfileLayout />,
         children: [
           {
@@ -59,23 +59,23 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "",
+    path: "/",
     element: <Layout />,
     children: [
       {
-        path: "/collaborate",
+        path: "",
         element: <ProjectContainer />,
       },
       {
-        path: "/project",
+        path: "project",
         element: <Projects />,
       },
       {
-        path: "/alert",
+        path: "alert",
         element: <Activity />,
       },
       {
-        path: "/profile",
+        path: "profile",
         element: <Profile />,
       },
     ],

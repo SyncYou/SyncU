@@ -12,6 +12,8 @@ interface UserDetails {
   stacks: string[];
 }
 
+
+
 interface UserStore {
   userDetails: UserDetails;
   currentStep: number; 
@@ -41,7 +43,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
         [key]: value,
       },
     })),
-
+    
   setCurrentStep: (step) =>
     set(() => ({
       currentStep: step,
