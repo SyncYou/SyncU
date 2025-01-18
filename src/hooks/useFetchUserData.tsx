@@ -3,6 +3,7 @@ import { UserData } from "../utils/types/Types";
 import { supabase } from "../supabase/client";
 import { user } from "../utils/queries/fetch";
 
+// Fetch User Data
 const useFetchUserData = (): { data: UserData | null; error: any } => {
   const { data, error } = useQuery({
     queryKey: ["users", user.data.user?.id],

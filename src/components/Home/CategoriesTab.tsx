@@ -8,31 +8,31 @@ const CategoriesTab = () => {
   return (
     <div className="h-[75px] py-4 px-4 md:pl-8 md:pr-14 bg-white flex gap-6 font-medium border-b border-t border-gray200">
       <div className="flex gap-4 text-gray700 md:overflow-hidden overflow-x-scroll w-[509px]">
-        <div className="min-w-[89px] h-[43px] flex flex-col text-gray950 items-center justify-center">
+        <div className="min-w-[89px] h-[43px] flex flex-col text-gray950 items-center justify-center cursor-pointer">
           <div className="text-[20px]">
             <AiOutlineAppstore className="" />
           </div>
           All
         </div>
-        <div className="min-w-[89px] h-[43px] flex flex-col hover:text-gray950 items-center justify-center">
+        <div className="min-w-[89px] h-[43px] flex flex-col hover:text-gray950 items-center justify-center cursor-pointer">
           <div className="text-[20px]">
             <FaVectorSquare className="" />
           </div>
           Design
         </div>
-        <div className="min-w-[89px] h-[43px] flex flex-col hover:text-gray950 items-center justify-center">
+        <div className="min-w-[89px] h-[43px] flex flex-col hover:text-gray950 items-center justify-center cursor-pointer">
           <div className="text-[20px]">
             <FiCode className="" />
           </div>
           Engineering
         </div>
-        <div className="min-w-[89px] h-[43px] flex flex-col hover:text-gray950 items-center justify-center">
+        <div className="min-w-[89px] h-[43px] flex flex-col hover:text-gray950 items-center justify-center cursor-pointer">
           <div className="text-[20px]">
             <BsEmojiSmile className="" />
           </div>
           Product
         </div>
-        <div className="min-w-[89px] h-[43px] flex flex-col hover:text-gray950 items-center justify-center">
+        <div className="min-w-[89px] h-[43px] flex flex-col hover:text-gray950 items-center justify-center cursor-pointer">
           <div className="text-[20px]">
             <BiBarChart className="" />
           </div>

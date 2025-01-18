@@ -54,6 +54,7 @@ const useUpdateUsername = (initialUsername: string) => {
     setNewUsername,
     error,
     checking,
+    setChecking,
     success,
     handleUsernameChange,
     handleSave,

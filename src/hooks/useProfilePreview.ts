@@ -5,6 +5,7 @@ export const useProfilePreview = (isOnboardingFinishing: boolean) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
+  // Navigate to the homepage
   useEffect(() => {
     let timer: NodeJS.Timeout;
     if (isLoading) {

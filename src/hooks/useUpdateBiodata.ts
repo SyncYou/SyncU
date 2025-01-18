@@ -16,7 +16,7 @@ const useUpdateBiodata = (initialData: FormData) => {
 
   const client = useQueryClient();
 
-  // Mutation for updating biodata
+  // update the profile
   const { mutateAsync, isPending } = useMutation({
     mutationKey: ["updateBiodata"],
     mutationFn: updateBiodata,

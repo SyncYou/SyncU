@@ -17,7 +17,7 @@ const OTPInput: React.FC<OTPInputProps> = ({ otp, inputRefs, handleChange, handl
              ref={(el) => {
                 // Check if inputRefs.current is not null
                 if (inputRefs.current) {
-                  inputRefs.current[idx] = el; // Assign element to the ref array
+                  inputRefs.current[idx] = el;
                 }
               }}
             id={`input-${idx}`}

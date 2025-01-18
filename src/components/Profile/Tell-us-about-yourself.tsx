@@ -6,6 +6,7 @@ import Toast from "../Reuseables/Toast";
 import { useTellUsAboutYourself } from "../../hooks/useTellUsAboutYourself";
 
 const TellUsAboutYourself: React.FC = () => {
+  // Custom hook for the logic
   const {
     disable,
     showNotifications,
@@ -22,6 +23,7 @@ const TellUsAboutYourself: React.FC = () => {
 
   return (
     <>
+    {/* Notifications */}
       {showNotifications && toast && (
         <div className="absolute top-0 flex items-center justify-center w-full z-50">
           <Toast
@@ -103,6 +105,7 @@ const TellUsAboutYourself: React.FC = () => {
                 <img src={dropdown} alt="drop down" />
               </div>
 
+              {/* Country Modal */}
               {modalOpen && (
                 <CountryModal onSelectCountry={handleCountrySelect} />
               )}

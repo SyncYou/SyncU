@@ -2,6 +2,7 @@ import { supabase } from "../../supabase/client";
 
 export const user = await supabase.auth.getUser();
 
+// Fetch user details
 export async function fetchUserData() {
   try {
     const { data, error } = await supabase
@@ -19,6 +20,7 @@ export async function fetchUserData() {
   }
 }
 
+// Fetch projects created by the user
 export async function fetchUserCreatedProject() {
   try {
     const { data, error } = await supabase
@@ -35,6 +37,7 @@ export async function fetchUserCreatedProject() {
   }
 }
 
+// Fetch projects the user requested to join
 export async function fetchUserRequestedProject() {
   try {
     const { data, error } = await supabase.from("Projects").select();

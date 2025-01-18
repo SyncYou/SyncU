@@ -8,6 +8,7 @@ import ResendEmail from "./ResendEmail";
 import OTPInput from "./OTPInput";
 
 const Verifymail: React.FC = () => {
+  // Custom hook for handling the logic
   const {
     otp,
     inputRefs,
@@ -21,6 +22,7 @@ const Verifymail: React.FC = () => {
   } = useVerifyEmail();
 
   useEffect(() => {
+    // Trigger the submit if the input are filled up
     if (otp.every((digit) => digit !== "")) {
       handleSubmit();
     }
@@ -28,6 +30,7 @@ const Verifymail: React.FC = () => {
 
   return (
     <>
+    {/* Show notifications */}
       {showNotifications && toast && (
         <div className="absolute top-0 flex items-center justify-center w-full z-50">
           <Toast
@@ -70,6 +73,7 @@ const Verifymail: React.FC = () => {
           <ResendEmail handleResendEmail={handleResendEmail} />
         </div>
       </section>
+      {/* Loading UI */}
       {isLoading && <Loading />}
     </>
   );

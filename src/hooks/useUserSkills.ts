@@ -17,6 +17,7 @@ export const useUserSkills = () => {
   const [showNotifications, setShowNotifications] = useState(false);
   const { toast, showToast } = useToastNotifications();
 
+  // Form validation
   const valid =
     userDetails.firstName.trim() !== "" &&
     userDetails.lastName.trim() !== "" &&
@@ -53,10 +54,12 @@ export const useUserSkills = () => {
     };
   }, []);
 
+  // Filter a skill
   const filteredSkills = Skills.filter((item) =>
     item.skill.toLowerCase().includes(search.toLowerCase())
   );
 
+  // Add a skill
   function handleSkillClick(skill: string) {
     toggleSkill(skill);
     setShowModal(false);
@@ -66,6 +69,7 @@ export const useUserSkills = () => {
 
 
 
+  // Remove a skill
   function handleRemoveSkill(skill: string) {
     removeSkill(skill);
     setIsSearching(false);

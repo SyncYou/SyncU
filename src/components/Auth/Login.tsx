@@ -11,6 +11,7 @@ import Toast from "../Reuseables/Toast";
 import { useSignup } from "../../hooks/useSignup";
 
 const Login: React.FC = () => {
+  // Custom hook for handling the logic
   const {
     register,
     handleSubmit,
@@ -24,6 +25,7 @@ const Login: React.FC = () => {
   
   return (
     <>
+    {/* Show notifications */}
       {showNotifications && toast && (
         <div className="absolute top-0 flex items-center justify-center w-full z-50">
           <Toast
@@ -90,6 +92,7 @@ const Login: React.FC = () => {
           </form>
         </div>
       </section>
+      {/* Loading UI */}
       {isSubmitting && <Loading />}
     </>
   );

@@ -27,12 +27,14 @@ export const useSignup = () => {
     mode: "onChange",
   });
 
+  // Check if the email is valid
   const email = watch("email");
 
   useEffect(() => {
     setDisable(!isValid || !email);
   }, [email, isValid]);
 
+  // Handle form submission and send user details
   const handleSignup = async (data: any) => {
     const { email } = data;
     if (email) {

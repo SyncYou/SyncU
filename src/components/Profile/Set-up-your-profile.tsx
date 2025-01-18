@@ -12,6 +12,7 @@ const SetUpYourProfile: React.FC = () => {
 
   return (
     <section className="p-3">
+      {/* Notifications */}
       {showNotifications && toast && (
         <div className="absolute top-0 flex items-center justify-center w-full z-50">
           <Toast

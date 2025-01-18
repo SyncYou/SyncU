@@ -8,17 +8,10 @@ import { useUserData } from "../../../context/useUserData";
 import Behance from "/assets/Behance.svg";
 import useUpdatePortfolioLinks from "../../../hooks/useUpdatePortfolioLinks";
 
-// interface Links {
-//   name: string;
-//   url: string;
-// }
-
 const PortfolioLinks = () => {
-  // Custom Hooks
+  // Custom hook to update portfolioLinks
   const { user } = useUserData();
   const { links } = user;
-
-  // State
   const {
     error,
     portfolioLink,
@@ -56,9 +49,6 @@ const PortfolioLinks = () => {
                     className="h-12 w-12 relative rounded-full cursor-pointer"
                   >
                     <img src={Behance} alt="" />
-                    {/* <div className="flex items-center justify-center rounded-full h-full w-full">
-                      <BiPlusCircle className="text-2xl text-white z-20" />
-                    </div> */}
                   </div>
                 );
               })}
@@ -77,7 +67,6 @@ const PortfolioLinks = () => {
                         <div className="h-[60px] w-[60px] bg-black rounded-lg border border-gray300"></div>
                         <div className="w-[363.5px] h-full relative">
                           <div className="absolute h-6 w-6 right-3 top-[18px]">
-                            {/* <BiCheckCircle className="w-full h-full text-success700" /> */}
                             <PiSpinner className="w-full h-full animate-spin" />
                           </div>
                           <input
@@ -105,6 +94,7 @@ const PortfolioLinks = () => {
                         className="text-[24px] my-auto cursor-pointer"
                       />
                     </div>
+                    {/* Display error */}
                     {error && (
                       <p className="text-alert-600 font-normal text-xs mt-1">
                         Enter a valid URL link.

@@ -29,7 +29,7 @@ export function Modal2({ handleSkillClick, filteredSkills }: Modal2Props) {
                                 onMouseEnter={() => setHoveredSkill(index)} 
                                 onMouseLeave={() => setHoveredSkill(null)}
                             >
-                                {skill.skill} {/* Displaying the skill name */}
+                                {skill.skill}
                             </li>
                         ))}
                     </ul>
