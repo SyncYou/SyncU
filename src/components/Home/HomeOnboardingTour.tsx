@@ -86,7 +86,6 @@ const HomeOnboardingTour = ({ tourState }: PropType) => {
 
   return (
     <Overlay>
-      {/* <div className=""></div> */}
       <div className="h-[600px] w-[513px] bg-white rounded-3xl">
         <img src={tourImage} className="mb-6 rounded-t-3xl" alt="" />
         <div className="w-full h-[320px] py-4">

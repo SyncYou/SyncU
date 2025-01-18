@@ -4,10 +4,9 @@ import { useUserData } from "../../../context/useUserData";
 import useUpdateSkills from "../../../hooks/useUpdateSkills";
 
 const Skills = () => {
-  // Custom Hooks
+  // Custom Hooks to update skills
   const { user } = useUserData();
   const { stacks } = user;
-
   const {
     newSkill,
     setNewSkill,

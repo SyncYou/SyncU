@@ -19,7 +19,7 @@ const useUpdatePortfolioLinks = (initialLinks: Links[]) => {
 
   const client = useQueryClient();
 
-  // Mutation for updating links
+  // update the portfolio links
   const { mutateAsync, error: mutationError } = useMutation({
     mutationKey: ["updateLinks"],
     mutationFn: updateLinks,

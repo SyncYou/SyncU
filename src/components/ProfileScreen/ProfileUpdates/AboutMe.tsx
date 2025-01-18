@@ -9,7 +9,7 @@ const AboutMe = () => {
   const { user } = useUserData();
   const { firstName, lastName, description, photoUrl } = user;
 
-  // States
+  // Custom hook for updating the biodata
   const {
     update,
     formData,

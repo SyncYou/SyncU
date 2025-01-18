@@ -5,6 +5,7 @@ import Toast from "../Reuseables/Toast";
 import { useUsername } from "../../hooks/useUsername";
 
 const Username: React.FC = () => {
+  // Custom hook for the logic
   const {
     showNotifications,
     toast,
@@ -15,6 +16,7 @@ const Username: React.FC = () => {
   } = useUsername();
   return (
     <>
+      {/* Notifications */}
       {showNotifications && toast && (
         <div className="absolute top-0 flex items-center justify-center w-full z-50">
           <Toast

@@ -15,7 +15,7 @@ const useVerifyEmail = () => {
   const [email, setEmail] = useState<string>("");
 
   useEffect(() => {
-    // Set the email from userDetails or fallback to a default value
+    // Set the email from userDetails
     const storedEmail = localStorage.getItem("userEmail");
     setEmail(userDetails?.email ?? storedEmail ?? "vergil@gmail.com");
 
@@ -63,7 +63,6 @@ const useVerifyEmail = () => {
     },
     [otp]
   );
-
 
   const handleSubmit = async () => {
     setIsLoading(true);

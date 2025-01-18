@@ -173,21 +173,6 @@ const ProjectDetails = ({ state, data }: PropsType) => {
             <p className="mb-3 text-gray950 font-medium">Description</p>
             <div className="text-[#374151] font-normal">
               <p>{data.description}</p>
-              {/* <h2 className="mt-4">Core Features</h2>
-              <ol className="list-decimal pl-4">
-                {data.projectFeatures.map((feature) => {
-                  return (
-                    <li>
-                      {feature.name}
-                      <ul className="list-disc pl-4  mb-5">
-                        {feature.details.map((detail) => (
-                          <li>{detail}</li>
-                        ))}
-                      </ul>
-                    </li>
-                  );
-                })}
-              </ol> */}
             </div>
           </div>
         </div>
@@ -292,21 +277,6 @@ const ProjectDetails = ({ state, data }: PropsType) => {
               <p className="mb-3 text-gray950 font-medium">Description</p>
               <div className="text-[#374151] font-normal">
                 <p>{data.description}</p>
-                {/* <h2 className="mt-4">Core Features</h2> */}
-                {/* <ol className="list-decimal pl-4">
-                  {data.projectFeatures.map((feature) => {
-                    return (
-                      <li>
-                        {feature.name}
-                        <ul className="list-disc pl-4  mb-5">
-                          {feature.details.map((detail) => (
-                            <li>{detail}</li>
-                          ))}
-                        </ul>
-                      </li>
-                    );
-                  })}
-                </ol> */}
               </div>
             </div>
           </div>

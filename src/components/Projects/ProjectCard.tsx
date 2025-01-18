@@ -27,7 +27,6 @@ type PropsType = {
 };
 
 const ProjectCard = ({ data, fetching }: PropsType) => {
-  // const [loading, setLoading] = useState<boolean>(true);
   const [viewDetails, setViewDetails] = useState<boolean>(false);
 
   const num = data.required_roles.length - 3;
@@ -42,11 +41,6 @@ const ProjectCard = ({ data, fetching }: PropsType) => {
       className="h-[302px] md:max-w-[304px] max-w-[358px] text-gray950"
     >
       <div className="w-full h-[46px] relative">
-        {/* <img
-          src={newTag}
-          alt=""
-          className="absolute top-[5px] z-10 -left-[2px]"
-        /> */}
         <img src={logo} alt="" className="absolute bottom-0 left-0" />
         {!fetching && (
           <div className="max-w-[99%] h-5 relative">

@@ -139,8 +139,8 @@ const notificationChannel = supabase
   .subscribe();
 
 // Unsubscribe from the channel when no longer needed (e.g., component unmounts)
-const unsubscribeFromNotifications = () => {
-  supabase.removeChannel(notificationChannel);
+export const unsubscribeFromNotifications = async () => {
+  await supabase.removeChannel(notificationChannel);
 };
 
 // Function to send notification to project owner (this is called within `requestToJoinProject`)

@@ -3,6 +3,7 @@ import { UserData } from "../utils/types/Types";
 import { supabase } from "../supabase/client";
 import { user } from "../utils/queries/fetch";
 
+// Fetch User Data
 const useFetchUserData = (): { data: UserData | null; error: any } => {
   const { data, error } = useQuery({
     queryKey: ["users", user.data.user?.id],
@@ -11,7 +12,7 @@ const useFetchUserData = (): { data: UserData | null; error: any } => {
         .from("Users")
         .select()
         .eq("id", user.data.user?.id)
-        .single(); 
+        .single();
 
       if (supabaseError) {
         throw new Error(supabaseError.message);
@@ -19,7 +20,6 @@ const useFetchUserData = (): { data: UserData | null; error: any } => {
 
       return data;
     },
-   
   });
 
   return { data, error };

@@ -1,25 +1,33 @@
-import React from 'react';
-import { BsDot } from 'react-icons/bs';
+import React from "react";
+import { BsDot } from "react-icons/bs";
 
 interface OTPInputProps {
   otp: string[];
   inputRefs: React.RefObject<(HTMLInputElement | null)[]>;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>, idx: number) => void;
-  handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>, idx: number) => void;
+  handleKeyDown: (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    idx: number
+  ) => void;
 }
 
-const OTPInput: React.FC<OTPInputProps> = ({ otp, inputRefs, handleChange, handleKeyDown }) => {
+const OTPInput: React.FC<OTPInputProps> = ({
+  otp,
+  inputRefs,
+  handleChange,
+  handleKeyDown,
+}) => {
   return (
     <div className="flex gap-2 mt-10 p-2">
       {otp.map((digit, idx) => (
         <div key={idx} className="w-fit h-fit relative">
           <input
-             ref={(el) => {
-                // Check if inputRefs.current is not null
-                if (inputRefs.current) {
-                  inputRefs.current[idx] = el; // Assign element to the ref array
-                }
-              }}
+            ref={(el) => {
+              // Check if inputRefs.current is not null
+              if (inputRefs.current) {
+                inputRefs.current[idx] = el;
+              }
+            }}
             id={`input-${idx}`}
             type="password"
             inputMode="numeric"

@@ -8,7 +8,6 @@ import { userSchema } from "../schema/userSchema";
 import { signupWithOTP } from "../utils/AuthRequest";
 import { User } from "../types/user";
 
-
 export const useSignup = () => {
   const navigate = useNavigate();
   const [disable, setDisable] = useState(true);
@@ -27,12 +26,14 @@ export const useSignup = () => {
     mode: "onChange",
   });
 
+  // Check if the email is valid
   const email = watch("email");
 
   useEffect(() => {
     setDisable(!isValid || !email);
   }, [email, isValid]);
 
+  // Handle form submission and send user details
   const handleSignup = async (data: any) => {
     const { email } = data;
     if (email) {
@@ -59,7 +60,11 @@ export const useSignup = () => {
       if (response) {
         setTimeout(() => {
           setShowNotifications(true);
-          showToast("success", "Authentication Successful", "Check your email for your otp");
+          showToast(
+            "success",
+            "Authentication Successful",
+            "Check your email for your otp"
+          );
         }, 3000);
         setTimeout(() => {
           setShowNotifications(false);

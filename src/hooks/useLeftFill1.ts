@@ -4,7 +4,6 @@ import useToastNotifications from "./useToastNotifications";
 import { Niches } from "../components/Profile/Step3/Niches";
 import { sendUserDetails } from "../utils/SupabaseRequest";
 
-
 export const useLeftFill1 = () => {
   const { userDetails, setUserDetails } = useUserStore();
   const [checked, setChecked] = useState<number | null>(null);

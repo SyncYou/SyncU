@@ -6,14 +6,14 @@ import { useUserData } from "../../../context/useUserData";
 import useUpdateUsername from "../../../hooks/useUpdateUsername";
 
 const Username = () => {
-  // Custom Hooks
+  // Custom Hooks to update username
   const { user } = useUserData();
   const { username } = user;
-
   const {
     newUsername,
     error,
     checking,
+    setChecking,
     success,
     setNewUsername,
     mutateAsync,
@@ -42,7 +42,10 @@ const Username = () => {
                 name="username"
                 id="username"
                 value={newUsername}
-                onChange={(e) => setNewUsername(e.target.value)}
+                onChange={(e) => {
+                  setChecking(true);
+                  setNewUsername(e.target.value);
+                }}
                 className={`h-[60px] w-full text-gray800 ${
                   error && "border-alert-600 focus:border-alert-600"
                 } font-normal text-base pt-4 px-3 outline-none focus:drop-shadow-md border rounded-lg border-gray300 focus:border-brand400`}
@@ -54,6 +57,7 @@ const Username = () => {
                 username
               </label>
             </div>
+            {/* Check for the username in the database */}
             {checking && (
               <span className="font-normal text-sm text-gray800">
                 checking username.....

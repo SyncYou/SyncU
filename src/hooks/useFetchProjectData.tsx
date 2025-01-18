@@ -1,5 +1,6 @@
 import { supabase } from "../supabase/client";
 
+// Fetch Projects Data
 const useFetchProjectData = async () => {
   const { data, error } = await supabase.from("Projects").select("*");
   if (error) {

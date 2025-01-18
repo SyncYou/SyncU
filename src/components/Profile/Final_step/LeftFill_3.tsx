@@ -26,7 +26,6 @@ export function LeftFill_3() {
     isValid,
   } = useProfileImage();
 
-
   return (
     <>
       {showNotifications && toast && (
