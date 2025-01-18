@@ -17,10 +17,10 @@ const Layout = () => {
     if (data) {
       setUser(data);
     }
-    if (projects) {
+    if (projects.data) {
       setProjects(projects.data);
     }
-  }, [data]);
+  }, [data, projects.data]);
 
   return (
     <main>

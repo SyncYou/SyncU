@@ -34,7 +34,7 @@ const ProjectCard = ({ data, fetching }: PropsType) => {
         {!fetching && (
           <div className="max-w-[99%] h-5 relative">
             {viewDetails && (
-              <ProjectDetails state={handleViewDetails} projectId={data.id} />
+              <ProjectDetails state={handleViewDetails} data={data} />
             )}
             <div
               onClick={handleViewDetails}

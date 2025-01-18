@@ -1,6 +1,6 @@
 import { FiSend } from "react-icons/fi";
 import x from "/assets/X.svg";
-import slack from "/assets/slack.svg";
+import Slack from "/assets/slack.svg";
 import { BsShare } from "react-icons/bs";
 import { HiOutlineBriefcase, HiOutlineLockClosed } from "react-icons/hi";
 import { PiTagChevron } from "react-icons/pi";
@@ -12,15 +12,16 @@ import PrimaryButton from "../../../components/PrimaryButton";
 import SecondaryButton from "../../../components/SecondaryButton";
 import Chip from "../../../components/Chip";
 import { requestTojoinProject } from "../../../utils/SupabaseRequest";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchProject, user } from "../../../utils/queries/fetch";
+import { useQueryClient } from "@tanstack/react-query";
+import { user } from "../../../utils/queries/fetch";
+import { ProjectType } from "../../../utils/types/Types";
 
 interface PropsType {
   state: () => void;
-  projectId: string;
+  data: ProjectType;
 }
 
-const ProjectDetails = ({ state, projectId }: PropsType) => {
+const ProjectDetails = ({ state, data }: PropsType) => {
   const [showNotifications, setShowNotifications] = useState<boolean>(false);
   const [currentView, setCurrentView] = useState<string>("About");
 
@@ -52,14 +53,6 @@ const ProjectDetails = ({ state, projectId }: PropsType) => {
       console.error(error);
     }
   };
-
-  const { data } = useQuery({
-    queryKey: ["project-details"],
-    queryFn: async () => {
-      const project = await fetchProject(projectId);
-      return project;
-    },
-  });
 
   return (
     <Overlay>
@@ -188,22 +181,26 @@ const ProjectDetails = ({ state, projectId }: PropsType) => {
               </SecondaryButton>
             )}
             {data?.requests.filter((req) => req.userId === user.data.user?.id)
-              .length === 1 ? (
-              <SecondaryButton
-                onClick={handleRequest}
-                classes="h-10 min-w-[146px]"
-              >
-                Withdraw Request
-              </SecondaryButton>
-            ) : (
-              <PrimaryButton
-                onClick={handleRequest}
-                classes="h-10 min-w-[146px]"
-              >
-                Send Request
-                <FiSend />
-              </PrimaryButton>
-            )}
+              .length === 1 &&
+              data?.created_by != user.data.user?.id && (
+                <SecondaryButton
+                  onClick={handleRequest}
+                  classes="h-10 min-w-[146px]"
+                >
+                  Withdraw Request
+                </SecondaryButton>
+              )}
+            {data?.requests.filter((req) => req.userId === user.data.user?.id)
+              .length === 0 &&
+              data?.created_by != user.data.user?.id && (
+                <PrimaryButton
+                  onClick={handleRequest}
+                  classes="h-10 min-w-[146px]"
+                >
+                  Send Request
+                  <FiSend />
+                </PrimaryButton>
+              )}
 
             <div className="w-20 h-[32px] flex gap-4 my-auto">
               <button className="w-[32px] h-[32px] rounded-[80px] border-[0.4px] border-gray200">
@@ -258,21 +255,6 @@ const ProjectDetails = ({ state, projectId }: PropsType) => {
               <p className="mb-3 text-gray950 font-medium">Description</p>
               <div className="text-[#374151] font-normal">
                 <p>{data?.description}</p>
-                {/* <h2 className="mt-4">Core Features</h2> */}
-                {/* <ol className="list-decimal pl-4">
-                  {data?.projectFeatures.map((feature) => {
-                    return (
-                      <li>
-                        {feature.name}
-                        <ul className="list-disc pl-4  mb-5">
-                          {feature.details.map((detail) => (
-                            <li>{detail}</li>
-                          ))}
-                        </ul>
-                      </li>
-                    );
-                  })}
-                </ol> */}
               </div>
             </div>
           </div>
@@ -284,8 +266,12 @@ const ProjectDetails = ({ state, projectId }: PropsType) => {
               </p>
               <div className="w-full h-10 flex justify-between items-center">
                 <div className="flex gap-2 items-center">
-                  <img className="" src={slack} alt="" />
-                  <span className="text-gray950 font-medium">Slack</span>
+                  {data.workspace.name === "Slack" && (
+                    <img className="" src={Slack} alt="" />
+                  )}
+                  <span className="text-gray950 font-medium">
+                    {data.workspace.name}
+                  </span>
                 </div>
                 <button className="flex items-center gap-2 opacity-65 border border-gray200 py-2 px-4 rounded-full h-10 w-[84px]">
                   <HiOutlineLockClosed />

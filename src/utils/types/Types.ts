@@ -41,4 +41,5 @@ export interface ProjectType {
   title: string;
   updated_at?: string;
   username?: string;
+  workspace: { name: string; url: string };
 }
