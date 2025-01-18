@@ -1,8 +1,8 @@
 import { PiArrowSquareOut } from "react-icons/pi";
-import Overlay from "../../../components/Reuseables/Overlay";
-import PrimaryButton from "../../../components/Reuseables/PrimaryButton";
-import SecondaryButton from "../../../components/Reuseables/SecondaryButton";
 import X from "/assets/X.svg";
+import PrimaryButton from "../Reuseables/PrimaryButton";
+import SecondaryButton from "../Reuseables/SecondaryButton";
+import Overlay from "../Reuseables/Overlay";
 
 const ProjectAcceptanceModal = () => {
   return (

@@ -1,7 +1,7 @@
 import { PiSortAscending } from "react-icons/pi";
-import SecondaryButton from "../../../components/Reuseables/SecondaryButton";
-import { useUserProjects } from "../../../context/useUserProject";
-import Chip from "../../../components/Reuseables/Chip";
+import { useUserProjects } from "../../context/useUserProject";
+import Chip from "../Reuseables/Chip";
+import SecondaryButton from "../Reuseables/SecondaryButton";
 
 const ProjectTabs = () => {
   const { currentView, setCurrentView } = useUserProjects();

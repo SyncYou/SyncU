@@ -1,7 +1,7 @@
 import empty from "/assets/Empty.svg";
 import { useQuery } from "@tanstack/react-query";
-import { fetchUserRequestedProject } from "../../../../utils/queries/fetch";
 import ProjectCard from "../ProjectCard";
+import { fetchUserRequestedProject } from "../../../utils/queries/fetch";
 
 const RequestedProjects = () => {
   const { data, error } = useQuery({

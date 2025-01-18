@@ -1,7 +1,6 @@
 import TellUsAboutYourself from "./components/Profile/Tell-us-about-yourself";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
-import "./components/styles/ScrollBar.css";
 import RootLayout from "./Layout/RootLayout.js";
 import { User_LeftFill1 } from "./components/Profile/Step3/User_LeftFill1.tsx";
 import { LeftFill_2 } from "./components/Profile/Step4/LeftFill_2.tsx";

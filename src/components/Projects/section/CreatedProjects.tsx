@@ -1,9 +1,9 @@
 import { FiPlus } from "react-icons/fi";
 import empty from "/assets/Empty.svg";
-import SecondaryButton from "../../../../components/Reuseables/SecondaryButton";
 import { useQuery } from "@tanstack/react-query";
-import { fetchUserCreatedProject } from "../../../../utils/queries/fetch";
 import ProjectCard from "../ProjectCard";
+import { fetchUserCreatedProject } from "../../../utils/queries/fetch";
+import SecondaryButton from "../../Reuseables/SecondaryButton";
 
 const CreatedProjects = () => {
   const { data, error } = useQuery({
