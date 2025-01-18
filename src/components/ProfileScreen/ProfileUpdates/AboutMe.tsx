@@ -1,10 +1,8 @@
-import { ChangeEvent, useState } from "react";
 import ProfileImageUpdate from "../ProfileImageUpdate";
 import SecondaryButton from "../../Reuseables/SecondaryButton";
 import PrimaryButton from "../../Reuseables/PrimaryButton";
 import { useUserData } from "../../../context/useUserData";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateBiodata } from "../../../utils/queries/update";
+import useUpdateBiodata from "../../../hooks/useUpdateBiodata";
 
 const AboutMe = () => {
   // Custom Hooks
@@ -12,38 +10,17 @@ const AboutMe = () => {
   const { firstName, lastName, description, photoUrl } = user;
 
   // States
-  const [update, setUpdate] = useState(false);
-  const [formData, setFormData] = useState({
-    firstName: firstName,
-    lastName: lastName,
+  const {
+    update,
+    formData,
+    handleFormData,
+    handleUpdateModal,
+    mutateAsync,
+    isPending,
+  } = useUpdateBiodata({
+    firstName,
+    lastName,
     aboutMe: description,
-  });
-
-  // Functions
-  const handleFormData = (
-    e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-  ) => {
-    const { value, name } = e.target;
-    setFormData((formData) => ({
-      ...formData,
-      [name]: value,
-    }));
-  };
-  const handleUpdateModal = () => {
-    setUpdate((h) => !h);
-  };
-
-  // Queries
-  const client = useQueryClient();
-
-  const { mutateAsync, isPending } = useMutation({
-    mutationKey: ["updateBiodata"],
-    mutationFn: updateBiodata,
-    onSuccess: () => {
-      client.invalidateQueries({
-        queryKey: ["users"],
-      });
-    },
   });
 
   return (

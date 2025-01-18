@@ -2,40 +2,23 @@ import SecondaryButton from "../../Reuseables/SecondaryButton";
 import PrimaryButton from "../../Reuseables/PrimaryButton";
 import { BiCheckCircle } from "react-icons/bi";
 import { PiSpinner } from "react-icons/pi";
-import { useEffect, useState } from "react";
 import { useUserData } from "../../../context/useUserData";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateUsername } from "../../../utils/queries/update";
+import useUpdateUsername from "../../../hooks/useUpdateUsername";
 
 const Username = () => {
   // Custom Hooks
   const { user } = useUserData();
   const { username } = user;
 
-  // State
-  const [newUsername, setNewUsername] = useState(username);
-  const [error, setError] = useState(false);
-  const [checking, setChecking] = useState(false);
-  const [success, setSuccess] = useState(false);
-
-  // Queries
-  const client = useQueryClient();
-
-  useEffect(() => {
-    setError(false);
-    setChecking(false);
-    setSuccess(false);
-  }, []);
-
-  const { mutateAsync, isPending } = useMutation({
-    mutationKey: ["updateUsername"],
-    mutationFn: updateUsername,
-    onSuccess: () => {
-      client.invalidateQueries({
-        queryKey: ["users"],
-      });
-    },
-  });
+  const {
+    newUsername,
+    error,
+    checking,
+    success,
+    setNewUsername,
+    mutateAsync,
+    isPending,
+  } = useUpdateUsername(username);
 
   return (
     <div className="flex flex-col gap-6 pt-6 h-[622px] w-full">
