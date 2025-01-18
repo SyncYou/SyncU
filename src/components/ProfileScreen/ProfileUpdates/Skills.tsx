@@ -1,52 +1,23 @@
 import SecondaryButton from "../../Reuseables/SecondaryButton";
 import PrimaryButton from "../../Reuseables/PrimaryButton";
 import { useUserData } from "../../../context/useUserData";
-import { useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateStacks } from "../../../utils/queries/update";
+import useUpdateSkills from "../../../hooks/useUpdateSkills";
 
 const Skills = () => {
   // Custom Hooks
   const { user } = useUserData();
   const { stacks } = user;
 
-  // States
-  const [newSkill, setNewSkill] = useState("");
-  const [suggestedSkills, setSuggestedSkills] = useState<string[]>([
-    "Motion design",
-    "Framer",
-    "Branding",
-    "Figma",
-    "Sketch",
-    "Adobe Photoshop",
-    "AutoCAD",
-    "Corel Draw",
-    "MS Packages",
-    "Sketch",
-  ]);
-  const [skills, setSkills] = useState([...stacks]);
-
-  // Functions
-  const addSkill = (text: string) => {
-    setSuggestedSkills((prev) => prev.filter((suggest) => suggest != text));
-    setSkills((prev) => (prev = [...prev, text]));
-  };
-  const removeSkill = (text: string) => {
-    setSkills((prev) => (prev = prev.filter((skill) => skill != text)));
-  };
-
-  // Queries
-  const client = useQueryClient();
-
-  const { mutateAsync, isPending } = useMutation({
-    mutationKey: ["updateStacks"],
-    mutationFn: updateStacks,
-    onSuccess: () => {
-      client.invalidateQueries({
-        queryKey: ["users"],
-      });
-    },
-  });
+  const {
+    newSkill,
+    setNewSkill,
+    suggestedSkills,
+    skills,
+    addSkill,
+    removeSkill,
+    isPending,
+    mutateAsync,
+  } = useUpdateSkills(stacks);
 
   return (
     <div className="flex flex-col gap-6 pt-6 h-[622px] w-full">

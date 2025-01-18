@@ -1,12 +1,14 @@
+import { FiPlus } from "react-icons/fi";
 import empty from "/assets/Empty.svg";
 import { useQuery } from "@tanstack/react-query";
-import { fetchUserRequestedProject } from "../../../../utils/queries/fetch";
 import ProjectCard from "../ProjectCard";
+import { fetchUserCreatedProject } from "../../../utils/queries/fetch";
+import SecondaryButton from "../../Reuseables/SecondaryButton";
 
-const RequestedProjects = () => {
+const CreatedProjects = () => {
   const { data, error } = useQuery({
-    queryKey: ["Requested-projects"],
-    queryFn: fetchUserRequestedProject,
+    queryKey: ["Created-projects"],
+    queryFn: fetchUserCreatedProject,
   });
 
   return (
@@ -22,6 +24,10 @@ const RequestedProjects = () => {
               Create a project to see them here.
             </p>
           </div>
+          <SecondaryButton classes="w-[177px] h-11 mx-auto">
+            <FiPlus />
+            New Project
+          </SecondaryButton>
         </div>
       ) : (
         <section className="grid md:grid-cols-3 min-h-full gap-8 md:max-w-full max-w-screen">
@@ -34,4 +40,4 @@ const RequestedProjects = () => {
   );
 };
 
-export default RequestedProjects;
+export default CreatedProjects;

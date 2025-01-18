@@ -24,14 +24,22 @@ export interface UserData {
 }
 
 export interface CardsData {
-  id: number;
-  title: string;
+  created_at: string;
+  created_by: string;
   description: string;
-  required_roles: string[];
+  id: string;
   industry: string;
+  participants: string[];
   project_views: number;
-  request: number;
+  requests: {
+    userId: string;
+    status: string;
+  }[];
+  required_roles: string[];
   required_stacks: string[];
+  title: string;
+  updated_at?: string;
+  username?: string;
 }
 export interface ProjectType {
   created_at: string;

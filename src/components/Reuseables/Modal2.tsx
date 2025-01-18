@@ -3,11 +3,11 @@ import { useState } from 'react';
 interface Skill {
     id: number;
     skill: string;
-    selected: boolean; // Ensure the `selected` property is added
+    selected: boolean;
 }
 
 interface Modal2Props {
-    handleSkillClick: (skill: string) => void; // This now expects a string (skill name)
+    handleSkillClick: (skill: string) => void;
     filteredSkills: Skill[]; 
 }
 

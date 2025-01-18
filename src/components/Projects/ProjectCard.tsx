@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import logo from "/assets/Union.svg";
 import ProjectDetails from "./ProjectDetails";
-import Chip from "../../../components/Reuseables/Chip";
+import Chip from "../Reuseables/Chip";
 // import newTag from "/assets/New tag.svg";
 
 type PropsType = {

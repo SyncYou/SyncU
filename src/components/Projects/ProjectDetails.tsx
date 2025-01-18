@@ -7,13 +7,13 @@ import { PiTagChevron } from "react-icons/pi";
 import { FaRegCalendarMinus } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { IoCheckmarkCircle } from "react-icons/io5";
-import Overlay from "../../../components/Reuseables/Overlay";
-import PrimaryButton from "../../../components/Reuseables/PrimaryButton";
-import SecondaryButton from "../../../components/Reuseables/SecondaryButton";
-import Chip from "../../../components/Reuseables/Chip";
-import { requestToJoinProject } from "../../../utils/SupabaseRequest";
-import { getLoggedInUser } from "../../../utils/AuthRequest";
 import { useQueryClient } from "@tanstack/react-query";
+import { requestToJoinProject } from "../../utils/SupabaseRequest";
+import { getLoggedInUser } from "../../utils/AuthRequest";
+import Overlay from "../Reuseables/Overlay";
+import SecondaryButton from "../Reuseables/SecondaryButton";
+import PrimaryButton from "../Reuseables/PrimaryButton";
+import Chip from "../Reuseables/Chip";
 
 interface PropsType {
   state: () => void;

@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
-import SideBar from "./Home/components/SideBar";
-import Header from "./Home/components/Header";
+import SideBar from "../components/Home/SideBar";
+import Header from "../components/Home/Header";
 import { useSidebar } from "../context/useSidebar";
 import { useEffect } from "react";
 import useFetchUserData from "../hooks/useFetchUserData";

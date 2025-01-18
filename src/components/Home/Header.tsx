@@ -4,11 +4,11 @@ import { FaSearch } from "react-icons/fa";
 import { NavLink, useLocation } from "react-router-dom";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import HomeTabs from "./HomeTabs";
-import ProjectTabs from "../../Project/components/ProjectTabs";
-import PrimaryButton from "../../../components/Reuseables/PrimaryButton";
-import { useSidebar } from "../../../context/useSidebar";
-import usePageHeader from "../../../hooks/usePageHeader";
-import { useUserData } from "../../../context/useUserData";
+import { useSidebar } from "../../context/useSidebar";
+import usePageHeader from "../../hooks/usePageHeader";
+import { useUserData } from "../../context/useUserData";
+import PrimaryButton from "../Reuseables/PrimaryButton";
+import ProjectTabs from "../Projects/ProjectTabs";
 
 const Header = () => {
   const location = useLocation();

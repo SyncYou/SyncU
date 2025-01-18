@@ -50,7 +50,7 @@ const Profile = () => {
               <img src={photoUrl} className="w-full rounded-full" alt="" />
             </div>
             <div className="flex gap-4">
-              <SecondaryButton classes="h-10 min-w-[129px] px-4 py-2">
+              <SecondaryButton onClick={handleProgressModal} classes="h-10 min-w-[129px] px-4 py-2">
                 Edit profile <HiPencilSquare />
               </SecondaryButton>
               <div className="h-10 w-10 cursor-pointer rounded-[100px] flex justify-center items-center border-[0.5px] border-gray300">

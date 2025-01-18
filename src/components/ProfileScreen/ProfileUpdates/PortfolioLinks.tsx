@@ -2,18 +2,16 @@ import SecondaryButton from "../../Reuseables/SecondaryButton";
 import PrimaryButton from "../../Reuseables/PrimaryButton";
 import { BiPlusCircle } from "react-icons/bi";
 import { PiSpinner } from "react-icons/pi";
-import { ChangeEvent, useState } from "react";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { MdDragIndicator } from "react-icons/md";
 import { useUserData } from "../../../context/useUserData";
 import Behance from "/assets/Behance.svg";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateLinks } from "../../../utils/queries/update";
+import useUpdatePortfolioLinks from "../../../hooks/useUpdatePortfolioLinks";
 
-interface Links {
-  name: string;
-  url: string;
-}
+// interface Links {
+//   name: string;
+//   url: string;
+// }
 
 const PortfolioLinks = () => {
   // Custom Hooks
@@ -21,60 +19,16 @@ const PortfolioLinks = () => {
   const { links } = user;
 
   // State
-  const [error, setError] = useState(false);
-  const [portfolioLink, setPortfolioLink] = useState<Links[]>(links);
-  const [suggestedLinks, setSuggestedLinks] = useState<Links[]>([
-    { name: "Behance", url: "www.behance.net" },
-    { name: "LinkedIn", url: "www.linkedIn.net" },
-    { name: "x", url: "www.x.net" },
-    { name: "fiverr", url: "www.fiverr.net" },
-  ]);
-
-  // Functions
-
-  const handleInputChange = (
-    e: ChangeEvent<HTMLInputElement>,
-    i: number,
-    link: Links
-  ) => {
-    let data = [...portfolioLink];
-    data[i] = {
-      name: link.name,
-      url: e.target.value,
-    };
-    setPortfolioLink(data);
-  };
-
-  const handleInputDelete = (i: number, link: Links) => {
-    if (
-      link.name === "Behance" ||
-      link.name === "x" ||
-      link.name === "LinkedIn" ||
-      link.name === "fiverr"
-    ) {
-      setSuggestedLinks([...suggestedLinks, link]);
-    }
-    const newLinks = portfolioLink.filter((_, index) => index != i);
-    setPortfolioLink(newLinks);
-  };
-
-  // Queries
-
-  const client = useQueryClient();
-
-  const { mutateAsync, error: mute } = useMutation({
-    mutationKey: ["updateLinks"],
-    mutationFn: updateLinks,
-    onSuccess: () => {
-      client.invalidateQueries({
-        queryKey: ["users"],
-      });
-    },
-    onError: () => {
-      setError(true);
-      console.log(mute);
-    },
-  });
+  const {
+    error,
+    portfolioLink,
+    suggestedLinks,
+    setPortfolioLink,
+    setSuggestedLinks,
+    mutateAsync,
+    handleInputChange,
+    handleInputDelete,
+  } = useUpdatePortfolioLinks(links);
 
   return (
     <div className="flex flex-col gap-6 pt-6 h-[622px] w-full">
