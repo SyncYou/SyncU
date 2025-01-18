@@ -26,11 +26,11 @@ const Verifymail: React.FC = () => {
     if (otp.every((digit) => digit !== "")) {
       handleSubmit();
     }
-  }, [otp, handleSubmit]); 
+  }, [otp, handleSubmit]);
 
   return (
     <>
-    {/* Show notifications */}
+      {/* Show notifications */}
       {showNotifications && toast && (
         <div className="absolute top-0 flex items-center justify-center w-full z-50">
           <Toast

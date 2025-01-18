@@ -16,7 +16,7 @@ export default function Nav_Btn({
   navTo,
   btn_Style,
   disabled,
-  handleRequest =  async () => {},
+  handleRequest = async () => {},
   showPrevious,
 }: Nav_BtnProps) {
   const { currentStep, setCurrentStep } = useUserStore();

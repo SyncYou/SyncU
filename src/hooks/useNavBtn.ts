@@ -7,7 +7,7 @@ export function useNavBtn<T>(
   disabled: boolean,
   currentStep: number,
   setCurrentStep: (step: number) => void,
-  handleRequest?: () => Promise<T>,
+  handleRequest?: () => Promise<T>
 ) {
   const navigate = useNavigate();
   const [showNotifications, setShowNotifications] = useState(false);

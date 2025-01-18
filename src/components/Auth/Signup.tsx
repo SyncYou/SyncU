@@ -6,7 +6,7 @@ import { LuMail } from "react-icons/lu";
 import ControlledInput from "../Reuseables/ControlledInput";
 import SocialButton from "../Reuseables/SocialButton";
 import ControlledButton from "../Reuseables/ControlledButton";
-import {Loading} from "../Reuseables/Loading";
+import { Loading } from "../Reuseables/Loading";
 import Toast from "../Reuseables/Toast";
 import { useSignup } from "../../hooks/useSignup";
 
@@ -25,7 +25,7 @@ const Signup: React.FC = () => {
 
   return (
     <>
-    {/* Show notifications */}
+      {/* Show notifications */}
       {showNotifications && toast && (
         <div className="absolute top-0 flex items-center justify-center w-full z-50">
           <Toast
@@ -64,7 +64,10 @@ const Signup: React.FC = () => {
               <hr className="w-full bg-[#E6E6F0]" />
             </div>
 
-            <form onSubmit={handleSubmit(handleSignup)} className="my-10 md:my-5">
+            <form
+              onSubmit={handleSubmit(handleSignup)}
+              className="my-10 md:my-5"
+            >
               <ControlledInput
                 name="email"
                 type="email"

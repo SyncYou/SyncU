@@ -23,7 +23,7 @@ const TellUsAboutYourself: React.FC = () => {
 
   return (
     <>
-    {/* Notifications */}
+      {/* Notifications */}
       {showNotifications && toast && (
         <div className="absolute top-0 flex items-center justify-center w-full z-50">
           <Toast

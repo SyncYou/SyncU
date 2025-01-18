@@ -43,10 +43,9 @@ const Username = () => {
                 id="username"
                 value={newUsername}
                 onChange={(e) => {
-                  setChecking(true)
-                  setNewUsername(e.target.value)
-                }
-                }
+                  setChecking(true);
+                  setNewUsername(e.target.value);
+                }}
                 className={`h-[60px] w-full text-gray800 ${
                   error && "border-alert-600 focus:border-alert-600"
                 } font-normal text-base pt-4 px-3 outline-none focus:drop-shadow-md border rounded-lg border-gray300 focus:border-brand400`}

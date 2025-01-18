@@ -64,7 +64,6 @@ const useVerifyEmail = () => {
     [otp]
   );
 
-
   const handleSubmit = async () => {
     setIsLoading(true);
     const otpString = otp.join("");

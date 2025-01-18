@@ -12,7 +12,7 @@ const useFetchUserData = (): { data: UserData | null; error: any } => {
         .from("Users")
         .select()
         .eq("id", user.data.user?.id)
-        .single(); 
+        .single();
 
       if (supabaseError) {
         throw new Error(supabaseError.message);
@@ -20,7 +20,6 @@ const useFetchUserData = (): { data: UserData | null; error: any } => {
 
       return data;
     },
-   
   });
 
   return { data, error };

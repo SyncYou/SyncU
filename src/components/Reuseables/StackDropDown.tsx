@@ -5,16 +5,20 @@ interface Area {
 }
 
 interface Stack {
-  areas: Area[]; 
+  areas: Area[];
 }
 
 interface StackDropDownProps {
-  style?: string; 
-  selectedStack: Stack | null; 
-  handleAreaClick: (area: string) => void; 
+  style?: string;
+  selectedStack: Stack | null;
+  handleAreaClick: (area: string) => void;
 }
 
-export function StackDropDown({ style, selectedStack, handleAreaClick }: StackDropDownProps) {
+export function StackDropDown({
+  style,
+  selectedStack,
+  handleAreaClick,
+}: StackDropDownProps) {
   return (
     <>
       <span
@@ -26,9 +30,7 @@ export function StackDropDown({ style, selectedStack, handleAreaClick }: StackDr
               key={index}
               className="flex items-center justify-center flex-col gap-[10px] w-full [&_p]:h-auto [&_p]:text-gray-800 [&_p]:text-base [&_p]:font-medium *:hover:bg-gray-100 [&_p]:hover:cursor-pointer *:w-full [&_p]:py-1 [&_p]:pl-3 [&_p]:rounded-[4px]"
             >
-              <p
-                onClick={() => handleAreaClick(areaObj.area)}
-              >
+              <p onClick={() => handleAreaClick(areaObj.area)}>
                 {areaObj.area}
               </p>
             </span>

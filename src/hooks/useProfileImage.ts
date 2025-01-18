@@ -3,7 +3,6 @@ import { useUserStore } from "../store/UseUserStore";
 import useToastNotifications from "./useToastNotifications";
 import { sendUserDetails, uploadAvatar } from "../utils/SupabaseRequest";
 
-
 export function useProfileImage() {
   const { userDetails, setUserDetails } = useUserStore();
   const { toast, showToast } = useToastNotifications();
@@ -23,7 +22,7 @@ export function useProfileImage() {
     userDetails.photoUrl !== "" &&
     userDetails.stacks.length > 0;
 
-    // Fetch user details from the localStorage
+  // Fetch user details from the localStorage
   useEffect(() => {
     localStorage.setItem("userDetails", JSON.stringify(userDetails));
   }, [userDetails, isValid]);

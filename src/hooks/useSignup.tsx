@@ -8,7 +8,6 @@ import { userSchema } from "../schema/userSchema";
 import { signupWithOTP } from "../utils/AuthRequest";
 import { User } from "../types/user";
 
-
 export const useSignup = () => {
   const navigate = useNavigate();
   const [disable, setDisable] = useState(true);
@@ -61,7 +60,11 @@ export const useSignup = () => {
       if (response) {
         setTimeout(() => {
           setShowNotifications(true);
-          showToast("success", "Authentication Successful", "Check your email for your otp");
+          showToast(
+            "success",
+            "Authentication Successful",
+            "Check your email for your otp"
+          );
         }, 3000);
         setTimeout(() => {
           setShowNotifications(false);

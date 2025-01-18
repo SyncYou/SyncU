@@ -16,8 +16,10 @@ const ProfilePreview: React.FC = () => {
   const { userDetails } = useUserStore();
   const location = useLocation();
   const isOnboardingFinishing = location.pathname === "/onboarding/finishing";
-  
-  const { isLoading, startCollaborationHandler } = useProfilePreview(isOnboardingFinishing);
+
+  const { isLoading, startCollaborationHandler } = useProfilePreview(
+    isOnboardingFinishing
+  );
 
   return (
     <section className="bg-[#ffffff] border border-[#E6E6F0] shadow-xl shadow-[#69696917] p-[30px] rounded-[24px] flex flex-col items-center justify-between w-[450px] mx-auto mt-6">
@@ -58,9 +60,7 @@ const ProfilePreview: React.FC = () => {
               </Button>
             </span>
           ) : (
-            <Button
-              style="text-[16px] w-full text-opacity-40 w-[284px] [&_img]:opacity-40 bg-white cursor-not-allowed"
-            >
+            <Button style="text-[16px] w-full text-opacity-40 w-[284px] [&_img]:opacity-40 bg-white cursor-not-allowed">
               <span>Start collaborating</span>
               <img src={Send} alt="send Icon" />
             </Button>
@@ -72,7 +72,9 @@ const ProfilePreview: React.FC = () => {
         <div className="flex items-center justify-between gap-2 w-full">
           <div className="flex items-center flex-1 gap-2">
             <IoLocationOutline />
-            <p className="text-gray font-medium leading-6 text-[14px]">Location</p>
+            <p className="text-gray font-medium leading-6 text-[14px]">
+              Location
+            </p>
           </div>
           <small className="text-secondary leading-4 font-medium">
             {userDetails.countryOfResidence}
@@ -82,7 +84,9 @@ const ProfilePreview: React.FC = () => {
         <div className="flex items-center justify-between gap-2 w-full">
           <div className="flex items-center flex-1 gap-2">
             <img src={target} alt="location icon" />
-            <p className="text-gray font-medium leading-6 text-[14px]">Area of expertise</p>
+            <p className="text-gray font-medium leading-6 text-[14px]">
+              Area of expertise
+            </p>
           </div>
           <small className="text-secondary leading-4 font-medium">
             {userDetails.areaOfExpertise || "N/A"}
@@ -92,7 +96,9 @@ const ProfilePreview: React.FC = () => {
         <div className="flex justify-between gap-2 w-full flex-col">
           <div className="flex items-center flex-1 gap-2">
             <img src={stack} alt="location icon" />
-            <p className="text-gray font-medium leading-6 text-[14px]">Skills/stacks</p>
+            <p className="text-gray font-medium leading-6 text-[14px]">
+              Skills/stacks
+            </p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
             {userDetails.stacks.map((skill, index) => (

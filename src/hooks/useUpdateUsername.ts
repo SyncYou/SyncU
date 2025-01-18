@@ -45,7 +45,7 @@ const useUpdateUsername = (initialUsername: string) => {
     // Example: Simulate an API call
     setTimeout(() => {
       setChecking(false);
-      setSuccess(true); 
+      setSuccess(true);
     }, 1000);
   };
 
@@ -61,7 +61,7 @@ const useUpdateUsername = (initialUsername: string) => {
     checkUsernameAvailability,
     isPending,
     isUsernameValid: initialUsername !== newUsername,
-    mutateAsync
+    mutateAsync,
   };
 };
 

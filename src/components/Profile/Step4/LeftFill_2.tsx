@@ -35,7 +35,6 @@ export function LeftFill_2() {
     handleRequest,
   } = useUserSkills();
 
-
   return (
     <>
       {showNotifications && toast && (

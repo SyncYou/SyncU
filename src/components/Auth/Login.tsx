@@ -6,7 +6,7 @@ import { LuMail } from "react-icons/lu";
 import ControlledInput from "../Reuseables/ControlledInput";
 import SocialButton from "../Reuseables/SocialButton";
 import ControlledButton from "../Reuseables/ControlledButton";
-import {Loading} from "../Reuseables/Loading";
+import { Loading } from "../Reuseables/Loading";
 import Toast from "../Reuseables/Toast";
 import { useSignup } from "../../hooks/useSignup";
 
@@ -22,10 +22,10 @@ const Login: React.FC = () => {
     toast,
     handleSignup,
   } = useSignup();
-  
+
   return (
     <>
-    {/* Show notifications */}
+      {/* Show notifications */}
       {showNotifications && toast && (
         <div className="absolute top-0 flex items-center justify-center w-full z-50">
           <Toast

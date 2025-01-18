@@ -20,9 +20,11 @@ export function Stack({
   const clicked = id === checked;
 
   function handleToggle() {
-    const newCheckedState = clicked ? null : id; // Toggle the checked state
+    // Toggle the checked state
+    const newCheckedState = clicked ? null : id;
     setChecked(newCheckedState);
-    setIsModalOpen(newCheckedState !== null); // Open the modal if a stack is selected
+    // Open the modal if a stack is selected
+    setIsModalOpen(newCheckedState !== null);
   }
 
   return (

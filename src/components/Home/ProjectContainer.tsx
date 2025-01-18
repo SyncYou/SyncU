@@ -3,7 +3,6 @@ import ProjectCard from "../Projects/ProjectCard";
 import { useQuery } from "@tanstack/react-query";
 
 const ProjectContainer = () => {
-
   const { data, error } = useQuery({
     queryKey: ["projects"],
     queryFn: useFetchProjectData,

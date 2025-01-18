@@ -1,6 +1,5 @@
 import { create } from "zustand";
 
-
 interface UserDetails {
   firstName: string;
   lastName: string;
@@ -12,11 +11,9 @@ interface UserDetails {
   stacks: string[];
 }
 
-
-
 interface UserStore {
   userDetails: UserDetails;
-  currentStep: number; 
+  currentStep: number;
   setUserDetails: (key: keyof UserDetails, value: string) => void;
   setCurrentStep: (step: number) => void;
   removeSkill: (skill: string) => void;
@@ -35,7 +32,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
     areaOfExpertise: "",
     stacks: ["N/A", "N/A", "N/A"],
   },
-  currentStep: 1, 
+  currentStep: 1,
   setUserDetails: (key, value) =>
     set((state) => ({
       userDetails: {
@@ -43,46 +40,41 @@ export const useUserStore = create<UserStore>((set, get) => ({
         [key]: value,
       },
     })),
-    
+
   setCurrentStep: (step) =>
     set(() => ({
       currentStep: step,
     })),
 
-    removeSkill: (skill: string) =>
-      set((state) => {
-        const updatedStack = state.userDetails.stacks.filter((item) => item !== skill);
+  removeSkill: (skill: string) =>
+    set((state) => {
+      const updatedStack = state.userDetails.stacks.filter(
+        (item) => item !== skill
+      );
+      return {
+        userDetails: { ...state.userDetails, stacks: updatedStack },
+      };
+    }),
+
+  toggleSkill: (skill) =>
+    set((state) => {
+      const { stacks } = state.userDetails;
+
+      if (stacks.includes(skill)) {
+        const updatedStack = stacks.filter((item) => item !== skill);
         return {
           userDetails: { ...state.userDetails, stacks: updatedStack },
         };
-      }),
+      }
 
-    toggleSkill: (skill) =>
-      set((state) => {
-        const { stacks } = state.userDetails;
-    
-        
-        if (stacks.includes(skill)) {
-          const updatedStack = stacks.filter((item) => item !== skill);
-          return {
-            userDetails: { ...state.userDetails, stacks: updatedStack },
-          };
-        }
-    
+      let updatedStack = [...stacks, skill];
 
-        let updatedStack = [...stacks, skill];
-    
+      updatedStack = updatedStack.filter((item) => item !== "N/A");
 
-        updatedStack = updatedStack.filter((item) => item !== "N/A");
-    
-        return {
-          userDetails: { ...state.userDetails, stacks: updatedStack },
-        };
-      }),
-    
-    
-    
+      return {
+        userDetails: { ...state.userDetails, stacks: updatedStack },
+      };
+    }),
 
-  isStackValid: () =>
-    get().userDetails.stacks.includes("N/A"), 
+  isStackValid: () => get().userDetails.stacks.includes("N/A"),
 }));
