@@ -102,7 +102,7 @@ const router = createBrowserRouter([
 const App = () => {
   return (
     <QueryClientProvider client={client}>
-      <RouterProvider router={router} />;
+      <RouterProvider router={router} />
     </QueryClientProvider>
   );
 };

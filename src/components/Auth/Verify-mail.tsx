@@ -144,14 +144,14 @@ const Verifymail: React.FC = () => {
             <div className="bg-[#ffffff]  max-w-[31.5rem] h-[24rem] rounded-2xl shadow-lg shadow-[#4242421A] p-10 flex flex-col items-center justify-between">
               <div className="flex flex-col items-center">
                 <img src={mail} alt="mail" />
-                <h2 className="text-secondary text-center text-[24px] leading-[32px] font-semibold my-5">
+                <h2 className="text-secondary text-center text-[32px] leading-[32px] font-semibold my-5">
                   Verify your email.
                 </h2>
               </div>
               <div className="px-8">
-                <p className="font-normal leading-6 text-center">
+                <p className="font-normal text-base text-[#5C5C66] leading-6 text-center">
                   Check your email inbox for the code that was sent to
-                  <span className="font-medium"> {email}.</span>
+                  <span className="text-black font-semibold"> {email}.</span>
                 </p>
               </div>
 
@@ -161,7 +161,6 @@ const Verifymail: React.FC = () => {
                     <input
                       ref={(el) => (inputRefs.current[idx] = el)}
                       id={`input-${idx}`}
-                      type="password"
                       inputMode="numeric"
                       aria-label={`Digit ${idx + 1} of OTP`}
                       maxLength={1}
@@ -172,7 +171,7 @@ const Verifymail: React.FC = () => {
                       />
                       {!digit && (
                       <label htmlFor={`input-${idx}`} className="absolute top-1/2 right-1/2 text-[2.7rem] translate-x-1/2 -translate-y-1/2">
-                        <BsDot className="opacity-50" />
+                        <BsDot className="opacity-30" />
                       </label>
                       )}
                   </div>

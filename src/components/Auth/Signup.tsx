@@ -155,7 +155,18 @@ const Signup: React.FC = () => {
                 />
               </div>
               <div className="flex items-center gap-5 w-full">
-                <input type="checkbox" name="check" />
+                <label className="relative flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    name="check"
+                    className="peer appearance-none border border-[#D5D7DA] w-4 h-4 rounded-[0.3rem] 
+                              focus:outline-none cursor-pointer checked:border-[#7F56D9] checked:bg-transparent"
+                  />
+                  <span className="absolute inset-0 flex items-center justify-center text-[#7F56D9] text-sm invisible peer-checked:visible">
+                    ✔
+                  </span>
+                </label>
+
                 <label
                   className="text-[#73737F] text-[14px] leading-5 flex-1"
                   htmlFor="check"
