@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Header from "../Reuseables/Header";
 import Google from "/google.svg";
 import github from "/github.svg";
@@ -6,100 +6,26 @@ import { LuMail } from "react-icons/lu";
 import ControlledInput from "../Reuseables/ControlledInput";
 import SocialButton from "../Reuseables/SocialButton";
 import ControlledButton from "../Reuseables/ControlledButton";
-import { userSchema } from "../../schema/userSchema";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { User } from "../../types/user";
-import { signupWithOTP } from "../../utils/AuthRequest";
-import { useNavigate } from "react-router";
-import Loading from "../Reuseables/Loading";
-import { useUserStore } from "../../store/UseUserStore";
-import useToastNotifications from "../../hooks/useToastNotifications";
+import { Loading } from "../Reuseables/Loading";
 import Toast from "../Reuseables/Toast";
+import { useSignup } from "../../hooks/useSignup";
 
 const Signup: React.FC = () => {
-  const navigate = useNavigate();
-  const [disable, setDisable] = useState(true);
-  const { setUserDetails } = useUserStore();
-  const [showNotifications, setShowNotifications] = useState(false);
-  const { toast, showToast } = useToastNotifications();
-
+  // Custom hook for hanlding the logic
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid, isSubmitting },
-    reset,
-    watch,
-  } = useForm<User>({
-    resolver: zodResolver(userSchema),
-    mode: "onChange",
-  });
-
-  const email = watch("email");
-
-  useEffect(() => {
-    setDisable(!isValid || !email);
-  }, [email, isValid]);
-
-  const handleSignup = async (data: any) => {
-    const { email } = data;
-    if (email) {
-      setDisable(false);
-    }
-    try {
-      setUserDetails("email", email);
-      localStorage.setItem("userEmail", email);
-
-      const { data: response, error } = await signupWithOTP(email);
-
-      if (error) {
-        const showNotificationTimeout = setTimeout(() => {
-          setShowNotifications(true);
-          showToast("error", "An Error occurred", "Please try again.");
-        }, 3000);
-
-        const hideNotificationTimeout = setTimeout(() => {
-          setShowNotifications(false);
-        }, 10000);
-
-        console.log(error);
-        return () => {
-          clearTimeout(showNotificationTimeout);
-          clearTimeout(hideNotificationTimeout);
-        };
-      }
-
-      if (response) {
-        const showNotificationTimeout = setTimeout(() => {
-          setShowNotifications(true);
-          showToast(
-            "success",
-            "Authentication Successful",
-            "Check your email for your otp"
-          );
-        }, 3000);
-
-        const hideNotificationTimeout = setTimeout(() => {
-          setShowNotifications(false);
-        }, 10000);
-
-        console.log(error);
-        navigate("/auth/verify-email");
-        console.log(response);
-        return () => {
-          clearTimeout(showNotificationTimeout);
-          clearTimeout(hideNotificationTimeout);
-        };
-      }
-
-      reset();
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    errors,
+    isSubmitting,
+    disable,
+    showNotifications,
+    toast,
+    handleSignup,
+  } = useSignup();
 
   return (
     <>
+      {/* Show notifications */}
       {showNotifications && toast && (
         <div className="absolute top-0 flex items-center justify-center w-full z-50">
           <Toast
@@ -138,7 +64,10 @@ const Signup: React.FC = () => {
               <hr className="w-full bg-[#E6E6F0]" />
             </div>
 
-            <form onSubmit={handleSubmit(handleSignup)} className="my-10 md:my-5">
+            <form
+              onSubmit={handleSubmit(handleSignup)}
+              className="my-10 md:my-5"
+            >
               <ControlledInput
                 name="email"
                 type="email"
@@ -178,6 +107,7 @@ const Signup: React.FC = () => {
           </div>
         </div>
       </section>
+      {/* Loading UI */}
       {isSubmitting && <Loading />}
     </>
   );

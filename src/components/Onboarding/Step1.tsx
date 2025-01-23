@@ -67,7 +67,10 @@ const Step1: React.FC<Props> = ({ handlePrevStep, handleNextStep }) => {
             <div className="w-3 h-3 rounded-full bg-[#F5F5FA]" />
             <div className="w-3 h-3 rounded-full border-[1.5px] border-[#96969c]" />
           </div>
-          <IoArrowForwardCircleOutline onClick={handleNextStep} className="cursor-pointer h-10 w-10 text-white" />
+          <IoArrowForwardCircleOutline
+            onClick={handleNextStep}
+            className="cursor-pointer h-10 w-10 text-white"
+          />
         </div>
       )}
     </section>

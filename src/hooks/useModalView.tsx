@@ -5,6 +5,7 @@ type ReturnValue = {
   handleModal: () => void;
 };
 
+// Handle Modal
 const useModalView = (): ReturnValue => {
   const [modal, setModal] = useState(false);
 

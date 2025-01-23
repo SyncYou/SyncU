@@ -1,89 +1,39 @@
-import React, { useState, useRef, useEffect } from "react";
+import React from "react";
 import dropdown from "/scroll.svg";
 import CountryModal from "../Reuseables/CountryModal";
-import { useUserStore } from "../../store/UseUserStore";
-import Nav_Btn from "../styles/Reuse/Nav_Btn";
-import { sendUserDetails } from "../../utils/SupabaseRequest";
-import { getLoggedInUser } from "../../utils/AuthRequest";
+import Nav_Btn from "../Reuseables/Nav_Btn";
+import Toast from "../Reuseables/Toast";
+import { useTellUsAboutYourself } from "../../hooks/useTellUsAboutYourself";
 
 const TellUsAboutYourself: React.FC = () => {
-  const [disable, setDisable] = useState(true);
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const { userDetails, setUserDetails } = useUserStore();
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setUserDetails(name as keyof typeof userDetails, value);
-  };
-
-  const handleCountryInputClick = () => {
-    setModalOpen(true);
-  };
-
-  const handleCountrySelect = (selectedCountry: string) => {
-    setUserDetails("countryOfResidence", selectedCountry);
-    setModalOpen(false);
-  };
-
-  const isValid =
-    userDetails.firstName.trim() !== "" &&
-    userDetails.lastName.trim() !== "" &&
-    userDetails.countryOfResidence.trim() !== "" &&
-    userDetails.firstName !== "N/A" &&
-    userDetails.lastName !== "N/A" &&
-    userDetails.countryOfResidence !== "N/A";
-
-  useEffect(() => {
-    localStorage.setItem("userDetails", JSON.stringify(userDetails));
-    setDisable(!isValid);
-  }, [userDetails, isValid]);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const user = await getLoggedInUser();
-      localStorage.setItem("loggedInUser", JSON.stringify(user));
-    };
-    fetchUser();
-  }, []);
-
-  useEffect(() => {
-    const storedUser = localStorage.getItem("loggedInUser");
-
-    if (storedUser) {
-      const loggedInUser = JSON.parse(storedUser);
-
-      if (loggedInUser?.email) {
-        setUserDetails("email", loggedInUser.email);
-      }
-      if (loggedInUser?.user_metadata?.name) {
-        const fullName = loggedInUser.user_metadata.name;
-        const [firstName, lastName] = fullName.split(" ");
-        setUserDetails("firstName", firstName);
-        setUserDetails("lastName", lastName);
-      }
-    }
-  }, [setUserDetails]);
-
-  const handleRequest = async () => {
-    if (isValid) {
-      try {
-        const { data, error } = await sendUserDetails(userDetails);
-        if (error) {
-          console.log(error);
-          throw new Error("An error occurred");
-        }
-        console.log("Data sent to Supabase:", data);
-        return { data, error };
-      } catch (error) {
-        console.error("Error sending data to Supabase:", error);
-      }
-    }
-  };
+  // Custom hook for the logic
+  const {
+    disable,
+    showNotifications,
+    toast,
+    inputRef,
+    userDetails,
+    isValid,
+    handleChange,
+    handleCountryInputClick,
+    handleCountrySelect,
+    handleRequest,
+    modalOpen,
+  } = useTellUsAboutYourself();
 
   return (
     <>
       <section className="mt-16 pl-4 pr-12">
+      {/* Notifications */}
+      {showNotifications && toast && (
+        <div className="absolute top-0 flex items-center justify-center w-full z-50">
+          <Toast
+            type={toast.type}
+            message={toast.message}
+            description={toast.description}
+          />
+        </div>
+      )}
         <div className="py-10 px-3 md:p-5 flex flex-col w-full">
           <small className="font-medium text-[14px] leading-5 text-[#8C8C99]">
             STEP 1 of 5
@@ -155,6 +105,7 @@ const TellUsAboutYourself: React.FC = () => {
                 <img src={dropdown} alt="drop down" />
               </div>
 
+              {/* Country Modal */}
               {modalOpen && (
                 <CountryModal onSelectCountry={handleCountrySelect} />
               )}

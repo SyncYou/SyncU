@@ -22,3 +22,37 @@ export interface UserData {
   links: Links[];
   stacks: string[];
 }
+
+export interface CardsData {
+  created_at: string;
+  created_by: string;
+  description: string;
+  id: string;
+  industry: string;
+  participants: string[];
+  project_views: number;
+  requests: {
+    userId: string;
+    status: string;
+  }[];
+  required_roles: string[];
+  required_stacks: string[];
+  title: string;
+  updated_at?: string;
+  username?: string;
+}
+export interface ProjectType {
+  created_at: string;
+  created_by: string;
+  description: string;
+  id: string;
+  industry: string;
+  participants: string[];
+  project_views: number;
+  requests: number;
+  required_roles: string[];
+  required_stacks: string[];
+  title: string;
+  updated_at?: string;
+  username?: string;
+}

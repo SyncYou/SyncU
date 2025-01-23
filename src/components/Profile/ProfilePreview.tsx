@@ -1,35 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import profile from "/signUp-imgs/profile.svg";
 import Send from "/signUp-imgs/Send.svg";
 import whiteSent from "/signUp-imgs/Send1.svg";
 import whiteShade from "/signUp-imgs/whiteShade.svg";
 import target from "/target.svg";
 import stack from "/stack-star.svg";
-import { useUserStore } from "../../store/UseUserStore";
-import { useLocation, useNavigate } from "react-router-dom";
-import Button from "../styles/Reuse/Button";
 import { IoLocationOutline } from "react-icons/io5";
-import { Loading } from "../styles/Reuse/Loading";
+import { Loading } from "../Reuseables/Loading";
+import Button from "../Reuseables/Button";
+import { useLocation } from "react-router-dom";
+import { useUserStore } from "../../store/UseUserStore";
+import { useProfilePreview } from "../../hooks/useProfilePreview";
 
 const ProfilePreview: React.FC = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { userDetails} = useUserStore();
+  const { userDetails } = useUserStore();
   const location = useLocation();
-  const navigate = useNavigate();
+  const isOnboardingFinishing = location.pathname === "/onboarding/finishing";
 
- 
-
-
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (isLoading) {
-      timer = setTimeout(() => {
-        navigate("/");
-      }, 5000);
-    }
-
-    return () => clearTimeout(timer);
-  }, [isLoading, navigate]);
+  const { isLoading, startCollaborationHandler } = useProfilePreview(
+    isOnboardingFinishing
+  );
 
   return (
     <section className="bg-[#ffffff] border border-[#E6E6F0] shadow-xl shadow-[#69696917] p-[30px] rounded-[24px] flex flex-col items-center justify-between w-[450px] h-[35rem] mx-auto mt-16">
@@ -41,15 +31,11 @@ const ProfilePreview: React.FC = () => {
               : ""
           }`}
         >
-          {
-            <img
-              src={userDetails.photoUrl || profile}
-              alt="User Profile Image "
-              className={`rounded-full object-cover border border-[#E5E5E9] ${
-                userDetails.photoUrl ? "w-[108px] h-[108px]" : "w-[108px] h-[108px]"
-              } `}
-            />
-          }
+          <img
+            src={userDetails.photoUrl || profile}
+            alt="User Profile Image"
+            className={`rounded-full object-cover border border-[#E5E5E9] w-[108px] h-[108px]`}
+          />
         </div>
         <div className=" my-4 font-semibold flex items-center flex-col justify-center gap-2">
           <h2 className=" text-secondary leading-[32px] text-[24px] text-center">
@@ -65,11 +51,11 @@ const ProfilePreview: React.FC = () => {
             {userDetails.username || '@username'}
           </small>
 
-          {location.pathname === "/onboarding/finishing" ? (
+          {isOnboardingFinishing ? (
             <span className="w-[284px] flex items-center justify-center bg-gradient-to-r from-[#F77FED] to-[#8D83F9] font-semibold rounded-full opacity-100 p-1">
               <Button
                 style="text-[16px] w-full relative border-none bg-gray-950 text-white"
-                onClick={() => setIsLoading(!isLoading)}
+                onClick={startCollaborationHandler}
               >
                 <>
                   <span>Start collaborating</span>
@@ -80,7 +66,7 @@ const ProfilePreview: React.FC = () => {
             </span>
           ) : (
             <Button style="text-[16px] w-full text-opacity-40 w-[284px] [&_img]:opacity-40 bg-white cursor-not-allowed">
-              <span>Start collaborating</span>{" "}
+              <span>Start collaborating</span>
               <img src={Send} alt="send Icon" />
             </Button>
           )}
@@ -133,6 +119,7 @@ const ProfilePreview: React.FC = () => {
           </div>
         </div>
       </div>
+
       {isLoading && <Loading />}
     </section>
   );

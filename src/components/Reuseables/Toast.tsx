@@ -4,9 +4,9 @@ import { IoCloseCircleSharp } from "react-icons/io5";
 import { IoIosWarning } from "react-icons/io";
 
 interface ToastProps {
-  type: "success" | "error" | "warning";
-  message: string;
-  description: string;
+  type?: "success" | "error" | "warning";
+  message?: string;
+  description?: string;
 }
 
 const Toast: React.FC<ToastProps> = ({ type, message, description }) => {
