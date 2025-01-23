@@ -2,7 +2,7 @@ import React from "react";
 import ProfilePreview from "../components/Profile/ProfilePreview";
 import Header from "../components/Reuseables/Header";
 import { Outlet, useLocation, useNavigate } from "react-router";
-import Button from "../components/styles/Reuse/Button";
+import Button from "../components/Reuseables/Button";
 import { BsArrowLeft } from "react-icons/bs";
 import { useUserStore } from "../store/UseUserStore";
 
@@ -27,7 +27,9 @@ const ProfileLayout: React.FC = () => {
             <Outlet />
           </div>
         )}
-        <div className={`${location.pathname !== '/onboarding/finishing' ? 'hidden' : 'block' } md:block w-full h-[100vh]  items-center justify-center border-l-[0.5px] border-[#D6D6E0] mt-10`}>
+        <div
+          className={`${location.pathname !== "/onboarding/finishing" ? "hidden" : "block"} md:block w-full h-[100vh]  items-center justify-center border-l-[0.5px] border-[#D6D6E0] mt-10`}
+        >
           <ProfilePreview />
 
           <div className="flex items-center justify-center w-full py-5">

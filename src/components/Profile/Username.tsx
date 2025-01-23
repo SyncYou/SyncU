@@ -1,68 +1,22 @@
-import React, { useEffect, useState } from "react";
-import Nav_Btn from "../styles/Reuse/Nav_Btn";
-import { sendUserDetails } from "../../utils/SupabaseRequest";
-import { useUserStore } from "../../store/UseUserStore";
-import useToastNotifications from "../../hooks/useToastNotifications";
+import React from "react";
+import Nav_Btn from "../Reuseables/Nav_Btn";
+
 import Toast from "../Reuseables/Toast";
+import { useUsername } from "../../hooks/useUsername";
 
 const Username: React.FC = () => {
-  const [disable, setDisable] = useState(true);
-  const { userDetails, setUserDetails } = useUserStore();
-  const [showNotifications, setShowNotifications] = useState(false);
-  const { toast, showToast } = useToastNotifications();
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setUserDetails(name as keyof typeof userDetails, value);
-  };
-
-  const isValid =
-    userDetails.firstName.trim() !== "" &&
-    userDetails.lastName.trim() !== "" &&
-    userDetails.countryOfResidence.trim() !== "" &&
-    userDetails.firstName !== "N/A" &&
-    userDetails.lastName !== "N/A" &&
-    userDetails.email !== "" &&
-    userDetails.countryOfResidence !== "N/A" &&
-    userDetails.username.trim() !== "";
-
-  useEffect(() => {
-    localStorage.setItem("userDetails", JSON.stringify(userDetails));
-    setDisable(!isValid);
-    console.log(disable);
-  }, [userDetails, isValid]);
-
-  const handleRequest = async () => {
-    if (isValid) {
-      try {
-        const { error } = await sendUserDetails(userDetails);
-        if (error) {
-          const showNotificationTimeout = setTimeout(() => {
-            setShowNotifications(true);
-            showToast("error", "An Error occurred", "Please try again.");
-          }, 1000);
-
-          const hideNotificationTimeout = setTimeout(() => {
-            setShowNotifications(false);
-          }, 5000);
-
-          console.log(error);
-
-          return () => {
-            clearTimeout(showNotificationTimeout);
-            clearTimeout(hideNotificationTimeout);
-          };
-        }
-        // console.log("Data sent to Supabase:", data);
-        return error;
-      } catch (error) {
-        console.error("Error sending data to Supabase:", error);
-      }
-    }
-  };
-
+  // Custom hook for the logic
+  const {
+    showNotifications,
+    toast,
+    isValid,
+    userDetails,
+    handleChange,
+    handleRequest,
+  } = useUsername();
   return (
     <>
+      {/* Notifications */}
       {showNotifications && toast && (
         <div className="absolute top-0 flex items-center justify-center w-full z-50">
           <Toast

@@ -85,7 +85,9 @@ const OnboardingLayout: React.FC = () => {
         <div className="flex-1 h-[100vh]">{desktopOnboardingSteps()}</div>
       </div>
       {/* mobile view */}
-      <div className="w-full h-[100vh] md:hidden">{mobileOnboardingSteps()}</div>
+      <div className="w-full h-[100vh] md:hidden">
+        {mobileOnboardingSteps()}
+      </div>
     </section>
   );
 };

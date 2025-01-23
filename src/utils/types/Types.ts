@@ -10,6 +10,7 @@ export interface BiodataFormData {
 }
 
 export interface UserData {
+  id: string;
   username: string;
   firstName: string;
   lastName: string;
@@ -21,9 +22,26 @@ export interface UserData {
   description: string;
   links: Links[];
   stacks: string[];
-  notifications: object[];
 }
 
+export interface CardsData {
+  created_at: string;
+  created_by: string;
+  description: string;
+  id: string;
+  industry: string;
+  participants: string[];
+  project_views: number;
+  requests: {
+    userId: string;
+    status: string;
+  }[];
+  required_roles: string[];
+  required_stacks: string[];
+  title: string;
+  updated_at?: string;
+  username?: string;
+}
 export interface ProjectType {
   created_at: string;
   created_by: string;
@@ -41,5 +59,38 @@ export interface ProjectType {
   title: string;
   updated_at?: string;
   username?: string;
-  workspace: { name: string; url: string };
+  workspace?: { name: string; url: string };
+}
+
+export interface NotificationType {
+  id: string;
+  from: string;
+  to: string;
+  status: string;
+  message: string;
+}
+
+export interface PostProjectFormType {
+  created_by?: string;
+  description: string;
+  industry: string;
+  participants: string[];
+  project_views: number;
+  requests: {
+    userId: string;
+    status: string;
+  }[];
+  required_roles: string[];
+  required_stacks: string[];
+  title: string;
+  updated_at?: Date;
+  username?: string;
+  workspace: { name: "Slack" | "Discord" | "Microsoft teams"; url: string };
+}
+
+export type WorkSpaceType = "Slack" | "Discord" | "Microsoft teams";
+
+export interface Request {
+  userId: string;
+  status: string;
 }

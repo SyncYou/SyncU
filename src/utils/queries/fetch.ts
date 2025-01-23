@@ -1,9 +1,9 @@
 import { supabase } from "../../supabase/client";
-import { ProjectType } from "../types/Types";
+import { ProjectType, UserData } from "../types/Types";
 
 export const user = await supabase.auth.getUser();
 
-export async function fetchUserData() {
+export async function fetchUserData(): Promise<UserData | undefined> {
   try {
     const { data, error } = await supabase
       .from("Users")
@@ -32,17 +32,3 @@ export async function fetchProjects(): Promise<ProjectType[] | undefined> {
     console.error(error);
   }
 }
-
-export const fetchProject = async (
-  projectId: string
-): Promise<ProjectType | undefined> => {
-  try {
-    const { data, error } = await supabase
-      .from("Projects")
-      .select()
-      .eq("id", projectId)
-      .single();
-
-    return data;
-  } catch (error) {}
-};
