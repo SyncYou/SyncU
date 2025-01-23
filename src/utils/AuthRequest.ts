@@ -1,6 +1,8 @@
 import { AuthResponse } from "@supabase/supabase-js";
 import { supabase } from "../supabase/client";
+import { UserData } from "./types/Types";
 
+// Signup with OTP
 // Signup with OTP
 export const signupWithOTP = async (email: string): Promise<AuthResponse> => {
   const { data, error } = await supabase.auth.signInWithOtp({
@@ -9,6 +11,7 @@ export const signupWithOTP = async (email: string): Promise<AuthResponse> => {
   return { data, error };
 };
 
+// Verify your email
 // Verify your email
 export const verifyEmail = async (email: string, token: string) => {
   const {
@@ -23,6 +26,7 @@ export const verifyEmail = async (email: string, token: string) => {
 };
 
 // Sign up with github
+// Sign up with github
 export const signInWithGithub = async () => {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "github",
@@ -34,6 +38,7 @@ export const signInWithGithub = async () => {
 };
 
 // Signup with google
+// Signup with google
 export const signInWithGoogle = async () => {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
@@ -44,6 +49,7 @@ export const signInWithGoogle = async () => {
   return { data, error };
 };
 
+// Fetch the loggedInUser
 // Fetch the loggedInUser
 export const getLoggedInUser = async () => {
   const {

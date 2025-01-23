@@ -1,4 +1,5 @@
 import { supabase } from "../../supabase/client";
+import { ProjectType, UserData } from "../types/Types";
 
 export const user = await supabase.auth.getUser();
 
@@ -23,10 +24,7 @@ export async function fetchUserData() {
 // Fetch projects created by the user
 export async function fetchUserCreatedProject() {
   try {
-    const { data, error } = await supabase
-      .from("Projects")
-      .select()
-      .eq("created_by", "9fe69c1c-5cac-4d49-b470-5f69559b03a3");
+    const { data, error } = await supabase.from("Projects").select();
 
     if (error) {
       throw new Error(error.message);

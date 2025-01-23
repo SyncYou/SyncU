@@ -3,24 +3,36 @@ import SideBar from "../components/Home/SideBar";
 import Header from "../components/Home/Header";
 import { useSidebar } from "../context/useSidebar";
 import { useEffect } from "react";
-import useFetchUserData from "../hooks/useFetchUserData";
-import { useUserData } from "../context/useUserData";
+import useFetchQueries from "../hooks/useFetchQueries";
+import { useAlerts, useProjects, useUserData } from "../context/useUserData";
+import { Loading } from "../components/Reuseables/Loading";
+import PostProjectForm from "../components/Projects/PostProjectForm";
 
 const Layout = () => {
   const { isOpen } = useSidebar();
   const { setUser } = useUserData();
+  const { setProjects } = useProjects();
+  const { setAlerts } = useAlerts();
 
-  const { data } = useFetchUserData();
+  const { userData, projects, notifications } = useFetchQueries();
 
   useEffect(() => {
-    if (data) {
-      setUser(data);
+    if (userData.data) {
+      setUser(userData.data);
     }
-  }, [data]);
+    if (projects.data) {
+      setProjects(projects.data);
+    }
+    if (notifications.data) {
+      setAlerts(notifications.data);
+    }
+  }, [userData.data, projects.data, notifications.data]);
 
   return (
     <main>
       <SideBar />
+      <PostProjectForm />
+      {projects.isLoading && <Loading />}
       <section
         className={`md:relative  ${
           isOpen ? "isOpen md:left-[239px]" : "isClosed md:left-[96px]"

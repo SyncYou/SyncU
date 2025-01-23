@@ -61,7 +61,7 @@ const PortfolioLinks = () => {
             <div className="flex flex-col gap-4 h-[350px] overflow-y-auto">
               {portfolioLink?.map((link, i) => {
                 return (
-                  <div className="">
+                  <div key={i} className="">
                     <div key={i} className="flex gap-3 h-[60px] w-[503.5px]">
                       <div className="flex gap-2">
                         <div className="h-[60px] w-[60px] bg-black rounded-lg border border-gray300"></div>

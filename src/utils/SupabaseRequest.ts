@@ -3,6 +3,10 @@ import { getLoggedInUser } from "./AuthRequest";
 import { fetchUserData } from "./queries/fetch";
 
 // Updating the user deatils(onboarding)
+import { getLoggedInUser } from "./AuthRequest";
+import { fetchUserData } from "./queries/fetch";
+
+// Updating the user deatils(onboarding)
 export const sendUserDetails = async (userData: any) => {
   const user = await getLoggedInUser();
   const { data, error } = await supabase
@@ -17,6 +21,7 @@ export const sendUserDetails = async (userData: any) => {
   return { data, error };
 };
 
+// Upload images to supabase bucket
 // Upload images to supabase bucket
 export async function uploadAvatar(file: File) {
   const fileExt = file.name.split(".").pop();
@@ -59,11 +64,27 @@ export const requestToJoinProject = async (
 
   //  Fetch the previous data from the database
   const { data: requests, error: fetchError } = await supabase
+// Send request to join a project
+export const requestToJoinProject = async (
+  projectId: string,
+  creatorId: string
+) => {
+  // Get the current user data
+  const user = await fetchUserData();
+  if (!user) {
+    console.error("User is not logged in");
+    return;
+  }
+
+  //  Fetch the previous data from the database
+  const { data: requests, error: fetchError } = await supabase
     .from("Projects")
     .select("requests")
     .eq("id", projectId)
     .single();
 
+  if (fetchError || !requests) {
+    console.error("Error fetching project:", fetchError);
   if (fetchError || !requests) {
     console.error("Error fetching project:", fetchError);
     return;
@@ -72,11 +93,19 @@ export const requestToJoinProject = async (
   // Prepare the new request object
   const newRequest = {
     userId: user.id,
+  // Prepare the new request object
+  const newRequest = {
+    userId: user.id,
     status: "pending",
   };
 
   const updatedRequests = [...(requests.requests || []), newRequest];
+  };
 
+  const updatedRequests = [...(requests.requests || []), newRequest];
+
+  // Update the project with the new request
+  const { error: updateError } = await supabase
   // Update the project with the new request
   const { error: updateError } = await supabase
     .from("Projects")
@@ -129,10 +158,15 @@ const handleNotificationUpdate = async (payload: any) => {
 };
 
 // Realtime subscription to notifications table
+// Realtime subscription to notifications table
 const notificationChannel = supabase
   .channel("notifications")
   .on(
     "postgres_changes",
+    { event: "INSERT", schema: "public", table: "notifications" },
+    handleNotificationUpdate
+  )
+  .subscribe();
     { event: "INSERT", schema: "public", table: "notifications" },
     handleNotificationUpdate
   )
@@ -144,7 +178,16 @@ export const unsubscribeFromNotifications = async () => {
 };
 
 // Function to send notification to project owner (this is called within `requestToJoinProject`)
+// Unsubscribe from the channel when no longer needed (e.g., component unmounts)
+export const unsubscribeFromNotifications = async () => {
+  await supabase.removeChannel(notificationChannel);
+};
+
+// Function to send notification to project owner (this is called within `requestToJoinProject`)
 export const sendNotification = async (
+  from: string,
+  to: string,
+  message: string
   from: string,
   to: string,
   message: string

@@ -1,8 +1,14 @@
 import React, { useEffect } from "react";
+import React, { useEffect } from "react";
 import Header from "../Reuseables/Header";
 import mail from "/mail.svg"; // Importing ResendEmail
 import { Loading } from "../Reuseables/Loading";
+import mail from "/mail.svg"; // Importing ResendEmail
+import { Loading } from "../Reuseables/Loading";
 import Toast from "../Reuseables/Toast";
+import useVerifyEmail from "../../hooks/useVerifyEmail"; // Importing the custom hook
+import ResendEmail from "./ResendEmail";
+import OTPInput from "./OTPInput";
 import useVerifyEmail from "../../hooks/useVerifyEmail"; // Importing the custom hook
 import ResendEmail from "./ResendEmail";
 import OTPInput from "./OTPInput";
@@ -20,16 +26,31 @@ const Verifymail: React.FC = () => {
     handleSubmit,
     handleResendEmail,
   } = useVerifyEmail();
+  // Custom hook for handling the logic
+  const {
+    otp,
+    inputRefs,
+    isLoading,
+    showNotifications,
+    toast,
+    handleChange,
+    handleKeyDown,
+    handleSubmit,
+    handleResendEmail,
+  } = useVerifyEmail();
 
   useEffect(() => {
+    // Trigger the submit if the input are filled up
     // Trigger the submit if the input are filled up
     if (otp.every((digit) => digit !== "")) {
       handleSubmit();
     }
   }, [otp, handleSubmit]);
+  }, [otp, handleSubmit]);
 
   return (
     <>
+      {/* Show notifications */}
       {/* Show notifications */}
       {showNotifications && toast && (
         <div className="absolute top-0 flex items-center justify-center w-full z-50">

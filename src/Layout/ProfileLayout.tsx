@@ -3,6 +3,7 @@ import ProfilePreview from "../components/Profile/ProfilePreview";
 import Header from "../components/Reuseables/Header";
 import { Outlet, useLocation, useNavigate } from "react-router";
 import Button from "../components/Reuseables/Button";
+import Button from "../components/Reuseables/Button";
 import { BsArrowLeft } from "react-icons/bs";
 import { useUserStore } from "../store/UseUserStore";
 
