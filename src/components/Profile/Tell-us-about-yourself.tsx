@@ -106,6 +106,7 @@ const TellUsAboutYourself: React.FC = () => {
               </div>
 
               {/* Country Modal */}
+              {/* Country Modal */}
               {modalOpen && (
                 <CountryModal onSelectCountry={handleCountrySelect} />
               )}

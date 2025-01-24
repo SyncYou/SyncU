@@ -1,6 +1,5 @@
 import React from "react";
 import ProfilePreview from "../components/Profile/ProfilePreview";
-import Header from "../components/Reuseables/Header";
 import { Outlet, useLocation, useNavigate } from "react-router";
 import Button from "../components/Reuseables/Button";
 import { BsArrowLeft } from "react-icons/bs";

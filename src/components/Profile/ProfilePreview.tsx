@@ -12,6 +12,7 @@ import { useLocation } from "react-router-dom";
 import { useUserStore } from "../../store/UseUserStore";
 import { useProfilePreview } from "../../hooks/useProfilePreview";
 
+
 const ProfilePreview: React.FC = () => {
   const { userDetails } = useUserStore();
   const location = useLocation();
@@ -51,11 +52,13 @@ const ProfilePreview: React.FC = () => {
             {userDetails.username? `@${userDetails.username}` : '@username'}
           </small>
 
+       
           {isOnboardingFinishing ? (
             <span className="w-[284px] flex items-center justify-center bg-gradient-to-r from-[#F77FED] to-[#8D83F9] font-semibold rounded-full opacity-100 p-1">
               <Button
                 style="text-[16px] w-full relative border-none bg-gray-950 text-white"
                 onClick={startCollaborationHandler}
+              
               >
                 <>
                   <span>Start collaborating</span>
@@ -66,6 +69,7 @@ const ProfilePreview: React.FC = () => {
             </span>
           ) : (
             <Button style="text-[16px] w-full text-opacity-40 w-[284px] [&_img]:opacity-40 bg-white cursor-not-allowed">
+              <span>Start collaborating</span>
               <span>Start collaborating</span>
               <img src={Send} alt="send Icon" />
             </Button>
@@ -119,6 +123,7 @@ const ProfilePreview: React.FC = () => {
           </div>
         </div>
       </div>
+
 
       {isLoading && <Loading />}
     </section>

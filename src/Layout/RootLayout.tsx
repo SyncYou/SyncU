@@ -8,7 +8,7 @@ export default function RootLayout() {
         <div className="flex items-center gap-2">
           <img src={Logo} alt="syncU logo" />
           <p className="items-center text-[21px] font-bold leading-normal text-inter text-logo">
-            syncu
+            Syncu
           </p>
         </div>
       </header>

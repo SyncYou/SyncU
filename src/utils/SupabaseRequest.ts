@@ -1,4 +1,5 @@
 import { supabase } from "../supabase/client";
+import { Project } from "../types/project";
 import { getLoggedInUser } from "./AuthRequest";
 import { fetchUserData } from "./queries/fetch";
 
@@ -17,6 +18,7 @@ export const sendUserDetails = async (userData: any) => {
   return { data, error };
 };
 
+// Upload images to supabase bucket
 // Upload images to supabase bucket
 export async function uploadAvatar(file: File) {
   const fileExt = file.name.split(".").pop();
@@ -57,12 +59,14 @@ export const requestToJoinProject = async (
     return;
   }
 
+
   //  Fetch the previous data from the database
   const { data: requests, error: fetchError } = await supabase
     .from("Projects")
     .select("requests")
     .eq("id", projectId)
-    .single();
+    .single<Project>();
+
 
   if (fetchError || !requests) {
     console.error("Error fetching project:", fetchError);
@@ -76,6 +80,9 @@ export const requestToJoinProject = async (
   };
 
   const updatedRequests = [...(requests.requests || []), newRequest];
+
+
+
 
   // Update the project with the new request
   const { error: updateError } = await supabase
@@ -114,7 +121,7 @@ export const requestToJoinProject = async (
   // Update the Ui with the success toast
   console.log("Request sent successfully and notification created:", data);
   return true;
-};
+}
 
 // Callback function to handle real-time updates
 const handleNotificationUpdate = async (payload: any) => {
@@ -142,6 +149,7 @@ const notificationChannel = supabase
 export const unsubscribeFromNotifications = async () => {
   await supabase.removeChannel(notificationChannel);
 };
+
 
 // Function to send notification to project owner (this is called within `requestToJoinProject`)
 export const sendNotification = async (

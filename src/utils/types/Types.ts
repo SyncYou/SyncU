@@ -10,6 +10,7 @@ export interface BiodataFormData {
 }
 
 export interface UserData {
+  id: string;
   username: string;
   firstName: string;
   lastName: string;
@@ -49,10 +50,47 @@ export interface ProjectType {
   industry: string;
   participants: string[];
   project_views: number;
-  requests: number;
+  requests: {
+    userId: string;
+    status: string;
+  }[];
   required_roles: string[];
   required_stacks: string[];
   title: string;
   updated_at?: string;
   username?: string;
+  workspace?: { name: string; url: string };
+}
+
+export interface NotificationType {
+  id: string;
+  from: string;
+  to: string;
+  status: string;
+  message: string;
+}
+
+export interface PostProjectFormType {
+  created_by?: string;
+  description: string;
+  industry: string;
+  participants: string[];
+  project_views: number;
+  requests: {
+    userId: string;
+    status: string;
+  }[];
+  required_roles: string[];
+  required_stacks: string[];
+  title: string;
+  updated_at?: Date;
+  username?: string;
+  workspace: { name: "Slack" | "Discord" | "Microsoft teams"; url: string };
+}
+
+export type WorkSpaceType = "Slack" | "Discord" | "Microsoft teams";
+
+export interface Request {
+  userId: string;
+  status: string;
 }
