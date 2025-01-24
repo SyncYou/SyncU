@@ -21,13 +21,13 @@ const ProfileLayout: React.FC = () => {
       {/* <div className="hidden md:block">
         <Header />
       </div> */}
-      <section className="pt-[63.1px] grid w-full h-dvh grid-cols-[55%_45%]">
+      <section className="pt-[63.1px] grid w-full h-full md:grid-cols-[55%_45%]">
         {location.pathname !== "/onboarding/finishing" && (
-          <div className="w-full h-dvh">
+          <div className="w-full flex mt-10 pl-4 pr-12">
             <Outlet />
           </div>
         )}
-        <div className={`${location.pathname !== "/onboarding/finishing" ? "hidden" : "block" } md:block w-full h-[100vh] bg-[#F5F5FA] items-center justify-center`}>
+        <div className={`${location.pathname !== "/onboarding/finishing" ? "hidden" : "flex" } md:flex w-full md:flex-col bg-[#F5F5FA] px-2 items-center justify-center`}>
           <ProfilePreview />
 
           <div className="flex items-center justify-center w-full py-5">

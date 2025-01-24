@@ -42,7 +42,7 @@ export function User_LeftFill1() {
               <h1 className="text-[32px] font-semibold text-gray-950">
                 What are you into?
               </h1>
-              <p className="text-gray-800 text-lg font-normal">
+              <p className="text-[#5C5C66] pt-3 text-lg font-normal leading-7">
                 This will enable us match you to projects that suit you.
               </p>
             </div>
@@ -68,7 +68,7 @@ export function User_LeftFill1() {
           </div>
 
           <div className="gap-4 flex-col relative h-full w-full my-5">
-            <h3 className="text-gray-800 font-normal text-sm my-3">
+            <h3 className="text-gray-800 font-normal text-sm my-3 mb-5">
               Pick any option above to enable.
             </h3>
             <span className="flex items-center justify-between py-2 px-3 border border-solid border-gray-200 bg-gray-100 w-[62%] rounded-lg [&_img]:hover:cursor-pointer">
@@ -94,18 +94,19 @@ export function User_LeftFill1() {
               />
             )}
           </div>
-
-          <Nav_Btn
-            disabled={!isValid}
-            showPrevious={true}
-            handleRequest={handleRequest}
-            navTo="/onboarding/stack"
-            btn_Style={`${
-              isValid
-                ? "bg-gray-950 text-opacity-100 text-white"
-                : "text-opacity-40 cursor-not-allowed"
-            }`}
-          />
+          <div className="pt-6">
+            <Nav_Btn
+              disabled={!isValid}
+              showPrevious={true}
+              handleRequest={handleRequest}
+              navTo="/onboarding/stack"
+              btn_Style={`${
+                isValid
+                  ? "bg-gray-950 text-opacity-100 text-white"
+                  : "text-opacity-40 cursor-not-allowed"
+              }`}
+            />
+          </div>
         </div>
       </section>
     </>

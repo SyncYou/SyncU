@@ -22,7 +22,7 @@ const ProfilePreview: React.FC = () => {
   );
 
   return (
-    <section className="bg-[#ffffff] border border-[#E6E6F0] shadow-xl shadow-[#69696917] p-[30px] rounded-[24px] flex flex-col items-center justify-between w-[450px] h-[35rem] mx-auto mt-16">
+    <section className="bg-[#ffffff] border border-[#E6E6F0] shadow-xl shadow-[#69696917] p-[30px] rounded-[24px] flex flex-col items-center justify-between w-full max-w-[450px] h-[35rem] mt-16">
       <div className="flex flex-col items-center justify-between">
         <div
           className={`flex-col gap-1 ${
@@ -48,7 +48,7 @@ const ProfilePreview: React.FC = () => {
             
           </h2>
           <small className="font-medium text-[#5C5C66] text-center text-[16px] leading-6 mb-3">
-            {userDetails.username || '@username'}
+            {userDetails.username? `@${userDetails.username}` : '@username'}
           </small>
 
           {isOnboardingFinishing ? (

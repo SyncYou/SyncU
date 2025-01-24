@@ -125,8 +125,8 @@ export function LeftFill_2() {
             </div>
           </div>
 
-          <div className="gap-2 flex-col my-5">
-            <h3 className="text-gray-800 font-normal text-sm my-3">
+          <div className="gap-2 flex-col">
+            <h3 className="text-gray-800 font-normal text-sm my-3 mt-2">
               Suggested skills & stacks
             </h3>
             <span className="flex flex-wrap gap-2 [&_p]:text-gray-950 [&_p]:flex [&_p]:items-center [&_p]:gap-[10px] [&_p]:rounded-3xl [&_p]:border-gray-300 [&_p]:border [&_p]:border-solid [&_p]:py-1 [&_p]:px-[20px] [&_p]:hover:cursor-pointer">
@@ -139,18 +139,20 @@ export function LeftFill_2() {
               ))}
             </span>
           </div>
-
-          <Nav_Btn
-            disabled={!isValid}
-            showPrevious={true}
-            handleRequest={handleRequest}
-            navTo="/onboarding/profile-image"
-            btn_Style={`${
-              isValid
-                ? "bg-gray-950 text-opacity-100 text-white"
-                : "text-opacity-40 cursor-not-allowed"
-            }`}
-          />
+          
+          <div className="pt-8">
+            <Nav_Btn
+              disabled={!isValid}
+              showPrevious={true}
+              handleRequest={handleRequest}
+              navTo="/onboarding/profile-image"
+              btn_Style={`${
+                isValid
+                  ? "bg-gray-950 text-opacity-100 text-white"
+                  : "text-opacity-40 cursor-not-allowed"
+              }`}
+            />
+          </div>
         </div>
       </section>
     </>

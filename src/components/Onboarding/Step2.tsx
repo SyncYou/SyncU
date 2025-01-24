@@ -34,7 +34,7 @@ const Step2: React.FC<Props> = ({ handlePrevStep, handleNextStep }) => {
         />
       </div>
       <div className="relative pt-20 md:pt-[6.1rem] px-2 sm:px-16 sm:flex sm:items-center sm:justify-center w-full text-center">
-        <svg className="absolute top-44 sm:top-[7.5rem] -right-[7rem] sm:right-32 md:-right-[1rem] sm:h-[585px] h-[400px]" width="605" height="585" viewBox="0 0 605 585" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg className="absolute top-44 sm:top-[7.5rem] -right-[7rem] sm:right-32 md:right-[7rem] sm:h-[585px] h-[400px]" width="605" height="585" viewBox="0 0 605 585" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path opacity="0.7" fillRule="evenodd" clipRule="evenodd" d="M600.04 0.897065C602.562 0.273185 605 2.18185 605 4.78003V118.601C605 124.124 600.523 128.601 595 128.601H591C585.477 128.601 581 124.124 581 118.601V58.2844C581 54.5698 576.378 52.8612 573.962 55.6827L321.745 350.225C314.993 358.109 302.638 357.577 296.589 349.142L234.375 262.378C232.829 260.222 229.651 260.141 227.997 262.215L-28.1241 583.355C-29.5016 585.082 -32.0183 585.366 -33.7454 583.988L-46.2544 574.012C-47.9815 572.634 -48.265 570.118 -46.8875 568.391L219.124 234.849C225.74 226.553 238.452 226.879 244.636 235.502L307.177 322.723C308.69 324.832 311.778 324.965 313.466 322.994L551.406 45.124C553.938 42.1681 551.185 37.7049 547.408 38.6394L486.223 53.7739C480.862 55.1 475.441 51.8289 474.115 46.4677L473.154 42.5847C471.828 37.2234 475.099 31.8022 480.46 30.4761L600.04 0.897065Z" fill={isMobile ? "#EDE4FA" : "#8A47D4"}/>
         </svg>
         <h1 className=" z-10 font-semibold tracking-tight text-center text-[32px] leading-[40px] text-[#8333D0]  md:text-white md:w-[400px]">

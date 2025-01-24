@@ -23,7 +23,7 @@ const TellUsAboutYourself: React.FC = () => {
 
   return (
     <>
-      <section className="mt-16 pl-4 pr-12">
+      <section className="w-full">
       {/* Notifications */}
       {showNotifications && toast && (
         <div className="absolute top-0 flex items-center justify-center w-full z-50">
@@ -49,7 +49,7 @@ const TellUsAboutYourself: React.FC = () => {
 
           <div className="space-y-5 w-full">
             <div className="flex w-full md:items-center gap-5 flex-col md:flex-row">
-              <div className="border border-[#E6E6F0] rounded-xl py-2 px-3 flex flex-1 flex-col gap-2 focus:border focus:border-primary focus:shadow focus:shadow-[#EDE4FA]">
+              <div className="border w-full border-[#E6E6F0] rounded-xl py-2 px-3 flex flex-1 flex-col gap-2 focus:border focus:border-primary focus:shadow focus:shadow-[#EDE4FA]">
                 <label
                   className="text-secondary leading-6 text-[12px] font-medium"
                   htmlFor="firstName"
@@ -57,7 +57,7 @@ const TellUsAboutYourself: React.FC = () => {
                   First name
                 </label>
                 <input
-                  className="focus:outline-none"
+                  className="focus:outline-none w-full"
                   name="firstName"
                   type="text"
                   placeholder="John"
@@ -66,7 +66,7 @@ const TellUsAboutYourself: React.FC = () => {
                 />
               </div>
 
-              <div className="border border-[#E6E6F0] rounded-xl py-2 px-3 flex flex-1 flex-col gap-2 focus:border focus:border-primary focus:shadow focus:shadow-[#EDE4FA]">
+              <div className="w-full border border-[#E6E6F0] rounded-xl py-2 px-3 flex flex-1 flex-col gap-2 focus:border focus:border-primary focus:shadow focus:shadow-[#EDE4FA]">
                 <label
                   className="text-secondary leading-6 text-[12px] font-medium"
                   htmlFor="lastName"
@@ -74,7 +74,7 @@ const TellUsAboutYourself: React.FC = () => {
                   Last name
                 </label>
                 <input
-                  className="focus:outline-none"
+                  className="w-full focus:outline-none"
                   name="lastName"
                   type="text"
                   placeholder="Doe"
@@ -91,10 +91,10 @@ const TellUsAboutYourself: React.FC = () => {
               >
                 Country of residence
               </label>
-              <div className="flex items-center justify-between px-2">
+              <div className="w-full flex items-center justify-between px-2">
                 <input
                   ref={inputRef}
-                  className="focus:outline-none"
+                  className="w-full focus:outline-none"
                   name="country"
                   type="text"
                   placeholder="Select country---"

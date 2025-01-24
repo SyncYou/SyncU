@@ -1,5 +1,3 @@
-import check from "/signUp-imgs/check.svg";
-
 interface StackProps {
   stack: string;
   id: number;
@@ -46,8 +44,11 @@ export function Stack({
           </fieldset>
         )}
         {clicked && (
-          <fieldset className="p-1 rounded-full bg-brand-600 absolute z-10 right-[3vh] top-[2vh]">
-            <img src={check} alt="check" />
+          <fieldset className="p-1 rounded-full z-10 bg-brand-500 absolute  right-3 top-2">
+            <svg className="rounded-full" width="12.5" height="12.5" viewBox="0 0 12 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10.1663 1.875L4.43717 7.60417L1.83301 5" stroke="white" stroke-width="2.08333" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+
           </fieldset>
         )}
         <p className="text-base font-medium text-center">{stack}</p>
