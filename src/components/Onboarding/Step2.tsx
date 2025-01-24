@@ -3,7 +3,6 @@ import usercard from "/user-card-2.svg";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
 import { IoArrowForwardCircleOutline } from "react-icons/io5";
 import zigzag from "/signUp-imgs/arrow.svg";
-import zigzag from "/signUp-imgs/arrow.svg";
 
 interface Props {
   handlePrevStep: () => void;
@@ -174,7 +173,6 @@ const Step2: React.FC<Props> = ({ handlePrevStep, handleNextStep }) => {
             />
           </g>
         </svg>
-        </svg>
       </div>
       {isMobile ? (
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-[138px] z-40">  
@@ -198,10 +196,7 @@ const Step2: React.FC<Props> = ({ handlePrevStep, handleNextStep }) => {
             onClick={handleNextStep}
             className="text-xs font-light cursor-pointer h-10 w-10 text-white"
           />
-          <IoArrowForwardCircleOutline
-            onClick={handleNextStep}
-            className="text-xs font-light cursor-pointer h-10 w-10 text-white"
-          />
+          
         </div>
       )}
     </section>

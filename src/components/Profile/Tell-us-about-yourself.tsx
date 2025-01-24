@@ -1,28 +1,11 @@
 import React from "react";
-import React from "react";
 import dropdown from "/scroll.svg";
 import CountryModal from "../Reuseables/CountryModal";
 import Nav_Btn from "../Reuseables/Nav_Btn";
-import Nav_Btn from "../Reuseables/Nav_Btn";
 import Toast from "../Reuseables/Toast";
-import { useTellUsAboutYourself } from "../../hooks/useTellUsAboutYourself";
 import { useTellUsAboutYourself } from "../../hooks/useTellUsAboutYourself";
 
 const TellUsAboutYourself: React.FC = () => {
-  // Custom hook for the logic
-  const {
-    disable,
-    showNotifications,
-    toast,
-    inputRef,
-    userDetails,
-    isValid,
-    handleChange,
-    handleCountryInputClick,
-    handleCountrySelect,
-    handleRequest,
-    modalOpen,
-  } = useTellUsAboutYourself();
   // Custom hook for the logic
   const {
     disable,

@@ -120,6 +120,7 @@ const useVerifyEmail = () => {
     isLoading,
     showNotifications,
     toast,
+    email,
     handleChange,
     handleKeyDown,
     handleSubmit,

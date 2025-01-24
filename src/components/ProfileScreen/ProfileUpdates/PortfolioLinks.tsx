@@ -11,10 +11,12 @@ import useUpdatePortfolioLinks from "../../../hooks/useUpdatePortfolioLinks";
 const PortfolioLinks = () => {
   // Custom hook to update portfolioLinks
   const { user } = useUserData();
-  const { links } = user;
+  const links = user?.links || [];
   const {
-    error,
     portfolioLink,
+    validationErrors,
+    setValidationErrors,
+    isSaveDisabled,
     suggestedLinks,
     setPortfolioLink,
     setSuggestedLinks,
@@ -28,21 +30,20 @@ const PortfolioLinks = () => {
       <div className="flex flex-col h-[514px] gap-8 px-8">
         <div className="flex flex-col gap-6">
           <div
-            className={`flex flex-col gap-2 ${
-              suggestedLinks.length == 0 && "hidden"
-            }`}
+            className={`flex flex-col gap-2 ${suggestedLinks && suggestedLinks.length === 0 ? "hidden" : ""}`}
           >
             <p className="mb-1 font-normal text-sm text-gray800">
               Suggested links
             </p>
             <div className="flex gap-4">
-              {suggestedLinks.map((url, index) => {
+              {suggestedLinks?.map((url, index) => {
                 return (
                   <div
+                    key={index}
                     onClick={() => {
                       setPortfolioLink([...portfolioLink, url]);
-                      const newUrls = suggestedLinks.filter(
-                        (_, i) => i != index
+                      const newUrls = suggestedLinks?.filter(
+                        (_, i) => i !== index
                       );
                       setSuggestedLinks(newUrls);
                     }}
@@ -54,6 +55,7 @@ const PortfolioLinks = () => {
               })}
             </div>
           </div>
+
           <div className="flex flex-col gap-4">
             <p className="mb-1 font-normal text-sm text-gray800">
               Add or arrange links
@@ -66,9 +68,11 @@ const PortfolioLinks = () => {
                       <div className="flex gap-2">
                         <div className="h-[60px] w-[60px] bg-black rounded-lg border border-gray300"></div>
                         <div className="w-[363.5px] h-full relative">
-                          <div className="absolute h-6 w-6 right-3 top-[18px]">
-                            <PiSpinner className="w-full h-full animate-spin" />
-                          </div>
+                          {validationErrors[i] && (
+                            <div className="absolute h-6 w-6 right-3 top-[18px]">
+                              <PiSpinner className="w-full h-full animate-spin" />
+                            </div>
+                          )}
                           <input
                             placeholder="www.website.com/"
                             type="text"
@@ -77,7 +81,9 @@ const PortfolioLinks = () => {
                             value={link.url}
                             onChange={(e) => handleInputChange(e, i, link)}
                             className={`w-[363.5px] h-full pt-4 px-3 ${
-                              error ? "border-alert-600" : "border-gray200"
+                              validationErrors[i]
+                                ? "border-alert-600"
+                                : "border-gray200"
                             } outline-none border rounded-lg focus:border-brand400`}
                           />
                           <label
@@ -95,7 +101,7 @@ const PortfolioLinks = () => {
                       />
                     </div>
                     {/* Display error */}
-                    {error && (
+                    {validationErrors[i] && (
                       <p className="text-alert-600 font-normal text-xs mt-1">
                         Enter a valid URL link.
                       </p>
@@ -109,6 +115,7 @@ const PortfolioLinks = () => {
                     ...portfolioLink,
                     { name: "URL link", url: "" },
                   ]);
+                  setValidationErrors([...validationErrors, true]);
                 }}
                 className="w-[465px] h-11 flex items-center gap-3 px-1 py-[10px] hover:bg-gray100 hover:text-gray800 text-gray400 font-medium text-base"
               >
@@ -123,7 +130,7 @@ const PortfolioLinks = () => {
           onClick={async () => {
             await mutateAsync(portfolioLink);
           }}
-          disabled={links?.length === portfolioLink?.length}
+          disabled={isSaveDisabled}
           classes="w-[120px] h-11 gap-0"
         >
           Save

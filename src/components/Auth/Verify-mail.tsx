@@ -1,17 +1,12 @@
 import React, { useEffect } from "react";
-import React, { useEffect } from "react";
 import Header from "../Reuseables/Header";
-import mail from "/mail.svg"; // Importing ResendEmail
-import { Loading } from "../Reuseables/Loading";
-import mail from "/mail.svg"; // Importing ResendEmail
+import mail from "/mail.svg";
 import { Loading } from "../Reuseables/Loading";
 import Toast from "../Reuseables/Toast";
 import useVerifyEmail from "../../hooks/useVerifyEmail"; // Importing the custom hook
 import ResendEmail from "./ResendEmail";
 import OTPInput from "./OTPInput";
-import useVerifyEmail from "../../hooks/useVerifyEmail"; // Importing the custom hook
-import ResendEmail from "./ResendEmail";
-import OTPInput from "./OTPInput";
+
 
 const Verifymail: React.FC = () => {
   // Custom hook for handling the logic
@@ -21,18 +16,7 @@ const Verifymail: React.FC = () => {
     isLoading,
     showNotifications,
     toast,
-    handleChange,
-    handleKeyDown,
-    handleSubmit,
-    handleResendEmail,
-  } = useVerifyEmail();
-  // Custom hook for handling the logic
-  const {
-    otp,
-    inputRefs,
-    isLoading,
-    showNotifications,
-    toast,
+    email,
     handleChange,
     handleKeyDown,
     handleSubmit,
@@ -46,7 +30,7 @@ const Verifymail: React.FC = () => {
       handleSubmit();
     }
   }, [otp, handleSubmit]);
-  }, [otp, handleSubmit]);
+
 
   return (
     <>

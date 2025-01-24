@@ -1,8 +1,5 @@
 import { supabase } from "../supabase/client";
-import { getLoggedInUser } from "./AuthRequest";
-import { fetchUserData } from "./queries/fetch";
-
-// Updating the user deatils(onboarding)
+import { Project } from "../types/project";
 import { getLoggedInUser } from "./AuthRequest";
 import { fetchUserData } from "./queries/fetch";
 
@@ -62,37 +59,20 @@ export const requestToJoinProject = async (
     return;
   }
 
-  //  Fetch the previous data from the database
-  const { data: requests, error: fetchError } = await supabase
-// Send request to join a project
-export const requestToJoinProject = async (
-  projectId: string,
-  creatorId: string
-) => {
-  // Get the current user data
-  const user = await fetchUserData();
-  if (!user) {
-    console.error("User is not logged in");
-    return;
-  }
 
   //  Fetch the previous data from the database
   const { data: requests, error: fetchError } = await supabase
     .from("Projects")
     .select("requests")
     .eq("id", projectId)
-    .single();
+    .single<Project>();
 
-  if (fetchError || !requests) {
-    console.error("Error fetching project:", fetchError);
+
   if (fetchError || !requests) {
     console.error("Error fetching project:", fetchError);
     return;
   }
 
-  // Prepare the new request object
-  const newRequest = {
-    userId: user.id,
   // Prepare the new request object
   const newRequest = {
     userId: user.id,
@@ -100,12 +80,10 @@ export const requestToJoinProject = async (
   };
 
   const updatedRequests = [...(requests.requests || []), newRequest];
-  };
 
-  const updatedRequests = [...(requests.requests || []), newRequest];
 
-  // Update the project with the new request
-  const { error: updateError } = await supabase
+
+
   // Update the project with the new request
   const { error: updateError } = await supabase
     .from("Projects")
@@ -143,7 +121,7 @@ export const requestToJoinProject = async (
   // Update the Ui with the success toast
   console.log("Request sent successfully and notification created:", data);
   return true;
-};
+}
 
 // Callback function to handle real-time updates
 const handleNotificationUpdate = async (payload: any) => {
@@ -158,7 +136,6 @@ const handleNotificationUpdate = async (payload: any) => {
 };
 
 // Realtime subscription to notifications table
-// Realtime subscription to notifications table
 const notificationChannel = supabase
   .channel("notifications")
   .on(
@@ -167,27 +144,15 @@ const notificationChannel = supabase
     handleNotificationUpdate
   )
   .subscribe();
-    { event: "INSERT", schema: "public", table: "notifications" },
-    handleNotificationUpdate
-  )
-  .subscribe();
 
 // Unsubscribe from the channel when no longer needed (e.g., component unmounts)
 export const unsubscribeFromNotifications = async () => {
   await supabase.removeChannel(notificationChannel);
 };
 
-// Function to send notification to project owner (this is called within `requestToJoinProject`)
-// Unsubscribe from the channel when no longer needed (e.g., component unmounts)
-export const unsubscribeFromNotifications = async () => {
-  await supabase.removeChannel(notificationChannel);
-};
 
 // Function to send notification to project owner (this is called within `requestToJoinProject`)
 export const sendNotification = async (
-  from: string,
-  to: string,
-  message: string
   from: string,
   to: string,
   message: string

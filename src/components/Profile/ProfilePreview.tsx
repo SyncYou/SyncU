@@ -1,5 +1,4 @@
 import React from "react";
-import React from "react";
 import profile from "/signUp-imgs/profile.svg";
 import Send from "/signUp-imgs/Send.svg";
 import whiteSent from "/signUp-imgs/Send1.svg";
@@ -10,23 +9,13 @@ import { IoLocationOutline } from "react-icons/io5";
 import { Loading } from "../Reuseables/Loading";
 import Button from "../Reuseables/Button";
 import { useLocation } from "react-router-dom";
-import { IoLocationOutline } from "react-icons/io5";
-import { Loading } from "../Reuseables/Loading";
-import Button from "../Reuseables/Button";
-import { useLocation } from "react-router-dom";
 import { useUserStore } from "../../store/UseUserStore";
 import { useProfilePreview } from "../../hooks/useProfilePreview";
-import { useProfilePreview } from "../../hooks/useProfilePreview";
+
 
 const ProfilePreview: React.FC = () => {
   const { userDetails } = useUserStore();
-  const { userDetails } = useUserStore();
   const location = useLocation();
-  const isOnboardingFinishing = location.pathname === "/onboarding/finishing";
-
-  const { isLoading, startCollaborationHandler } = useProfilePreview(
-    isOnboardingFinishing
-  );
   const isOnboardingFinishing = location.pathname === "/onboarding/finishing";
 
   const { isLoading, startCollaborationHandler } = useProfilePreview(
@@ -63,13 +52,13 @@ const ProfilePreview: React.FC = () => {
             {userDetails.username || '@username'}
           </small>
 
-          {isOnboardingFinishing ? (
+       
           {isOnboardingFinishing ? (
             <span className="w-[284px] flex items-center justify-center bg-gradient-to-r from-[#F77FED] to-[#8D83F9] font-semibold rounded-full opacity-100 p-1">
               <Button
                 style="text-[16px] w-full relative border-none bg-gray-950 text-white"
                 onClick={startCollaborationHandler}
-                onClick={startCollaborationHandler}
+              
               >
                 <>
                   <span>Start collaborating</span>

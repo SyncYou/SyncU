@@ -1,4 +1,5 @@
 import { supabase } from "../supabase/client";
+import { Requests } from "../types/project";
 
 const useRequestStatus = () => {
   const acceptRequest = async (
@@ -18,7 +19,7 @@ const useRequestStatus = () => {
     }
 
     const newRequest = project.requests?.filter(
-      (req) => req.userId != requesterId
+      (req: Requests) => req.userId != requesterId
     );
 
     // Prepare the new request object
@@ -102,7 +103,7 @@ const useRequestStatus = () => {
     }
 
     const newRequest = project.requests?.filter(
-      (req) => req.userId != requesterId
+      (req: Requests) => req.userId != requesterId
     );
 
     // Prepare the new request object
