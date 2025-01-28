@@ -1,0 +1,169 @@
+[
+  {
+    "created_at": "2025-01-01T10:00:00Z",
+    "created_by": "Alice",
+    "description": "A cutting-edge project focused on building AI-driven applications.",
+    "id": "proj-001",
+    "industry": "Technology",
+    "participants": ["Alice", "Bob", "Charlie"],
+    "project_views": 100,
+    "requests": 5,
+    "required_roles": ["AI Developer", "Backend Engineer", "UX Designer"],
+    "required_stacks": ["Python", "Django", "TensorFlow"],
+    "title": "AI Revolution",
+    "updated_at": "2025-01-15T14:30:00Z",
+    "username": "alice_dev"
+  },
+  {
+    "created_at": "2025-01-02T09:30:00Z",
+    "created_by": "Dana",
+    "description": "Building a high-performance e-commerce platform with a focus on scalability.",
+    "id": "proj-002",
+    "industry": "E-Commerce",
+    "participants": ["Dana", "Eve", "Frank"],
+    "project_views": 150,
+    "requests": 10,
+    "required_roles": [
+      "Frontend Developer",
+      "Backend Engineer",
+      "Product Manager"
+    ],
+    "required_stacks": ["React", "Node.js", "MongoDB"],
+    "title": "Scalable Shop",
+    "updated_at": "2025-01-16T11:45:00Z",
+    "username": "dana_shop"
+  },
+  {
+    "created_at": "2025-01-03T12:00:00Z",
+    "created_by": "Grace",
+    "description": "A project to develop a seamless cloud-based collaboration tool for teams.",
+    "id": "proj-003",
+    "industry": "Cloud Computing",
+    "participants": ["Grace", "Hannah", "Isaac"],
+    "project_views": 120,
+    "requests": 3,
+    "required_roles": [
+      "Cloud Engineer",
+      "Full-stack Developer",
+      "UX Researcher"
+    ],
+    "required_stacks": ["AWS", "Docker", "Angular"],
+    "title": "CloudCollab",
+    "updated_at": "2025-01-17T13:20:00Z",
+    "username": "grace_cloud"
+  },
+  {
+    "created_at": "2025-01-04T14:15:00Z",
+    "created_by": "Jack",
+    "description": "Creating a mobile app for tracking personal fitness and health.",
+    "id": "proj-004",
+    "industry": "Health & Fitness",
+    "participants": ["Jack", "Kara", "Liam"],
+    "project_views": 200,
+    "requests": 8,
+    "required_roles": [
+      "Mobile Developer",
+      "Product Designer",
+      "Data Scientist"
+    ],
+    "required_stacks": ["Flutter", "Firebase", "TensorFlow Lite"],
+    "title": "FitTrack",
+    "updated_at": "2025-01-18T15:40:00Z",
+    "username": "jack_fittrack"
+  },
+  {
+    "created_at": "2025-01-05T16:30:00Z",
+    "created_by": "Mike",
+    "description": "Building a decentralized application for secure financial transactions.",
+    "id": "proj-005",
+    "industry": "Blockchain",
+    "participants": ["Mike", "Nina", "Oscar"],
+    "project_views": 250,
+    "requests": 12,
+    "required_roles": [
+      "Blockchain Developer",
+      "Security Engineer",
+      "Smart Contract Developer"
+    ],
+    "required_stacks": ["Solidity", "Ethereum", "Web3.js"],
+    "title": "CryptoSecure",
+    "updated_at": "2025-01-19T16:55:00Z",
+    "username": "mike_crypto"
+  },
+  {
+    "created_at": "2025-01-06T10:45:00Z",
+    "created_by": "Paul",
+    "description": "A project that leverages machine learning to predict stock market trends.",
+    "id": "proj-006",
+    "industry": "Finance",
+    "participants": ["Paul", "Quincy", "Rachel"],
+    "project_views": 180,
+    "requests": 7,
+    "required_roles": [
+      "Data Scientist",
+      "Machine Learning Engineer",
+      "Financial Analyst"
+    ],
+    "required_stacks": ["Python", "TensorFlow", "Pandas"],
+    "title": "StockPredict",
+    "updated_at": "2025-01-20T17:10:00Z",
+    "username": "paul_fintech"
+  },
+  {
+    "created_at": "2025-01-07T11:00:00Z",
+    "created_by": "Steve",
+    "description": "Building a responsive web application for project management and collaboration.",
+    "id": "proj-007",
+    "industry": "Software",
+    "participants": ["Steve", "Tina", "Uma"],
+    "project_views": 220,
+    "requests": 9,
+    "required_roles": [
+      "Frontend Developer",
+      "Backend Developer",
+      "UI/UX Designer"
+    ],
+    "required_stacks": ["React", "Node.js", "PostgreSQL"],
+    "title": "TaskMaster",
+    "updated_at": "2025-01-21T18:25:00Z",
+    "username": "steve_taskmaster"
+  },
+  {
+    "created_at": "2025-01-08T12:30:00Z",
+    "created_by": "Vera",
+    "description": "Creating a next-gen social media platform with privacy-first design principles.",
+    "id": "proj-008",
+    "industry": "Social Media",
+    "participants": ["Vera", "Walter", "Xander"],
+    "project_views": 300,
+    "requests": 15,
+    "required_roles": [
+      "Social Media Developer",
+      "Frontend Developer",
+      "Data Privacy Officer"
+    ],
+    "required_stacks": ["Vue.js", "MongoDB", "OAuth"],
+    "title": "PrivacyConnect",
+    "updated_at": "2025-01-22T19:40:00Z",
+    "username": "vera_social"
+  },
+  {
+    "created_at": "2025-01-09T13:15:00Z",
+    "created_by": "Yara",
+    "description": "Designing and building an AI-powered personal assistant to optimize daily tasks.",
+    "id": "proj-009",
+    "industry": "AI & Automation",
+    "participants": ["Yara", "Zane", "Alex"],
+    "project_views": 350,
+    "requests": 20,
+    "required_roles": [
+      "AI Engineer",
+      "Voice Interface Developer",
+      "Product Manager"
+    ],
+    "required_stacks": ["Python", "NLP", "Google Assistant SDK"],
+    "title": "TaskBot",
+    "updated_at": "2025-01-23T20:50:00Z",
+    "username": "yara_ai"
+  }
+]
