@@ -10,7 +10,7 @@ import { useUserData } from "../../context/useUserData";
 import PrimaryButton from "../Reuseables/PrimaryButton";
 import ProjectTabs from "../Projects/ProjectTabs";
 
-const Header = () => {
+const Header = ({ setShow }: { setShow: (newItem: boolean) => void }) => {
   const location = useLocation();
   const { isOpen, change } = useSidebar();
   const { header, height } = usePageHeader();
@@ -36,7 +36,7 @@ const Header = () => {
           />
         </div>
         <div className="w-48 flex gap-6">
-          <PrimaryButton classes="w-[139px] h-8 rounded-[32px] py-1 px-4">
+          <PrimaryButton onClick={() => setShow} classes="w-[139px] h-8 rounded-[32px] py-1 px-4">
             New Project
           </PrimaryButton>
           <NavLink to="/profile">

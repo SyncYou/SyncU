@@ -34,6 +34,7 @@ const ProjectContainer = lazy(
 const Activity = lazy(() => import("./pages/Activity/Activity.tsx"));
 const Projects = lazy(() => import("./pages/Project/Projects.tsx"));
 const Profile = lazy(() => import("./pages/Profile/Profile.tsx"));
+
 const client = new QueryClient();
 
 const router = createBrowserRouter([
