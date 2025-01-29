@@ -1,10 +1,14 @@
 import empty from "/assets/Empty.svg";
 import ProjectCard from "../ProjectCard";
-import { useProjects } from "../../../context/useUserData";
-import { user } from "../../../utils/queries/fetch";
+import { fetchProjects, user } from "../../../utils/queries/fetch";
+import { useQuery } from "@tanstack/react-query";
+import { Loading } from "../../Reuseables/Loading";
 
 const RequestedProjects = () => {
-  const { projects } = useProjects();
+  const { data: projects, status } = useQuery({
+    queryKey: ["requested-projects"],
+    queryFn: fetchProjects,
+  });
 
   const requestedProjects = projects?.filter((pg) =>
     pg.requests.some((reqPg) => reqPg.userId == user.data.user?.id)
@@ -12,6 +16,7 @@ const RequestedProjects = () => {
 
   return (
     <section className="md:px-8 px-4 md:py-6 pt-6 pb-20 md:w-full w-screen">
+      {status === "pending" && <Loading />}
       {requestedProjects?.length === 0 ? (
         <div className="mx-auto w-[261px] flex flex-col gap-6">
           <img className="w-[124px] mx-auto" src={empty} alt="" />

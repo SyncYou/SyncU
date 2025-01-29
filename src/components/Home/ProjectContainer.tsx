@@ -1,9 +1,13 @@
+import { useQuery } from "@tanstack/react-query";
 import { useProjectFilter } from "../../context/useProjectFilter";
-import { useProjects } from "../../context/useUserData";
 import ProjectCard from "../Projects/ProjectCard";
+import { fetchProjects } from "../../utils/queries/fetch";
 
 const ProjectContainer = () => {
-  const { projects } = useProjects();
+  const { data: projects, isLoading } = useQuery({
+    queryKey: ["projects"],
+    queryFn: fetchProjects,
+  });
   const { filter } = useProjectFilter();
 
   return (
@@ -17,7 +21,9 @@ const ProjectContainer = () => {
             return project;
           })
           .map((data) => {
-            return <ProjectCard key={data.id} data={data} />;
+            return (
+              <ProjectCard key={data.id} data={data} fetching={isLoading} />
+            );
           })}
       </section>
     </section>

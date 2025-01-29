@@ -1,4 +1,4 @@
-export function Finishing() {
+export default function Finishing() {
     return (
         <>
 

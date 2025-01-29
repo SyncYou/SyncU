@@ -16,7 +16,7 @@ interface ProfileImageItem {
 //   };
 // }
 
-export function LeftFill_3() {
+export default function LeftFill_3() {
   const {
     showNotifications,
     toast,

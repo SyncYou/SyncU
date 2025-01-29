@@ -32,3 +32,21 @@ export async function fetchProjects(): Promise<ProjectType[] | undefined> {
     console.error(error);
   }
 }
+
+export async function fetchCreatedProjects(): Promise<
+  ProjectType[] | undefined
+> {
+  try {
+    const { data, error } = await supabase
+      .from("Projects")
+      .select()
+      .eq("created_by", user.data.user?.id);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
