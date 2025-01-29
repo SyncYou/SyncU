@@ -3,6 +3,7 @@ import { supabase } from "../supabase/client";
 import { UserData } from "./types/Types";
 
 // Signup with OTP
+// Signup with OTP
 export const signupWithOTP = async (email: string): Promise<AuthResponse> => {
   const { data, error } = await supabase.auth.signInWithOtp({
     email: email,
@@ -10,6 +11,7 @@ export const signupWithOTP = async (email: string): Promise<AuthResponse> => {
   return { data, error };
 };
 
+// Verify your email
 // Verify your email
 export const verifyEmail = async (email: string, token: string) => {
   const {
@@ -24,6 +26,7 @@ export const verifyEmail = async (email: string, token: string) => {
 };
 
 // Sign up with github
+// Sign up with github
 export const signInWithGithub = async () => {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "github",
@@ -34,6 +37,7 @@ export const signInWithGithub = async () => {
   return { data, error };
 };
 
+// Signup with google
 // Signup with google
 export const signInWithGoogle = async () => {
   const { data, error } = await supabase.auth.signInWithOAuth({
@@ -46,6 +50,7 @@ export const signInWithGoogle = async () => {
 };
 
 // Fetch the loggedInUser
+// Fetch the loggedInUser
 export const getLoggedInUser = async () => {
   const {
     data: { user: loggedInUser },
@@ -54,7 +59,7 @@ export const getLoggedInUser = async () => {
 };
 
 // Fetch useer by Id
-export const getUserById = async (userId: string): Promise<UserData> => {
+export const getUserById = async (userId: string) => {
   const { data, error } = await supabase
     .from("Users")
     .select()

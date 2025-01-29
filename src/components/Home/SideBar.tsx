@@ -12,13 +12,11 @@ import {
 import { useSidebar } from "../../context/useSidebar";
 import { useUserProgress } from "../../context/useUserProgress";
 import { useUserData } from "../../context/useUserData";
-import useDisplayPostProjectForm from "../../context/useDisplayPostProjectForm";
 
 const SideBar = () => {
   const { isOpen } = useSidebar();
   const { status } = useUserProgress();
   const { user: userData } = useUserData();
-  const { setShow } = useDisplayPostProjectForm();
 
   return (
     <aside
@@ -95,10 +93,7 @@ const SideBar = () => {
         <NavLink className="w-8 h-8 text-[24px] p-1 rounded" to="/project">
           <FaRegFolder />
         </NavLink>
-        <button
-          onClick={() => setShow(true)}
-          className="w-8 h-8 text-[20px] p-[6px] rounded-full text-white bg-gray-950"
-        >
+        <button className="w-8 h-8 text-[20px] p-[6px] rounded-full text-white bg-gray-950">
           <FaPlus />
         </button>
         <NavLink className="w-8 h-8 text-[24px] p-1 rounded" to="/alert">

@@ -1,3 +1,4 @@
+
 import { useQuery } from "@tanstack/react-query";
 import { useProjectFilter } from "../../context/useProjectFilter";
 import ProjectCard from "../Projects/ProjectCard";
@@ -9,6 +10,7 @@ const ProjectContainer = () => {
     queryFn: fetchProjects,
   });
   const { filter } = useProjectFilter();
+
 
   return (
     <section className="md:px-8 px-4 md:py-6 pt-6 pb-20 md:w-full w-screen">
@@ -25,6 +27,7 @@ const ProjectContainer = () => {
               <ProjectCard key={data.id} data={data} fetching={isLoading} />
             );
           })}
+
       </section>
     </section>
   );

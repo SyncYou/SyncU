@@ -2,7 +2,6 @@ import SecondaryButton from "../../Reuseables/SecondaryButton";
 import PrimaryButton from "../../Reuseables/PrimaryButton";
 import { useUserData } from "../../../context/useUserData";
 import useUpdateSkills from "../../../hooks/useUpdateSkills";
-import DropDown from "../../Reuseables/DropDown";
 
 const Skills = () => {
   // Custom Hooks to update skills
@@ -55,18 +54,13 @@ const Skills = () => {
                   className="outline-none border-none inline-block"
                 />
               </div>
-              {newSkill != "" && (
-                <DropDown
-                  type="stacks"
-                  handleAddition={addSkill}
-                  input={newSkill}
-                  style="top-[129px]"
-                />
-              )}
             </div>
           </div>
           <div className="flex flex-col gap-4">
-            <p className="font-normal text-sm text-gray800">
+            <p
+              onClick={() => addSkill(newSkill)}
+              className="font-normal text-sm text-gray800"
+            >
               Suggested skills & stacks
             </p>
             <div className="flex flex-wrap gap-2">

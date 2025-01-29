@@ -1,9 +1,10 @@
 import { supabase } from "../../supabase/client";
-import { ProjectType, UserData } from "../types/Types";
+import { ProjectType } from "../types/Types";
 
 export const user = await supabase.auth.getUser();
 
-export async function fetchUserData(): Promise<UserData | undefined> {
+// Fetch user details
+export async function fetchUserData() {
   try {
     const { data, error } = await supabase
       .from("Users")
@@ -33,6 +34,7 @@ export async function fetchProjects(): Promise<ProjectType[] | undefined> {
   }
 }
 
+
 export async function fetchCreatedProjects(): Promise<
   ProjectType[] | undefined
 > {
@@ -50,3 +52,23 @@ export async function fetchCreatedProjects(): Promise<
     console.error(error);
   }
 }
+
+// Fetch projects the user requested to join
+export async function fetchUserRequestedProject() {
+  try {
+    const { data, error } = await supabase.from("Projects").select();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    // const filteredProjects = data?.filter((project) =>
+    //   project.requests?.filter((req) => (req.id = ""))
+    // );
+
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+

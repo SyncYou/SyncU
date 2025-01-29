@@ -1,6 +1,5 @@
 import React from "react";
 import ProfilePreview from "../components/Profile/ProfilePreview";
-import Header from "../components/Reuseables/Header";
 import { Outlet, useLocation, useNavigate } from "react-router";
 import Button from "../components/Reuseables/Button";
 import { BsArrowLeft } from "react-icons/bs";
@@ -18,18 +17,16 @@ const ProfileLayout: React.FC = () => {
 
   return (
     <>
-      <div className="border-[0.5px] border-[#D6D6E0] hidden md:block">
+      {/* <div className="hidden md:block">
         <Header />
-      </div>
-      <section className="flex w-full h-dvh">
+      </div> */}
+      <section className="pt-[63.1px] grid w-full h-dvh grid-cols-[55%_45%]">
         {location.pathname !== "/onboarding/finishing" && (
           <div className="w-full h-dvh">
             <Outlet />
           </div>
         )}
-        <div
-          className={`${location.pathname !== "/onboarding/finishing" ? "hidden" : "block"} md:block w-full h-[100vh]  items-center justify-center border-l-[0.5px] border-[#D6D6E0] mt-10`}
-        >
+        <div className={`${location.pathname !== "/onboarding/finishing" ? "hidden" : "block" } md:block w-full h-[100vh] bg-[#F5F5FA] items-center justify-center`}>
           <ProfilePreview />
 
           <div className="flex items-center justify-center w-full py-5">

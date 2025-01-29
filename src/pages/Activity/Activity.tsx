@@ -1,8 +1,4 @@
-import { useAlerts } from "../../context/useUserData";
-
 const Activity = () => {
-  const { alerts } = useAlerts();
-
   return (
     <section className="md:py-6 md:px-[100px] text-gray950">
       <div className="mb-2">
@@ -30,28 +26,54 @@ const Activity = () => {
       <div className="py-3">
         <p>Today</p>
         <div className="flex flex-col gap-3">
-          {alerts?.map((alert) => (
-            <>
-              <div className="p-2 hover:bg-gray100 flex items-center gap-4 relative">
-                <div className="w-10 h-10 bg-gray950 block rounded-full"></div>
-                <div className="font-normal text-gray700 text-sm">
-                  <div className="flex gap-2">
-                    <span className="text-base font-semibold text-gray900">
-                      {alert.status === "accepted" &&
-                        "Congratulations🎉 you're in!"}
-                      {alert.status === "pending" && "Some requested"}
-                      {alert.status === "rejected" &&
-                        "Sorry, you have been rejected "}
-                    </span>
-                    <span>1h</span>
-                  </div>
-                  <p className="">{alert.message}</p>
-                  <div className="w-4 h-4 rounded-full bg-brand600 absolute right-2 top-[22px] border border-white"></div>
-                </div>
+          <div className="p-2 hover:bg-gray100 flex items-center gap-4 relative">
+            <div className="w-10 h-10 bg-gray950 block rounded-full"></div>
+            <div className="font-normal text-gray700 text-sm">
+              <div className="flex gap-2">
+                <span className="text-base font-semibold text-gray900">
+                  Congratulations🎉 you're in!
+                </span>
+                <span>1h</span>
               </div>
-              <hr />
-            </>
-          ))}
+              <p className="">
+                @oscarteem accepted your request to work on MealMind.
+              </p>
+              <div className="w-4 h-4 rounded-full bg-brand600 absolute right-2 top-[22px] border border-white"></div>
+            </div>
+          </div>
+          <hr />
+          <div className="p-2 hover:bg-gray100 flex items-center gap-4 relative">
+            <div className="w-10 h-10 bg-gray950 block rounded-full"></div>
+            <div className="font-normal text-gray700 text-sm">
+              <div className="flex gap-2">
+                <span className="text-base font-semibold text-gray900">
+                  Congratulations🎉 you're in!
+                </span>
+                <span>1h</span>
+              </div>
+              <p className="">
+                @oscarteem accepted your request to work on MealMind.
+              </p>
+              <div className="w-4 h-4 rounded-full bg-brand600 absolute right-2 top-[22px] border border-white"></div>
+            </div>
+          </div>
+          <hr />
+          <div className="p-2 hover:bg-gray100 flex items-center gap-4 relative">
+            <div className="w-10 h-10 bg-gray950 block rounded-full"></div>
+            <div className="font-normal text-gray700 text-sm">
+              <div className="flex gap-2">
+                <span className="text-base font-semibold text-gray900">
+                  Congratulations🎉 you're in!
+                </span>
+                <span>1h</span>
+              </div>
+              <p className="">
+                @oscarteem accepted your request to work on MealMind.
+              </p>
+              <div className="w-4 h-4 rounded-full bg-brand600 absolute right-2 top-[22px] border border-white"></div>
+            </div>
+          </div>
+          <hr />
         </div>
         <p className="pt-4 text-center">That's all for now</p>
       </div>
