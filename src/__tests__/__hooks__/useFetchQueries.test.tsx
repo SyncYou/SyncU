@@ -55,10 +55,10 @@ describe('useFetchQueries', () => {
       email: 'test@example.com',
     };
 
-    const mockSelect = vi.fn().mockResolvedValue({
-      data: mockUserData,
-      error: null,
-    });
+    // const mockSelect = vi.fn().mockResolvedValue({
+    //   data: mockUserData,
+    //   error: null,
+    // });
 
     const mockEq = vi.fn().mockReturnValue({
       single: vi.fn().mockReturnValue({
@@ -146,7 +146,7 @@ describe('useFetchQueries', () => {
     await waitFor(() => {
       expect(result.current.projects.isSuccess).toBe(true);
     });
-  
+
     // Assertions
     expect(result.current.projects.data).toEqual(mockProjects);
   });
@@ -157,10 +157,10 @@ describe('useFetchQueries', () => {
       { id: 2, message: 'Notification 2', to: 'test-user-id' },
     ];
 
-    const mockSelect = vi.fn().mockResolvedValue({
-      data: mockNotifications,
-      error: null,
-    });
+    // const mockSelect = vi.fn().mockResolvedValue({
+    //   data: mockNotifications,
+    //   error: null,
+    // });
 
     const mockEq = vi.fn().mockReturnValue({
       data: mockNotifications,

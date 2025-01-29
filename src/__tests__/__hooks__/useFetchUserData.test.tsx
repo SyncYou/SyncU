@@ -124,15 +124,14 @@ vi.mock('../../supabase/client', () => ({
         // Wait for the query to resolve
         await waitFor(() => {
           expect(result.current.error).toBeDefined();
+          expect(supabase.from).toHaveBeenCalledWith('Users');
+          expect(mockSelect).toHaveBeenCalled();
+          expect(mockEq).toHaveBeenCalledWith('id', 'test-user-id');
+          expect(mockSingle).toHaveBeenCalled();
+          expect(result.current.data).toBeUndefined();
+          expect(result.current.error?.message).toBe(mockError.message);
         });
       
-        // Assertions
-        expect(supabase.from).toHaveBeenCalledWith('Users');
-        expect(mockSelect).toHaveBeenCalled();
-        expect(mockEq).toHaveBeenCalledWith('id', 'test-user-id');
-        expect(mockSingle).toHaveBeenCalled();
-        expect(result.current.data).toBeUndefined();
-        expect(result.current.error?.message).toBe(mockError.message);
       });
   });
   
