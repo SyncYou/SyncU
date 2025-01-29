@@ -2,7 +2,6 @@ import empty from "/assets/Empty.svg";
 import { useQuery } from "@tanstack/react-query";
 import ProjectCard from "../ProjectCard";
 import { fetchProjects, user } from "../../../utils/queries/fetch";
-import { useQuery } from "@tanstack/react-query";
 import { Loading } from "../../Reuseables/Loading";
 
 const RequestedProjects = () => {
@@ -17,7 +16,12 @@ const RequestedProjects = () => {
 
   return (
     <section className="md:px-8 px-4 md:py-6 pt-6 pb-20 md:w-full w-screen">
-      {status === "pending" && <Loading />}
+      {status === "pending" &&(
+        <div className="h-full w-full">
+          <Loading />
+        </div>
+      ) 
+      }
       {requestedProjects?.length === 0 ? (
 
         <div className="mx-auto w-[261px] flex flex-col gap-6">
@@ -33,7 +37,7 @@ const RequestedProjects = () => {
         </div>
       ) : (
         <section className="grid md:grid-cols-3 min-h-full gap-8 md:max-w-full max-w-screen">
-          {data?.map((project) => {
+          {requestedProjects?.map((project) => {
             return <ProjectCard data={project} />;
           })}
         </section>
