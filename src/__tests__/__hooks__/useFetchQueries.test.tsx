@@ -134,17 +134,20 @@ describe('useFetchQueries', () => {
         ],
       },
     ];
-
+  
+    // Mock the fetchProjects function to return mockProjects
     vi.mocked(fetchProjects).mockResolvedValue(mockProjects);
-
+  
     const { result } = renderHook(() => useFetchQueries(), {
       wrapper: createWrapper(),
     });
-
+  
+    // Wait for the query to resolve
     await waitFor(() => {
       expect(result.current.projects.isSuccess).toBe(true);
     });
-
+  
+    // Assertions
     expect(result.current.projects.data).toEqual(mockProjects);
   });
 
