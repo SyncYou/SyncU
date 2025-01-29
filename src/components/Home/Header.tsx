@@ -36,7 +36,7 @@ const Header = ({ setShow }: { setShow: (newItem: boolean) => void }) => {
           />
         </div>
         <div className="w-48 flex gap-6">
-          <PrimaryButton onClick={() => setShow} classes="w-[139px] h-8 rounded-[32px] py-1 px-4">
+          <PrimaryButton onClick={() => setShow(true)} classes="w-[139px] h-8 rounded-[32px] py-1 px-4">
             New Project
           </PrimaryButton>
           <NavLink to="/profile">
