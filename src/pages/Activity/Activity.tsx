@@ -11,7 +11,8 @@ const Activity = () => {
             Here are updates for you.
           </h1>
           <p className="font-normal text-base text-gray-800">
-            Hello there👋! You have 2 unread updates that need your attention.
+            Hello there👋! You have {alerts?.length} unread updates that need
+            your attention.
           </p>
         </div>
         <div className="h-[60px] py-4">
