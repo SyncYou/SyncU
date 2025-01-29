@@ -1,13 +1,9 @@
 import { create } from "zustand";
-import { NotificationType, ProjectType, UserData } from "../utils/types/Types";
+import { NotificationType, UserData } from "../utils/types/Types";
 
 interface Data {
   user: UserData;
   setUser: (fetchedUser: UserData) => void;
-}
-interface Project {
-  projects?: ProjectType[];
-  setProjects: (fetchedUser?: ProjectType[]) => void;
 }
 
 interface Alerts {
@@ -31,12 +27,6 @@ export const useUserData = create<Data>((set) => ({
     stacks: ["UI design", "User research", "UX design"],
   },
   setUser: (fetch) => set((state) => ({ user: (state.user = fetch) })),
-}));
-
-export const useProjects = create<Project>((set) => ({
-  projects: [],
-  setProjects: (fetch) =>
-    set((state) => ({ projects: (state.projects = fetch) })),
 }));
 
 export const useAlerts = create<Alerts>((set) => ({
