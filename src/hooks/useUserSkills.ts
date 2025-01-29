@@ -4,7 +4,6 @@ import useToastNotifications from "./useToastNotifications";
 import { Skills } from "../components/Profile/Step4/Skills";
 import { sendUserDetails } from "../utils/SupabaseRequest";
 
-
 export const useUserSkills = () => {
   const { userDetails, toggleSkill, removeSkill } = useUserStore();
   const [active, setActive] = useState(false);
@@ -64,11 +63,6 @@ export const useUserSkills = () => {
     setIsSearching(!isSearching);
   }
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> staging
   function handleRemoveSkill(skill: string) {
     removeSkill(skill);
     setIsSearching(false);

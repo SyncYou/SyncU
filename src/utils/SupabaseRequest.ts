@@ -88,7 +88,6 @@ export const requestToJoinProject = async (
     return;
   }
 
-<<<<<<< HEAD
   // // Prepare the notification for the project owner (creator)
   const notificationMessage = `User ${user.firstname} has requested to join your project.`;
   // const notification = {
@@ -108,37 +107,12 @@ export const requestToJoinProject = async (
   //   console.error("Error creating notification:", insertError);
   //   return;
   // }
-=======
-  // Prepare the notification for the project owner (creator)
-  const notificationMessage = `User ${user.firstname} has requested to join your project.`;
-  const notification = {
-    from: user.id,
-    to: creatorId,
-    status: "pending",
-    message: notificationMessage,
-  };
-
-  // Insert the notification into the 'Notifications' table
-  const { data, error: insertError } = await supabase
-    .from("Notifications")
-    .insert([notification]);
-
-  if (insertError) {
-    // Update the ui with the error toast
-    console.error("Error creating notification:", insertError);
-    return;
-  }
->>>>>>> staging
 
   // Send notification to the project owner
   await sendNotification(user.id, creatorId, notificationMessage);
 
   // Update the Ui with the success toast
-<<<<<<< HEAD
   // console.log("Request sent successfully and notification created:", data);
-=======
-  console.log("Request sent successfully and notification created:", data);
->>>>>>> staging
   return true;
 };
 

@@ -9,24 +9,17 @@ import PrimaryButton from "../../../components/Reuseables/PrimaryButton";
 import { useSidebar } from "../../../context/useSidebar";
 import usePageHeader from "../../../hooks/usePageHeader";
 import { useUserData } from "../../../context/useUserData";
-<<<<<<< HEAD
-import { useUserSkills } from "../../../hooks/useUserSkills";
 import useProjectCardStore from "../../../store/useProjectCardStore";
-=======
->>>>>>> staging
 
 const Header = () => {
   const location = useLocation();
   const { isOpen, change } = useSidebar();
   const { header, height } = usePageHeader();
   const { user: userData } = useUserData();
-<<<<<<< HEAD
-  // const { setSearch, search } = useUserSkills();
+
   const search = useProjectCardStore((state) => state.search);
   const setSearch = useProjectCardStore((state) => state.setSearch);
-=======
 
->>>>>>> staging
   return (
     <header
       className={`top-0 right-0 md:w-full w-screen ${height} h-[188px] sticky z-10`}
@@ -42,15 +35,10 @@ const Header = () => {
         <div className="">
           <input
             type="text"
-<<<<<<< HEAD
             value={search}
             className="w-[479px] h-11 outline-none text-gray-800 font-normal rounded-full border py-[10px] px-4"
             placeholder="Search for people or projects..."
             onChange={(e) => setSearch(e.target.value)}
-=======
-            className="w-[479px] h-11 outline-none rounded-full border py-[10px] px-4"
-            placeholder="Search for people or projects..."
->>>>>>> staging
           />
         </div>
         <div className="w-48 flex gap-6">
