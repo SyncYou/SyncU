@@ -5,14 +5,21 @@ import { useSidebar } from "../context/useSidebar";
 import { useEffect } from "react";
 import useFetchUserData from "../hooks/useFetchUserData";
 import { useUserData } from "../context/useUserData";
+<<<<<<< HEAD
 import useProjectCardStore from "../store/useProjectCardStore";
 import projectFile from "../pages/Home/utils/projectFile.json";
+=======
+
+>>>>>>> staging
 const Layout = () => {
   const { isOpen } = useSidebar();
   const { setUser } = useUserData();
 
   const { data } = useFetchUserData();
+<<<<<<< HEAD
   const setProjectFile = useProjectCardStore((state) => state.setProjectFile);
+=======
+>>>>>>> staging
 
   useEffect(() => {
     if (data) {
@@ -20,10 +27,13 @@ const Layout = () => {
     }
   }, [data]);
 
+<<<<<<< HEAD
   useEffect(() => {
     setProjectFile(projectFile);
   }, [setProjectFile]);
 
+=======
+>>>>>>> staging
   return (
     <main>
       <SideBar />

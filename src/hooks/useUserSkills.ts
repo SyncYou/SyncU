@@ -64,6 +64,11 @@ export const useUserSkills = () => {
     setIsSearching(!isSearching);
   }
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> staging
   function handleRemoveSkill(skill: string) {
     removeSkill(skill);
     setIsSearching(false);
