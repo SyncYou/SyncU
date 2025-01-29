@@ -11,7 +11,7 @@ import PrimaryButton from "../Reuseables/PrimaryButton";
 import ProjectTabs from "../Projects/ProjectTabs";
 import useDisplayPostProjectForm from "../../context/useDisplayPostProjectForm";
 
-const Header = () => {
+const Header = ({ setShow }: { setShow: (newItem: boolean) => void }) => {
   const location = useLocation();
   const { isOpen, change } = useSidebar();
   const { header, height } = usePageHeader();

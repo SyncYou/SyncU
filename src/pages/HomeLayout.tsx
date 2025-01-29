@@ -7,6 +7,7 @@ import useFetchQueries from "../hooks/useFetchQueries";
 import { useAlerts, useUserData } from "../context/useUserData";
 import { Loading } from "../components/Reuseables/Loading";
 import PostProjectForm from "../components/Projects/PostProjectForm";
+import useDisplayPostProjectForm from "../context/useDisplayPostProjectForm";
 
 const Layout = () => {
   const { isOpen } = useSidebar();
@@ -14,6 +15,7 @@ const Layout = () => {
   const { setAlerts } = useAlerts();
 
   const { userData, notifications } = useFetchQueries();
+  const { setShow } = useDisplayPostProjectForm();
 
   useEffect(() => {
     if (userData.data) {
@@ -34,7 +36,7 @@ const Layout = () => {
           isOpen ? "isOpen md:left-[239px]" : "isClosed md:left-[96px]"
         } text-gray950`}
       >
-        <Header />
+        <Header setShow={setShow} />
         <Outlet />
       </section>
     </main>
