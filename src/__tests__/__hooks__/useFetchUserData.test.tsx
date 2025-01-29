@@ -97,42 +97,41 @@ vi.mock('../../supabase/client', () => ({
     });
   
     it('should handle error when fetching user data', async () => {
-      const mockError = new Error('Failed to fetch user data');
-  
-      // Mock the Supabase response with an error
-      const mockSingle = vi.fn().mockResolvedValue({
-        data: null,
-        error: mockError,
+        const mockError = new Error('Failed to fetch user data');
+      
+        // Mock the Supabase response with an error
+        const mockSingle = vi.fn().mockResolvedValue({
+          data: null,
+          error: mockError,
+        });
+      
+        const mockEq = vi.fn().mockReturnValue({
+          single: mockSingle,
+        });
+      
+        const mockSelect = vi.fn().mockReturnValue({
+          eq: mockEq,
+        });
+      
+        vi.spyOn(supabase, 'from').mockReturnValue({
+          select: mockSelect,
+        } as any);
+      
+        const { result } = renderHook(() => useFetchUserData(), {
+          wrapper: createWrapper(),
+        });
+      
+        // Wait for the query to resolve
+        await waitFor(() => {
+          expect(result.current.error).toBeDefined();
+          expect(supabase.from).toHaveBeenCalledWith('Users');
+          expect(mockSelect).toHaveBeenCalled();
+          expect(mockEq).toHaveBeenCalledWith('id', 'test-user-id');
+          expect(mockSingle).toHaveBeenCalled();
+          expect(result.current.data).toBeUndefined();
+          expect(result.current.error?.message).toBe(mockError.message);
+        });
+      
       });
-  
-      const mockEq = vi.fn().mockReturnValue({
-        single: mockSingle,
-      });
-  
-      const mockSelect = vi.fn().mockReturnValue({
-        eq: mockEq,
-      });
-  
-      vi.spyOn(supabase, 'from').mockReturnValue({
-        select: mockSelect,
-      } as any);
-  
-      const { result } = renderHook(() => useFetchUserData(), {
-        wrapper: createWrapper(),
-      });
-  
-      // Wait for the query to resolve
-      await waitFor(() => {
-        expect(result.current.error).toBeDefined();
-      });
-  
-      // Assertions
-      expect(supabase.from).toHaveBeenCalledWith('Users');
-      expect(mockSelect).toHaveBeenCalled();
-      expect(mockEq).toHaveBeenCalledWith('id', 'test-user-id'); // Ensure this matches the mocked user ID
-      expect(mockSingle).toHaveBeenCalled();
-      expect(result.current.data).toBeNull();
-      expect(result.current.error?.message).toBe(mockError.message);
-    });
   });
   

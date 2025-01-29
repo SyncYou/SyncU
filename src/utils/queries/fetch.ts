@@ -1,4 +1,5 @@
 import { supabase } from "../../supabase/client";
+import { Project } from "../../types/project";
 import { ProjectType } from "../types/Types";
 
 export const user = await supabase.auth.getUser();
@@ -21,7 +22,7 @@ export async function fetchUserData() {
   }
 }
 
-export async function fetchProjects(): Promise<ProjectType[] | undefined> {
+export async function fetchProjects(): Promise<Project[] | undefined> {
   try {
     const { data, error } = await supabase.from("Projects").select();
 
