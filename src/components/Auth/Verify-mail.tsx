@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import Header from "../Reuseables/Header";
-import mail from "/mail.svg"; // Importing ResendEmail
+import mail from "/mail.svg";
 import { Loading } from "../Reuseables/Loading";
 import Toast from "../Reuseables/Toast";
 import useVerifyEmail from "../../hooks/useVerifyEmail"; // Importing the custom hook
 import ResendEmail from "./ResendEmail";
 import OTPInput from "./OTPInput";
+
 
 const Verifymail: React.FC = () => {
   // Custom hook for handling the logic
@@ -15,6 +16,7 @@ const Verifymail: React.FC = () => {
     isLoading,
     showNotifications,
     toast,
+    email,
     handleChange,
     handleKeyDown,
     handleSubmit,
@@ -23,13 +25,16 @@ const Verifymail: React.FC = () => {
 
   useEffect(() => {
     // Trigger the submit if the input are filled up
+    // Trigger the submit if the input are filled up
     if (otp.every((digit) => digit !== "")) {
       handleSubmit();
     }
   }, [otp, handleSubmit]);
 
+
   return (
     <>
+      {/* Show notifications */}
       {/* Show notifications */}
       {showNotifications && toast && (
         <div className="absolute top-0 flex items-center justify-center w-full z-50">
@@ -50,14 +55,14 @@ const Verifymail: React.FC = () => {
             <div className="bg-[#ffffff]  max-w-[31.5rem] h-[24rem] rounded-2xl shadow-lg shadow-[#4242421A] p-10 flex flex-col items-center justify-between">
               <div className="flex flex-col items-center">
                 <img src={mail} alt="mail" />
-                <h2 className="text-secondary text-center text-[24px] leading-[32px] font-semibold my-5">
+                <h2 className="text-secondary text-center text-[32px] leading-[32px] font-semibold my-5">
                   Verify your email.
                 </h2>
               </div>
               <div className="px-8">
-                <p className="font-normal leading-6 text-center">
+                <p className="font-normal text-base text-[#5C5C66] leading-6 text-center">
                   Check your email inbox for the code that was sent to
-                  <span className="font-medium"> your email.</span>
+                  <span className="text-black font-semibold"> {email}.</span>
                 </p>
               </div>
 

@@ -5,51 +5,196 @@ import { BsShare } from "react-icons/bs";
 import { HiOutlineBriefcase, HiOutlineLockClosed } from "react-icons/hi";
 import { PiTagChevron } from "react-icons/pi";
 import { FaRegCalendarMinus } from "react-icons/fa";
+import { useEffect, useState } from "react";
 import { IoCheckmarkCircle } from "react-icons/io5";
+import { useQueryClient } from "@tanstack/react-query";
+import { requestToJoinProject } from "../../utils/SupabaseRequest";
+import { getLoggedInUser } from "../../utils/AuthRequest";
 import Overlay from "../Reuseables/Overlay";
 import SecondaryButton from "../Reuseables/SecondaryButton";
 import PrimaryButton from "../Reuseables/PrimaryButton";
 import Chip from "../Reuseables/Chip";
-import { ProjectType } from "../../utils/types/Types";
-import { user } from "../../utils/queries/fetch";
-import useProjectRequest from "../../hooks/useProjectRequest";
-import ProjectDetailsMobile from "./ProjectDetailsMobile";
-import ViewRequests from "./ViewRequests";
-import useModalView from "../../hooks/useModalView";
-import { Loading } from "../Reuseables/Loading";
 
 interface PropsType {
   state: () => void;
-  data: ProjectType;
+  data: {
+    created_at: string;
+    created_by: string;
+    description: string;
+    id: string;
+    industry: string;
+    participants: string[];
+    project_views: number;
+    requests: {
+      userId: string;
+      status: string;
+    }[];
+    required_roles: string[];
+    required_stacks: string[];
+    title: string;
+    updated_at?: string;
+    username?: string;
+  };
 }
 
 const ProjectDetails = ({ state, data }: PropsType) => {
-  const { modal, handleModal } = useModalView();
-  const creator = data.created_by === user.data.user?.id;
-  const { handleRequest, showNotifications, sendingRequest } =
-    useProjectRequest();
+  const [isRequested, setIsRequested] = useState<boolean>(false);
+  const [showNotifications, setShowNotifications] = useState<boolean>(false);
+  const [currentView, setCurrentView] = useState<string>("About");
 
-  const checkIfRequested = data.requests?.filter(
-    (req) => req.userId === user.data.user?.id
-  );
+  const handleRequest = async () => {
+    try {
+      const req = await requestToJoinProject(data.id, data.created_by);
+      if (req) {
+        // await sendNotification()
+        const showNotificationTimeout = setTimeout(() => {
+          setShowNotifications(true);
+        }, 1000);
+
+        const hideNotificationTimeout = setTimeout(() => {
+          setShowNotifications(false);
+        }, 3000);
+        setIsRequested(true);
+
+        return () => {
+          clearTimeout(showNotificationTimeout);
+          clearTimeout(hideNotificationTimeout);
+        };
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    // setIsRequested((i) => !i);
+  };
+
+  const client = useQueryClient();
+
+  useEffect(() => {
+    const ifRequested = async () => {
+      const user = await getLoggedInUser();
+      const checkIfRequested = data.requests?.filter(
+        (req) => req.userId === user?.id
+      );
+      if (checkIfRequested.length != 0) {
+        setIsRequested(true);
+        await client.invalidateQueries({
+          queryKey: ["Created-projects"],
+        });
+      } else {
+        setIsRequested(false);
+      }
+    };
+
+    ifRequested();
+  }, []);
 
   return (
     <Overlay>
-      {modal && (
-        <ViewRequests
-          projectId={data.id}
-          requests={data.requests}
-          state={handleModal}
-        />
-      )}
-      {sendingRequest && <Loading />}
       {showNotifications && (
         <div className="absolute z-20 h-10 w-[145px] rounded-lg bg-[#2A2A33CC] flex items-center justify-center gap-[10px]">
           <IoCheckmarkCircle className="text-success700" />
           <span className="font-normal text-base text-white">Request sent</span>
         </div>
       )}
-      <ProjectDetailsMobile data={data} state={state} />
+      <div className="h-screen w-screen bg-white md:hidden">
+        <div className="w-full border-b border-gray200 bg-white">
+          <div className="flex gap-[10px] py-[10px] px-4 border-b border-gray200">
+            <div className="flex gap-2 items-center">
+              <div className="h-10 w-10 bg-black rounded-full"></div>
+              <div className="">
+                <p className="m-0 font-normal text-sm text-gray950">
+                  @oscarteem
+                </p>
+                <p className="m-0 font-normal text-xs text-gray700">
+                  is looking for collaborators
+                </p>
+              </div>
+            </div>
+            <div className="flex ml-auto">
+              <div className="w-20 h-[32px] flex gap-4 my-auto">
+                <button className="w-[32px] h-[32px] rounded-[80px] border-[0.4px] border-gray200">
+                  {"<"}
+                </button>
+                <button className="w-[32px] h-[32px] rounded-[80px] border-[0.4px] border-gray200">
+                  {">"}
+                </button>
+              </div>
+              <div className="w-4 h-0 border-[1px] border-gray200 my-auto -rotate-90"></div>
+              <img
+                onClick={state}
+                className="my-auto cursor-pointer"
+                src={x}
+                alt=""
+              />
+            </div>
+          </div>
+          <div className="h-11 w-full px-4 border-gray200 border-b gap-4">
+            <div className="project flex items-center gap-4">
+              <div
+                onClick={() => setCurrentView("About")}
+                className={`w-[125px] h-11 flex ${
+                  currentView === "About" && "active"
+                } relative justify-center items-center`}
+              >
+                About
+              </div>
+              <div
+                onClick={() => setCurrentView("Workspace")}
+                className={`w-[125px] h-11 flex ${
+                  currentView === "Workspace" && "active"
+                } relative justify-center items-center`}
+              >
+                Workspace
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="h-full w-full pr-5 flex flex-col gap-8 overflow-y-scroll scrollbar-thin scrollbar-thumb-white scrollbar-track-gray100">
+          <div className="h-16 flex justify-between">
+            <div className="flex flex-col gap-2">
+              <h3 className="font-semibold text-2xl">{data.title}</h3>
+              <p className="font-normal text-base text-gray700">
+                {data.industry}
+              </p>
+            </div>
+            <div className="h-10 w-10 cursor-pointer rounded-[100px] flex justify-center items-center border-[0.5px] border-gray300 my-auto">
+              <BsShare className="rotate-180 text-[24px]" />
+            </div>
+          </div>
+          <div className="h-[99px] flex flex-col gap-3">
+            <p className="font-medium text-sm">Required</p>
+            <div className="flex gap-[11px]">
+              {data.required_stacks.map((skill) => {
+                return <Chip>{skill}</Chip>;
+              })}
+            </div>
+          </div>
+          <div className="w-full">
+            <p className="mb-3 text-gray950 font-medium">Description</p>
+            <div className="text-[#374151] font-normal">
+              <p>{data.description}</p>
+            </div>
+          </div>
+        </div>
+        <div className="fixed bottom-0 h-16 w-full border-t border-gray200 bg-white flex justify-between items-center px-4 py-[10px]">
+          {isRequested ? (
+            <SecondaryButton
+              onClick={handleRequest}
+              classes="h-11 min-w-[294px]"
+            >
+              Withdraw Request
+            </SecondaryButton>
+          ) : (
+            <PrimaryButton onClick={handleRequest} classes="h-11 min-w-[294px]">
+              Send Request
+              <FiSend />
+            </PrimaryButton>
+          )}
+          <div className="h-10 w-10 cursor-pointer drop-shadow-lg rounded-[100px] flex justify-center items-center border-[0.5px] border-gray300 my-auto">
+            <BsShare className="rotate-180 text-[20px]" />
+          </div>
+        </div>
+      </div>
       <div className="md:w-[1060px] md:h-[758px] text-gray950 hidden md:flex flex-col gap-4 relative w-[358px] h-[458px] rounded-3xl bg-white">
         <div className="w-full h-[76px] flex justify-between border-gray200 border-b py-4 px-6">
           <div className="flex gap-2">
@@ -62,20 +207,21 @@ const ProjectDetails = ({ state, data }: PropsType) => {
             </div>
           </div>
           <div className="flex gap-4">
-            {checkIfRequested.length == 1 && !creator && (
-              <SecondaryButton classes="h-11">Withdraw Request</SecondaryButton>
-            )}
-            {checkIfRequested.length == 0 && !creator && (
+            {isRequested ? (
+              <SecondaryButton
+                onClick={handleRequest}
+                classes="h-10 min-w-[146px]"
+              >
+                Withdraw Request
+              </SecondaryButton>
+            ) : (
               <PrimaryButton
-                onClick={() => handleRequest(data.id, data.created_by)}
-                classes="h-11 gap-3"
+                onClick={handleRequest}
+                classes="h-10 min-w-[146px]"
               >
                 Send Request
                 <FiSend />
               </PrimaryButton>
-            )}
-            {creator && (
-              <SecondaryButton classes="h-11">Edit project</SecondaryButton>
             )}
 
             <div className="w-20 h-[32px] flex gap-4 my-auto">
@@ -177,13 +323,9 @@ const ProjectDetails = ({ state, data }: PropsType) => {
                 </div>
                 <div className="flex justify-between h-10 px-3 py-2">
                   <div>Requests</div>
-                  {creator ? (
-                    <button onClick={handleModal}>{">"}</button>
-                  ) : (
-                    <p className="text-gray950 font-medium">
-                      {data.requests?.length}
-                    </p>
-                  )}
+                  <p className="text-gray950 font-medium">
+                    {data.requests?.length}
+                  </p>
                 </div>
               </div>
             </div>

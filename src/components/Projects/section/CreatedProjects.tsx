@@ -1,5 +1,6 @@
 import { FiPlus } from "react-icons/fi";
 import empty from "/assets/Empty.svg";
+import { useQuery } from "@tanstack/react-query";
 import ProjectCard from "../ProjectCard";
 import { fetchCreatedProjects } from "../../../utils/queries/fetch";
 import SecondaryButton from "../../Reuseables/SecondaryButton";
@@ -29,17 +30,14 @@ const CreatedProjects = () => {
               Create a project to see them here.
             </p>
           </div>
-          <SecondaryButton
-            onClick={() => setShow(true)}
-            classes="w-[177px] h-11 mx-auto"
-          >
+          <SecondaryButton classes="w-[177px] h-11 mx-auto">
             <FiPlus />
             New Project
           </SecondaryButton>
         </div>
       ) : (
         <section className="grid md:grid-cols-3 min-h-full gap-8 md:max-w-full max-w-screen">
-          {createdProjects?.map((project) => {
+          {data?.map((project) => {
             return <ProjectCard data={project} />;
           })}
         </section>

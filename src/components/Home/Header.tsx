@@ -9,14 +9,12 @@ import usePageHeader from "../../hooks/usePageHeader";
 import { useUserData } from "../../context/useUserData";
 import PrimaryButton from "../Reuseables/PrimaryButton";
 import ProjectTabs from "../Projects/ProjectTabs";
-import useDisplayPostProjectForm from "../../context/useDisplayPostProjectForm";
 
 const Header = () => {
   const location = useLocation();
   const { isOpen, change } = useSidebar();
   const { header, height } = usePageHeader();
   const { user: userData } = useUserData();
-  const { setShow } = useDisplayPostProjectForm();
 
   return (
     <header
@@ -38,10 +36,7 @@ const Header = () => {
           />
         </div>
         <div className="w-48 flex gap-6">
-          <PrimaryButton
-            onClick={() => setShow(true)}
-            classes="w-[139px] h-8 rounded-[32px] py-1 px-4"
-          >
+          <PrimaryButton classes="w-[139px] h-8 rounded-[32px] py-1 px-4">
             New Project
           </PrimaryButton>
           <NavLink to="/profile">

@@ -29,7 +29,6 @@ const OTPInput: React.FC<OTPInputProps> = ({
               }
             }}
             id={`input-${idx}`}
-            type="password"
             inputMode="numeric"
             aria-label={`Digit ${idx + 1} of OTP`}
             maxLength={1}
@@ -43,7 +42,7 @@ const OTPInput: React.FC<OTPInputProps> = ({
               htmlFor={`input-${idx}`}
               className="absolute top-1/2 right-1/2 text-[2.7rem] translate-x-1/2 -translate-y-1/2"
             >
-              <BsDot className="opacity-50" />
+              <BsDot className="opacity-30" />
             </label>
           )}
         </div>
