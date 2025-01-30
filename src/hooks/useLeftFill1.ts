@@ -10,7 +10,6 @@ export const useLeftFill1 = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const { toast, showToast } = useToastNotifications();
-
   const selectedStack = Niches.find((niche) => niche.id === checked) || null;
 
   // Function to handle stack selection
@@ -20,19 +19,35 @@ export const useLeftFill1 = () => {
   };
 
   // Validation for the form
-  const isValid =
-    userDetails.firstName.trim() !== "" &&
-    userDetails.lastName.trim() !== "" &&
-    userDetails.countryOfResidence.trim() !== "" &&
-    userDetails.firstName !== "N/A" &&
-    userDetails.lastName !== "N/A" &&
-    userDetails.email !== "" &&
-    userDetails.countryOfResidence !== "N/A" &&
-    userDetails.username.trim() !== "" &&
-    userDetails.areaOfExpertise !== "";
+  const [isValid, setIsValid] = useState<boolean>(() => {
+    return (
+      userDetails.firstName.trim() !== "" &&
+      userDetails.lastName.trim() !== "" &&
+      userDetails.countryOfResidence.trim() !== "" &&
+      userDetails.firstName !== "N/A" &&
+      userDetails.lastName !== "N/A" &&
+      userDetails.email !== "" &&
+      userDetails.countryOfResidence !== "N/A" &&
+      userDetails.username.trim() !== "" &&
+      userDetails.areaOfExpertise !== ""
+    );
+  });
 
   useEffect(() => {
     localStorage.setItem("userDetails", JSON.stringify(userDetails));
+  
+    // Update isValid when userDetails change
+    setIsValid(
+      userDetails.firstName.trim() !== "" &&
+      userDetails.lastName.trim() !== "" &&
+      userDetails.countryOfResidence.trim() !== "" &&
+      userDetails.firstName !== "N/A" &&
+      userDetails.lastName !== "N/A" &&
+      userDetails.email !== "" &&
+      userDetails.countryOfResidence !== "N/A" &&
+      userDetails.username.trim() !== "" &&
+      userDetails.areaOfExpertise !== ""
+    );
   }, [userDetails]);
 
   // Handle form submission and send user details
@@ -45,13 +60,10 @@ export const useLeftFill1 = () => {
             setShowNotifications(true);
             showToast("error", "An Error occurred", "Please try again.");
           }, 1000);
-
           const hideNotificationTimeout = setTimeout(() => {
             setShowNotifications(false);
           }, 5000);
-
           console.log(error);
-
           return () => {
             clearTimeout(showNotificationTimeout);
             clearTimeout(hideNotificationTimeout);
@@ -59,6 +71,7 @@ export const useLeftFill1 = () => {
         }
       } catch (error) {
         console.error("Error sending data to Supabase:", error);
+        setShowNotifications(true);
       }
     }
   };
