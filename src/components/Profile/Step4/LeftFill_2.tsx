@@ -13,7 +13,7 @@ interface Skill {
   selected: boolean;
 }
 
-export function LeftFill_2() {
+export default function LeftFill_2() {
   const {
     active,
     setActive,

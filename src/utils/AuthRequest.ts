@@ -1,6 +1,5 @@
 import { AuthResponse } from "@supabase/supabase-js";
 import { supabase } from "../supabase/client";
-import { UserData } from "./types/Types";
 
 // Signup with OTP
 // Signup with OTP

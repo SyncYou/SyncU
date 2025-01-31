@@ -4,41 +4,39 @@ import Header from "../components/Home/Header";
 import { useSidebar } from "../context/useSidebar";
 import { useEffect } from "react";
 import useFetchQueries from "../hooks/useFetchQueries";
-import { useAlerts, useProjects, useUserData } from "../context/useUserData";
+import { useAlerts, useUserData } from "../context/useUserData";
 import { Loading } from "../components/Reuseables/Loading";
 import PostProjectForm from "../components/Projects/PostProjectForm";
+import useDisplayPostProjectForm from "../context/useDisplayPostProjectForm";
 
 const Layout = () => {
   const { isOpen } = useSidebar();
   const { setUser } = useUserData();
-  const { setProjects } = useProjects();
   const { setAlerts } = useAlerts();
 
-  const { userData, projects, notifications } = useFetchQueries();
+  const { userData, notifications } = useFetchQueries();
+  const { setShow } = useDisplayPostProjectForm();
 
   useEffect(() => {
     if (userData.data) {
       setUser(userData.data);
     }
-    if (projects.data) {
-      setProjects(projects.data);
-    }
     if (notifications.data) {
       setAlerts(notifications.data);
     }
-  }, [userData.data, projects.data, notifications.data]);
+  }, [userData.data, notifications.data]);
 
   return (
     <main>
       <SideBar />
       <PostProjectForm />
-      {projects.isLoading && <Loading />}
+      {userData.isLoading && <Loading />}
       <section
         className={`md:relative  ${
           isOpen ? "isOpen md:left-[239px]" : "isClosed md:left-[96px]"
         } text-gray950`}
       >
-        <Header />
+        <Header setShow={setShow} />
         <Outlet />
       </section>
     </main>
