@@ -1,3 +1,6 @@
+import { useUserStore } from "../../../store/UseUserStore";
+
+
 interface StackProps {
   stack: string;
   id: number;
@@ -16,6 +19,7 @@ export function Stack({
   setIsModalOpen,
 }: StackProps) {
   const clicked = id === checked;
+  const { userDetails, setUserDetails } = useUserStore();
 
   function handleToggle() {
     // Toggle the checked state
@@ -23,6 +27,7 @@ export function Stack({
     setChecked(newCheckedState);
     // Open the modal if a stack is selected
     setIsModalOpen(newCheckedState !== null);
+    setUserDetails("areaOfExpertise", "");
   }
 
   return (
@@ -46,7 +51,7 @@ export function Stack({
         {clicked && (
           <fieldset className="p-1 rounded-full z-10 bg-brand-500 absolute  right-3 top-2">
             <svg className="rounded-full" width="12.5" height="12.5" viewBox="0 0 12 9" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M10.1663 1.875L4.43717 7.60417L1.83301 5" stroke="white" stroke-width="2.08333" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M10.1663 1.875L4.43717 7.60417L1.83301 5" stroke="white" strokeWidth="2.08333" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
 
           </fieldset>

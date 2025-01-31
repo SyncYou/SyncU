@@ -20,7 +20,7 @@ const ProfileLayout: React.FC = () => {
       {/* <div className="hidden md:block">
         <Header />
       </div> */}
-      <section className="pt-[63.1px] grid w-full h-full md:grid-cols-[55%_45%]">
+      <section className={`pt-[63.1px] grid w-full h-full ${location.pathname !== "/onboarding/finishing" ? "md:grid-cols-[55%_45%]" : ""}`}>
         {location.pathname !== "/onboarding/finishing" && (
           <div className="w-full flex mt-10 pl-4 pr-12">
             <Outlet />

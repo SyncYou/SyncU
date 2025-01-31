@@ -60,19 +60,19 @@ export function LeftFill_2() {
             </div>
           </div>
 
-          <div className="gap-4 flex-col relative my-5">
+          <div className="gap-4 flex-col relative my-5 mt-3">
             <h3 className="text-gray-800 font-normal text-sm my-3">
               Add at least 3/10 skills or stacks
             </h3>
             <span
-              className={`flex items-start justify-between py-2 px-3 border border-solid h-[90%] bg-white w-[62%] rounded-lg ${
+              className={`flex w-full max-w-[28.5rem] items-start justify-between py-2 px-3 border border-solid h-[90%] bg-white rounded-lg ${
                 active
                   ? "border-brand-400 shadow-active-state"
                   : "border-gray-200"
               }`}
             >
-              <span className="flex items-start flex-col gap-1 w-full">
-                <p className="text-gray-950 text-xs font-medium">
+              <span className="flex items-start flex-col gap-1 w-full h-36">
+                <p className="text-gray-950 text-xs font-medium mb-2">
                   Skills/stacks
                 </p>
                 {isSearching ? (
@@ -89,24 +89,25 @@ export function LeftFill_2() {
                     }}
                   />
                 ) : (
-                  <div className="gap-4 [&_p]:text-gray-950 [&_p]:rounded-3xl [&_p]:border-gray-300 [&_p]:border [&_p]:py-1 [&_p]:px-[20px] w-full flex-wrap space-y-2">
+                  <div className="gap-2 text-gray-950 w-full flex flex-wrap text-sm">
                     {userDetails.stacks.map(
                       (skill, index) =>
                         skill !== "N/A" && (
-                          <p
+                          <span
                             key={index}
                             className={`${
                               skill === "N/A"
                                 ? "border-none"
-                                : "border  [&_span]:flex [&_span]:items-center [&_span]:gap-[10px] cursor-pointer [&_span]:text-brand-600 bg-skill"
+                                : "border flex flex-row gap-3 py-[0.2rem] w-fit rounded-full px-2 items-center justify-between cursor-pointer text-brand-600 bg-skill"
                             }`}
                             onClick={() => handleRemoveSkill(skill)}
                           >
-                            <span>
+                            <p className="text-brand-600">
                               {skill}
-                              <FaTimes />
-                            </span>
-                          </p>
+                              
+                            </p>
+                            <FaTimes className="text-brand-600 text-base font-thin" />
+                          </span>
                         )
                     )}
                   </div>
@@ -115,7 +116,7 @@ export function LeftFill_2() {
               <img src={caret} alt="caretUpDown" />
             </span>
 
-            <div className="absolute bottom-[25%] w-full" ref={modalRef}>
+            <div className="absolute -bottom-2 w-full" ref={modalRef}>
               {showModal && (
                 <Modal2
                   filteredSkills={filteredSkills}
@@ -139,20 +140,21 @@ export function LeftFill_2() {
               ))}
             </span>
           </div>
-          
+          {!showModal && (
           <div className="pt-8">
-            <Nav_Btn
-              disabled={!isValid}
-              showPrevious={true}
-              handleRequest={handleRequest}
-              navTo="/onboarding/profile-image"
-              btn_Style={`${
-                isValid
-                  ? "bg-gray-950 text-opacity-100 text-white"
-                  : "text-opacity-40 cursor-not-allowed"
-              }`}
-            />
-          </div>
+              <Nav_Btn
+                disabled={!isValid}
+                showPrevious={true}
+                handleRequest={handleRequest}
+                navTo="/onboarding/profile-image"
+                btn_Style={`${
+                  isValid
+                    ? "bg-gray-950 text-opacity-100 text-white"
+                    : "text-opacity-40 cursor-not-allowed"
+                }`}
+              />
+            </div>
+          )}
         </div>
       </section>
     </>

@@ -70,7 +70,6 @@ const ProfilePreview: React.FC = () => {
           ) : (
             <Button style="text-[16px] w-full text-opacity-40 w-[284px] [&_img]:opacity-40 bg-white cursor-not-allowed">
               <span>Start collaborating</span>
-              <span>Start collaborating</span>
               <img src={Send} alt="send Icon" />
             </Button>
           )}

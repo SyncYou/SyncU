@@ -3,7 +3,9 @@ import Nav_Btn from "../../Reuseables/Nav_Btn";
 import { ProfileImage } from "./ProfileImages";
 import { Avatar } from "./Avatar";
 import Toast from "../../Reuseables/Toast";
+import { uploadAvatar } from "../../../utils/SupabaseRequest";
 import { useProfileImage } from "../../../hooks/useProfileImage";
+import { useState } from "react";
 
 interface ProfileImageItem {
   id: number;
@@ -25,6 +27,24 @@ export function LeftFill_3() {
     handleRequest,
     isValid,
   } = useProfileImage();
+
+  const [checked, setChecked] = useState<number | null>(null);
+
+  const handleAvatarClick = async (items:{id: number; img: string; }) => {
+    setChecked(checked => checked == items.id? null : items.id);
+
+    try {
+      const response = await fetch(items.img);
+      const blob = await response.blob();
+      const file = new File([blob], "avatar.jpg", { type: blob.type });
+
+      const avatarUrl = await uploadAvatar(file);
+
+      handleAvatarSelect(avatarUrl);
+    } catch (error) {
+      console.error("Error uploading avatar:", error);
+    }
+  };
 
   return (
     <>
@@ -55,7 +75,7 @@ export function LeftFill_3() {
           </div>
 
           <div className="gap-4 flex-col relative">
-            <h3 className="text-gray-800 font-normal text-base my-3">
+            <h3 className="text-gray-800 font-normal text-base my-4">
               Select an avatar{" "}
             </h3>
             <span className="flex items-start gap-4 [&_img]:object-contain relative [&_img]:cursor-pointer">
@@ -63,12 +83,13 @@ export function LeftFill_3() {
                 <Avatar
                   key={items.id}
                   items={items}
-                  handleAvatarSelect={handleAvatarSelect}
+                  checked={checked}
+                  handleAvatarClick={handleAvatarClick}
                 />
               ))}
             </span>
             <div className="gap-4 flex-col">
-              <h3 className="text-gray-800 font-normal text-base my-5">
+              <h3 className="text-gray-800 font-normal text-base my-6">
                 or upload an image{" "}
               </h3>
               <label className="rounded-full border-dashed  [&_img]:object-contain border bg-white border-gray-300 h-[80px] w-[80px] flex items-center justify-center *:w-8 *:h-8 cursor-pointer">
@@ -82,18 +103,19 @@ export function LeftFill_3() {
               </label>
             </div>
           </div>
-
-          <Nav_Btn
-            disabled={!isValid}
-            showPrevious={true}
-            handleRequest={handleRequest}
-            navTo="/onboarding/finishing"
-            btn_Style={`${
-              isValid
-                ? "bg-gray-950 text-opacity-100 text-white"
-                : "text-opacity-40 cursor-not-allowed"
-            }`}
-          />
+          <div className="pt-9">
+            <Nav_Btn
+              disabled={!isValid}
+              showPrevious={true}
+              handleRequest={handleRequest}
+              navTo="/onboarding/finishing"
+              btn_Style={`${
+                isValid
+                  ? "bg-gray-950 text-opacity-100 text-white"
+                  : "text-opacity-40 cursor-not-allowed"
+              }`}
+            />
+          </div>
         </div>
       </section>
     </>
