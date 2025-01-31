@@ -1,6 +1,7 @@
 import { supabase } from "../supabase/client";
 import { getLoggedInUser } from "./AuthRequest";
 import { fetchUserData } from "./queries/fetch";
+import { Request } from "./types/Types";
 
 // Updating the user deatils(onboarding)
 export const sendUserDetails = async (userData: any) => {
@@ -138,7 +139,7 @@ export const withdrawToJoinProject = async (
   }
 
   const updatedRequests = requests.requests.filter(
-    (req) => req.userId != user.id
+    (req: Request) => req.userId != user.id
   );
 
   // Update the project with the new request
