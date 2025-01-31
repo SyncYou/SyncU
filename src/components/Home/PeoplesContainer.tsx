@@ -1,8 +1,12 @@
-import { useProjects } from "../../context/useUserData";
+import { useQuery } from "@tanstack/react-query";
 import ProjectCard from "../Projects/ProjectCard";
+import { fetchProjects } from "../../utils/queries/fetch";
 
 const PeoplesContainer = () => {
-  const { projects } = useProjects();
+  const { data: projects } = useQuery({
+    queryKey: ["projects"],
+    queryFn: fetchProjects,
+  });
 
   return (
     <section className="md:px-8 px-4 md:py-6 pt-6 pb-20 md:w-full w-screen">

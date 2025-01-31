@@ -124,8 +124,10 @@ const Profile = () => {
             Skills/stacks
           </p>
           <div className="py-[10px] px-4 flex gap-[10px]">
-            {stacks.map((stack) => {
-              return <Chip>{stack}</Chip>;
+            {stacks.map((stack, idx) => {
+              return <div key={idx}>
+                <Chip>{stack}</Chip>;
+              </div>
             })}
           </div>
         </div>

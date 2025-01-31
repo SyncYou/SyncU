@@ -1,13 +1,14 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import { NotificationType, ProjectType, UserData } from "../utils/types/Types";
+import { NotificationType, UserData } from "../utils/types/Types";
 import { supabase } from "../supabase/client";
 import { fetchProjects, user } from "../utils/queries/fetch";
+import { Project } from "../types/project";
 
 // Fetch User Data
 const useFetchQueries = (): {
   userData: UseQueryResult<UserData | undefined, Error>;
-  projects: UseQueryResult<ProjectType[] | undefined, Error>;
   notifications: UseQueryResult<NotificationType[] | undefined, Error>;
+  projects: UseQueryResult<Project[] | undefined, Error>;
 } => {
   const userData = useQuery({
     queryKey: ["users", user.data.user?.id],
@@ -26,11 +27,6 @@ const useFetchQueries = (): {
     },
   });
 
-  const projects = useQuery({
-    queryKey: ["projects"],
-    queryFn: fetchProjects,
-  });
-
   const notifications = useQuery({
     queryKey: ["notification"],
     queryFn: async (): Promise<NotificationType[] | undefined> => {
@@ -46,8 +42,12 @@ const useFetchQueries = (): {
       return data;
     },
   });
+  const projects = useQuery({
+    queryKey: ["projects"],
+    queryFn: fetchProjects, // Use fetchProjects function
+  });
 
-  return { userData, projects, notifications };
+  return { userData, notifications, projects };
 };
 
 export default useFetchQueries;

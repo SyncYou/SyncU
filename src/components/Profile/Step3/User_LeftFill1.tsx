@@ -6,7 +6,7 @@ import { Niches } from "./Niches";
 import Toast from "../../Reuseables/Toast";
 import { useLeftFill1 } from "../../../hooks/useLeftFill1";
 
-export function User_LeftFill1() {
+export default function User_LeftFill1() {
   const {
     checked,
     setChecked,

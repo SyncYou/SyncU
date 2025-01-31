@@ -1,4 +1,5 @@
 import { supabase } from "../../supabase/client";
+import { Project } from "../../types/project";
 import { ProjectType } from "../types/Types";
 
 export const user = await supabase.auth.getUser();
@@ -21,7 +22,7 @@ export async function fetchUserData() {
   }
 }
 
-export async function fetchProjects(): Promise<ProjectType[] | undefined> {
+export async function fetchProjects(): Promise<Project[] | undefined> {
   try {
     const { data, error } = await supabase.from("Projects").select();
 
@@ -34,10 +35,15 @@ export async function fetchProjects(): Promise<ProjectType[] | undefined> {
   }
 }
 
-// Fetch projects created by the user
-export async function fetchUserCreatedProject() {
+
+export async function fetchCreatedProjects(): Promise<
+  ProjectType[] | undefined
+> {
   try {
-    const { data, error } = await supabase.from("Projects").select();
+    const { data, error } = await supabase
+      .from("Projects")
+      .select()
+      .eq("created_by", user.data.user?.id);
 
     if (error) {
       throw new Error(error.message);
@@ -66,3 +72,4 @@ export async function fetchUserRequestedProject() {
     console.error(error);
   }
 }
+
