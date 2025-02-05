@@ -15,33 +15,36 @@ export function useNavBtn<T>(
 
   const handleNext = async () => {
     if (!disabled) {
-      const nextStep = currentStep + 1;
-      setCurrentStep(nextStep);
-
-      // Check if handleRequest is defined before calling it
       if (handleRequest) {
         try {
-          await handleRequest();
-          navigate(navTo);
-        } catch (error) {
-          const showNotificationTimeout = setTimeout(() => {
+          const error = await handleRequest();
+
+          if (!error) {
+            const nextStep = currentStep + 1;
+            setCurrentStep(nextStep);
+            navigate(navTo);
+          } else {
             setShowNotifications(true);
-            showToast("error", "An Error occurred", "Please try again.");
-          }, 1000);
+            showToast("error", "An error occurred", "Please try again.");
+            return;
+          }
+        } catch (error: unknown) {
+          const pgError = error as { code: string };
 
-          const hideNotificationTimeout = setTimeout(() => {
-            setShowNotifications(false);
-          }, 5000);
+          if (pgError.code === "23505") {
+            setShowNotifications(true);
+            showToast(
+              "error",
+              "Username is already taken",
+              "Please choose a different username."
+            );
+          } else {
+            setShowNotifications(true);
+            showToast("error", "An error occurred", "Please try again.");
+          }
 
-          console.log(error);
-
-          return () => {
-            clearTimeout(showNotificationTimeout);
-            clearTimeout(hideNotificationTimeout);
-          };
+          console.log(pgError);
         }
-      } else {
-        navigate(navTo);
       }
     }
   };

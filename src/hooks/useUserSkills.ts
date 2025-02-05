@@ -79,21 +79,8 @@ export const useUserSkills = () => {
   const handleRequest = async () => {
     try {
       const { error } = await sendUserDetails(userDetails);
-      if (error) {
-        const showNotificationTimeout = setTimeout(() => {
-          setShowNotifications(true);
-          showToast("error", "An Error occurred", "Please try again.");
-        }, 1000);
-
-        const hideNotificationTimeout = setTimeout(() => {
-          setShowNotifications(false);
-        }, 5000);
-
-        return () => {
-          clearTimeout(showNotificationTimeout);
-          clearTimeout(hideNotificationTimeout);
-        };
-      }
+      console.log(error)
+     return error
     } catch (error) {
       console.error("Error sending data to Supabase:", error);
     }

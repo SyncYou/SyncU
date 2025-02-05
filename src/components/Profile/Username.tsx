@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import Nav_Btn from "../Reuseables/Nav_Btn";
+import check from "/check.svg";
 
 import Toast from "../Reuseables/Toast";
 import { useUsername } from "../../hooks/useUsername";
 
 const Username: React.FC = () => {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [isFocused, setIsFocused] = useState(false);
   // Custom hook for the logic
   const {
     showNotifications,
@@ -13,6 +16,8 @@ const Username: React.FC = () => {
     userDetails,
     handleChange,
     handleRequest,
+    isCheckingUsername,
+    usernameCheckResult,
   } = useUsername();
   return (
     <>
@@ -41,21 +46,48 @@ const Username: React.FC = () => {
           </div>
 
           <div className="space-y-5">
-            <div className="border border-[#E6E6F0] rounded-xl py-2 px-3 flex flex-col gap-2 focus:border focus:border-primary focus:shadow focus:shadow-[#EDE4FA] max-w-[400px]">
-              <label
-                className="text-secondary leading-6 text-[16px] font-normal"
-                htmlFor="username"
+            <div>
+              <div
+                onClick={() => inputRef.current?.focus()}
+                className={`border rounded-xl py-2 px-3 flex flex-col gap-2 max-w-[400px] ${
+                  isFocused
+                    ? "border-[#A771E5] shadow-lg shadow-[#EDE4FA]"
+                    : "border-[#E6E6F0]"
+                }`}
               >
-                Username
-              </label>
-              <input
-                className="focus:outline-none"
-                name="username"
-                type="text"
-                placeholder="John"
-                value={userDetails.username}
-                onChange={handleChange}
-              />
+                <label
+                  className="text-secondary leading-6 text-[16px] font-normal"
+                  htmlFor="username"
+                >
+                  Username
+                </label>
+                <div className="flex ">
+                  <input
+                    className="focus:outline-none flex-1"
+                    name="username"
+                    type="text"
+                    placeholder="John"
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
+                    value={userDetails.username}
+                    onChange={handleChange}
+                  />
+                  {usernameCheckResult?.status === "available" && (
+                    <img className="-mt-7" src={check} alt="check img" />
+                  )}
+                </div>
+              </div>
+              {isCheckingUsername && (
+                <span className="inline-block m-1 text-[#5C5C66] text-[14px] leading-6">
+                  checking username...
+                </span>
+              )}
+              {usernameCheckResult?.status === "available" && (
+                <span className="text-[#129343] text-[14px] leading-6">{usernameCheckResult.message}</span>
+              )}
+              {usernameCheckResult?.status === "error" && (
+                <p className="text-red-500 text-[14px] leading-6">{usernameCheckResult.message}</p>
+              )}
             </div>
 
             <Nav_Btn
