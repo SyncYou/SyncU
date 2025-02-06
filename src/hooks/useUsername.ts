@@ -12,12 +12,12 @@ export const useUsername = () => {
   const [usernameToCheck, setUsernameToCheck] = useState("");
 
   const { data: usernameCheckResult, isLoading: isCheckingUsername } = useQuery({
-    queryKey: ["username", usernameToCheck], // Re-run query when usernameToCheck changes
+    queryKey: ["username", usernameToCheck], 
     queryFn: async () => {
-      if (usernameToCheck.trim() === "") return null; // Skip check if username is empty
+      if (usernameToCheck.trim() === "") return null;
       return await checkUsername(usernameToCheck);
     },
-    enabled: !!usernameToCheck, // Only run the query if usernameToCheck is not empty
+    enabled: !!usernameToCheck, 
   });
 
   // Handle input change
