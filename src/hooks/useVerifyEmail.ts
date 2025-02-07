@@ -1,15 +1,13 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router";
-import useToastNotifications from "./useToastNotifications";
 import { useUserStore } from "../store/UseUserStore";
 import { signupWithOTP, verifyEmail } from "../utils/AuthRequest";
+import { errorToast, successToast } from "oasis-toast";
 
 const useVerifyEmail = () => {
   const navigate = useNavigate();
   const { userDetails } = useUserStore();
-  const { toast, showToast } = useToastNotifications();
   const [isLoading, setIsLoading] = useState(false);
-  const [showNotifications, setShowNotifications] = useState(false);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [otp, setOtp] = useState(new Array(6).fill(""));
   const [email, setEmail] = useState<string>("");
@@ -70,40 +68,11 @@ const useVerifyEmail = () => {
 
     const { session, error } = await verifyEmail(email, otpString);
     if (error) {
-      setIsLoading(false);
-      const showNotificationTimeout = setTimeout(() => {
-        setShowNotifications(true);
-        showToast("error", "An Error occurred", "Invalid otp.");
-      }, 3000);
-
-      const hideNotificationTimeout = setTimeout(() => {
-        setShowNotifications(false);
-      }, 10000);
-
-      console.log(error);
-      return () => {
-        clearTimeout(showNotificationTimeout);
-        clearTimeout(hideNotificationTimeout);
-      };
+    errorToast("An error occurred", "Please try again.");
     }
 
     if (session) {
-      const showNotificationTimeout = setTimeout(() => {
-        setShowNotifications(true);
-        showToast("success", "Authentication Successful", "Welcome to syncu");
-      }, 1000);
-
-      const hideNotificationTimeout = setTimeout(() => {
-        setShowNotifications(false);
-      }, 5000);
-
-      localStorage.setItem("newUser", JSON.stringify(session?.user));
-      navigate("/auth/set-up-your-profile");
-
-      return () => {
-        clearTimeout(showNotificationTimeout);
-        clearTimeout(hideNotificationTimeout);
-      };
+      successToast("Authentication Successful", "Welcome to Syncu");
     }
 
     setIsLoading(false);
@@ -118,14 +87,11 @@ const useVerifyEmail = () => {
     otp,
     inputRefs,
     isLoading,
-    showNotifications,
-    toast,
     email,
     handleChange,
     handleKeyDown,
     handleSubmit,
     handleResendEmail,
-    setShowNotifications,
   };
 };
 

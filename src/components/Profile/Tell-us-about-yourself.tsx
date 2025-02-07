@@ -2,15 +2,12 @@ import React from "react";
 import dropdown from "/scroll.svg";
 import CountryModal from "../Reuseables/CountryModal";
 import Nav_Btn from "../Reuseables/Nav_Btn";
-import Toast from "../Reuseables/Toast";
 import { useTellUsAboutYourself } from "../../hooks/useTellUsAboutYourself";
 
 const TellUsAboutYourself: React.FC = () => {
   // Custom hook for the logic
   const {
     disable,
-    showNotifications,
-    toast,
     inputRef,
     userDetails,
     isValid,
@@ -25,15 +22,6 @@ const TellUsAboutYourself: React.FC = () => {
     <>
       <section className="mt-16 pl-4 pr-12">
       {/* Notifications */}
-      {showNotifications && toast && (
-        <div className="absolute top-0 flex items-center justify-center w-full z-50">
-          <Toast
-            type={toast.type}
-            message={toast.message}
-            description={toast.description}
-          />
-        </div>
-      )}
         <div className="py-10 px-3 md:p-5 flex flex-col w-full">
           <small className="font-medium text-[14px] leading-5 text-[#8C8C99]">
             STEP 1 of 5

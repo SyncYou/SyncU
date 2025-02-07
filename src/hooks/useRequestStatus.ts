@@ -1,3 +1,4 @@
+import { errorToast } from "oasis-toast";
 import { supabase } from "../supabase/client";
 import { Requests } from "../types/project";
 
@@ -38,6 +39,7 @@ const useRequestStatus = () => {
       .eq("id", projectId);
 
     if (updateRequestError) {
+      errorToast('Error updating request with the new request', 'Please try again.');
       console.error(
         "Error updating request with the new request:",
         updateRequestError
@@ -54,6 +56,7 @@ const useRequestStatus = () => {
       .eq("id", projectId);
 
     if (updateError) {
+      errorToast('Error updating participants with the new user', 'Please try again.');
       console.error(
         "Error updating participants with the new user:",
         updateError

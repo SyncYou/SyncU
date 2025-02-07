@@ -4,7 +4,6 @@ import { Skills } from "./Skills";
 import { Skill } from "./Skill";
 import { Modal2 } from "../../Reuseables/Modal2";
 import { FaTimes } from "react-icons/fa";
-import Toast from "../../Reuseables/Toast";
 import { useUserSkills } from "../../../hooks/useUserSkills";
 
 interface Skill {
@@ -27,8 +26,6 @@ export default function LeftFill_2() {
     setIsSearching,
     isValid,
     userDetails,
-    showNotifications,
-    toast,
     filteredSkills,
     handleSkillClick,
     handleRemoveSkill,
@@ -37,15 +34,6 @@ export default function LeftFill_2() {
 
   return (
     <>
-      {showNotifications && toast && (
-        <div className="absolute top-0 flex items-center justify-center w-full z-50">
-          <Toast
-            type={toast.type}
-            message={toast.message}
-            description={toast.description}
-          />
-        </div>
-      )}
       <section>
         <div className="p-5 flex flex-col w-full">
           <div className="gap-6 self-stretch flex-col" ref={activeRef}>
