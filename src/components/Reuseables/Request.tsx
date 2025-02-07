@@ -6,6 +6,7 @@ import { getUserById } from "../../utils/AuthRequest";
 import useRequestStatus from "../../hooks/useRequestStatus";
 import { Loading } from "./Loading";
 import { useQueryClient } from "@tanstack/react-query";
+import { errorToast } from "oasis-toast";
 
 function RequestObject({
   request,
@@ -38,6 +39,7 @@ function RequestObject({
         await rejectRequest(projectId, request.userId);
       }
     } catch (error) {
+      errorToast("An error occurred", "Please try again.");
       console.log(error);
     } finally {
       setRequesting(false);

@@ -1,15 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 import { useUserStore } from "../store/UseUserStore";
-import useToastNotifications from "./useToastNotifications";
 import { getLoggedInUser } from "../utils/AuthRequest";
 import { sendUserDetails } from "../utils/SupabaseRequest";
+import { errorToast } from "oasis-toast";
 export const useTellUsAboutYourself = () => {
   const [disable, setDisable] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
-  const [showNotifications, setShowNotifications] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const { userDetails, setUserDetails } = useUserStore();
-  const { toast, showToast } = useToastNotifications();
 
   // Form validation logic
   const isValid =
@@ -71,9 +69,13 @@ export const useTellUsAboutYourself = () => {
     if (isValid) {
       try {
         const { error } = await sendUserDetails(userDetails);
+        if(error){
+          errorToast("An error occurred", "Please try again.");
+        }
         console.log(error);
         return error;
       } catch (error) {
+        errorToast("An error occurred", "Please try again.");
         console.error("Error sending data to Supabase:", error);
       }
     }
@@ -81,8 +83,6 @@ export const useTellUsAboutYourself = () => {
 
   return {
     disable,
-    showNotifications,
-    toast,
     inputRef,
     userDetails,
     isValid,

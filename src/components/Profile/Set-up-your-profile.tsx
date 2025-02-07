@@ -1,27 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaArrowRightLong } from "react-icons/fa6";
 import profile from "/signUp-imgs/profile.svg";
 import Header from "../Reuseables/Header";
-import Toast from "../Reuseables/Toast";
-import { useNotification } from "../../hooks/useNotification";
+import { successToast } from "oasis-toast";
 
 const SetUpYourProfile: React.FC = () => {
   const navigate = useNavigate();
-  const { showNotifications, toast } = useNotification();
+  useEffect(() => {
+    successToast("Email verification successful", "Your email has been successfully verified");
+  },[])
 
   return (
-    <section className="p-3">
-      {/* Notifications */}
-      {showNotifications && toast && (
-        <div className="absolute top-0 flex items-center justify-center w-full z-50">
-          <Toast
-            type={toast.type}
-            message={toast.message}
-            description={toast.description}
-          />
-        </div>
-      )}
+    <section className="p-3">  
       <div>
         <Header />
       </div>

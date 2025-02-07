@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { useUserStore } from "../store/UseUserStore";
-import useToastNotifications from "./useToastNotifications";
 import { Skills } from "../components/Profile/Step4/Skills";
 import { sendUserDetails } from "../utils/SupabaseRequest";
+import { errorToast } from "oasis-toast";
 
 export const useUserSkills = () => {
   const { userDetails, toggleSkill, removeSkill } = useUserStore();
@@ -13,8 +13,6 @@ export const useUserSkills = () => {
   const [search, setSearch] = useState<string>("");
   const [isSearching, setIsSearching] = useState<boolean>(true);
   const [isValid, setIsValid] = useState<boolean>(false);
-  const [showNotifications, setShowNotifications] = useState(false);
-  const { toast, showToast } = useToastNotifications();
 
   // Form validation
   const valid =
@@ -79,9 +77,11 @@ export const useUserSkills = () => {
   const handleRequest = async () => {
     try {
       const { error } = await sendUserDetails(userDetails);
+      if(error) errorToast('An error occurred', 'Please try again.');
       console.log(error)
      return error
     } catch (error) {
+      errorToast('An error occurred', 'Please try again.');
       console.error("Error sending data to Supabase:", error);
     }
   };
@@ -99,8 +99,6 @@ export const useUserSkills = () => {
     setIsSearching,
     isValid,
     userDetails,
-    showNotifications,
-    toast,
     filteredSkills,
     handleSkillClick,
     handleRemoveSkill,

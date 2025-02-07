@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
 import { useUserStore } from "../store/UseUserStore";
-import useToastNotifications from "./useToastNotifications";
 import { checkUsername, sendUserDetails } from "../utils/SupabaseRequest";
 import { useQuery } from "@tanstack/react-query";
+import { errorToast } from "oasis-toast";
 
 export const useUsername = () => {
   const [disable, setDisable] = useState(true);
-  const [showNotifications, setShowNotifications] = useState(false);
   const { userDetails, setUserDetails } = useUserStore();
-  const { toast, showToast } = useToastNotifications();
   const [usernameToCheck, setUsernameToCheck] = useState("");
 
   const { data: usernameCheckResult, isLoading: isCheckingUsername } = useQuery({
@@ -52,9 +50,13 @@ export const useUsername = () => {
     if (isValid) {
       try {
         const { error } = await sendUserDetails(userDetails);
+        if(error) {
+          errorToast('An error occurred', 'Please try again.');
+        }
         console.log(error)
      return error
       } catch (error) {
+        errorToast('An error occurred', 'Please try again.');
         console.error("Error sending data to Supabase:", error);
       }
     }
@@ -62,8 +64,6 @@ export const useUsername = () => {
 
   return {
     disable,
-    showNotifications,
-    toast,
     isValid,
     userDetails,
     handleChange,

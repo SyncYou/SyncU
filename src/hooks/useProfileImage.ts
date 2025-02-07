@@ -1,12 +1,10 @@
-import { useState, useEffect, ChangeEvent } from "react";
+import { useEffect, ChangeEvent } from "react";
 import { useUserStore } from "../store/UseUserStore";
-import useToastNotifications from "./useToastNotifications";
 import { sendUserDetails, uploadAvatar } from "../utils/SupabaseRequest";
+import { errorToast } from "oasis-toast";
 
 export function useProfileImage() {
   const { userDetails, setUserDetails } = useUserStore();
-  const { toast, showToast } = useToastNotifications();
-  const [showNotifications, setShowNotifications] = useState(false);
 
   // Check whether the form is valid
   const isValid =
@@ -66,18 +64,19 @@ export function useProfileImage() {
     if (isValid) {
       try {
         const { error } = await sendUserDetails(userDetails);
+        if (error) {
+          errorToast('An error occurred', 'Please try again.');
+        }
         console.log(error)
         return error
       } catch (error) {
+        errorToast('An error occurred', 'Please try again.');
         console.error("Error sending data to Supabase:", error);
       }
     }
   };
 
   return {
-    showNotifications,
-    setShowNotifications,
-    toast,
     handleAvatarSelect,
     handleImageUpload,
     handleRequest,

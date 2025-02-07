@@ -1,8 +1,6 @@
 import React, { useRef, useState } from "react";
 import Nav_Btn from "../Reuseables/Nav_Btn";
 import check from "/check.svg";
-
-import Toast from "../Reuseables/Toast";
 import { useUsername } from "../../hooks/useUsername";
 
 const Username: React.FC = () => {
@@ -10,8 +8,6 @@ const Username: React.FC = () => {
   const [isFocused, setIsFocused] = useState(false);
   // Custom hook for the logic
   const {
-    showNotifications,
-    toast,
     isValid,
     userDetails,
     handleChange,
@@ -22,15 +18,6 @@ const Username: React.FC = () => {
   return (
     <>
       {/* Notifications */}
-      {showNotifications && toast && (
-        <div className="absolute top-0 flex items-center justify-center w-full z-50">
-          <Toast
-            type={toast.type}
-            message={toast.message}
-            description={toast.description}
-          />
-        </div>
-      )}
       <section className="mt-20">
         <div className="p-5 flex flex-col w-full">
           <small className="font-medium text-[14px] leading-5 text-[#8C8C99]">

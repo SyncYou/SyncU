@@ -1,15 +1,13 @@
 import { useState, useEffect } from "react";
 import { useUserStore } from "../store/UseUserStore";
-import useToastNotifications from "./useToastNotifications";
 import { Niches } from "../components/Profile/Step3/Niches";
 import { sendUserDetails } from "../utils/SupabaseRequest";
+import { errorToast } from "oasis-toast";
 
 export const useLeftFill1 = () => {
   const { userDetails, setUserDetails } = useUserStore();
   const [checked, setChecked] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showNotifications, setShowNotifications] = useState(false);
-  const { toast, showToast } = useToastNotifications();
   const selectedStack = Niches.find((niche) => niche.id === checked) || null;
 
   // Function to handle stack selection
@@ -55,11 +53,14 @@ export const useLeftFill1 = () => {
     if (isValid) {
       try {
         const { error } = await sendUserDetails(userDetails);
+        if(error) {
+          errorToast('An error occurred', 'Please try again.');
+        }
         console.log(error)
        return error
       } catch (error) {
         console.error("Error sending data to Supabase:", error);
-        setShowNotifications(true);
+        errorToast('An error occurred', 'Please try again.');
       }
     }
   };
@@ -69,9 +70,7 @@ export const useLeftFill1 = () => {
     setChecked,
     isModalOpen,
     setIsModalOpen,
-    showNotifications,
     userDetails,
-    toast,
     selectedStack,
     handleAreaClick,
     isValid,
