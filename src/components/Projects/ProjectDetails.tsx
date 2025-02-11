@@ -10,7 +10,6 @@ import Overlay from "../Reuseables/Overlay";
 import SecondaryButton from "../Reuseables/SecondaryButton";
 import PrimaryButton from "../Reuseables/PrimaryButton";
 import Chip from "../Reuseables/Chip";
-import { ProjectType } from "../../utils/types/Types";
 import { user } from "../../utils/queries/fetch";
 import useProjectRequest from "../../hooks/useProjectRequest";
 import ProjectDetailsMobile from "./ProjectDetailsMobile";
@@ -20,16 +19,22 @@ import { Loading } from "../Reuseables/Loading";
 
 interface PropsType {
   state: () => void;
-  data: ProjectType;
+  id: string;
 }
 
-const ProjectDetails = ({ state, data }: PropsType) => {
+const ProjectDetails = ({ state, id }: PropsType) => {
   const { modal, handleModal } = useModalView();
-  const creator = data.created_by === user.data.user?.id;
-  const { handleRequest, showNotifications, sendingRequest, withdrawRequest } =
-    useProjectRequest();
+  const {
+    handleRequest,
+    showNotifications,
+    sendingRequest,
+    withdrawRequest,
+    data,
+    isFetching,
+  } = useProjectRequest(id);
+  const creator = data?.created_by === user.data.user?.id;
 
-  const checkIfRequested = data.requests?.filter(
+  const checkIfRequested = data?.requests?.filter(
     (req) => req.userId === user.data.user?.id
   );
 
@@ -43,6 +48,7 @@ const ProjectDetails = ({ state, data }: PropsType) => {
         />
       )}
       {sendingRequest && <Loading />}
+      {isFetching && <Loading />}
       {showNotifications && (
         <div className="absolute z-20 h-10 w-[145px] rounded-lg bg-[#2A2A33CC] flex items-center justify-center gap-[10px]">
           <IoCheckmarkCircle className="text-success700" />
@@ -73,7 +79,7 @@ const ProjectDetails = ({ state, data }: PropsType) => {
             {checkIfRequested.length == 0 && !creator && (
               <PrimaryButton
                 onClick={() => handleRequest(data.id, data.created_by)}
-                classes="h-11 gap-3"
+                classes="h-11 gap-2 px-4"
               >
                 Send Request
                 <FiSend />

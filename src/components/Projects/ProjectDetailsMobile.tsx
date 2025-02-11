@@ -18,7 +18,7 @@ const ProjectDetailsMobile = ({ data, state }: PropsType) => {
   const [currentView, setCurrentView] = useState<string>("About");
   const creator = data.created_by === user.data.user?.id;
 
-  const { handleRequest, isRequested } = useProjectRequest();
+  const { handleRequest, isRequested } = useProjectRequest(data.id);
 
   const checkIfRequested = data.requests?.filter(
     (req) => req.userId === user.data.user?.id
@@ -104,22 +104,20 @@ const ProjectDetailsMobile = ({ data, state }: PropsType) => {
         </div>
       </div>
       <div className="fixed bottom-0 h-16 w-full border-t border-gray200 bg-white flex justify-between items-center px-4 py-[10px]">
-        {checkIfRequested.length == 1 ||
-          (isRequested && !creator && (
-            <SecondaryButton classes="h-11 min-w-[294px]">
-              Withdraw Request
-            </SecondaryButton>
-          ))}
-        {checkIfRequested.length == 0 ||
-          (!isRequested && !creator && (
-            <PrimaryButton
-              onClick={() => handleRequest(data.id, data.created_by)}
-              classes="h-11 min-w-[294px] gap-3"
-            >
-              Send Request
-              <FiSend />
-            </PrimaryButton>
-          ))}
+        {checkIfRequested.length == 1 && !creator && (
+          <SecondaryButton classes="h-11 min-w-[294px]">
+            Withdraw Request
+          </SecondaryButton>
+        )}
+        {checkIfRequested.length == 0 && !creator && (
+          <PrimaryButton
+            onClick={() => handleRequest(data.id, data.created_by)}
+            classes="h-11 min-w-[294px] gap-3"
+          >
+            Send Request
+            <FiSend />
+          </PrimaryButton>
+        )}
         {creator && (
           <SecondaryButton classes="h-11 min-w-[294px]">
             Edit project
