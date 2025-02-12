@@ -70,6 +70,7 @@ const useVerifyEmail = () => {
     const { session, error } = await verifyEmail(email, otpString);
     if (error) {
     errorToast("An error occurred", "Please try again.");
+    return
     }
 
     if (session) {

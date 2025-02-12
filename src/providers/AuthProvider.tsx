@@ -36,20 +36,23 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       .from('Users')
       .select('onboardingComplete')
       .eq('id', userId)
-      .single();
-
+      .limit(1);  
+  
     if (error) {
       console.error('Error fetching onboarding status:', error);
-    } else {
-      setUserDetails('onboardingComplete', data.onboardingComplete);
-      if (!data.onboardingComplete) {
+    } else if (data && data.length > 0) {
+      const user = data[0];
+      setUserDetails('onboardingComplete', user.onboardingComplete);
+      if (!user.onboardingComplete) {
         navigate('/onboarding/tell-us-about-yourself');
       } else {
         navigate('/');
       }
+    } else {
+      console.error('No user found with the provided ID');
     }
   };
-
+  
   // Check authentication state on initial load
   useEffect(() => {
     const checkAuth = async () => {
@@ -99,24 +102,23 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   useEffect(() => {
-    if (loading) return; 
-
-    if (!user && window.location.pathname === '/') {
-      navigate('/auth/signup');
-    }
-
-    if (user && window.location.pathname === '/auth/signup') {
-      navigate('/');
-    }
-
-    if (user && window.location.pathname === '/auth/login') {
-      navigate('/');
-    }
-    // if (user && window.location.pathname === '/onboarding/tell-us-about-yourself') {
-    //   navigate('/');
-    // }
+    const checkAndNavigate = () => {
+      if (loading) return;
+  
+      if (!user) {
+        // If no user, navigate to signup page
+        navigate('/auth/signup');
+      } else {
+        // If user exists, navigate to homepage
+        if (window.location.pathname === '/auth/signup' || window.location.pathname === '/auth/login') {
+          navigate('/');
+        }
+      }
+    };
+  
+    checkAndNavigate();
   }, [user, loading, navigate]);
-
+  
 
   const value = {
     user,
