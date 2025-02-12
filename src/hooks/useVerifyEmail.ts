@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { useUserStore } from "../store/UseUserStore";
 import { signupWithOTP, verifyEmail } from "../utils/AuthRequest";
 import { errorToast, successToast } from "oasis-toast";
+// import { fetchUserData } from "../utils/queries/fetch";
 
 const useVerifyEmail = () => {
   const navigate = useNavigate();
@@ -73,6 +74,9 @@ const useVerifyEmail = () => {
 
     if (session) {
       successToast("Authentication Successful", "Welcome to Syncu");
+      // const data =  await fetchUserData()
+      // console.log(data)
+      navigate('/')
     }
 
     setIsLoading(false);

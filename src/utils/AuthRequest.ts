@@ -11,7 +11,6 @@ export const signupWithOTP = async (email: string): Promise<AuthResponse> => {
 };
 
 // Verify your email
-// Verify your email
 export const verifyEmail = async (email: string, token: string) => {
   const {
     data: { session },
