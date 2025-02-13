@@ -1,5 +1,4 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../store/UseUserStore";
 import { supabase } from "../supabase/client";
 import { User } from '@supabase/supabase-js';
@@ -7,7 +6,7 @@ import { User } from '@supabase/supabase-js';
 interface AuthContextType {
   user: User | null;
   loading: boolean;
-  completeOnboarding: () => void;
+  // completeOnboarding: () => Promise<void>;
 }
 
 interface AuthProviderProps {
@@ -27,106 +26,135 @@ export const useAuth = () => {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+  const [redirected, setRedirected] = useState(false); 
   const { setUserDetails } = useUserStore();
 
   // Fetch user details and onboarding status
-  const fetchUserAndOnboardingStatus = async (userId: string) => {
-    const { data, error } = await supabase
-      .from('Users')
-      .select('onboardingComplete')
-      .eq('id', userId)
-      .limit(1);  
-  
-    if (error) {
-      console.error('Error fetching onboarding status:', error);
-    } else if (data && data.length > 0) {
-      const user = data[0];
-      setUserDetails('onboardingComplete', user.onboardingComplete);
-      if (!user.onboardingComplete) {
-        navigate('/onboarding/tell-us-about-yourself');
-      } else {
-        navigate('/');
+  const fetchUserAndOnboardingStatus = async () => {
+    setLoading(true);
+
+    // Check localStorage first
+    const storedUser = localStorage.getItem('loggedInUser');
+    const storedOnboardingStatus = localStorage.getItem('onboardingComplete');
+
+    if (storedUser) {
+      const user = JSON.parse(storedUser);
+      setUser(user);
+      setUserDetails('onboardingComplete', storedOnboardingStatus === 'true');
+      setLoading(false);
+      return;
+    }
+
+    // If not in localStorage, fetch from Supabase
+    try {
+      const { data: { user }, error } = await supabase.auth.getUser();
+
+      if (error || !user) {
+        throw new Error("User not found");
       }
-    } else {
-      console.error('No user found with the provided ID');
+
+      // Fetch onboarding status from Supabase user table
+      const { data: userProfile, error: profileError } = await supabase
+        .from('Users')
+        .select('onboardingComplete')
+        .eq('id', user.id)
+        .single();
+
+      if (profileError || !userProfile) {
+        throw new Error("Failed to fetch user profile");
+      }
+
+      // Update localStorage and state
+      localStorage.setItem('loggedInUser', JSON.stringify(user));
+      localStorage.setItem('onboardingComplete', userProfile.onboardingComplete ? 'true' : 'false');
+      setUser(user);
+      setUserDetails('onboardingComplete', userProfile.onboardingComplete);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      localStorage.removeItem('loggedInUser');
+      localStorage.removeItem('onboardingComplete');
+      setUser(null);
+      setUserDetails('onboardingComplete', 'false');
+    } finally {
+      setLoading(false);
     }
   };
-  
-  // Check authentication state on initial load
-  useEffect(() => {
-    const checkAuth = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        setUser(user);
-        await fetchUserAndOnboardingStatus(user.id);
-      } else {
-        setUser(null);
-        setUserDetails('onboardingComplete', false);
-      }
-      setLoading(false);
-    };
 
-    checkAuth();
+  // Handle auth state changes
+  useEffect(() => {
+    fetchUserAndOnboardingStatus();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log(event);
+      console.log('event', event)
       if (session?.user) {
-        setUser(session.user as User);
-        await fetchUserAndOnboardingStatus(session.user.id);
+        const user = session.user;
+        localStorage.setItem('loggedInUser', JSON.stringify(user));
+        setUser(user);
+        await fetchUserAndOnboardingStatus();
       } else {
+        localStorage.removeItem('loggedInUser');
+        localStorage.removeItem('onboardingComplete');
         setUser(null);
-        setUserDetails('onboardingComplete', false);
-        navigate('/auth/signup');
+        setUserDetails('onboardingComplete', 'false');
       }
     });
 
     return () => subscription.unsubscribe();
-  }, [navigate, setUserDetails]);
+  }, [setUserDetails]);
+
+  // Redirect user based on auth state and onboarding status
+  useEffect(() => {
+    if (loading || redirected) return; 
+
+    const onboardingComplete = localStorage.getItem('onboardingComplete') === 'true';
+    const currentPath = window.location.pathname;
+
+    if (!user) {
+      if (currentPath !== '/auth/signup') {
+        setRedirected(true);
+        window.location.href = '/auth/signup';
+      }
+    } else if (!onboardingComplete) {
+      if (currentPath !== '/onboarding/tell-us-about-yourself') {
+        setRedirected(true);
+        window.location.href = '/onboarding/tell-us-about-yourself';
+      }
+    } else if (currentPath === '/auth/signup' || currentPath === '/auth/login') {
+      setRedirected(true);
+      window.location.href = '/';
+    }
+  }, [user, loading, redirected]);
 
   // Mark onboarding as complete
-  const completeOnboarding = async () => {
-    if (user) {
-      const { error } = await supabase
-        .from('Users')
-        .update({ onboardingComplete: true })
-        .eq('id', user.id);
+  // const completeOnboarding = async () => {
+  //   if (!user) return;
 
-      if (error) {
-        console.error('Error updating onboarding status:', error);
-      } else {
-        setUserDetails('onboardingComplete', true);
-        // navigate('/');
-      }
-    }
-  };
+  //   try {
+  //     // Update Supabase user table
+  //     const { error } = await supabase
+  //       .from('user')
+  //       .update({ onboardingComplete: 'true' })
+  //       .eq('id', user.id);
 
-  useEffect(() => {
-    const checkAndNavigate = () => {
-      if (loading) return;
-  
-      if (!user) {
-        // If no user, navigate to signup page
-        navigate('/auth/signup');
-      } else {
-        // If user exists, navigate to homepage
-        if (window.location.pathname === '/auth/signup' || window.location.pathname === '/auth/login') {
-          navigate('/');
-        }
-      }
-    };
-  
-    checkAndNavigate();
-  }, [user, loading, navigate]);
-  
+  //     if (error) {
+  //       throw new Error("Failed to update onboarding status");
+  //     }
+
+  //     // Update localStorage and state
+  //     localStorage.setItem('onboardingComplete', 'true');
+  //     setUserDetails('onboardingComplete', 'true');
+  //     window.location.href = '/';
+  //   } catch (error) {
+  //     console.error("Error completing onboarding:", error);
+  //   }
+  // };
 
   const value = {
     user,
     loading,
-    completeOnboarding,
+    // completeOnboarding,
   };
 
-  // Make sure to always return a ReactNode
   return (
     <AuthContext.Provider value={value}>
       {loading ? null : children}

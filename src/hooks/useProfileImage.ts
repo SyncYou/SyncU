@@ -2,11 +2,11 @@ import { useEffect, ChangeEvent } from "react";
 import { useUserStore } from "../store/UseUserStore";
 import { sendUserDetails, uploadAvatar } from "../utils/SupabaseRequest";
 import { errorToast } from "oasis-toast";
-import { useAuth } from "../providers/AuthProvider";
+// import { useAuth } from "../providers/AuthProvider";
 
 export function useProfileImage() {
   const { userDetails, setUserDetails } = useUserStore();
-  const { completeOnboarding } = useAuth();
+  // const { completeOnboarding } = useAuth();
 
   // Check whether the form is valid
   const isValid =
@@ -53,7 +53,7 @@ export function useProfileImage() {
         try {
           const avatarUrl = await uploadAvatar(file);
           setUserDetails("photoUrl", avatarUrl);
-          setUserDetails("onboardingComplete", true)
+          setUserDetails("onboardingComplete", 'true')
         } catch (error) {
           console.error("Error uploading image:", error);
         }
@@ -67,7 +67,9 @@ export function useProfileImage() {
     if (isValid) {
       try {
         const { error } = await sendUserDetails(userDetails);
-         completeOnboarding();
+        setUserDetails("onboardingComplete", 'true')
+        localStorage.setItem('onboardingComplete', 'true')
+        //  completeOnboarding();
         if (error) {
           errorToast('An error occurred', 'Please try again.');
         }

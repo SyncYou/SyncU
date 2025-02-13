@@ -9,7 +9,7 @@ interface UserDetails {
   photoUrl: string;
   areaOfExpertise: string;
   stacks: string[];
-  onboardingComplete: boolean;
+  onboardingComplete: string;
 }
 
 interface UserStore {
@@ -32,7 +32,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
     photoUrl: "",
     areaOfExpertise: "",
     stacks: ["N/A", "N/A", "N/A"],
-    onboardingComplete: false
+    onboardingComplete: 'false'
   },
   currentStep: 1,
   setUserDetails: (key, value) =>

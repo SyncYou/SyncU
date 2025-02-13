@@ -7,8 +7,6 @@ import ProfileLayout from "./Layout/ProfileLayout.tsx";
 import Layout from "./pages/HomeLayout";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Loading } from "./components/Reuseables/Loading.tsx";
-import { AuthProvider } from "./providers/AuthProvider.tsx";
-// import { AuthProvider } from "./providers/AuthProvider.tsx";
 
 const TellUsAboutYourself = lazy(
   () => import("./components/Profile/Tell-us-about-yourself")
@@ -42,10 +40,7 @@ const client = new QueryClient();
 const router = createBrowserRouter([
   {
     path: "/onboarding",
-    element: 
-    <AuthProvider>
-      <RootLayout />
-    </AuthProvider>,
+    element: <RootLayout />,
     children: [
       {
         path: "",
@@ -81,10 +76,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: 
-    <AuthProvider>
-      <Layout />
-    </AuthProvider>,
+    element: <Layout />,
     children: [
       {
         path: "",
@@ -106,16 +98,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/auth/signup",
-    element: 
-    <AuthProvider>
-      <OnboardingLayout />
-    </AuthProvider>,
+    element: <OnboardingLayout />,
   },
   {
     path: "/auth/login",
-    element:  <AuthProvider>
-    <OnboardingLayout />
-  </AuthProvider>,
+    element: <OnboardingLayout />,
   },
   {
     path: "/auth/verify-email",
