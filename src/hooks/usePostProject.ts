@@ -3,6 +3,7 @@ import { supabase } from "../supabase/client";
 import { PostProjectFormType, WorkSpaceType } from "../utils/types/Types";
 import { user } from "../utils/queries/fetch";
 import { useForm } from "react-hook-form";
+import { errorToast } from "oasis-toast";
 
 const usePostProject = () => {
   const { register, handleSubmit, reset } = useForm<PostProjectFormType>({
@@ -29,6 +30,7 @@ const usePostProject = () => {
       const { error } = await supabase.from("Projects").insert(data).single();
 
       if (error) {
+        errorToast('An error occurred', 'Please try again.');
         throw new Error(error?.message);
       }
     },

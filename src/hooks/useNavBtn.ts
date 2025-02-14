@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { errorToast } from "oasis-toast";
 import { useNavigate } from "react-router-dom";
-import useToastNotifications from "./useToastNotifications";
 
 export function useNavBtn<T>(
   navTo: string,
@@ -10,38 +9,33 @@ export function useNavBtn<T>(
   handleRequest?: () => Promise<T>
 ) {
   const navigate = useNavigate();
-  const [showNotifications, setShowNotifications] = useState(false);
-  const { toast, showToast } = useToastNotifications();
 
   const handleNext = async () => {
     if (!disabled) {
-      const nextStep = currentStep + 1;
-      setCurrentStep(nextStep);
-
-      // Check if handleRequest is defined before calling it
       if (handleRequest) {
         try {
-          await handleRequest();
-          navigate(navTo);
-        } catch (error) {
-          const showNotificationTimeout = setTimeout(() => {
-            setShowNotifications(true);
-            showToast("error", "An Error occurred", "Please try again.");
-          }, 1000);
+          const error = await handleRequest();
 
-          const hideNotificationTimeout = setTimeout(() => {
-            setShowNotifications(false);
-          }, 5000);
+          if (!error) {
+            const nextStep = currentStep + 1;
+            setCurrentStep(nextStep);
+            navigate(navTo);
+          } else {
+            errorToast('An error occurred', 'Please try again.');
+            return;
+          }
+        } catch (error: unknown) {
+          const pgError = error as { code: string };
 
-          console.log(error);
+          if (pgError.code === "23505") {
+            errorToast('Username is already taken', 'Please choose a different username.');
+           
+          } else {
+            errorToast('An error occurred', 'Please try again.');
+          }
 
-          return () => {
-            clearTimeout(showNotificationTimeout);
-            clearTimeout(hideNotificationTimeout);
-          };
+          console.log(pgError);
         }
-      } else {
-        navigate(navTo);
       }
     }
   };
@@ -55,8 +49,5 @@ export function useNavBtn<T>(
   return {
     handleNext,
     handlePrev,
-    showNotifications,
-    setShowNotifications,
-    toast,
   };
 }

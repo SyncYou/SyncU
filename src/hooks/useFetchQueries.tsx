@@ -3,6 +3,7 @@ import { NotificationType, UserData } from "../utils/types/Types";
 import { supabase } from "../supabase/client";
 import { fetchProjects, user } from "../utils/queries/fetch";
 import { Project } from "../types/project";
+import { errorToast } from "oasis-toast";
 
 // Fetch User Data
 const useFetchQueries = (): {
@@ -20,6 +21,7 @@ const useFetchQueries = (): {
         .single();
 
       if (supabaseError) {
+        errorToast('An error occurred', 'Please try again.');
         throw new Error(supabaseError.message);
       }
 
@@ -36,6 +38,7 @@ const useFetchQueries = (): {
         .eq("to", user.data.user?.id);
 
       if (supabaseError) {
+        errorToast('An error occurred', 'Please try again.');
         throw new Error(supabaseError.message);
       }
 

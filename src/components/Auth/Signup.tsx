@@ -7,7 +7,6 @@ import ControlledInput from "../Reuseables/ControlledInput";
 import SocialButton from "../Reuseables/SocialButton";
 import ControlledButton from "../Reuseables/ControlledButton";
 import { Loading } from "../Reuseables/Loading";
-import Toast from "../Reuseables/Toast";
 import { useSignup } from "../../hooks/useSignup";
 
 const Signup: React.FC = () => {
@@ -18,23 +17,11 @@ const Signup: React.FC = () => {
     errors,
     isSubmitting,
     disable,
-    showNotifications,
-    toast,
     handleSignup,
   } = useSignup();
 
   return (
     <>
-      {/* Show notifications */}
-      {showNotifications && toast && (
-        <div className="absolute top-0 flex items-center justify-center w-full z-50">
-          <Toast
-            type={toast.type}
-            message={toast.message}
-            description={toast.description}
-          />
-        </div>
-      )}
       <section className="p-5 md:p-2 w-full h-full grid grid-rows-[3rem_auto]">
         <div>
           <Header />

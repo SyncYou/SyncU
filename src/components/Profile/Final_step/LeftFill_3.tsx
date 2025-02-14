@@ -2,8 +2,6 @@ import img from "/signUp-imgs/img.svg";
 import Nav_Btn from "../../Reuseables/Nav_Btn";
 import { ProfileImage } from "./ProfileImages";
 import { Avatar } from "./Avatar";
-import Toast from "../../Reuseables/Toast";
-import { uploadAvatar } from "../../../utils/SupabaseRequest";
 import { useProfileImage } from "../../../hooks/useProfileImage";
 import { useState } from "react";
 
@@ -20,8 +18,6 @@ interface ProfileImageItem {
 
 export default function LeftFill_3() {
   const {
-    showNotifications,
-    toast,
     handleAvatarSelect,
     handleImageUpload,
     handleRequest,
@@ -48,15 +44,6 @@ export default function LeftFill_3() {
 
   return (
     <>
-      {showNotifications && toast && (
-        <div className="absolute top-0 flex items-center justify-center w-full z-50">
-          <Toast
-            type={toast.type}
-            message={toast.message}
-            description={toast.description}
-          />
-        </div>
-      )}
       <section>
         <div className="md:p-5 flex flex-col w-full">
           <div className="gap-6 self-stretch flex-col ">

@@ -1,18 +1,32 @@
 import { useState, useEffect } from "react";
 import { useUserStore } from "../store/UseUserStore";
-import useToastNotifications from "./useToastNotifications";
-import { sendUserDetails } from "../utils/SupabaseRequest";
+import { checkUsername, sendUserDetails } from "../utils/SupabaseRequest";
+import { useQuery } from "@tanstack/react-query";
+import { errorToast } from "oasis-toast";
 
 export const useUsername = () => {
   const [disable, setDisable] = useState(true);
-  const [showNotifications, setShowNotifications] = useState(false);
   const { userDetails, setUserDetails } = useUserStore();
-  const { toast, showToast } = useToastNotifications();
+  const [usernameToCheck, setUsernameToCheck] = useState("");
+
+  const { data: usernameCheckResult, isLoading: isCheckingUsername } = useQuery({
+    queryKey: ["username", usernameToCheck], 
+    queryFn: async () => {
+      if (usernameToCheck.trim() === "") return null;
+      return await checkUsername(usernameToCheck);
+    },
+    enabled: !!usernameToCheck, 
+  });
 
   // Handle input change
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserDetails(name as keyof typeof userDetails, value);
+
+    // Update the username to check
+    if (name === "username") {
+      setUsernameToCheck(value);
+    }
   };
 
   // Validation for the form
@@ -24,7 +38,7 @@ export const useUsername = () => {
     userDetails.lastName !== "N/A" &&
     userDetails.email !== "" &&
     userDetails.countryOfResidence !== "N/A" &&
-    userDetails.username.trim() !== "";
+    userDetails.username.trim() !== "" 
 
   useEffect(() => {
     localStorage.setItem("userDetails", JSON.stringify(userDetails));
@@ -36,24 +50,13 @@ export const useUsername = () => {
     if (isValid) {
       try {
         const { error } = await sendUserDetails(userDetails);
-        if (error) {
-          const showNotificationTimeout = setTimeout(() => {
-            setShowNotifications(true);
-            showToast("error", "An Error occurred", "Please try again.");
-          }, 1000);
-
-          const hideNotificationTimeout = setTimeout(() => {
-            setShowNotifications(false);
-          }, 5000);
-
-          console.log(error);
-
-          return () => {
-            clearTimeout(showNotificationTimeout);
-            clearTimeout(hideNotificationTimeout);
-          };
+        if(error) {
+          errorToast('An error occurred', 'Please try again.');
         }
+        console.log(error)
+     return error
       } catch (error) {
+        errorToast('An error occurred', 'Please try again.');
         console.error("Error sending data to Supabase:", error);
       }
     }
@@ -61,11 +64,11 @@ export const useUsername = () => {
 
   return {
     disable,
-    showNotifications,
-    toast,
     isValid,
     userDetails,
     handleChange,
     handleRequest,
+    isCheckingUsername,
+    usernameCheckResult,
   };
 };

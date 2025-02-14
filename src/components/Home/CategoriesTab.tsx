@@ -4,7 +4,7 @@ import { RiCodeSSlashLine } from "react-icons/ri";
 import { useProjectFilter } from "../../context/useProjectFilter";
 
 const CategoriesTab = () => {
-  const { filter, setFilter } = useProjectFilter();
+  const { setFilter } = useProjectFilter();
 
   return (
     <div className="h-[75px]  px-4 md:pl-8 md:pr-14 bg-white flex gap-6 font-medium border-b border-t border-gray200">

@@ -3,7 +3,6 @@ import { StackDropDown } from "../../Reuseables/StackDropDown";
 import Nav_Btn from "../../Reuseables/Nav_Btn";
 import { Stack } from "./Stack";
 import { Niches } from "./Niches";
-import Toast from "../../Reuseables/Toast";
 import { useLeftFill1 } from "../../../hooks/useLeftFill1";
 
 export default function User_LeftFill1() {
@@ -12,8 +11,6 @@ export default function User_LeftFill1() {
     setChecked,
     isModalOpen,
     setIsModalOpen,
-    showNotifications,
-    toast,
     selectedStack,
     handleAreaClick,
     isValid,
@@ -23,15 +20,6 @@ export default function User_LeftFill1() {
 
   return (
     <>
-      {showNotifications && toast && (
-        <div className="absolute top-0 flex items-center justify-center w-full z-50">
-          <Toast
-            type={toast.type}
-            message={toast.message}
-            description={toast.description}
-          />
-        </div>
-      )}
       <section>
         <div className="md:p-5 flex flex-col w-full">
           <div className="gap-6 self-stretch flex-col ">

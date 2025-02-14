@@ -231,3 +231,24 @@ export const sendNotification = async (
   console.log("Notification sent successfully:", data);
   return data;
 };
+
+// Check if there's a username in the database
+export const checkUsername = async (newUsername: string) => {
+  try{
+    const { data, error } = await supabase
+    .from('Users')
+    .select('username')
+    .eq('username', newUsername)
+    .limit(1);
+  
+    if (error) throw new Error(error.message);
+    if (data && data.length > 0) {  // Check if there are any results
+      return { status: "unavailable", message: "Username is already taken." };
+    } else {
+      return { status: "available", message: "This username is available." };
+    }
+  }catch(error){
+    console.error("Error checking username availability:", error);
+    return { status: "error", message: "An unexpected error occurred." };
+  }
+}

@@ -1,7 +1,6 @@
 import { BsArrowLeft } from "react-icons/bs";
 import Button from "./Button";
 import { useUserStore } from "../../store/UseUserStore";
-import Toast from "./Toast";
 import { useNavBtn } from "../../hooks/useNavBtn";
 
 interface Nav_BtnProps<T = unknown> {
@@ -20,7 +19,7 @@ export default function Nav_Btn({
   showPrevious,
 }: Nav_BtnProps) {
   const { currentStep, setCurrentStep } = useUserStore();
-  const { handleNext, handlePrev, showNotifications, toast } = useNavBtn(
+  const { handleNext, handlePrev} = useNavBtn(
     navTo,
     disabled,
     currentStep,
@@ -30,15 +29,6 @@ export default function Nav_Btn({
 
   return (
     <>
-      {showNotifications && toast && (
-        <div className="absolute top-0 flex items-center justify-center w-full z-50">
-          <Toast
-            type={toast.type}
-            message={toast.message}
-            description={toast.description}
-          />
-        </div>
-      )}
       <span className="gap-6 items-center flex w-full">
         {/* Previous Button */}
         {showPrevious && (

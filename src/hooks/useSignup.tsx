@@ -3,17 +3,15 @@ import { useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUserStore } from "../store/UseUserStore";
-import useToastNotifications from "./useToastNotifications";
 import { userSchema } from "../schema/userSchema";
 import { signupWithOTP } from "../utils/AuthRequest";
 import { User } from "../types/user";
+import { errorToast, successToast } from "oasis-toast";
 
 export const useSignup = () => {
   const navigate = useNavigate();
   const [disable, setDisable] = useState(true);
   const { setUserDetails } = useUserStore();
-  const [showNotifications, setShowNotifications] = useState(false);
-  const { toast, showToast } = useToastNotifications();
 
   const {
     register,
@@ -47,33 +45,18 @@ export const useSignup = () => {
       const { data: response, error } = await signupWithOTP(email);
 
       if (error) {
-        setTimeout(() => {
-          setShowNotifications(true);
-          showToast("error", "An Error occurred", "Please try again.");
-        }, 3000);
-        setTimeout(() => {
-          setShowNotifications(false);
-        }, 10000);
+        errorToast('An error occurred', 'Please try again.');
         return;
       }
 
       if (response) {
-        setTimeout(() => {
-          setShowNotifications(true);
-          showToast(
-            "success",
-            "Authentication Successful",
-            "Check your email for your otp"
-          );
-        }, 3000);
-        setTimeout(() => {
-          setShowNotifications(false);
-        }, 10000);
+        successToast("Authentication Successful", "Check your email for your otp");
         navigate("/auth/verify-email");
       }
 
       reset();
     } catch (error) {
+      errorToast('An error occurred', 'Please try again.');
       console.log(error);
     }
   };
@@ -84,8 +67,6 @@ export const useSignup = () => {
     errors,
     isSubmitting,
     disable,
-    showNotifications,
-    toast,
     handleSignup,
   };
 };
