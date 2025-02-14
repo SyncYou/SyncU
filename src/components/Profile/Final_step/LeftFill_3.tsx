@@ -2,6 +2,7 @@ import img from "/signUp-imgs/img.svg";
 import Nav_Btn from "../../Reuseables/Nav_Btn";
 import { ProfileImage } from "./ProfileImages";
 import { Avatar } from "./Avatar";
+import { uploadAvatar } from "../../../utils/SupabaseRequest";
 import { useProfileImage } from "../../../hooks/useProfileImage";
 import { useState } from "react";
 
