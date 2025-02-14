@@ -14,6 +14,10 @@ const useFetchQueries = (): {
   const userData = useQuery({
     queryKey: ["users", user.data.user?.id],
     queryFn: async (): Promise<UserData | undefined> => {
+      if (!user.data.user?.id) {
+        throw new Error("User ID is missing.");
+      }
+
       const { data, error: supabaseError } = await supabase
         .from("Users")
         .select()
@@ -21,33 +25,45 @@ const useFetchQueries = (): {
         .single();
 
       if (supabaseError) {
-        errorToast('An error occurred', 'Please try again.');
+        errorToast("An error occurred", "Please try again.");
         throw new Error(supabaseError.message);
+      }
+
+      if (!data) {
+        // Handle the case where no user data was found
+        errorToast("No user found", "Please check your user ID.");
+        throw new Error("No user found.");
       }
 
       return data;
     },
+    enabled: user.data.user?.id !== undefined,
   });
 
   const notifications = useQuery({
-    queryKey: ["notification"],
+    queryKey: ["notifications", user.data.user?.id],
     queryFn: async (): Promise<NotificationType[] | undefined> => {
+      if (!user.data.user?.id) return []; 
+
       const { data, error: supabaseError } = await supabase
         .from("Notifications")
         .select()
         .eq("to", user.data.user?.id);
 
       if (supabaseError) {
-        errorToast('An error occurred', 'Please try again.');
+        errorToast("An error occurred", "Please try again.");
         throw new Error(supabaseError.message);
       }
 
       return data;
     },
+    enabled: user.data.user?.id !== undefined,
   });
+
   const projects = useQuery({
-    queryKey: ["projects"],
-    queryFn: fetchProjects, // Use fetchProjects function
+    queryKey: ["projects", user.data.user?.id],
+    queryFn: fetchProjects, 
+    enabled: user.data.user?.id !== undefined, 
   });
 
   return { userData, notifications, projects };
