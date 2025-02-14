@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import Header from "../Reuseables/Header";
 import mail from "/mail.svg";
 import { Loading } from "../Reuseables/Loading";
-import Toast from "../Reuseables/Toast";
 import useVerifyEmail from "../../hooks/useVerifyEmail"; // Importing the custom hook
 import ResendEmail from "./ResendEmail";
 import OTPInput from "./OTPInput";
@@ -14,8 +13,6 @@ const Verifymail: React.FC = () => {
     otp,
     inputRefs,
     isLoading,
-    showNotifications,
-    toast,
     email,
     handleChange,
     handleKeyDown,
@@ -34,17 +31,6 @@ const Verifymail: React.FC = () => {
 
   return (
     <>
-      {/* Show notifications */}
-      {/* Show notifications */}
-      {showNotifications && toast && (
-        <div className="absolute top-0 flex items-center justify-center w-full z-50">
-          <Toast
-            type={toast.type}
-            message={toast.message}
-            description={toast.description}
-          />
-        </div>
-      )}
       <section className="p-5 h-full min-h-screen grid grid-rows-[4rem_auto] bg-[#D6D6E0] overflow-y-hidden">
         <div>
           <Header />

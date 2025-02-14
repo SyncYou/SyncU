@@ -14,7 +14,7 @@ const ProjectTabs = () => {
             onClick={() => setCurrentView("Created")}
             className={`w-[125px] h-12 flex ${
               currentView === "Created" && "active"
-            } relative justify-center items-center`}
+            } relative justify-center items-center cursor-pointer`}
           >
             Created
           </div>
@@ -22,7 +22,7 @@ const ProjectTabs = () => {
             onClick={() => setCurrentView("Requested")}
             className={`w-[125px] h-12 flex ${
               currentView === "Requested" && "active"
-            } relative justify-center items-center`}
+            } relative justify-center items-center cursor-pointer`}
           >
             Requested
           </div>

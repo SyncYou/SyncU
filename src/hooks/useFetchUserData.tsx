@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { UserData } from "../utils/types/Types";
 import { supabase } from "../supabase/client";
 import { user } from "../utils/queries/fetch";
+import { errorToast } from "oasis-toast";
 
 // Fetch User Data
 const useFetchUserData = (): { data: UserData | null; error: any } => {
@@ -15,6 +16,7 @@ const useFetchUserData = (): { data: UserData | null; error: any } => {
         .single();
 
       if (supabaseError) {
+        errorToast('An error occurred', 'Please try again.');
         throw new Error(supabaseError.message);
       }
 
