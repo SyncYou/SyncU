@@ -1,7 +1,6 @@
 
 import { IoMdCheckmark } from "react-icons/io";
 
-
 interface AvatarProps {
   items: {
     id: number;

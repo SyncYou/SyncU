@@ -26,16 +26,16 @@ const Username: React.FC = () => {
           />
         </div>
       )}
-      <section className="mt-28 px-5">
-        <div className="p-5 flex flex-col w-full">
+      <section className="md:mt-28 px-1 md:px-5">
+        <div className="md:p-5 flex flex-col w-full">
           <small className="font-medium text-[14px] leading-5 text-[#8C8C99]">
             STEP 2 of 5
           </small>
           <div className="my-5 flex flex-col">
-            <h2 className="font-semibold text-[2rem] leading-[32px] text-black">
+            <h2 className="font-semibold text-[1.5rem] md:text-[2rem] leading-[32px] text-black">
               Enter a username.
             </h2>
-            <p className="text-[#5C5C66] leading-6 font-normal text-[18px] py-6 font-inter">
+            <p className="text-[#5C5C66] leading-6 font-normal text-base md:text-[18px] py-6 font-inter">
               This will enable other users to find you easily on syncu.
             </p>
           </div>
@@ -63,7 +63,7 @@ const Username: React.FC = () => {
                 showPrevious={true}
                 handleRequest={handleRequest}
                 navTo="/onboarding/area-of-expertise"
-                btn_Style={`${
+                btn_Style={`w-[184px] ${
                   isValid
                     ? "bg-gray-950 text-opacity-100 text-white"
                     : "text-opacity-40 cursor-not-allowed"

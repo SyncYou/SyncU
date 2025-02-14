@@ -38,7 +38,7 @@ const ProjectCard = ({ data, fetching }: PropsType) => {
   return (
     <div
       key={data.username}
-      className="h-[302px] md:max-w-[304px] max-w-[358px] text-gray950"
+      className="h-[305px] md:w-full text-gray950"
     >
       <div className="w-full h-[46px] relative">
         <img src={logo} alt="" className="absolute bottom-0 left-0" />
@@ -49,9 +49,9 @@ const ProjectCard = ({ data, fetching }: PropsType) => {
             )}
             <div
               onClick={handleViewDetails}
-              className="h-5 w-full absolute left-[2px] -bottom-[42px] flex justify-center items-center rounded-t-lg hover:-bottom-[30px] -z-[0] bg-gray950"
+              className="h-5 py-1 w-full absolute left-[2px] -bottom-[42px] flex justify-center items-center rounded-t-lg hover:-bottom-[30px] -z-[0] bg-gray950"
             >
-              <span className="text-gray100 font-medium text-xs">View</span>
+              <span className="text-gray100 font-medium text-xs ">View</span>
             </div>
           </div>
         )}

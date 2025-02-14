@@ -58,16 +58,16 @@ export default function LeftFill_3() {
         </div>
       )}
       <section>
-        <div className="p-5 flex flex-col w-full">
+        <div className="md:p-5 flex flex-col w-full">
           <div className="gap-6 self-stretch flex-col ">
             <h3 className="text-gray-600 font-medium text-sm my-5">
               STEP 5 of 5
             </h3>
             <div className="gap-3 flex-col my-5">
-              <h1 className="text-[32px] font-semibold text-gray-950 my-3">
+              <h1 className="text-[1.5rem] md:text-[32px] font-semibold text-gray-950 my-3">
                 Add a photo...
               </h1>
-              <p className="text-gray-800 text-lg font-normal my-3">
+              <p className="text-gray-800 text-base md:text-lg font-normal my-3">
                 This will help increase your chances of being accepted to work
                 on a project.
               </p>
@@ -109,7 +109,7 @@ export default function LeftFill_3() {
               showPrevious={true}
               handleRequest={handleRequest}
               navTo="/onboarding/finishing"
-              btn_Style={`${
+              btn_Style={`w-[184px] ${
                 isValid
                   ? "bg-gray-950 text-opacity-100 text-white"
                   : "text-opacity-40 cursor-not-allowed"

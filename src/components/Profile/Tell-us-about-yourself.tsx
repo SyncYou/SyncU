@@ -34,15 +34,15 @@ const TellUsAboutYourself: React.FC = () => {
           />
         </div>
       )}
-        <div className="py-10 px-3 md:p-5 flex flex-col w-full">
+        <div className="py-10 px-1 md:px-3 md:p-5 flex flex-col w-full">
           <small className="font-medium text-[14px] leading-5 text-[#8C8C99]">
             STEP 1 of 5
           </small>
           <div className="my-5 flex flex-col">
-            <h2 className="font-semibold text-[2rem] leading-[32px] text-[#2A2A33]">
+            <h2 className="font-semibold text-[1.5rem] md:text-[2rem] leading-[32px] text-[#2A2A33]">
               Tell us about yourself.
             </h2>
-            <p className="text-[#5C5C66] leading-7 font-normal text-[18px] py-5 pt-4">
+            <p className="text-[#5C5C66] leading-7 font-normal text-base md:text-[18px] py-5 pt-4">
               This will help us give you a more personalised experience.
             </p>
           </div>
@@ -117,7 +117,7 @@ const TellUsAboutYourself: React.FC = () => {
               showPrevious={false}
               handleRequest={handleRequest}
               navTo="/onboarding/username"
-              btn_Style={`${
+              btn_Style={`w-[184px] ${
                 isValid
                   ? "bg-gray-950 text-opacity-100 text-white py-2"
                   : "text-opacity-40 cursor-not-allowed py-2"
