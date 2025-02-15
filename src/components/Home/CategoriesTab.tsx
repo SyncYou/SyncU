@@ -4,11 +4,11 @@ import { RiCodeSSlashLine } from "react-icons/ri";
 import { useProjectFilter } from "../../context/useProjectFilter";
 
 const CategoriesTab = () => {
-  const { setFilter } = useProjectFilter();
+  const { filter, setFilter } = useProjectFilter();
 
   return (
     <div className="h-[75px]  px-4 md:pl-8 md:pr-14 bg-white flex gap-6 font-medium border-b border-t border-gray200">
-      <div className="flex gap-5 text-gray700 md:overflow-hidden overflow-x-scroll scrollbar-none px-3">
+      <div className="flex gap-0 md:gap-5 text-gray700 md:overflow-hidden overflow-x-scroll scrollbar-none md:px-3 ">
         <div
           onClick={() => setFilter("All")}
           className={`min-w-[89px]  flex flex-col gap-2 text-gray950 items-center justify-center cursor-pointer ${filter === 'All'? 'opacity-100 border-b-[3px] border-b-[#8333D0]' : 'opacity-70'}`}
@@ -24,7 +24,7 @@ const CategoriesTab = () => {
         >
           <div className="text-[20px]">
             <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M2.41675 10.8337V4.16699M10.3334 2.91699H3.66675M12.8334 1.66699H10.3334V4.16699H12.8334V1.66699ZM3.66675 1.66699H1.16675V4.16699H3.66675V1.66699ZM3.66675 10.8337H1.16675V13.3337H3.66675V10.8337ZM17.8334 10.0003L6.16675 6.66699L9.50008 18.3337L11.5834 12.0837L17.8334 10.0003Z" stroke="#2a2a33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M2.41675 10.8337V4.16699M10.3334 2.91699H3.66675M12.8334 1.66699H10.3334V4.16699H12.8334V1.66699ZM3.66675 1.66699H1.16675V4.16699H3.66675V1.66699ZM3.66675 10.8337H1.16675V13.3337H3.66675V10.8337ZM17.8334 10.0003L6.16675 6.66699L9.50008 18.3337L11.5834 12.0837L17.8334 10.0003Z" stroke="#2a2a33" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
 
           </div>
@@ -45,7 +45,7 @@ const CategoriesTab = () => {
         >
           <div className="text-[20px]">
             <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9.70833 1.87533C5.10596 1.87533 1.375 5.60629 1.375 10.2087C1.375 14.811 5.10596 18.542 9.70833 18.542C14.3107 18.542 18.0417 14.811 18.0417 10.2087C18.0417 9.63791 17.9842 9.08049 17.875 8.54199M6.16667 12.5003C6.92677 13.5123 8.13692 14.167 9.5 14.167C10.8631 14.167 12.0732 13.5123 12.8333 12.5003M7.83333 7.91699H6.75593C6.37863 7.91699 6.01678 8.06688 5.75 8.33366M11.1667 7.91699H12.2441C12.6213 7.91699 12.9832 8.06688 13.25 8.33366M16.9168 1.88554C15.7527 1.29229 14.9167 2.09482 14.9167 2.09482C14.9167 2.09482 14.0807 1.29229 12.9164 1.88553C11.5063 2.60406 11.4051 5.41784 14.9167 6.66699C18.4283 5.41784 18.327 2.60406 16.9168 1.88554Z" stroke="#2a2a33" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M9.70833 1.87533C5.10596 1.87533 1.375 5.60629 1.375 10.2087C1.375 14.811 5.10596 18.542 9.70833 18.542C14.3107 18.542 18.0417 14.811 18.0417 10.2087C18.0417 9.63791 17.9842 9.08049 17.875 8.54199M6.16667 12.5003C6.92677 13.5123 8.13692 14.167 9.5 14.167C10.8631 14.167 12.0732 13.5123 12.8333 12.5003M7.83333 7.91699H6.75593C6.37863 7.91699 6.01678 8.06688 5.75 8.33366M11.1667 7.91699H12.2441C12.6213 7.91699 12.9832 8.06688 13.25 8.33366M16.9168 1.88554C15.7527 1.29229 14.9167 2.09482 14.9167 2.09482C14.9167 2.09482 14.0807 1.29229 12.9164 1.88553C11.5063 2.60406 11.4051 5.41784 14.9167 6.66699C18.4283 5.41784 18.327 2.60406 16.9168 1.88554Z" stroke="#2a2a33" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </div>
           <span className="text-xs">Product</span>

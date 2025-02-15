@@ -7,8 +7,8 @@ type ProgressProps = {
 };
 
 const CircularProgess = ({
-  size = 150,
-  strokeWidth = 15,
+  size = 120,
+  strokeWidth = 12,
   children,
 }: ProgressProps) => {
   const { progress } = useUserProgress();
@@ -39,9 +39,9 @@ const CircularProgess = ({
           strokeLinecap="round"
         />
       </svg>
-      <div className="absolute z-10">{children}</div>
-      <span className="bg-success100 absolute bottom-0 left-4 px-2 py-1 rounded text-success700 font-medium text-sm">
-        {progress}% COMPLETED
+      <div className="absolute z-10 flex w-full justify-center items-center">{children}</div>
+      <span className="bg-success100 absolute bottom-0 px-[6px] py-[1px] rounded-md text-success700 text-xs">
+        {`${progress}% COMPLETED`}
       </span>
     </div>
   );

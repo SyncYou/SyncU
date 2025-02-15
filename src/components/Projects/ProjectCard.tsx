@@ -74,7 +74,7 @@ const ProjectCard = ({ data, fetching }: PropsType) => {
                 <p className="text-xs font-normal text-gray700">
                   Required roles
                 </p>
-                <div className="h-[68px] flex flex-wrap gap-[4.5px]">
+                <div className="flex flex-wrap gap-[4.5px]">
                   {data.required_roles.slice(0, 3).map((skill, i) => {
                     return (
                       <Chip key={i}>

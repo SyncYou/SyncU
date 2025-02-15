@@ -2,11 +2,13 @@ import SecondaryButton from "../../components/Reuseables/SecondaryButton";
 import link from "/assets/link.svg";
 import avatar from "/assets/Avatars.svg";
 import { HiPencilSquare } from "react-icons/hi2";
-import { BsArrowRight, BsShare } from "react-icons/bs";
-import { BiBriefcase, BiCalendarPlus, BiFolderPlus } from "react-icons/bi";
-import { FaLocationDot } from "react-icons/fa6";
-import { PiEyes } from "react-icons/pi";
-import { FaHandshake } from "react-icons/fa";
+import { BsArrowRight } from "react-icons/bs";
+import { GoShareAndroid } from "react-icons/go";
+import { BiBriefcase, BiFolderPlus } from "react-icons/bi";
+import { IoIosArrowDown } from "react-icons/io";
+import { SlLocationPin } from "react-icons/sl";
+import { RxCross2 } from "react-icons/rx";
+import { PiEyes, PiHandshake, PiCalendarPlus } from "react-icons/pi";
 import Chip from "../../components/Reuseables/Chip";
 import CircularProgess from "../../components/ProfileScreen/CircularProgess";
 import { useState } from "react";
@@ -42,9 +44,9 @@ const Profile = () => {
   };
 
   return (
-    <section className="px-8 pt-6 pb-4 w-full h-[90vh] flex gap-[10px]">
-      <div className="w-[362px] h-[528px] rounded-2xl flex flex-col gap-6 pb-8  pr-4">
-        <div className="flex flex-col gap-3 pt-4">
+    <section className="px-8 pt-6 pb-4 w-full grid grid-cols-[342px,_auto]  lg:grid-cols-[372px,_auto] gap-[10px] lg:gap-6 overflow-hidden h-[90vh]">
+      <div className="w-full min-h-[528px] h-fit rounded-2xl flex flex-col gap-6 pb-8 px-4 shadow-rightShadow">
+        <div className="flex flex-col gap-3">
           <div className="flex justify-between">
             <div className="h-[96px] w-[96px] rounded-full border border-gray200">
               <img src={photoUrl} className="w-full rounded-full" alt="" />
@@ -52,12 +54,12 @@ const Profile = () => {
             <div className="flex gap-4">
               <SecondaryButton
                 onClick={handleProgressModal}
-                classes="h-10 min-w-[129px] px-4 py-2"
+                classes="h-10 py-1 text-sm px-1"
               >
-                Edit profile <HiPencilSquare />
+                <HiPencilSquare className="text-base"/> Edit profile
               </SecondaryButton>
               <div className="h-10 w-10 cursor-pointer rounded-[100px] flex justify-center items-center border-[0.5px] border-gray300">
-                <BsShare className="rotate-180 text-[24px]" />
+                <GoShareAndroid className="text-[22px]" />
               </div>
             </div>
           </div>
@@ -70,72 +72,75 @@ const Profile = () => {
           <div className="flex relative">
             <div
               onClick={() => setShowSwitcher(!showSwitcher)}
-              className="py-[2px] px-2 border h-6 border-gray200 max-w-[210px] rounded-[100px] flex gap-1 items-center"
+              className="py-[2px] px-2 border h-6 border-gray200 rounded-[100px] text-sm flex items-center gap-1 flex-nowrap cursor-pointer"
             >
               <span
-                className={`w-2 h-2 rounded-full ${
+                className={`w-2 h-2 rounded-full  ${
                   status === "Available" && "bg-success700"
                 } ${status === "Occupied" && "bg-[#F7BA36]"}
                 ${status === "Not available" && "bg-gray500"}
                 `}
               ></span>
-              {status === "Available" ? "Available to collaborate" : status}
+              <span className="text-[#40404D]">
+              {status === "Available" ? "Available to collaborate" : status} 
+              </span>
+              <IoIosArrowDown />
             </div>
             {showSwitcher && <AvailablitySwitcher />}
           </div>
         </div>
         <hr />
-        <div className="flex flex-col pr-4 gap-4">
+        <div className="flex flex-col pr-4 gap-4 text-sm">
           <div className="flex gap-2 items-center">
-            <BiBriefcase /> <span>{areaOfExpertise}</span>
+            <BiBriefcase className="text-[0.95rem]" /> <span>{areaOfExpertise}</span>
           </div>
           <div className="flex gap-2 items-center">
-            <FaLocationDot /> <span>{countryOfResidence}</span>
+            <SlLocationPin className="text-[0.95rem]" /> <span>{countryOfResidence}</span>
           </div>
           <div className="flex gap-2 items-center">
-            <BiCalendarPlus /> <span>Joined 12 November, 2024</span>
+            <PiCalendarPlus className="text-[1rem]" /> <span>Joined 12 November, 2024</span>
           </div>
         </div>
         <hr />
-        <div className="flex flex-col pr-4 gap-4">
+        <div className="flex flex-col pr-4 gap-4 text-sm">
           <div className="flex justify-between items-center h-5">
             <div className="flex gap-2 items-center">
-              <PiEyes /> <span>Profile views</span>
+              <PiEyes className="text-base" /> <span>Profile views</span>
             </div>
             <span className="my-auto">0</span>
           </div>
           <div className="flex justify-between items-center h-5">
             <div className="flex gap-2 items-center">
-              <FaHandshake /> <span>Project contributions</span>
+              <PiHandshake className="text-base" /> <span>Project contributions</span>
             </div>
             <span className="my-auto">0</span>
           </div>
           <div className="flex justify-between items-center h-5">
             <div className="flex gap-2 items-center">
-              <BiFolderPlus /> <span>Projects Created</span>
+              <BiFolderPlus className="text-base" /> <span>Projects Created</span>
             </div>
             <span className="my-auto">0</span>
           </div>
         </div>
       </div>
-      <div className="w-[599px] flex flex-col gap-4 overflow-y-scroll scrollbar-none">
-        <div className="w-full border border-gray200 py-4 flex flex-col flex-wrap gap-2 rounded-2xl">
+      <div className="w-full flex flex-col gap-4 overflow-y-scroll scrollbar-none max-w-[900px]">
+        <div className="w-full border border-gray200 py-4 flex flex-col flex-wrap gap-2 rounded-2xl shadow">
           <p className="font-semibold text-base text-gray950 px-4">
-            Skills/stacks
+            Skills or stacks
           </p>
-          <div className="py-[10px] px-4 flex gap-[10px]">
+          <div className="py-[10px] px-4 flex gap-3 flex-wrap">
             {stacks.map((stack, idx) => {
-              return <div key={idx}>
-                <Chip>{stack}</Chip>;
+              return <div key={idx} className="flex justify-center items-center">
+                <Chip>{stack}</Chip>
               </div>
             })}
           </div>
         </div>
-        <div className="w-full border border-gray200 py-4 flex flex-col gap-2 rounded-2xl">
+        <div className="w-full border border-gray200 py-4 flex flex-col gap-2 rounded-2xl shadow">
           <p className="font-semibold text-base text-gray950 px-4">
-            Project/links
+            Portfolio or social links
           </p>
-          <div className="h-28 w-full flex justify-center items-center">
+          <div className="h-72 w-full flex justify-center items-center">
             <div className="">
               <img className="mx-auto" src={link} alt="link-img" />
               <span>Nothing to show</span>
@@ -145,7 +150,7 @@ const Profile = () => {
       </div>
       {progress && <ProfileUpdate state={handleProgressModal} />}
       {hover ? (
-        <div className="flex flex-col absolute bottom-5 right-5">
+        <div className="flex flex-col fixed bottom-16 right-14">
           <div className="h-[250px] w-[346px] border border-gray200 bg-white rounded-2xl px-4 pb-4 pt-[10px] flex flex-col gap-4">
             <div className="flex flex-col gap-2">
               <div className="">
@@ -176,23 +181,25 @@ const Profile = () => {
             <hr />
             <SecondaryButton
               onClick={handleProgressModal}
-              classes="h-11 w-[196px] px-6 py-[10px] gap-0"
+              classes="h-11 py-[10px] gap-0 w-fit text-sm font-medium px-2"
             >
               Complete profile <BsArrowRight />
             </SecondaryButton>
           </div>
           <div
             onClick={handleClick}
-            className="w-5 h-5 ml-auto rounded-full bg-gray950 cursor-pointer"
-          ></div>
+            className="w-8 h-8 flex justify-center items-center ml-auto mt-2 rounded-full bg-gray950 cursor-pointer"
+          >
+            <RxCross2 className="z-50 text-white text-base"/>
+          </div>
         </div>
       ) : (
         <div
           onClick={handleClick}
-          className="fixed bottom-5 right-5 flex justify-center items-center w-32 h-32 cursor-pointer"
+          className="fixed bottom-8 right-10 flex justify-center items-center w-[7.5rem] h-[6.5rem] cursor-pointer"
         >
           <CircularProgess>
-            <img src={avatar} alt="" />
+            <img className="h-20 w-20" src={avatar} alt="" />
           </CircularProgess>
         </div>
       )}

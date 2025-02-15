@@ -33,7 +33,7 @@ const ProjectDetails = ({ state, data }: PropsType) => {
   const checkIfRequested = data.requests?.filter(
     (req) => req.userId === user.data.user?.id
   );
-
+  console.log(checkIfRequested, checkIfRequested.length, isRequested, creator)
   return (
     <Overlay>
       {modal && (
@@ -63,6 +63,7 @@ const ProjectDetails = ({ state, data }: PropsType) => {
             </div>
           </div>
           <div className="flex gap-4 items-center">
+            
             {checkIfRequested.length == 1 ||
               (isRequested && !creator && (
                 <SecondaryButton
@@ -72,7 +73,7 @@ const ProjectDetails = ({ state, data }: PropsType) => {
                   Withdraw Request
               </SecondaryButton>
             ))}
-            {checkIfRequested.length == 0 ||
+            {!(checkIfRequested.length == 0) ||
               (!isRequested && !creator && (
               <PrimaryButton
                 onClick={() => handleRequest(data.id, data.created_by)}
@@ -121,8 +122,8 @@ const ProjectDetails = ({ state, data }: PropsType) => {
             <div className="flex flex-col gap-3">
               <p className="font-medium text-sm">Required roles</p>
               <div className="flex flex-wrap gap-[11px]">
-                {data.required_roles.map((skill) => {
-                  return <Chip>{skill}</Chip>;
+                {data.required_roles.map((skill, _) => {
+                  return <Chip key={_}>{skill}</Chip>;
                 })}
               </div>
             </div>
@@ -130,8 +131,8 @@ const ProjectDetails = ({ state, data }: PropsType) => {
             <div className="flex flex-col gap-3">
               <p className="font-medium text-sm">Required skills or stacks</p>
               <div className="flex flex-wrap gap-[11px]">
-                {data.required_stacks.map((skill) => {
-                  return <Chip>{skill}</Chip>;
+                {data.required_stacks.map((skill, _) => {
+                  return <Chip key={_}>{skill}</Chip>;
                 })}
               </div>
             </div>

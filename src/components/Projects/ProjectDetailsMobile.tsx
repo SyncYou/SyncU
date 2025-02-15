@@ -100,8 +100,8 @@ const ProjectDetailsMobile = ({ data, state, handleModal }: PropsType) => {
         <div className="flex flex-col gap-3">
           <p className="font-medium text-sm">Required roles</p>
           <div className="flex flex-wrap gap-[11px]">
-            {data.required_roles.map((skill) => {
-              return <Chip>{skill}</Chip>;
+            {data.required_roles.map((skill, _) => {
+              return <Chip key={_}>{skill}</Chip>;
             })}
           </div>
         </div>
@@ -109,8 +109,8 @@ const ProjectDetailsMobile = ({ data, state, handleModal }: PropsType) => {
         <div className="flex flex-col gap-3">
           <p className="font-medium text-sm">Required skills or stacks</p>
           <div className="flex flex-wrap gap-[11px]">
-            {data.required_stacks.map((skill) => {
-              return <Chip>{skill}</Chip>;
+            {data.required_stacks.map((skill, _) => {
+              return <Chip key={_}>{skill}</Chip>;
             })}
           </div>
         </div>
