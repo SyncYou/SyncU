@@ -37,8 +37,8 @@ const CreatedProjects = () => {
         </div>
       ) : (
         <section className="grid md:grid-cols-3 min-h-full gap-8 md:max-w-full max-w-screen">
-          {createdProjects?.map((project) => {
-            return <ProjectCard data={project} fetching={isLoading} />;
+          {createdProjects?.map((project, index) => {
+            return <ProjectCard key={index} data={project} fetching={isLoading} />;
           })}
         </section>
       )}

@@ -47,7 +47,6 @@ export const signInWithGoogle = async () => {
 };
 
 // Fetch the loggedInUser
-// Fetch the loggedInUser
 export const getLoggedInUser = async () => {
   const {
     data: { user: loggedInUser },

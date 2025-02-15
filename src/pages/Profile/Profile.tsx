@@ -14,6 +14,10 @@ import ProfileUpdate from "../../components/ProfileScreen/ProfileUpdate";
 import { useUserProgress } from "../../context/useUserProgress";
 import AvailablitySwitcher from "../../components/ProfileScreen/AvailablitySwitcher";
 import { useUserData } from "../../context/useUserData";
+import { formatTimestamp } from "../../utils/FormatDate";
+import { useQuery } from "@tanstack/react-query";
+import { getLoggedInUser } from "../../utils/AuthRequest";
+import { Loading } from "../../components/Reuseables/Loading";
 
 const Profile = () => {
   const [hover, setHover] = useState(false);
@@ -40,6 +44,13 @@ const Profile = () => {
   const handleProgressModal = () => {
     setProgress((p) => !p);
   };
+
+  const {data: loggedInUser, isLoading} = useQuery({
+    queryKey: ["user"],
+    queryFn: getLoggedInUser
+  })
+
+  if(isLoading) <Loading/>
 
   return (
     <section className="px-8 pt-6 pb-4 w-full h-[90vh] flex gap-[10px]">
@@ -93,7 +104,7 @@ const Profile = () => {
             <FaLocationDot /> <span>{countryOfResidence}</span>
           </div>
           <div className="flex gap-2 items-center">
-            <BiCalendarPlus /> <span>Joined 12 November, 2024</span>
+            <BiCalendarPlus /> <span>{formatTimestamp(loggedInUser?.created_at as string)}</span>
           </div>
         </div>
         <hr />
