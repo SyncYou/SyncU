@@ -2,6 +2,7 @@ import React, { createContext, ReactNode, useContext, useEffect, useState } from
 import { useUserStore } from "../store/UseUserStore";
 import { supabase } from "../supabase/client";
 import { User } from "@supabase/supabase-js";
+import { errorToast } from "oasis-toast";
 
 interface AuthContextType {
   user: User | null;
@@ -37,6 +38,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const { data: { user }, error } = await supabase.auth.getUser();
 
       if (error || !user) {
+        errorToast("Authentication failed", "Please login to continue")
         throw new Error("User not found");
       }
 
@@ -48,6 +50,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         .single();
 
       if (profileError || !userProfile) {
+        errorToast("Unable to authorise", "Please complete your onboarding process")
         throw new Error("User profile not found");
       }
 

@@ -114,14 +114,13 @@ const router = createBrowserRouter([
   },
 ]);
 
-// Main App component
 const App = () => {
   return (
-    <QueryClientProvider client={client}>
-      <Suspense fallback={<Loading />}>
+    <Suspense fallback={<Loading />}>
+      <QueryClientProvider client={client}>
         <RouterProvider router={router} />
-      </Suspense>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </Suspense>
   );
 };
 
