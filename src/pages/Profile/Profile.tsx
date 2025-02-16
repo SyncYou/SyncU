@@ -14,6 +14,10 @@ import ProfileUpdate from "../../components/ProfileScreen/ProfileUpdate";
 import { useUserProgress } from "../../context/useUserProgress";
 import AvailablitySwitcher from "../../components/ProfileScreen/AvailablitySwitcher";
 import { useUserData } from "../../context/useUserData";
+import { formatTimestamp } from "../../utils/FormatDate";
+import { useQuery } from "@tanstack/react-query";
+import { getLoggedInUser } from "../../utils/AuthRequest";
+import { Loading } from "../../components/Reuseables/Loading";
 
 const Profile = () => {
   const [hover, setHover] = useState(false);
@@ -31,6 +35,7 @@ const Profile = () => {
     areaOfExpertise,
     photoUrl,
     countryOfResidence,
+    links,
   } = user;
 
   const handleClick = () => {
@@ -40,6 +45,13 @@ const Profile = () => {
   const handleProgressModal = () => {
     setProgress((p) => !p);
   };
+
+  const { data: loggedInUser, isLoading } = useQuery({
+    queryKey: ["user"],
+    queryFn: getLoggedInUser,
+  });
+
+  if (isLoading) <Loading />;
 
   return (
     <section className="px-8 pt-6 pb-4 w-full h-[90vh] flex gap-[10px]">
@@ -93,7 +105,8 @@ const Profile = () => {
             <FaLocationDot /> <span>{countryOfResidence}</span>
           </div>
           <div className="flex gap-2 items-center">
-            <BiCalendarPlus /> <span>Joined 12 November, 2024</span>
+            <BiCalendarPlus />{" "}
+            <span>{formatTimestamp(loggedInUser?.created_at as string)}</span>
           </div>
         </div>
         <hr />
@@ -125,9 +138,11 @@ const Profile = () => {
           </p>
           <div className="py-[10px] px-4 flex gap-[10px]">
             {stacks.map((stack, idx) => {
-              return <div key={idx}>
-                <Chip>{stack}</Chip>;
-              </div>
+              return (
+                <div key={idx}>
+                  <Chip>{stack}</Chip>
+                </div>
+              );
             })}
           </div>
         </div>
@@ -136,10 +151,14 @@ const Profile = () => {
             Project/links
           </p>
           <div className="h-28 w-full flex justify-center items-center">
-            <div className="">
-              <img className="mx-auto" src={link} alt="link-img" />
-              <span>Nothing to show</span>
-            </div>
+            {/* {links.length > 0 ? (
+              links.map((link, index) => <p key={index}>{link}</p>)
+            ) : (
+              <div className="">
+                <img className="mx-auto" src={link} alt="link-img" />
+                <span>Nothing to show</span>
+              </div>
+            )} */}
           </div>
         </div>
       </div>

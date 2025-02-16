@@ -91,8 +91,8 @@ const ProjectDetailsMobile = ({ data, state }: PropsType) => {
         <div className="h-[99px] flex flex-col gap-3">
           <p className="font-medium text-sm">Required</p>
           <div className="flex gap-[11px]">
-            {data.required_stacks.map((skill) => {
-              return <Chip>{skill}</Chip>;
+            {data.required_stacks.map((skill, index) => {
+              return <Chip key={index}>{skill}</Chip>;
             })}
           </div>
         </div>

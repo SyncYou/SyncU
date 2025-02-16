@@ -32,7 +32,7 @@ const ProjectCard = ({ data, fetching }: PropsType) => {
   const num = data.required_roles.length - 3;
 
   const handleViewDetails = () => {
-    setViewDetails((v) => !v);
+    setViewDetails((prev) => !prev);
   };
 
   return (
