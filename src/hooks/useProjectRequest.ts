@@ -3,11 +3,58 @@ import {
   requestToJoinProject,
   withdrawToJoinProject,
 } from "../utils/SupabaseRequest";
+import { ProjectType } from "../utils/types/Types";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "../supabase/client";
 
-const useProjectRequest = () => {
+const useProjectRequest = (id: string) => {
   const [showNotifications, setShowNotifications] = useState<boolean>(false);
   const [sendingRequest, setSendingRequest] = useState<boolean>(false);
   const [isRequested, setIsRequested] = useState<boolean>(false);
+
+  const [data, setData] = useState<ProjectType>({
+    created_at: "string",
+    created_by: "string",
+    description: "string",
+    id: "string",
+    industry: "string",
+    participants: ["string"],
+    project_views: 0,
+    requests: [
+      {
+        userId: "string",
+        status: "string",
+      },
+    ],
+    required_roles: ["string"],
+    required_stacks: ["string"],
+    title: "string",
+    updated_at: "string",
+    username: "string",
+    workspace: { name: "string", url: "string" },
+  });
+  const queryClient = useQueryClient();
+  const invalidateQueries = (id: string) => {
+    queryClient.invalidateQueries({
+      queryKey: ["project-details", id],
+    });
+  };
+
+  const { isFetching } = useQuery({
+    queryKey: ["project-details", id],
+    queryFn: async (): Promise<ProjectType> => {
+      const { data } = await supabase
+        .from("Projects")
+        .select()
+        .eq("id", id)
+        .single();
+
+      if (data) {
+        setData(data);
+      }
+      return data;
+    },
+  });
 
   const handleRequest = async (id: string, created_by: string) => {
     try {
@@ -21,7 +68,7 @@ const useProjectRequest = () => {
         const hideNotificationTimeout = setTimeout(() => {
           setShowNotifications(false);
         }, 3000);
-        setIsRequested(true);
+        invalidateQueries(id);
 
         return () => {
           clearTimeout(showNotificationTimeout);
@@ -47,7 +94,7 @@ const useProjectRequest = () => {
         const hideNotificationTimeout = setTimeout(() => {
           setShowNotifications(false);
         }, 3000);
-        setIsRequested(true);
+        invalidateQueries(id);
 
         return () => {
           clearTimeout(showNotificationTimeout);
@@ -68,6 +115,8 @@ const useProjectRequest = () => {
     isRequested,
     setIsRequested,
     withdrawRequest,
+    data,
+    isFetching,
   };
 };
 
