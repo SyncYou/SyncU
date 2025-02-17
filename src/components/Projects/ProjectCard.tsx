@@ -32,7 +32,7 @@ const ProjectCard = ({ data, fetching }: PropsType) => {
   const num = data.required_roles.length - 3;
 
   const handleViewDetails = () => {
-    setViewDetails((v) => !v);
+    setViewDetails((prev) => !prev);
   };
 
   return (
@@ -45,7 +45,7 @@ const ProjectCard = ({ data, fetching }: PropsType) => {
         {!fetching && (
           <div className="max-w-[99%] h-5 relative">
             {viewDetails && (
-              <ProjectDetails state={handleViewDetails} data={data} />
+              <ProjectDetails state={handleViewDetails} id={data.id} />
             )}
             <div
               onClick={handleViewDetails}

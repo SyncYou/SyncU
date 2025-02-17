@@ -22,6 +22,7 @@ export interface UserData {
   description: string;
   links: Links[];
   stacks: string[];
+  onboardingComplete: boolean;
 }
 
 export interface CardsData {

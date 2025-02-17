@@ -16,6 +16,10 @@ import ProfileUpdate from "../../components/ProfileScreen/ProfileUpdate";
 import { useUserProgress } from "../../context/useUserProgress";
 import AvailablitySwitcher from "../../components/ProfileScreen/AvailablitySwitcher";
 import { useUserData } from "../../context/useUserData";
+import { formatTimestamp } from "../../utils/FormatDate";
+import { useQuery } from "@tanstack/react-query";
+import { getLoggedInUser } from "../../utils/AuthRequest";
+import { Loading } from "../../components/Reuseables/Loading";
 
 const Profile = () => {
   const [hover, setHover] = useState(false);
@@ -33,6 +37,7 @@ const Profile = () => {
     areaOfExpertise,
     photoUrl,
     countryOfResidence,
+    links,
   } = user;
 
   const handleClick = () => {
@@ -42,6 +47,13 @@ const Profile = () => {
   const handleProgressModal = () => {
     setProgress((p) => !p);
   };
+
+  const { data: loggedInUser, isLoading } = useQuery({
+    queryKey: ["user"],
+    queryFn: getLoggedInUser,
+  });
+
+  if (isLoading) <Loading />;
 
   return (
     <section className="px-8 pt-6 pb-4 w-full grid grid-cols-[342px,_auto]  lg:grid-cols-[372px,_auto] gap-[10px] lg:gap-6 overflow-hidden h-[90vh]">
@@ -98,7 +110,7 @@ const Profile = () => {
             <SlLocationPin className="text-[0.95rem]" /> <span>{countryOfResidence}</span>
           </div>
           <div className="flex gap-2 items-center">
-            <PiCalendarPlus className="text-[1rem]" /> <span>Joined 12 November, 2024</span>
+            <PiCalendarPlus className="text-[1rem]" /> <span>{formatTimestamp(loggedInUser?.created_at as string)}</span>
           </div>
         </div>
         <hr />
@@ -140,6 +152,7 @@ const Profile = () => {
           <p className="font-semibold text-base text-gray950 px-4">
             Portfolio or social links
           </p>
+
           <div className="h-72 w-full flex justify-center items-center">
             <div className="">
               <img className="mx-auto" src={link} alt="link-img" />

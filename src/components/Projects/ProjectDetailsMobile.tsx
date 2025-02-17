@@ -26,6 +26,7 @@ const ProjectDetailsMobile = ({ data, state, handleModal }: PropsType) => {
 
   const { handleRequest, isRequested, withdrawRequest } = useProjectRequest();
 
+
   const checkIfRequested = data.requests?.filter(
     (req) => req.userId === user.data.user?.id
   );
@@ -196,6 +197,7 @@ const ProjectDetailsMobile = ({ data, state, handleModal }: PropsType) => {
               <FiSend />
             </PrimaryButton>
           ))}
+
         {creator && (
           <SecondaryButton classes="h-11 min-w-[294px]">
             Edit project
