@@ -9,6 +9,7 @@ import {
   FaRegHandshake,
   FaRegUser,
 } from "react-icons/fa";
+import { RiAddLargeFill } from "react-icons/ri";
 import { useSidebar } from "../../context/useSidebar";
 import { useUserProgress } from "../../context/useUserProgress";
 import { useUserData } from "../../context/useUserData";
@@ -22,9 +23,9 @@ const SideBar = () => {
 
   return (
     <aside
-      className={`md:h-screen h-16 w-screen fixed bottom-0 left-0 md:z-0 z-10 ${
+      className={`md:h-screen h-20 w-screen fixed bottom-0 left-0 md:z-0 z-10   ${
         isOpen ? "md:w-[239px]" : "md:w-[96px] md:flex md:flex-col items-center"
-      } md:pl-8 md:py-6 md:pr-4 px-6 py-4 md:bg-ash bg-white text-gray700 border-r border-gray200 font-medium text-base`}
+      } md:pl-8 md:py-6 md:pr-4 md:bg-ash bg-white text-gray700 border-r border-gray200 shadow-lg font-medium text-base`}
     >
       <div className="md:block hidden">
         <img src={isOpen ? logo : logo2} alt="logo" />
@@ -38,7 +39,7 @@ const SideBar = () => {
           } flex px-3 py-2 items-center gap-2 hover:bg-[#E6E6F0B2] rounded-sm`}
         >
           <FaRegHandshake />
-          {isOpen && "Collaborate"}
+          {isOpen && <p>Collaborate</p>}
         </NavLink>
         <NavLink
           to="/project"
@@ -47,7 +48,7 @@ const SideBar = () => {
           } flex px-3 py-2 items-center gap-2 hover:bg-[#E6E6F0B2] rounded-sm`}
         >
           <FaRegFolder />
-          {isOpen && "My Projects"}
+          {isOpen && <p>My Projects</p>}
         </NavLink>
         <NavLink
           to="/alert"
@@ -56,12 +57,12 @@ const SideBar = () => {
           } flex px-3 py-2 items-center gap-2 hover:bg-[#E6E6F0B2] rounded-sm`}
         >
           <FaRegBell />
-          {isOpen && "Alerts"}
+          {isOpen && <p>Activity</p>}
         </NavLink>
       </div>
       <NavLink
         to="/profile"
-        className={`md:flex ${
+        className={`md:flex mb-3 ${
           isOpen ? "w-[191px]" : "w-12"
         } items-center rounded-sm hover:bg-[#E6E6F0B2] h-12 px-3 py-2 gap-2 hidden`}
       >
@@ -88,23 +89,67 @@ const SideBar = () => {
           </div>
         )}
       </NavLink>
-      <div className="w-full h-full md:hidden flex justify-between">
-        <NavLink className="w-8 h-8 text-[24px] p-1 rounded" to="/">
+      <hr/>
+      {isOpen && 
+        <p className="hidden mt-3 md:flex flex-col text-xs">
+        <span>syncu ltd © 2025</span>
+        <span>All rights reserved.</span>
+      </p>
+      }
+      <div className="w-full h-full items-start pt-3 px-6 md:hidden flex justify-between">
+        <NavLink
+            to="/"
+            className="relative w-8 h-8 text-[24px] p-1 rounded 
+              after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2
+              after:w-1/4 after:h-[2px] after:bg-black after:opacity-[var(--active)] after:transition-opacity"
+            style={({ isActive }) => ({
+              backgroundColor: isActive ? "white" : "",
+              // Set the CSS variable to toggle the pseudo-element border's visibility
+              "--active": isActive ? 1 : 0,
+            })}
+          >
           <FaRegHandshake />
         </NavLink>
-        <NavLink className="w-8 h-8 text-[24px] p-1 rounded" to="/project">
+        <NavLink 
+          className="relative w-8 h-8 text-[24px] p-1 rounded 
+          after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2
+          after:w-1/4 after:h-[2px] after:bg-black after:opacity-[var(--active)] after:transition-opacity"
+          style={({ isActive }) => ({
+            backgroundColor: isActive ? "white" : "",
+            // Set the CSS variable to toggle the pseudo-element border's visibility
+            "--active": isActive ? 1 : 0,
+          })}
+          to="/project">
           <FaRegFolder />
         </NavLink>
         <button
           onClick={() => setShow(true)}
-          className="w-8 h-8 text-[20px] p-[6px] rounded-full text-white bg-gray-950"
+          className="w-9 h-9 text-[20px] p-[6px] rounded-full flex justify-center items-center text-white bg-black shadow-lg"
         >
-          <FaPlus />
+          <RiAddLargeFill className="text-2xl text-white" />
         </button>
-        <NavLink className="w-8 h-8 text-[24px] p-1 rounded" to="/alert">
+        <NavLink 
+          className="relative w-8 h-8 text-[24px] p-1 rounded 
+          after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2
+          after:w-1/4 after:h-[2px] after:bg-black after:opacity-[var(--active)] after:transition-opacity"
+          style={({ isActive }) => ({
+            backgroundColor: isActive ? "white" : "",
+            // Set the CSS variable to toggle the pseudo-element border's visibility
+            "--active": isActive ? 1 : 0,
+          })}
+          to="/alert">
           <FaRegBell />
         </NavLink>
-        <NavLink className="w-8 h-8 text-[24px] p-1 rounded" to="/profile">
+        <NavLink 
+          className="relative w-8 h-8 text-[24px] p-1 rounded 
+          after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:transform after:-translate-x-1/2
+          after:w-1/4 after:h-[2px] after:bg-black after:opacity-[var(--active)] after:transition-opacity"
+          style={({ isActive }) => ({
+            backgroundColor: isActive ? "white" : "",
+            // Set the CSS variable to toggle the pseudo-element border's visibility
+            "--active": isActive ? 1 : 0,
+          })}
+          to="/profile">
           <FaRegUser />
         </NavLink>
       </div>

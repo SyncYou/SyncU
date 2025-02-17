@@ -21,16 +21,16 @@ export default function User_LeftFill1() {
   return (
     <>
       <section>
-        <div className="p-5 flex flex-col w-full">
+        <div className="md:p-5 flex flex-col w-full">
           <div className="gap-6 self-stretch flex-col ">
             <h3 className="text-gray-600 font-medium text-sm my-5">
               STEP 3 of 5
             </h3>
             <div className="gap-3 flex-col my-5">
-              <h1 className="text-[32px] font-semibold text-gray-950">
+              <h1 className="text-[1.5rem] md:text-[32px] font-semibold text-gray-950">
                 What are you into?
               </h1>
-              <p className="text-gray-800 text-lg font-normal">
+              <p className="text-[#5C5C66] pt-3 text-base md:text-lg font-normal leading-7">
                 This will enable us match you to projects that suit you.
               </p>
             </div>
@@ -40,7 +40,7 @@ export default function User_LeftFill1() {
             <h3 className="text-gray-800 font-normal text-sm my-3">
               Choose one
             </h3>
-            <div className="flex flex-row gap-4 ">
+            <div className="flex flex-row flex-wrap gap-4 ">
               {Niches.map((items) => (
                 <Stack
                   key={items.id}
@@ -56,11 +56,11 @@ export default function User_LeftFill1() {
           </div>
 
           <div className="gap-4 flex-col relative h-full w-full my-5">
-            <h3 className="text-gray-800 font-normal text-sm my-3">
+            <h3 className="text-gray-800 font-normal text-sm my-3 mb-5">
               Pick any option above to enable.
             </h3>
-            <span className="flex items-center justify-between py-2 px-3 border border-solid border-gray-200 bg-gray-100 w-[62%] rounded-lg [&_img]:hover:cursor-pointer">
-              <span className="flex items-start flex-col gap-2">
+            <span className="flex items-center justify-between py-2 px-3 border border-solid border-gray-200 bg-gray-100 w-full md:w-[62%] rounded-lg [&_img]:hover:cursor-pointer">
+              <span className="flex items-start flex-col gap-2 w-full">
                 <p className="text-gray-950 text-xs font-medium ">
                   Area of expertise
                 </p>
@@ -69,7 +69,7 @@ export default function User_LeftFill1() {
                     userDetails.areaOfExpertise ? "text-gray-800" : ""
                   }`}
                 >
-                  {selectedStack ? selectedStack.stack : "Select one---"}
+                  {userDetails.areaOfExpertise || (selectedStack ? selectedStack.stack : "Select one---")}
                 </p>
               </span>
               <img src={caret} alt="caretUpDown" />
@@ -82,18 +82,19 @@ export default function User_LeftFill1() {
               />
             )}
           </div>
-
-          <Nav_Btn
-            disabled={!isValid}
-            showPrevious={true}
-            handleRequest={handleRequest}
-            navTo="/onboarding/stack"
-            btn_Style={`${
-              isValid
-                ? "bg-gray-950 text-opacity-100 text-white"
-                : "text-opacity-40 cursor-not-allowed"
-            }`}
-          />
+          <div className="pt-6">
+            <Nav_Btn
+              disabled={!isValid}
+              showPrevious={true}
+              handleRequest={handleRequest}
+              navTo="/onboarding/stack"
+              btn_Style={`w-[184px] ${
+                isValid
+                  ? "bg-gray-950 text-opacity-100 text-white"
+                  : "text-opacity-40 cursor-not-allowed"
+              }`}
+            />
+          </div>
         </div>
       </section>
     </>

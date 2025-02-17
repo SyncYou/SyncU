@@ -35,14 +35,14 @@ const Step1: React.FC<Props> = ({ handlePrevStep, handleNextStep }) => {
           Collaborate & build with like-minded techies.
         </h1>
       </div>
-      <div className="mt-0 md:mt-[4rem] relative w-full flex items-center justify-center overflow-hidden">
+      <div className="mt-0 md:mt-[4rem] relative w-full flex items-center justify-center">
         <img
           className="md:w-[600px] h-[19rem] ml-3 md:ml-0"
           src={onboarding}
           alt="masked image"
         />
         <img
-          className="h-[6.5rem] sm:h-[10rem] sm:right-16 sm:-bottom-[4.3rem] absolute md:-bottom-10 md:right-[0.2rem] md:w-[350px] w-[300px] bottom-8 -right-14"
+          className="h-[10rem] sm:h-[10rem] sm:right-16 sm:-bottom-[4.3rem] absolute md:-bottom-24 md:right-[6rem] md:h-[15rem] md:w-[350px] w-[300px] -bottom-8 -right-14 z-40"
           src={usercard}
           alt="usercard"
         />
