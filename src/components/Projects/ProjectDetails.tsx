@@ -25,14 +25,20 @@ interface PropsType {
 
 const ProjectDetails = ({ state, id }: PropsType) => {
   const { modal, handleModal } = useModalView();
-  const creator = data.created_by === user.data.user?.id;
-  const { handleRequest, isRequested, showNotifications, sendingRequest, withdrawRequest } =
-    useProjectRequest();
+  const {
+    handleRequest,
+    showNotifications,
+    sendingRequest,
+    withdrawRequest,
+    data,
+    isFetching,
+    isRequested
+  } = useProjectRequest(id);
+  const creator = data?.created_by === user.data.user?.id;
 
   const checkIfRequested = data?.requests?.filter(
     (req) => req.userId === user.data.user?.id
   );
-  console.log(checkIfRequested, checkIfRequested.length, isRequested, creator)
   return (
     <Overlay>
       {modal && (
