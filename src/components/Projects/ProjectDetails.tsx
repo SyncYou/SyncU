@@ -1,6 +1,5 @@
 import { FiSend } from "react-icons/fi";
 import x from "/assets/X.svg";
-import slack from "/assets/slack.svg";
 import { BsShare } from "react-icons/bs";
 import { HiOutlineBriefcase, HiOutlineLockClosed } from "react-icons/hi";
 import { PiTagChevron } from "react-icons/pi";
@@ -16,6 +15,7 @@ import ProjectDetailsMobile from "./ProjectDetailsMobile";
 import ViewRequests from "./ViewRequests";
 import useModalView from "../../hooks/useModalView";
 import { Loading } from "../Reuseables/Loading";
+import WorkSpace from "../Reuseables/Workspace";
 
 interface PropsType {
   state: () => void;
@@ -32,11 +32,16 @@ const ProjectDetails = ({ state, id }: PropsType) => {
     data,
     isFetching,
   } = useProjectRequest(id);
+
+  const isParticipant = data?.participants?.includes(user.data.user?.id ?? "");
+
   const creator = data?.created_by === user.data.user?.id;
 
   const checkIfRequested = data?.requests?.filter(
     (req) => req.userId === user.data.user?.id
   );
+
+  console.log(isParticipant, creator);
 
   return (
     <Overlay>
@@ -68,7 +73,7 @@ const ProjectDetails = ({ state, id }: PropsType) => {
             </div>
           </div>
           <div className="flex gap-4">
-            {checkIfRequested.length == 1 && !creator && (
+            {checkIfRequested.length == 1 && !creator && !isParticipant && (
               <SecondaryButton
                 onClick={() => withdrawRequest(data.id, data.created_by)}
                 classes="h-11"
@@ -76,7 +81,7 @@ const ProjectDetails = ({ state, id }: PropsType) => {
                 Withdraw Request
               </SecondaryButton>
             )}
-            {checkIfRequested.length == 0 && !creator && (
+            {checkIfRequested.length == 0 && !creator && !isParticipant && (
               <PrimaryButton
                 onClick={() => handleRequest(data.id, data.created_by)}
                 classes="h-11 gap-2 px-4"
@@ -153,13 +158,19 @@ const ProjectDetails = ({ state, id }: PropsType) => {
               </p>
               <div className="w-full h-10 flex justify-between items-center">
                 <div className="flex gap-2 items-center">
-                  <img className="" src={slack} alt="" />
-                  <span className="text-gray950 font-medium">Slack</span>
+                  <WorkSpace workspace={data.workspace?.name ?? "Slack"} />
+                  <span className="text-gray950 font-medium">
+                    {data.workspace?.name}
+                  </span>
                 </div>
-                <button className="flex items-center gap-2 opacity-65 border border-gray200 py-2 px-4 rounded-full h-10 w-[84px]">
+                <PrimaryButton
+                  onClick={() => window.open(data.workspace?.url, "_blank")}
+                  disabled={!isParticipant || false}
+                  classes="flex items-center gap-2 disabled:opacity-65 border border-gray200 py-2 px-4 rounded-full h-10 w-[84px]"
+                >
                   <HiOutlineLockClosed />
                   Join
-                </button>
+                </PrimaryButton>
               </div>
             </div>
             <div className="flex flex-col gap-1">

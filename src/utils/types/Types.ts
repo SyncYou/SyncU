@@ -59,7 +59,7 @@ export interface ProjectType {
   title: string;
   updated_at?: string;
   username?: string;
-  workspace?: { name: string; url: string };
+  workspace?: { name: "Slack" | "Discord" | "Microsoft teams"; url: string };
 }
 
 export interface NotificationType {

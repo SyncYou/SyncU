@@ -31,7 +31,7 @@ const useProjectRequest = (id: string) => {
     title: "string",
     updated_at: "string",
     username: "string",
-    workspace: { name: "string", url: "string" },
+    workspace: { name: "Slack", url: "string" },
   });
   const queryClient = useQueryClient();
   const invalidateQueries = (id: string) => {
