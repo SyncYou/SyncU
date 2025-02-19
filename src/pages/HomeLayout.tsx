@@ -5,8 +5,9 @@ import { useSidebar } from "../context/useSidebar";
 import { useEffect } from "react";
 import useFetchQueries from "../hooks/useFetchQueries";
 import { useAlerts, useUserData } from "../context/useUserData";
-import { Loading } from "../components/Reuseables/Loading";
 import PostProjectForm from "../components/Projects/PostProjectForm";
+import ProjectCardSkeleton from "../lib/ProjectCardSkeleton";
+import LayoutSkeleton from "../lib/LayoutSkeleton";
 
 const Layout = () => {
   const { isOpen } = useSidebar();
@@ -28,14 +29,18 @@ const Layout = () => {
     <main>
       <SideBar />
       <PostProjectForm />
-      {userData.isLoading && <Loading />}
+
       <section
         className={`md:relative  ${
           isOpen ? "isOpen md:left-[239px]" : "isClosed md:left-[96px]"
         } text-gray950`}
       >
         <Header />
+        {userData.isLoading ? (
+          <LayoutSkeleton/>
+        ): (
         <Outlet />
+        )}
       </section>
     </main>
   );

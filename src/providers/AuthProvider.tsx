@@ -24,9 +24,13 @@ export const useAuth = () => {
 };
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(() => {
+    const storedUser = localStorage.getItem("loggedInUser");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
   const [loading, setLoading] = useState(true);
   const [redirected, setRedirected] = useState(false);
+  const [hasFetchedUser, setHasFetchedUser] = useState(false); // Flag to track if user data has been fetched
   const { setUserDetails } = useUserStore();
 
   // Fetch user details and onboarding status
@@ -38,7 +42,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const { data: { user }, error } = await supabase.auth.getUser();
 
       if (error || !user) {
-        errorToast("Authentication failed", "Please login to continue")
+        errorToast("Authentication failed", "Please login to continue");
         throw new Error("User not found");
       }
 
@@ -50,7 +54,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         .single();
 
       if (profileError || !userProfile) {
-        errorToast("Unable to authorise", "Please complete your onboarding process")
+        errorToast("Unable to authorise", "Please complete your onboarding process");
         throw new Error("User profile not found");
       }
 
@@ -60,6 +64,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       setUser(user);
       setUserDetails("onboardingComplete", userProfile.onboardingComplete);
+      setHasFetchedUser(true); // Mark user data as fetched
     } catch (error) {
       console.error("Error fetching user data:", error);
       localStorage.removeItem("currentUser");
@@ -73,10 +78,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Handle auth state changes
   useEffect(() => {
-    fetchUserAndOnboardingStatus();
+    // Only fetch user data if it hasn't been fetched yet
+    if (!user && !hasFetchedUser) {
+      fetchUserAndOnboardingStatus();
+    }
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log('event', event)
+      console.log('event', event);
       if (session?.user) {
         const user = session.user;
         localStorage.setItem("loggedInUser", JSON.stringify(user));
@@ -91,7 +99,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     });
 
     return () => subscription.unsubscribe();
-  }, [setUserDetails]);
+  }, [setUserDetails, hasFetchedUser]); // Add hasFetchedUser as a dependency
 
   // Redirect user based on auth state and onboarding status
   useEffect(() => {
@@ -118,7 +126,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ user, loading }}>
-      {loading ? null : children}
+      {children}
     </AuthContext.Provider>
   );
 };
