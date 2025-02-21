@@ -6,13 +6,12 @@ import { useEffect } from "react";
 import useFetchQueries from "../hooks/useFetchQueries";
 import { useAlerts, useUserData } from "../context/useUserData";
 import PostProjectForm from "../components/Projects/PostProjectForm";
-import ProjectCardSkeleton from "../lib/ProjectCardSkeleton";
-import LayoutSkeleton from "../lib/LayoutSkeleton";
 
 const Layout = () => {
   const { isOpen } = useSidebar();
   const { setUser } = useUserData();
   const { setAlerts } = useAlerts();
+  // const {loading} = useAuth()
 
   const { userData, notifications } = useFetchQueries();
 
@@ -36,11 +35,7 @@ const Layout = () => {
         } text-gray950`}
       >
         <Header />
-        {userData.isLoading ? (
-          <LayoutSkeleton/>
-        ): (
         <Outlet />
-        )}
       </section>
     </main>
   );

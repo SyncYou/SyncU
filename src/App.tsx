@@ -6,46 +6,35 @@ import OnboardingLayout from "./Layout/OnboardingLayout.tsx";
 import ProfileLayout from "./Layout/ProfileLayout.tsx";
 import Layout from "./pages/HomeLayout";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Loading } from "./components/Reuseables/Loading.tsx";
-import TellUsAboutYourself from "./components/Profile/Tell-us-about-yourself.tsx";
-import Username from "./components/Profile/Username.tsx";
-import User_LeftFill1 from "./components/Profile/Step3/User_LeftFill1.tsx";
-import LeftFill_2 from "./components/Profile/Step4/LeftFill_2.tsx";
-import LeftFill_3 from "./components/Profile/Final_step/LeftFill_3.tsx";
-import Finishing from "./components/Profile/Finishing/Finishing.tsx";
 import ProjectContainer from "./components/Home/ProjectContainer.tsx";
-import Projects from "./pages/Project/Projects.tsx";
-import Activity from "./pages/Activity/Activity.tsx";
-import Profile from "./pages/Profile/Profile.tsx";
-import Verifymail from "./components/Auth/Verify-mail.tsx";
-import SetUpYourProfile from "./components/Profile/Set-up-your-profile.tsx";
+import SkeletonLoader from "./lib/SkeletonLoader.tsx";
 
-// const TellUsAboutYourself = lazy(
-//   () => import("./components/Profile/Tell-us-about-yourself")
-// );
-// const User_LeftFill1 = lazy(
-//   () => import("./components/Profile/Step3/User_LeftFill1.tsx")
-// );
-// const LeftFill_2 = lazy(
-//   () => import("./components/Profile/Step4/LeftFill_2.tsx")
-// );
-// const LeftFill_3 = lazy(
-//   () => import("./components/Profile/Final_step/LeftFill_3.tsx")
-// );
-// const Finishing = lazy(
-//   () => import("./components/Profile/Finishing/Finishing.tsx")
-// );
-// const Verifymail = lazy(() => import("./components/Auth/Verify-mail.tsx"));
-// const Username = lazy(() => import("./components/Profile/Username.tsx"));
-// const SetUpYourProfile = lazy(
-//   () => import("./components/Profile/Set-up-your-profile.tsx")
-// );
+const TellUsAboutYourself = lazy(
+  () => import("./components/Profile/Tell-us-about-yourself")
+);
+const User_LeftFill1 = lazy(
+  () => import("./components/Profile/Step3/User_LeftFill1.tsx")
+);
+const LeftFill_2 = lazy(
+  () => import("./components/Profile/Step4/LeftFill_2.tsx")
+);
+const LeftFill_3 = lazy(
+  () => import("./components/Profile/Final_step/LeftFill_3.tsx")
+);
+const Finishing = lazy(
+  () => import("./components/Profile/Finishing/Finishing.tsx")
+);
+const Verifymail = lazy(() => import("./components/Auth/Verify-mail.tsx"));
+const Username = lazy(() => import("./components/Profile/Username.tsx"));
+const SetUpYourProfile = lazy(
+  () => import("./components/Profile/Set-up-your-profile.tsx")
+);
 // const ProjectContainer = lazy(
 //   () => import("./components/Home/ProjectContainer.tsx")
 // );
-// const Activity = lazy(() => import("./pages/Activity/Activity.tsx"));
-// const Projects = lazy(() => import("./pages/Project/Projects.tsx"));
-// const Profile = lazy(() => import("./pages/Profile/Profile.tsx"));
+const Activity = lazy(() => import("./pages/Activity/Activity.tsx"));
+const Projects = lazy(() => import("./pages/Project/Projects.tsx"));
+const Profile = lazy(() => import("./pages/Profile/Profile.tsx"));
 
 const client = new QueryClient();
 
@@ -104,7 +93,7 @@ const router = createBrowserRouter([
       },
       {
         path: "profile",
-        element: <Profile />,
+        element: <Suspense fallback={<SkeletonLoader/>}><Profile /></Suspense>,
       },
     ],
   },
@@ -128,7 +117,7 @@ const router = createBrowserRouter([
 
 const App = () => {
   return (
-    <Suspense fallback={<Loading />}>
+    <Suspense fallback={<SkeletonLoader/>}>
       <QueryClientProvider client={client}>
         <RouterProvider router={router} />
       </QueryClientProvider>

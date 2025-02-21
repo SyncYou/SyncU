@@ -41,7 +41,7 @@ const ProjectCard = ({ data, fetching }: PropsType) => {
       className="h-[305px] md:w-full text-gray950"
     >
       <div className="w-full h-[46px] relative">
-        <img src={logo} alt="tag" width="358" height="46" className="absolute bottom-0 left-0" decoding="async" />
+        <img src={logo} alt="tag" width="358" height="46" loading="lazy" className="absolute bottom-0 left-0" decoding="async" />
         {!fetching && (
           <div className="max-w-[99%] h-5 relative">
             {viewDetails && (
