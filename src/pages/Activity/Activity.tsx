@@ -30,16 +30,16 @@ const Activity = () => {
       <div className="py-3">
         <p>Today</p>
         <div className="flex flex-col gap-3">
-          {alerts?.map((alert) => (
-            <>
-              <div className="p-2 hover:bg-gray100 flex items-center gap-4 relative">
+          {alerts?.map((alert, idx) => (
+            <div key={idx}>
+              <div className="p-2 hover:bg-gray100 flex items-center gap-4 relative cursor-pointer">
                 <div className="w-10 h-10 bg-gray950 block rounded-full"></div>
                 <div className="font-normal text-gray700 text-sm">
                   <div className="flex gap-2">
                     <span className="text-base font-semibold text-gray900">
                       {alert.status === "accepted" &&
                         "Congratulations🎉 you're in!"}
-                      {alert.status === "pending" && "Some requested"}
+                      {alert.status === "pending" && "Someone requested"}
                       {alert.status === "rejected" &&
                         "Sorry, you have been rejected "}
                     </span>
@@ -50,7 +50,7 @@ const Activity = () => {
                 </div>
               </div>
               <hr />
-            </>
+            </div>
           ))}
         </div>
         <p className="pt-4 text-center">That's all for now</p>

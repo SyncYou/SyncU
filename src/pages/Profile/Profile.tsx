@@ -27,7 +27,6 @@ const Profile = () => {
   const [showSwitcher, setShowSwitcher] = useState(false);
   const { status } = useUserProgress();
 
-  // Custom Hooks
   const { user } = useUserData();
   const {
     firstName,

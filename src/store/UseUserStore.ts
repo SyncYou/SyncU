@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-interface UserDetails {
+export interface UserDetails {
   firstName: string;
   lastName: string;
   username: string;
