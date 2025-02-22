@@ -30,7 +30,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   });
   const [loading, setLoading] = useState(true);
   const [redirected, setRedirected] = useState(false);
-  const [hasFetchedUser, setHasFetchedUser] = useState(false); // Flag to track if user data has been fetched
+  const [hasFetchedUser, setHasFetchedUser] = useState(false); 
   const { setUserDetails } = useUserStore();
 
   // Fetch user details and onboarding status
@@ -64,7 +64,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       setUser(user);
       setUserDetails("onboardingComplete", userProfile.onboardingComplete);
-      setHasFetchedUser(true); // Mark user data as fetched
+      // Mark user data as fetched
+      setHasFetchedUser(true); 
     } catch (error) {
       console.error("Error fetching user data:", error);
       localStorage.removeItem("currentUser");
@@ -99,7 +100,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     });
 
     return () => subscription.unsubscribe();
-  }, [setUserDetails, hasFetchedUser]); // Add hasFetchedUser as a dependency
+  }, [setUserDetails, hasFetchedUser]);
 
   // Redirect user based on auth state and onboarding status
   useEffect(() => {

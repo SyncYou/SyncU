@@ -15,7 +15,10 @@ const ProjectCardSkeleton = () => {
               <div className="h-4 w-1/4 bg-gray200 animate-pulse"></div>
               <div className="flex flex-wrap gap-[4.5px]">
                 {[...Array(3)].map((_, i) => (
-                  <div key={i} className="h-7 w-20 bg-gray200 animate-pulse rounded-full"></div>
+                  <div
+                    key={i}
+                    className="h-7 w-20 bg-gray200 animate-pulse rounded-full"
+                  ></div>
                 ))}
               </div>
             </div>

@@ -3,7 +3,6 @@ import logo2 from "/assets/logo-noname.svg";
 import user from "/assets/avatar.svg";
 import { NavLink } from "react-router-dom";
 import {
-  FaPlus,
   FaRegBell,
   FaRegFolder,
   FaRegHandshake,

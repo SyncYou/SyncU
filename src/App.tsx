@@ -2,13 +2,14 @@ import { Suspense, lazy } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import RootLayout from "./Layout/RootLayout.js";
-import OnboardingLayout from "./Layout/OnboardingLayout.tsx";
 import ProfileLayout from "./Layout/ProfileLayout.tsx";
 import Layout from "./pages/HomeLayout";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ProjectContainer from "./components/Home/ProjectContainer.tsx";
 import SkeletonLoader from "./lib/SkeletonLoader.tsx";
+import AuthSkeleton from "./lib/AuthSkeleton.tsx";
 
+const OnboardingLayout = lazy(() => import("./Layout/OnboardingLayout.tsx"));
 const TellUsAboutYourself = lazy(
   () => import("./components/Profile/Tell-us-about-yourself")
 );
@@ -29,9 +30,6 @@ const Username = lazy(() => import("./components/Profile/Username.tsx"));
 const SetUpYourProfile = lazy(
   () => import("./components/Profile/Set-up-your-profile.tsx")
 );
-// const ProjectContainer = lazy(
-//   () => import("./components/Home/ProjectContainer.tsx")
-// );
 const Activity = lazy(() => import("./pages/Activity/Activity.tsx"));
 const Projects = lazy(() => import("./pages/Project/Projects.tsx"));
 const Profile = lazy(() => import("./pages/Profile/Profile.tsx"));
@@ -93,13 +91,21 @@ const router = createBrowserRouter([
       },
       {
         path: "profile",
-        element: <Suspense fallback={<SkeletonLoader/>}><Profile /></Suspense>,
+        element: (
+          <Suspense fallback={<SkeletonLoader />}>
+            <Profile />
+          </Suspense>
+        ),
       },
     ],
   },
   {
     path: "/auth/signup",
-    element: <OnboardingLayout />,
+    element: (
+      <Suspense fallback={<AuthSkeleton />}>
+        <OnboardingLayout />
+      </Suspense>
+    ),
   },
   {
     path: "/auth/login",
@@ -117,7 +123,7 @@ const router = createBrowserRouter([
 
 const App = () => {
   return (
-    <Suspense fallback={<SkeletonLoader/>}>
+    <Suspense fallback={<SkeletonLoader />}>
       <QueryClientProvider client={client}>
         <RouterProvider router={router} />
       </QueryClientProvider>

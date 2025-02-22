@@ -2,7 +2,6 @@ import { useState } from "react";
 import logo from "/assets/Union.webp";
 import ProjectDetails from "./ProjectDetails";
 import Chip from "../Reuseables/Chip";
-// import newTag from "/assets/New tag.svg";
 
 type PropsType = {
   data: {
@@ -36,12 +35,17 @@ const ProjectCard = ({ data, fetching }: PropsType) => {
   };
 
   return (
-    <div
-      key={data.username}
-      className="h-[305px] md:w-full text-gray950"
-    >
+    <div key={data.username} className="h-[305px] md:w-full text-gray950">
       <div className="w-full h-[46px] relative">
-        <img src={logo} alt="tag" width="358" height="46" loading="lazy" className="absolute bottom-0 left-0" decoding="async" />
+        <img
+          src={logo}
+          alt="tag"
+          width="358"
+          height="46"
+          // loading="lazy"
+          className="absolute bottom-0 left-0"
+          decoding="async"
+        />
         {!fetching && (
           <div className="max-w-[99%] h-5 relative">
             {viewDetails && (

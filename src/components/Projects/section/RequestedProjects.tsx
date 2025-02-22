@@ -2,6 +2,7 @@ import empty from "/assets/Empty.svg";
 import ProjectCard from "../ProjectCard";
 import { fetchProjects, user } from "../../../utils/queries/fetch";
 import { useQuery } from "@tanstack/react-query";
+import ProjectCardSkeleton from "../../../lib/ProjectCardSkeleton";
 
 const RequestedProjects = () => {
   const { data: projects, isLoading } = useQuery({
@@ -15,6 +16,7 @@ const RequestedProjects = () => {
 
   return (
     <section className="md:px-8 px-4 md:py-6 pt-6 pb-20 md:w-full w-screen">
+      {isLoading && <ProjectCardSkeleton />}
       {requestedProjects?.length === 0 ? (
         <div className="mx-auto w-[261px] flex flex-col gap-6">
           <img className="w-[124px] mx-auto" src={empty} alt="" />
