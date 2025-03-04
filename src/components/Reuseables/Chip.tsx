@@ -8,7 +8,7 @@ type PropsType = {
 const Chip = ({ children, className }: PropsType) => {
   return (
     <span
-      className={`flex items-center justify-center min-h-7 text-sm px-2 min-w-[70px] text-center rounded-3xl border-[1.5px] border-gray300 ${className}`}
+      className={`flex items-center justify-center text-sm px-2 min-w-[70px] text-center rounded-3xl border-[1.5px] border-gray300 py-1 ${className}`}
     >
       {children}
     </span>

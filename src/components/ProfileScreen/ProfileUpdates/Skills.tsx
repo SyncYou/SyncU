@@ -26,35 +26,38 @@ const Skills = () => {
             <h2 className="text-sm text-gray800 font-normal">
               Add atleast 3 of 10 skills or stacks
             </h2>
-            <div
-              className="w-[578px] h-[129px] p-2 relative border-gray200
-                outline-none border rounded-lg"
-            >
-              <h3 className="font-medium text-gray950 text-xs">
-                Skills/stacks
-              </h3>
-              <div className="pt-2 flex flex-wrap gap-2">
-                {skills.map((skill, i) => {
-                  return (
-                    <span
-                      key={i}
-                      className="bg-[#F3ECFC] border border-[#D5BDF366] text-brand600 font-normal text-sm px-2 py-1 rounded-3xl space-x-1 cursor-pointer"
-                    >
-                      {skill}{" "}
-                      <span onClick={() => removeSkill(skill)} className="ml-1">
-                        &times;
+            <label htmlFor="skill">
+              <div
+                className="w-[578px] h-[129px] p-2 relative border-gray200
+                  outline-none border rounded-lg"
+              >
+                <h3 className="font-medium text-gray950 text-xs">
+                  Skills/stacks
+                </h3>
+                <div className="pt-2 flex flex-wrap gap-2">
+                  {skills.map((skill, i) => {
+                    return (
+                      <span
+                        key={i}
+                        className="bg-[#F3ECFC] border border-[#D5BDF366] text-brand600 font-normal text-sm px-2 py-1 rounded-3xl space-x-1 cursor-pointer"
+                      >
+                        {skill}{" "}
+                        <span onClick={() => removeSkill(skill)} className="ml-1">
+                          &times;
+                        </span>
                       </span>
-                    </span>
-                  );
-                })}
-                <input
-                  value={newSkill}
-                  onChange={(e) => setNewSkill(e.target.value)}
-                  type="text"
-                  className="outline-none border-none inline-block"
-                />
+                    );
+                  })}
+                  <input
+                    id="skill"
+                    value={newSkill}
+                    onChange={(e) => setNewSkill(e.target.value)}
+                    type="text"
+                    className="outline-none border-none inline-block"
+                  />
+                </div>
               </div>
-            </div>
+            </label>
           </div>
           <div className="flex flex-col gap-4">
             <p

@@ -52,57 +52,64 @@ export default function LeftFill_2() {
             <h3 className="text-gray-800 font-normal text-sm my-3">
               Add at least 3/10 skills or stacks
             </h3>
-            <span
-              className={`flex w-full max-w-[28.5rem] items-start justify-between py-2 px-3 border border-solid h-[90%] bg-white rounded-lg ${
-                active
-                  ? "border-brand-400 shadow-active-state"
-                  : "border-gray-200"
-              }`}
-            >
-              <span className="flex items-start flex-col gap-1 w-full h-36">
-                <p className="text-gray-950 text-xs font-medium mb-2">
-                  Skills/stacks
-                </p>
-                {isSearching ? (
-                  <input
-                    type="text"
-                    name="skills"
-                    className="text-gray-800 text-base font-medium mb-[50px] w-full outline-none"
-                    placeholder="Type a skill or stack for e.g, UI design."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    onClick={() => {
-                      setActive(true);
-                      setShowModal(true);
-                    }}
-                  />
-                ) : (
+            <label htmlFor="skills">
+                
+              <span
+                className={`flex w-full max-w-[28.5rem] items-start justify-between py-2 px-3 border border-solid h-[90%] bg-white rounded-lg ${
+                  active
+                    ? "border-brand-400 shadow-active-state"
+                    : "border-gray-200"
+                }`}
+              >
+
+                <span className="flex items-start flex-col gap-1 w-full h-36 ">
+                  <p className="text-gray-950 text-xs font-medium">
+                    Skills/stacks
+                  </p>
+
                   <div className="gap-2 text-gray-950 w-full flex flex-wrap text-sm">
-                    {userDetails.stacks.map(
-                      (skill, index) =>
-                        skill !== "N/A" && (
-                          <span
-                            key={index}
-                            className={`${
-                              skill === "N/A"
-                                ? "border-none"
-                                : "border flex flex-row gap-3 py-[0.2rem] w-fit rounded-full px-2 items-center justify-between cursor-pointer text-brand-600 bg-skill"
-                            }`}
-                            onClick={() => handleRemoveSkill(skill)}
-                          >
-                            <p className="text-brand-600">
-                              {skill}
-                              
-                            </p>
-                            <FaTimes className="text-brand-600 text-base font-thin" />
-                          </span>
-                        )
-                    )}
-                  </div>
-                )}
+                      {userDetails.stacks.map(
+                        (skill, index) =>
+                          skill !== "N/A" && (
+                            <span
+                              key={index}
+                              className={`${
+                                skill === "N/A"
+                                  ? "border-none"
+                                  : "border flex flex-row gap-3 py-[0.2rem] w-fit rounded-full px-2 items-center justify-between cursor-pointer text-brand-600 bg-skill"
+                              }`}
+                              onClick={() => handleRemoveSkill(skill)}
+                            >
+                              <p className="text-brand-600">
+                                {skill}
+                                
+                              </p>
+                              <FaTimes className="text-brand-600 text-base font-thin" />
+                            </span>
+                          )
+                      )}
+                    </div>
+  
+                    <input
+                      type="text"
+                      id="skills"
+                      name="skills"
+                      className="text-gray-800 text-base font-medium w-full outline-none"
+                      placeholder={userDetails.stacks.length? "" :"Type a skill or stack for e.g, UI design."}
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                      onClick={() => {
+                        setActive(true);
+                        setShowModal(true);
+                      }}
+                    />
+  
+
+        
+                </span>
+                <img src={caret} alt="caretUpDown" />
               </span>
-              <img src={caret} alt="caretUpDown" />
-            </span>
+            </label>
 
             <div className="absolute -bottom-2 w-full" ref={modalRef}>
               {showModal && (

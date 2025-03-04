@@ -114,10 +114,10 @@ const AboutMe = () => {
             <p className="text-right text-xs font-normal text-gray700">
               <span
                 className={`${
-                  formData.aboutMe.length === 400 && "text-red-500"
+                  formData.aboutMe.split(' ').length === 400 && "text-red-500"
                 }`}
               >
-                {formData.aboutMe.length}
+                {formData.aboutMe.split(' ').length}
               </span>
               /400 words
             </p>

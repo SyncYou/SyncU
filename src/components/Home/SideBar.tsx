@@ -23,7 +23,7 @@ const SideBar = () => {
 
   return (
     <aside
-      className={`md:h-screen h-20 w-screen fixed bottom-0 left-0 md:z-0 z-10   ${
+      className={`md:h-screen h-20 right-0 fixed bottom-0 left-0 md:z-0 z-10 w-full overflow-hidden  ${
         isOpen ? "md:w-[239px]" : "md:w-[96px] md:flex md:flex-col items-center"
       } md:pl-8 md:py-6 md:pr-4 md:bg-ash bg-white text-gray700 border-r border-gray200 shadow-lg font-medium text-base`}
     >
@@ -96,7 +96,7 @@ const SideBar = () => {
         <span>All rights reserved.</span>
       </p>
       }
-      <div className="w-full h-full items-start pt-3 px-6 md:hidden flex justify-between">
+      <div className="w-full h-full items-start pt-3 md:hidden px-5 flex justify-between overflow-hidden">
         <NavLink
             to="/"
             className="relative w-8 h-8 text-[24px] p-1 rounded 

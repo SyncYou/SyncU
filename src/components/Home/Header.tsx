@@ -22,20 +22,20 @@ const Header = () => {
 
   return (
     <header
-      className={`top-0 right-0 md:w-full w-screen ${height} h-[188px] sticky z-10`}
+      className={`top-0 right-0 left-0 w-full  bg-white py-3 md:py-0 ${height} overflow-hidden h-fit sticky z-30`}
     >
       <div className="text-lg font-semibold z-10 bg-white relative h-[76px] w-full md:flex hidden justify-between items-center py-4 pr-14 pl-8 border-b border-solid border-gray200">
         <div
           onClick={change}
-          className="bg-white absolute flex justify-center items-center top-6 -left-4 w-6 h-6 border border-gray300 z-[auto] text-gray950 rounded-[60px]"
+          className="bg-white absolute flex justify-center items-center top-6 -left-2 w-6 h-6 border border-gray300  text-gray950 rounded-[60px] z-50"
         >
           {isOpen ? <MdKeyboardDoubleArrowLeft /> : <MdKeyboardDoubleArrowRight />}
         </div>
         <span>{header}</span>
-        <div className="w-full max-w-[30rem]">
+        <div className="w-fit lg:w-full max-w-[30rem]">
           <input
             type="text"
-            className="w-full max-w-[30rem] h-11 outline-none rounded-full border py-[10px] px-4 placeholder:text-sm placeholder:font-medium placeholder:font-inter"
+            className="max-w-[30rem] w-full h-11 outline-none rounded-full border py-[10px] px-4 placeholder:text-sm placeholder:font-medium placeholder:font-inter"
             placeholder="Search for people or projects..."
           />
         </div>
@@ -58,7 +58,7 @@ const Header = () => {
           </div>
         </div>
       </div>
-      <div className="text-lg font-semibold z-10 bg-white relative h-[48px] w-full flex md:hidden items-center px-4 py-2">
+      <div className="text-lg font-semibold z-10 bg-white relative h-[48px] w-full flex md:hidden items-center pl-6 px-4 py-4 shadow">
         <img src={logo} alt="logo" />
         <span className="mx-auto">{header}</span>
         <div className="w-20 h-8 flex gap-4">

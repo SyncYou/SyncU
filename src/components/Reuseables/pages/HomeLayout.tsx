@@ -31,8 +31,8 @@ const Layout = () => {
       {userData.isLoading && <Loading />}
       <section
         className={`md:relative  ${
-          isOpen ? "md:w-[calc(100%_-_239px)]  md:left-[239px]" : "md:w-[calc(100%_-_96px)] md:left-[96px]"
-        } text-gray950 w-full`}
+          isOpen ? "isOpen md:left-[239px]" : "isClosed md:left-[96px]"
+        } text-gray950`}
       >
         <Header />
         <Outlet />
