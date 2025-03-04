@@ -12,6 +12,8 @@ import usePostProject from "../../hooks/usePostProject";
 import { Loading } from "../Reuseables/Loading";
 import { useQueryClient } from "@tanstack/react-query";
 import useDisplayPostProjectForm from "../../context/useDisplayPostProjectForm";
+import { errorToast } from "oasis-toast";
+import { validateUrl } from "../../utils/ValidateUrl";
 
 function PostProjectForm() {
   const client = useQueryClient();
@@ -28,7 +30,7 @@ function PostProjectForm() {
     handleTypedRole,
     handleTypedStack,
   } = useAddRolesAndStacks();
-  const { validate, status, register, handleSubmit, reset } = usePostProject();
+  const { validate, status, register, handleSubmit, reset, errors, title, description } = usePostProject();
   const { show, setShow } = useDisplayPostProjectForm();
 
   const handleWorkspaceChange = (text: WorkSpaceType) => {
@@ -55,6 +57,7 @@ function PostProjectForm() {
                 queryKey: ["projects"],
               });
             } else {
+              errorToast("Error", "Form not valid")
               console.log("Form not valid");
             }
 
@@ -73,16 +76,24 @@ function PostProjectForm() {
               <div className="h-20 flex flex-col gap-1">
                 <div className="w-[435px] h-[60px] relative">
                   <input
-                    {...register("title", {
-                      required: true,
-                      maxLength: 50,
-                      minLength: 5,
-                    })}
+                  {...register("title", {
+                    required: "Title is required",
+                    minLength: {
+                      value: 5,
+                      message: "Title must be at least 5 characters",
+                    },
+                    maxLength: {
+                      value: 50,
+                      message: "Title cannot exceed 50 characters",
+                    },
+                  })}
                     placeholder="For e.g, Milk shopper"
                     type="text"
                     name="title"
                     id="title"
-                    className="w-full h-full pt-4 px-3 outline-none border rounded-lg focus:border-brand400 placeholder:text-sm placeholder:text-gray400"
+                    className={`w-full h-full pt-4 px-3 outline-none border rounded-lg focus:border-brand400 placeholder:text-sm placeholder:text-gray400 ${
+                      errors.title ? "border-alert-600" : ""
+                    }`}
                   />
                   <label
                     className="absolute left-3 top-2 font-medium text-gray950 text-xs"
@@ -91,9 +102,12 @@ function PostProjectForm() {
                     Project title
                   </label>
                 </div>
-                <p className="text-right font-normal text-xs text-gray700">
-                  0/50 words
-                </p>
+                {errors.title && (
+                <p className="text-alert-600 text-xs mt-1">{errors.title.message}</p>
+              )}
+              <p className="text-right font-normal text-xs text-gray700">
+                {title?.length || 0}/50 words
+              </p>
               </div>
             </div>
             <div className="flex justify-between">
@@ -101,12 +115,14 @@ function PostProjectForm() {
                 What industry are you focused on?*
               </h2>
               <div className="w-[435px] h-[60px] relative">
-                <select
-                  {...register("industry", {
-                    required: true,
-                  })}
-                  className="w-full text-sm !text-gray400 h-full pt-4 px-2 outline-none border rounded-lg focus:border-brand400"
-                >
+              <select
+                {...register("industry", {
+                  required: "Industry is required",
+                })}
+                className={`w-full text-sm !text-gray400 h-full pt-4 px-2 outline-none border rounded-lg focus:border-brand400 ${
+                  errors.industry ? "border-alert-600" : ""
+                }`}
+              >
                   <option value="">Select one---</option>
                   <option value="Tech">Tech</option>
                 </select>
@@ -116,6 +132,9 @@ function PostProjectForm() {
                 >
                   Industry
                 </label>
+                {errors.industry && (
+                <p className="text-alert-600 text-xs mt-1">{errors.industry.message}</p>
+              )}
               </div>
             </div>
             <div className="flex justify-between">
@@ -126,12 +145,20 @@ function PostProjectForm() {
                 <div className="w-[435px] relative">
                   <textarea
                     {...register("description", {
-                      maxLength: 1000,
-                      required: true,
-                      minLength: 80,
+                      required: "Description is required",
+                      minLength: {
+                        value: 80,
+                        message: "Description must be at least 80 characters",
+                      },
+                      maxLength: {
+                        value: 1000,
+                        message: "Description cannot exceed 1000 characters",
+                      },
                     })}
                     placeholder="Tell us about your project..."
-                    className="w-full h-[274px] placeholder:text-sm placeholder:text-gray400 pt-6 px-3 outline-none border rounded-lg focus:border-brand400"
+                    className={`w-full h-[274px] placeholder:text-sm placeholder:text-gray400 pt-6 px-3 outline-none border rounded-lg focus:border-brand400 ${
+                      errors.description ? "border-alert-600" : ""
+                    }`}
                   ></textarea>
                   <label
                     className="absolute left-3 top-2 font-medium text-gray950 text-xs"
@@ -140,9 +167,12 @@ function PostProjectForm() {
                     Description
                   </label>
                 </div>
-                <p className="text-right font-normal text-xs text-gray700">
-                  0/1000 words
-                </p>
+                {errors.description && (
+                <p className="text-alert-600 text-xs mt-1">{errors.description.message}</p>
+              )}
+              <p className="text-right font-normal text-xs text-gray700">
+                {description?.length || 0}/1000 words
+              </p>
               </div>
             </div>
             <div className="flex justify-between">
@@ -150,15 +180,18 @@ function PostProjectForm() {
                 What roles do you require for this project?*
               </h2>
               <div className="min-h-20 flex flex-col gap-1 relative">
-                <div className="flex flex-wrap gap-1 w-[435px] min-h-[60px] relative pt-6 pb-4 px-3 outline-none border rounded-lg">
+                <div
+                className={`flex flex-wrap gap-1 w-[435px] min-h-[60px] relative pt-6 pb-4 px-3 outline-none border rounded-lg ${
+                  errors.required_roles ? "border-alert-600" : ""
+                }`}>
                   <label
                     className="absolute left-3 top-2 font-medium text-gray950 text-xs"
                     htmlFor="title"
                   >
                     Roles
                   </label>
-                  {roles?.map((role) => (
-                    <Chip className="border-brand600 bg-brand-400 text-brand600">
+                  {roles?.map((role, index) => (
+                    <Chip key={index} className="border-brand600 bg-brand-400 text-brand600">
                       {role}{" "}
                       <span
                         onClick={() => removeRole(role)}
@@ -178,6 +211,9 @@ function PostProjectForm() {
                     />
                   )}
                 </div>
+                {errors.required_roles && (
+                <p className="text-alert-600 text-xs mt-1">{errors.required_roles.message}</p>
+              )}
                 <p className="text-right font-normal text-xs text-gray700">
                   min of 3 and a max of 10
                 </p>
@@ -195,15 +231,17 @@ function PostProjectForm() {
                 What stack do you require for this project?*
               </h2>
               <div className="min-h-[120px] flex flex-col gap-1 relative">
-                <div className="flex flex-wrap gap-1 w-[435px] min-h-[129px] relative pt-6 pb-4 px-3 border border-gray200 rounded-lg">
+                <div  className={`flex flex-wrap gap-1 w-[435px] min-h-[129px] relative pt-6 pb-4 px-3 border rounded-lg ${
+                  errors.required_stacks ? "border-alert-600" : ""
+                }`}>
                   <label
                     className="absolute left-3 top-2 font-medium text-gray950 text-xs"
                     htmlFor="title"
                   >
                     Stacks/skills
                   </label>
-                  {stacks?.map((stack) => (
-                    <Chip className="border-brand600 bg-brand-400 text-brand600">
+                  {stacks?.map((stack, index) => (
+                    <Chip key={index} className="border-brand600 bg-brand-400 text-brand600 h-20">
                       {stack}
                       <span
                         onClick={() => removeStack(stack)}
@@ -222,6 +260,9 @@ function PostProjectForm() {
                     />
                   )}
                 </div>
+                {errors.required_stacks && (
+                <p className="text-alert-600 text-xs mt-1">{errors.required_stacks.message}</p>
+              )}
                 <p className="text-right font-normal text-xs text-gray700">
                   min of 3 and a max of 10
                 </p>
@@ -254,12 +295,14 @@ function PostProjectForm() {
                     {workspace === "Slack" && (
                       <div className="relative h-[60px] w-[389px]">
                         <input
-                          {...register("workspace.url", {
-                            required: true,
-                          })}
+                        {...register("workspace.url", {
+                          required: "Workspace URL is required",
+                          validate: (value) =>
+                            validateUrl(value) || "Invalid workspace URL",
+                        })}
                           type="text"
                           className={`h-[60px] w-full text-gray800 ${
-                            true && "border-alert-600 focus:border-alert-600"
+                            errors.workspace?.url ? "border-alert-600 focus:border-alert-600" : ""
                           } font-normal text-base pt-4 px-3 outline-none focus:drop-shadow-md border rounded-lg border-gray300 focus:border-brand400`}
                         />
                         <label
@@ -268,6 +311,9 @@ function PostProjectForm() {
                         >
                           Workspace URL
                         </label>
+                        {errors.workspace?.url && (
+                        <p className="text-alert-600 text-xs my-1">{errors.workspace.url.message}</p>
+                      )}
                       </div>
                     )}
                   </div>
@@ -287,12 +333,14 @@ function PostProjectForm() {
                     {workspace === "Discord" && (
                       <div className="relative h-[60px] w-[389px]">
                         <input
-                          {...register("workspace.url", {
-                            required: true,
-                          })}
+                         {...register("workspace.url", {
+                          required: "Workspace URL is required",
+                          validate: (value) =>
+                            validateUrl(value) || "Invalid workspace URL",
+                        })}
                           type="text"
                           className={`h-[60px] w-full text-gray800 ${
-                            true && "border-alert-600 focus:border-alert-600"
+                            errors.workspace?.url ? "border-alert-600 focus:border-alert-600" : ""
                           } font-normal text-base pt-4 px-3 outline-none focus:drop-shadow-md border rounded-lg border-gray300 focus:border-brand400`}
                         />
                         <label
@@ -301,6 +349,9 @@ function PostProjectForm() {
                         >
                           Workspace URL
                         </label>
+                        {errors.workspace?.url && (
+                        <p className="text-alert-600 text-xs my-1">{errors.workspace.url.message}</p>
+                      )}
                       </div>
                     )}
                   </div>
@@ -321,11 +372,13 @@ function PostProjectForm() {
                       <div className="relative h-[60px] w-[389px]">
                         <input
                           {...register("workspace.url", {
-                            required: true,
+                            required: "Workspace URL is required",
+                            validate: (value) =>
+                              validateUrl(value) || "Invalid workspace URL",
                           })}
                           type="text"
                           className={`h-[60px] w-full text-gray800 ${
-                            true && "border-alert-600 focus:border-alert-600"
+                            errors.workspace?.url ? "border-alert-600 focus:border-alert-600" : ""
                           } font-normal text-base pt-4 px-3 outline-none focus:drop-shadow-md border rounded-lg border-gray300 focus:border-brand400`}
                         />
                         <label
@@ -334,6 +387,10 @@ function PostProjectForm() {
                         >
                           Workspace URL
                         </label>
+                        {errors.workspace?.url && (
+                        <p className="text-alert-600 text-xs my-1">{errors.workspace.url.message}</p>
+                      )}
+
                       </div>
                     )}
                   </div>
@@ -346,7 +403,7 @@ function PostProjectForm() {
             <PrimaryButton type="submit" classes="w-[120px] h-11 gap-0">
               Post Project
             </PrimaryButton>
-            <SecondaryButton classes="w-[120px] h-11 gap-0">
+            <SecondaryButton onClick={() => setShow(false)} classes="w-[120px] h-11 gap-0">
               Cancel
             </SecondaryButton>
           </div>

@@ -2,7 +2,9 @@ import user from "/assets/avatar.svg";
 import logo from "/assets/logo-noname.svg";
 import { FaSearch } from "react-icons/fa";
 import { NavLink, useLocation } from "react-router-dom";
-import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
+import { MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight } from "react-icons/md";
+import { MdAdd } from "react-icons/md";
+import { FaBars } from "react-icons/fa6";
 import HomeTabs from "./HomeTabs";
 import { useSidebar } from "../../context/useSidebar";
 import usePageHeader from "../../hooks/usePageHeader";
@@ -27,46 +29,52 @@ const Header = () => {
           onClick={change}
           className="bg-white absolute flex justify-center items-center top-6 -left-4 w-6 h-6 border border-gray300 z-[auto] text-gray950 rounded-[60px]"
         >
-          {isOpen ? <FiArrowLeft /> : <FiArrowRight />}
+          {isOpen ? <MdKeyboardDoubleArrowLeft /> : <MdKeyboardDoubleArrowRight />}
         </div>
         <span>{header}</span>
-        <div className="">
+        <div className="w-full max-w-[30rem]">
           <input
             type="text"
-            className="w-[479px] h-11 outline-none rounded-full border py-[10px] px-4"
+            className="w-full max-w-[30rem] h-11 outline-none rounded-full border py-[10px] px-4 placeholder:text-sm placeholder:font-medium placeholder:font-inter"
             placeholder="Search for people or projects..."
           />
         </div>
-        <div className="w-48 flex gap-6">
+        <div className="flex gap-6 items-center">
           <PrimaryButton
             onClick={() => setShow(true)}
-            classes="w-[139px] h-8 rounded-[32px] py-1 px-4"
+            classes="flex rounded-[32px] py-2 px-4 gap-2"
           >
-            New Project
+            <MdAdd className="text-white text-2xl" /> <p className="text-sm">Post project</p>
           </PrimaryButton>
-          <NavLink to="/profile">
-            <img
-              src={userData.photoUrl || user}
-              className="h-8 w-8 rounded-full"
-              alt="user"
-            />
-          </NavLink>
+          <div className="flex justify-between items-center gap-2 border border-[#E6E6F0] rounded-2xl py-[0.15rem] px-1 pr-2">
+            <NavLink to="/profile">
+              <img
+                src={userData.photoUrl || user}
+                className="h-6 w-6 rounded-full"
+                alt="user"
+              />
+            </NavLink>
+            <FaBars />
+          </div>
         </div>
       </div>
       <div className="text-lg font-semibold z-10 bg-white relative h-[48px] w-full flex md:hidden items-center px-4 py-2">
         <img src={logo} alt="logo" />
         <span className="mx-auto">{header}</span>
         <div className="w-20 h-8 flex gap-4">
-          <a className="w-8 h-8 flex justify-center items-center rounded-full border border-gray200">
+          <button className="w-8 h-8 flex justify-center items-center rounded-full border border-gray200">
             <FaSearch />
-          </a>
-          <NavLink to="/profile">
-            <img
-              src={userData.photoUrl || user}
-              className="h-8 w-8 rounded-full"
-              alt="user"
-            />
-          </NavLink>
+          </button>
+          <div>
+            <NavLink to="/profile">
+              <img
+                src={userData.photoUrl || user}
+                className="h-8 w-8 rounded-full"
+                alt="user"
+              />
+            </NavLink>
+            
+          </div>
         </div>
       </div>
 

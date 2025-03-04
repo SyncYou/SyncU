@@ -25,6 +25,7 @@ export const useUserData = create<Data>((set) => ({
     description: "",
     links: [],
     stacks: ["UI design", "User research", "UX design"],
+    onboardingComplete: true
   },
   setUser: (fetch) => set((state) => ({ user: (state.user = fetch) })),
 }));

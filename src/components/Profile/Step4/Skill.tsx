@@ -14,9 +14,9 @@ export function Skill({ skill, setIsSearching }: SkillProps) {
     <p
       onClick={() => {
         toggleSkill(skill);
-        setIsSearching(false);
+        // setIsSearching(false);
       }}
-      className={`${
+      className={`my-0 py-0 text-sm ${
         userDetails.stacks.includes(skill) ? "bg-gray-100 text-white" : ""
       }`}
     >

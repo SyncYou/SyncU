@@ -22,18 +22,29 @@ export async function fetchUserData() {
   }
 }
 
-export async function fetchProjects(): Promise<Project[] | undefined> {
+export const fetchProjects = async ({ pageParam = 0 }): Promise<{ data: Project[]; nextPage: number | null }> => {
+  const PAGE_SIZE = 10; 
+
   try {
-    const { data, error } = await supabase.from("Projects").select();
+    const { data, error } = await supabase
+      .from("Projects")
+      .select("*")
+      .order("created_at", { ascending: false }) 
+      .range(pageParam * PAGE_SIZE, (pageParam + 1) * PAGE_SIZE - 1); 
 
     if (error) {
       throw new Error(error.message);
     }
-    return data;
+
+    return { 
+      data: data || [], 
+      nextPage: data.length === PAGE_SIZE ? pageParam + 1 : null 
+    };
   } catch (error) {
-    console.error(error);
+    console.error("Error fetching projects:", error);
+    return { data: [], nextPage: null };
   }
-}
+};
 
 
 export async function fetchCreatedProjects(): Promise<
