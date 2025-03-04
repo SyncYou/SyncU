@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 import logo from "/assets/Union.webp";
 import ProjectDetails from "./ProjectDetails";
 import Chip from "../Reuseables/Chip";
+import { formatTimestamp } from "../../utils/FormatDate";
 
 type PropsType = {
   data: {
@@ -23,9 +24,11 @@ type PropsType = {
     username?: string;
   };
   fetching?: boolean;
+  ref?: React.Ref<HTMLDivElement>
 };
 
-const ProjectCard = ({ data, fetching }: PropsType) => {
+const ProjectCard = forwardRef<HTMLDivElement, PropsType>(
+  ({ data, fetching }, ref)=> {
   const [viewDetails, setViewDetails] = useState<boolean>(false);
 
   const num = data.required_roles.length - 3;
@@ -35,7 +38,7 @@ const ProjectCard = ({ data, fetching }: PropsType) => {
   };
 
   return (
-    <div key={data.username} className="h-[305px] md:w-full text-gray950">
+    <div ref={ref} key={data.username} className="h-[305px] md:w-full text-gray950">
       <div className="w-full h-[46px] relative">
         <img
           src={logo}
@@ -102,7 +105,7 @@ const ProjectCard = ({ data, fetching }: PropsType) => {
                 </span>
                 <span className="text-gray300">-</span>
                 <span className="text-gray700 font-normal text-xs">
-                  Yesterday
+                  {formatTimestamp(data.created_at)}
                 </span>
               </div>
             </div>
@@ -111,6 +114,6 @@ const ProjectCard = ({ data, fetching }: PropsType) => {
       </div>
     </div>
   );
-};
+});
 
 export default ProjectCard;

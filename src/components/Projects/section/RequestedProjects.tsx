@@ -1,22 +1,24 @@
 import empty from "/assets/Empty.svg";
 import ProjectCard from "../ProjectCard";
-import { fetchProjects, user } from "../../../utils/queries/fetch";
+import { fetchUserRequestedProject, user } from "../../../utils/queries/fetch";
 import { useQuery } from "@tanstack/react-query";
-import ProjectCardSkeleton from "../../../lib/ProjectCardSkeleton";
+
 
 const RequestedProjects = () => {
   const { data: projects, isLoading } = useQuery({
     queryKey: ["requested-projects"],
-    queryFn: fetchProjects,
+    queryFn: fetchUserRequestedProject,
   });
 
   const requestedProjects = projects?.filter((pg) =>
-    pg.requests.some((reqPg) => reqPg.userId == user.data.user?.id)
+    pg.requests.some((reqPg: { userId: string; status: string }) => reqPg.userId === user.data.user?.id)
   );
 
   return (
     <section className="md:px-8 px-4 md:py-6 pt-6 pb-20 md:w-full w-screen">
-      {isLoading && <ProjectCardSkeleton />}
+      {isLoading && ( <div className="h-full w-full flex justify-center items-center pt-20">
+            <div className="w-10 h-10 border-4 border-gray-800 border-solid border-t-transparent rounded-full animate-spin"></div>
+          </div>)}
       {requestedProjects?.length === 0 ? (
         <div className="mx-auto w-[261px] flex flex-col gap-6">
           <img className="w-[124px] mx-auto" src={empty} alt="" />

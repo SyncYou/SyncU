@@ -20,12 +20,18 @@ import { formatTimestamp } from "../../utils/FormatDate";
 import { useQuery } from "@tanstack/react-query";
 import { getLoggedInUser } from "../../utils/AuthRequest";
 import { Loading } from "../../components/Reuseables/Loading";
+import { fetchCreatedProjects } from "../../utils/queries/fetch";
 
 const Profile = () => {
   const [hover, setHover] = useState(false);
   const [progress, setProgress] = useState(false);
   const [showSwitcher, setShowSwitcher] = useState(false);
   const { status } = useUserProgress();
+
+   const { data: createdProjects, } = useQuery({
+      queryKey: ["created-projects"],
+      queryFn: fetchCreatedProjects,
+    });
 
   const { user } = useUserData();
   const {
@@ -135,7 +141,7 @@ const Profile = () => {
               <BiFolderPlus className="text-base" />{" "}
               <span>Projects Created</span>
             </div>
-            <span className="my-auto">0</span>
+            <span className="my-auto">{createdProjects?.length}</span>
           </div>
         </div>
       </div>

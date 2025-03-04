@@ -36,8 +36,8 @@ export default function SkeletonLoader() {
         </div>
 
         {/* Category filters */}
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex gap-6 overflow-x-auto pb-2">
+          <div className="flex gap-6 overflow-x-hidden pb-2">
+        <div className="flex items-center justify-between mb-4 overflow-hidden">
             {[...Array(5)].map((_, i) => (
               <div
                 key={i}
