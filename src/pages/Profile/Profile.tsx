@@ -20,6 +20,7 @@ import { formatTimestamp } from "../../utils/FormatDate";
 import { useQuery } from "@tanstack/react-query";
 import { getLoggedInUser } from "../../utils/AuthRequest";
 import { Loading } from "../../components/Reuseables/Loading";
+import { fetchCreatedProjects } from "../../utils/queries/fetch";
 
 const Profile = () => {
   const [hover, setHover] = useState(false);
@@ -27,7 +28,11 @@ const Profile = () => {
   const [showSwitcher, setShowSwitcher] = useState(false);
   const { status } = useUserProgress();
 
-  // Custom Hooks
+   const { data: createdProjects, } = useQuery({
+      queryKey: ["created-projects"],
+      queryFn: fetchCreatedProjects,
+    });
+
   const { user } = useUserData();
   const {
     firstName,
@@ -37,7 +42,7 @@ const Profile = () => {
     areaOfExpertise,
     photoUrl,
     countryOfResidence,
-    links,
+    // links,
   } = user;
 
   const handleClick = () => {
@@ -68,7 +73,7 @@ const Profile = () => {
                 onClick={handleProgressModal}
                 classes="h-10 py-1 text-sm px-1"
               >
-                <HiPencilSquare className="text-base"/> Edit profile
+                <HiPencilSquare className="text-base" /> Edit profile
               </SecondaryButton>
               <div className="h-10 w-10 cursor-pointer rounded-[100px] flex justify-center items-center border-[0.5px] border-gray300">
                 <GoShareAndroid className="text-[22px]" />
@@ -94,7 +99,7 @@ const Profile = () => {
                 `}
               ></span>
               <span className="text-[#40404D]">
-              {status === "Available" ? "Available to collaborate" : status} 
+                {status === "Available" ? "Available to collaborate" : status}
               </span>
               <IoIosArrowDown />
             </div>
@@ -104,13 +109,16 @@ const Profile = () => {
         <hr />
         <div className="flex flex-col pr-4 gap-4 text-sm">
           <div className="flex gap-2 items-center">
-            <BiBriefcase className="text-[0.95rem]" /> <span>{areaOfExpertise}</span>
+            <BiBriefcase className="text-[0.95rem]" />{" "}
+            <span>{areaOfExpertise}</span>
           </div>
           <div className="flex gap-2 items-center">
-            <SlLocationPin className="text-[0.95rem]" /> <span>{countryOfResidence}</span>
+            <SlLocationPin className="text-[0.95rem]" />{" "}
+            <span>{countryOfResidence}</span>
           </div>
           <div className="flex gap-2 items-center">
-            <PiCalendarPlus className="text-[1rem]" /> <span>{formatTimestamp(loggedInUser?.created_at as string)}</span>
+            <PiCalendarPlus className="text-[1rem]" />{" "}
+            <span>{formatTimestamp(loggedInUser?.created_at as string)}</span>
           </div>
         </div>
         <hr />
@@ -123,15 +131,17 @@ const Profile = () => {
           </div>
           <div className="flex justify-between items-center h-5">
             <div className="flex gap-2 items-center">
-              <PiHandshake className="text-base" /> <span>Project contributions</span>
+              <PiHandshake className="text-base" />{" "}
+              <span>Project contributions</span>
             </div>
             <span className="my-auto">0</span>
           </div>
           <div className="flex justify-between items-center h-5">
             <div className="flex gap-2 items-center">
-              <BiFolderPlus className="text-base" /> <span>Projects Created</span>
+              <BiFolderPlus className="text-base" />{" "}
+              <span>Projects Created</span>
             </div>
-            <span className="my-auto">0</span>
+            <span className="my-auto">{createdProjects?.length}</span>
           </div>
         </div>
       </div>
@@ -142,9 +152,11 @@ const Profile = () => {
           </p>
           <div className="py-[10px] px-4 flex gap-3 flex-wrap">
             {stacks.map((stack, idx) => {
-              return <div key={idx} className="flex justify-center items-center">
-                <Chip>{stack}</Chip>
-              </div>
+              return (
+                <div key={idx} className="flex justify-center items-center">
+                  <Chip>{stack}</Chip>
+                </div>
+              );
             })}
           </div>
         </div>
@@ -203,7 +215,7 @@ const Profile = () => {
             onClick={handleClick}
             className="w-8 h-8 flex justify-center items-center ml-auto mt-2 rounded-full bg-gray950 cursor-pointer"
           >
-            <RxCross2 className="z-50 text-white text-base"/>
+            <RxCross2 className="z-50 text-white text-base" />
           </div>
         </div>
       ) : (

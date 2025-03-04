@@ -6,7 +6,6 @@ import { supabase } from '../../supabase/client';
 import { fetchProjects } from '../../utils/queries/fetch';
 import { Project } from '../../types/project';
 
-// Mock the Supabase client
 vi.mock('../../supabase/client', () => ({
   supabase: {
     from: vi.fn(() => ({
@@ -17,7 +16,6 @@ vi.mock('../../supabase/client', () => ({
   },
 }));
 
-// Mock the user data
 vi.mock('../../utils/queries/fetch', () => ({
   user: {
     data: {
@@ -29,7 +27,6 @@ vi.mock('../../utils/queries/fetch', () => ({
   fetchProjects: vi.fn(),
 }));
 
-// Create a wrapper for the QueryClientProvider
 const createWrapper = () => {
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -55,10 +52,7 @@ describe('useFetchQueries', () => {
       email: 'test@example.com',
     };
 
-    // const mockSelect = vi.fn().mockResolvedValue({
-    //   data: mockUserData,
-    //   error: null,
-    // });
+
 
     const mockEq = vi.fn().mockReturnValue({
       single: vi.fn().mockReturnValue({
@@ -135,19 +129,17 @@ describe('useFetchQueries', () => {
       },
     ];
   
-    // Mock the fetchProjects function to return mockProjects
     vi.mocked(fetchProjects).mockResolvedValue(mockProjects);
   
     const { result } = renderHook(() => useFetchQueries(), {
       wrapper: createWrapper(),
     });
   
-    // Wait for the query to resolve
+  
     await waitFor(() => {
       expect(result.current.projects.isSuccess).toBe(true);
     });
 
-    // Assertions
     expect(result.current.projects.data).toEqual(mockProjects);
   });
 
@@ -157,11 +149,7 @@ describe('useFetchQueries', () => {
       { id: 2, message: 'Notification 2', to: 'test-user-id' },
     ];
 
-    // const mockSelect = vi.fn().mockResolvedValue({
-    //   data: mockNotifications,
-    //   error: null,
-    // });
-
+    
     const mockEq = vi.fn().mockReturnValue({
       data: mockNotifications,
       error: null,

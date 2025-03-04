@@ -51,7 +51,7 @@ const Activity = () => {
                     <span className="text-base font-semibold text-gray900">
                       {alert.status === "accepted" &&
                         "Congratulations🎉 you're in!"}
-                      {alert.status === "pending" && "Some requested"}
+                      {alert.status === "pending" && "Someone requested"}
                       {alert.status === "rejected" &&
                         "Sorry, you have been rejected "}
                     </span>
@@ -62,7 +62,7 @@ const Activity = () => {
                 </div>
               </div>
               <hr />
-            </>
+            </div>
           ))}
         </div>
         <p className="pt-4 text-center text-[#73737F] text-sm">That's all for now</p>
