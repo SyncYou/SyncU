@@ -17,7 +17,6 @@ const CountryModal: React.FC<CountryModalProps> = ({ onSelectCountry }) => {
   ];
 
   return (
-    <div className="absolute bottom-24 left-0 p-2 h-[200px] w-full overflow-auto bg-[#ffffff] rounded-xl border border-[#E6E6F0] shadow-lg shadow-[#6969691A] mx-auto">
       <div>
         <ul>
           {countries.map((country) => (
@@ -31,7 +30,6 @@ const CountryModal: React.FC<CountryModalProps> = ({ onSelectCountry }) => {
           ))}
         </ul>
       </div>
-    </div>
   );
 };
 

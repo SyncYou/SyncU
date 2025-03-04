@@ -2,22 +2,29 @@ import { useState } from "react";
 import Chip from "./Chip";
 import { Roles, Stacks } from "../../utils/StacksSuggestions";
 
-interface DropDownProps {
-  type: "roles" | "stacks";
-  input: string;
-  handleAddition: (text: string) => void;
-  style?: HTMLDivElement["className"];
+
+type Contributor = {
+  username: string;
+  email: string;
+  role: string;
+  image?: string;
 }
 
-const DropDown = ({ type, input, handleAddition, style }: DropDownProps) => {
+interface DropDownProps {
+  type: "roles" | "stacks" | "contributors";
+  input: string;
+  suggestedContributors?: Contributor[];
+  setSuggestedContributors: React.Dispatch<React.SetStateAction<Contributor[]>>;
+  handleAddition: (text: string) => void;
+}
+
+
+const DropDown = ({ type, input, suggestedContributors, setSuggestedContributors, handleAddition}: DropDownProps) => {
   // Suggested roles and stacks
   const [suggestedRoles, setSuggestedRoles] = useState<string[]>(Roles);
   const [suggestedStacks, setSuggestedStacks] = useState<string[]>(Stacks);
 
   return (
-    <div
-      className={`overflow-auto absolute top-16 z-10 w-full h-40 bg-white rounded-xl border border-gray200 ${style}`}
-    >
       <div className="flex flex-wrap gap-2 p-2">
         {type === "roles" &&
           suggestedRoles
@@ -59,8 +66,32 @@ const DropDown = ({ type, input, handleAddition, style }: DropDownProps) => {
                 </Chip>
               </>
             ))}
+        {type === "contributors" &&
+          suggestedContributors
+            ?.filter((r) =>
+              input ? r.email.toLowerCase().includes(input.toLowerCase()) : r
+            )
+            .map((contributor) => (
+              <>
+                <Chip className="m-0 cursor-pointer">
+                  <span
+                    key={contributor.username}
+                    onClick={() => {
+                      const newContributors = suggestedContributors?.filter(
+                        (s) => s.email.toLowerCase() !== contributor.email.toLowerCase()
+                      );
+                      console.log(newContributors)
+                      setSuggestedContributors(() => newContributors);
+                      console.log(suggestedContributors)
+                      handleAddition(contributor.email);
+                    }}
+                  >
+                    {contributor.email}
+                  </span>
+                </Chip>
+              </>
+            ))}
       </div>
-    </div>
   );
 };
 

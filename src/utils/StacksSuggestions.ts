@@ -178,3 +178,39 @@ export const Stacks: string[] = [
   "Zabbix",
   "Zend Framework",
 ];
+
+
+type Contributor = {
+  username: string;
+  email: string;
+  role: string;
+  image?: string;
+}
+
+export const Contributors: Contributor[] = [
+  {
+    username: "@coderharry",
+    email: "user1@GoMail.com",
+    role: "Front-end developer"
+  },
+  {
+    username: "@julianadesigns",
+    email: "user2@GoMail.com",
+    role: "Product designer"
+  },
+  {
+    username: "@lilythedesigner",
+    email: "user3@GoMail.com",
+    role: "Product designer"
+  },
+  {
+    username: "@rickmolley",
+    email: "user4@GoMail.com",
+    role: "Back-end developer"
+  },
+  {
+    username: "@username",
+    email: "user5@GoMail.com",
+    role: "Back-end developer"
+  },
+]

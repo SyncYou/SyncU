@@ -26,14 +26,14 @@ const HomeTabs = () => {
   return (
     <div>
       <div
-        className={`absolute w-full transition-transform duration-300 ${
+        className={`w-full transition-transform duration-300 ${
           isVisible ? "md:top-[76px] top-[48px]" : "top-0"
         }`}
       >
         <ProjectTag />
       </div>
       <div
-        className={`absolute w-full transition-transform duration-300 ${
+        className={` w-full transition-transform duration-300 ${
           isVisible ? "md:top-[149px] top-[112px]" : "md:top-[76px] top-[48px]"
         }`}
       >

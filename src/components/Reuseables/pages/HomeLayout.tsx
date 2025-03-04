@@ -5,13 +5,13 @@ import { useSidebar } from "../context/useSidebar";
 import { useEffect } from "react";
 import useFetchQueries from "../hooks/useFetchQueries";
 import { useAlerts, useUserData } from "../context/useUserData";
+import { Loading } from "../components/Reuseables/Loading";
 import PostProjectForm from "../components/Projects/PostProjectForm";
 
 const Layout = () => {
   const { isOpen } = useSidebar();
   const { setUser } = useUserData();
   const { setAlerts } = useAlerts();
-  // const {loading} = useAuth()
 
   const { userData, notifications } = useFetchQueries();
 
@@ -28,11 +28,11 @@ const Layout = () => {
     <main>
       <SideBar />
       <PostProjectForm />
-
+      {userData.isLoading && <Loading />}
       <section
         className={`md:relative  ${
-          isOpen ? "md:w-[calc(100%_-_239px)]  md:left-[239px]" : "md:w-[calc(100%_-_96px)] md:left-[96px]"
-        } text-gray950 w-full`}
+          isOpen ? "isOpen md:left-[239px]" : "isClosed md:left-[96px]"
+        } text-gray950`}
       >
         <Header />
         <Outlet />
