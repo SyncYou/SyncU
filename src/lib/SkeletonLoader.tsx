@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
 export default function SkeletonLoader() {
-  const [isMobile, setIsMobile] = useState(false)
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
+      setIsMobile(window.innerWidth < 768);
+    };
 
-    checkMobile()
-    window.addEventListener("resize", checkMobile)
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
 
-    return () => window.removeEventListener("resize", checkMobile)
-  }, [])
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   return (
     <div className="w-full animate-pulse">
@@ -36,10 +36,13 @@ export default function SkeletonLoader() {
         </div>
 
         {/* Category filters */}
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex gap-6 overflow-x-auto pb-2">
+          <div className="flex gap-6 overflow-x-hidden pb-2">
+        <div className="flex items-center justify-between mb-4 overflow-hidden">
             {[...Array(5)].map((_, i) => (
-              <div key={i} className="h-5 w-20 bg-gray-200 rounded flex-shrink-0"></div>
+              <div
+                key={i}
+                className="h-5 w-20 bg-gray-200 rounded flex-shrink-0"
+              ></div>
             ))}
           </div>
           <div className="h-8 w-20 bg-gray-200 rounded ml-4 flex-shrink-0"></div>
@@ -61,7 +64,10 @@ export default function SkeletonLoader() {
               <div className="h-4 w-1/3 bg-gray-200 rounded"></div>
               <div className="flex flex-wrap gap-2">
                 {[...Array(3)].map((_, j) => (
-                  <div key={j} className="h-8 w-28 bg-gray-200 rounded-full"></div>
+                  <div
+                    key={j}
+                    className="h-8 w-28 bg-gray-200 rounded-full"
+                  ></div>
                 ))}
               </div>
             </div>
@@ -82,6 +88,5 @@ export default function SkeletonLoader() {
         ))}
       </div>
     </div>
-  )
+  );
 }
-

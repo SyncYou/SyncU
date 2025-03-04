@@ -241,7 +241,7 @@ function PostProjectForm() {
                     Stacks/skills
                   </label>
                   {stacks?.map((stack, index) => (
-                    <Chip key={index} className="border-brand600 bg-brand-400 text-brand600">
+                    <Chip key={index} className="border-brand600 bg-brand-400 text-brand600 h-20">
                       {stack}
                       <span
                         onClick={() => removeStack(stack)}
@@ -403,7 +403,7 @@ function PostProjectForm() {
             <PrimaryButton type="submit" classes="w-[120px] h-11 gap-0">
               Post Project
             </PrimaryButton>
-            <SecondaryButton classes="w-[120px] h-11 gap-0">
+            <SecondaryButton onClick={() => setShow(false)} classes="w-[120px] h-11 gap-0">
               Cancel
             </SecondaryButton>
           </div>

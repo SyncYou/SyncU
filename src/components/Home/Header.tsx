@@ -62,9 +62,9 @@ const Header = () => {
         <img src={logo} alt="logo" />
         <span className="mx-auto">{header}</span>
         <div className="w-20 h-8 flex gap-4">
-          <a className="w-8 h-8 flex justify-center items-center rounded-full border border-gray200">
+          <button className="w-8 h-8 flex justify-center items-center rounded-full border border-gray200">
             <FaSearch />
-          </a>
+          </button>
           <div>
             <NavLink to="/profile">
               <img

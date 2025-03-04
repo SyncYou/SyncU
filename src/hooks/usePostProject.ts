@@ -6,9 +6,11 @@ import { useForm } from "react-hook-form";
 import { errorToast, successToast } from "oasis-toast";
 import useDisplayPostProjectForm from "../context/useDisplayPostProjectForm";
 import { validateUrl } from "../utils/ValidateUrl";
+import { useUserData } from "../context/useUserData";
 
 const usePostProject = () => {
   const { setShow } = useDisplayPostProjectForm();
+  const { user: userData } = useUserData();
   const { register, handleSubmit, reset, watch, formState: { errors } } = useForm<PostProjectFormType>({
     defaultValues: {
       created_by: "",
@@ -24,6 +26,7 @@ const usePostProject = () => {
         name: "Slack",
         url: "",
       },
+      username: ""
     },
   });
 
@@ -79,6 +82,7 @@ const usePostProject = () => {
       data.workspace.name = otherData.workspace;
       data.required_roles = otherData.roles;
       data.required_stacks = otherData.stacks;
+      data.username = userData?.username;
 
       await mutateAsync(data);
       return true;

@@ -15,6 +15,7 @@ describe("useUserStore", () => {
         photoUrl: "",
         areaOfExpertise: "",
         stacks: ["N/A", "N/A", "N/A"],
+        onboardingComplete: 'true'
       },
       currentStep: 1,
     });

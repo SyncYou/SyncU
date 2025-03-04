@@ -24,7 +24,7 @@ const ProjectDetailsMobile = ({ data, state, handleModal }: PropsType) => {
   const [currentView, setCurrentView] = useState<string>("About");
   const creator = data.created_by === user.data.user?.id;
 
-  const { handleRequest, isRequested, withdrawRequest } = useProjectRequest();
+  const { handleRequest, isRequested, withdrawRequest } = useProjectRequest(user.data.user?.id as string);
 
 
   const checkIfRequested = data.requests?.filter(

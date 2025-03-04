@@ -16,6 +16,9 @@ const CreatedProjects = () => {
 
   return (
     <section className="md:px-8 px-4 md:py-6 pt-6 pb-20 md:w-full w-screen">
+      {isLoading && ( <div className="h-full w-full flex justify-center items-center pt-20">
+            <div className="w-10 h-10 border-4 border-gray-800 border-solid border-t-transparent rounded-full animate-spin"></div>
+          </div>)}
       {createdProjects?.length === 0 ? (
         <div className="mx-auto w-[261px] flex flex-col gap-6">
           <img className="w-[124px] mx-auto" src={empty} alt="" />
