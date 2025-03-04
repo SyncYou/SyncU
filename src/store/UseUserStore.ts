@@ -9,12 +9,13 @@ interface UserDetails {
   photoUrl: string;
   areaOfExpertise: string;
   stacks: string[];
+  onboardingComplete: string;
 }
 
 interface UserStore {
   userDetails: UserDetails;
   currentStep: number;
-  setUserDetails: (key: keyof UserDetails, value: string) => void;
+  setUserDetails: (key: keyof UserDetails, value: string | boolean) => void;
   setCurrentStep: (step: number) => void;
   removeSkill: (skill: string) => void;
   toggleSkill: (skill: string) => void;
@@ -31,6 +32,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
     photoUrl: "",
     areaOfExpertise: "",
     stacks: ["N/A", "N/A", "N/A"],
+    onboardingComplete: 'false'
   },
   currentStep: 1,
   setUserDetails: (key, value) =>

@@ -22,6 +22,8 @@ type Contributor = {
   role: string;
   image?: string;
 }
+import { errorToast } from "oasis-toast";
+import { validateUrl } from "../../utils/ValidateUrl";
 
 function PostProjectForm() {
   const client = useQueryClient();
@@ -43,7 +45,7 @@ function PostProjectForm() {
     handleTypedStack,
     handleTypedContributor,
   } = useAddRolesAndStacks();
-  const { validate, status, register, handleSubmit, reset } = usePostProject();
+  const { validate, status, register, handleSubmit, reset, errors, title, description } = usePostProject();
   const { show, setShow } = useDisplayPostProjectForm();
   const [showInviteModal, setShowInviteModal ] = useState<boolean>(false);
   const [projectDetails, setProjectDetails] = useState({
@@ -83,6 +85,7 @@ function PostProjectForm() {
                 queryKey: ["projects"],
               });
             } else {
+              errorToast("Error", "Form not valid")
               console.log("Form not valid");
             }
 
@@ -101,11 +104,17 @@ function PostProjectForm() {
               <div className="h-20 flex flex-col gap-1">
                 <div className="w-[435px] h-[60px] relative">
                   <input
-                    {...register("title", {
-                      required: true,
-                      maxLength: 50,
-                      minLength: 5,
-                    })}
+                  {...register("title", {
+                    required: "Title is required",
+                    minLength: {
+                      value: 5,
+                      message: "Title must be at least 5 characters",
+                    },
+                    maxLength: {
+                      value: 50,
+                      message: "Title cannot exceed 50 characters",
+                    },
+                  })}
                     placeholder="For e.g, Milk shopper"
                     onChange={(e) => {
                       if (e.target.value.length <= maxChars) {
@@ -116,7 +125,9 @@ function PostProjectForm() {
                     name="title"
                     value={projectDetails.title || ""}
                     id="title"
-                    className="w-full h-full text-[#40404D] pt-4 px-3 outline-none border rounded-lg focus:border-brand400 placeholder:text-sm placeholder:text-gray400 text-base"
+                    className={`w-full h-full text-[#40404D] pt-4 px-3 outline-none border rounded-lg focus:border-brand400 placeholder:text-sm placeholder:text-gray400 text-base ${
+                      errors.title ? "border-alert-600" : ""
+                    }`}
                   />
                   <label
                     className="absolute left-3 top-2 font-medium text-gray950 text-xs"
@@ -125,9 +136,12 @@ function PostProjectForm() {
                     Project title
                   </label>
                 </div>
-                <p className={`text-right font-normal text-xs ${projectDetails.title.length > maxChars - 10 ? "text-red-500" : "text-gray-600"}`}>
-                    {projectDetails.title.length} / {maxChars} characters
-                </p>
+                {errors.title && (
+                <p className="text-alert-600 text-xs mt-1">{errors.title.message}</p>
+              )}
+              <p className="text-right font-normal text-xs text-gray700">
+                {title?.length || 0}/50 words
+              </p>
               </div>
             </div>
             <div className="flex justify-between">
@@ -138,7 +152,7 @@ function PostProjectForm() {
                 <div className="w-full flex items-center justify-between px-2 relative h-full">
                   <input
                     {...register("industry", {
-                      required: true,
+                      required: "Industry is required",
                     })}
                     name="Industry"
                     type="text"
@@ -164,6 +178,9 @@ function PostProjectForm() {
                     <IndustryModal onSelectIndustry={handleIndustrySelect} />
                   </div>
                 )}
+                {errors.industry && (
+                <p className="text-alert-600 text-xs mt-1">{errors.industry.message}</p>
+              )}
               </div>
             </div>
             <div className="flex justify-between">
@@ -174,9 +191,15 @@ function PostProjectForm() {
                 <div className="w-[435px] relative">
                   <textarea
                     {...register("description", {
-                      maxLength: 1000,
-                      required: true,
-                      minLength: 80,
+                        required: "Description is required",
+                        minLength: {
+                          value: 80,
+                          message: "Description must be at least 80 characters",
+                        },
+                        maxLength: {
+                          value: 1000,
+                          message: "Description cannot exceed 1000 characters",
+                        },
                     })}
                     value={projectDetails.description}
                     onChange={(e) => {
@@ -185,7 +208,9 @@ function PostProjectForm() {
                       }
                     }}
                     placeholder="Tell us about your project..."
-                    className="w-full h-[274px] text-[#40404D] placeholder:text-sm placeholder:text-gray400 pt-6 px-3 outline-none border rounded-lg focus:border-brand400"
+                    className={`w-full h-[274px] text-[#40404D] placeholder:text-sm placeholder:text-gray400 pt-6 px-3 outline-none border rounded-lg focus:border-brand400 ${
+                      errors.description ? "border-alert-600" : ""
+                    }`}
                   ></textarea>
                   <label
                     className="absolute left-3 top-2 font-medium text-gray950 text-xs"
@@ -194,9 +219,12 @@ function PostProjectForm() {
                     Description
                   </label>
                 </div>
-                <p className="text-right font-normal text-xs text-gray700">
-                  {projectDetails.description.split(' ').length}/1000 words
-                </p>
+                {errors.description && (
+                <p className="text-alert-600 text-xs mt-1">{errors.description.message}</p>
+              )}
+              <p className="text-right font-normal text-xs text-gray700">
+                {description?.length || 0}/1000 words
+              </p>
               </div>
             </div>
             <div className="flex justify-between">
@@ -205,15 +233,18 @@ function PostProjectForm() {
               </h2>
               <div className="min-h-20 flex flex-col gap-1 relative">
                 <label htmlFor="role">
-                  <div className="flex flex-wrap gap-1 w-[435px] min-h-[60px] relative pt-8 pb-4 px-2 outline-none border rounded-lg">
+                  <div
+                className={`flex flex-wrap gap-1 w-[435px] min-h-[60px] relative pt-8 pb-4 px-2 outline-none border rounded-lg ${
+                  errors.required_roles ? "border-alert-600" : ""
+                }`}>
                     <label
                       className="absolute left-3 top-2 font-medium text-gray950 text-xs"
                       htmlFor="title"
                     >
                       Roles
                     </label>
-                    {roles?.map((role) => (
-                      <Chip className="bg-[#f3ecfcce] text-brand600 flex gap-3">
+                    {roles?.map((role, index) => (
+                      <Chip key={index} className="bg-[#f3ecfcce] text-brand600 flex gap-3">
                         {role}{" "}
                         <span
                           onClick={() => removeRole(role)}
@@ -235,6 +266,9 @@ function PostProjectForm() {
                     )}
                   </div>
                 </label>
+                {errors.required_roles && (
+                <p className="text-alert-600 text-xs mt-1">{errors.required_roles.message}</p>
+              )}
                 <p className="text-right font-normal text-xs text-gray700">
                   min of 3 and a max of 10
                 </p>
@@ -258,7 +292,9 @@ function PostProjectForm() {
               </h2>
               <label htmlFor="stack">
                 <div className="min-h-[120px] flex flex-col gap-1 relative">
-                  <div className="flex flex-wrap gap-1 w-[435px] min-h-[129px] relative pt-2 pb-4 px-3 border flex-col border-gray200 rounded-lg">
+                  <div  className={`flex flex-wrap gap-1 w-[435px] min-h-[129px] relative pt-2 pb-4 px-3 border flex-col rounded-lg ${
+                  errors.required_stacks ? "border-alert-600" : ""
+                }`}>
                     <label
                       className=" font-medium text-gray950 text-xs"
                       htmlFor="stack"
@@ -267,8 +303,8 @@ function PostProjectForm() {
                     </label>
 
                     <div className="flex flex-wrap gap-1">
-                      {stacks?.map((stack) => (
-                        <Chip className="bg-[#f3ecfcce] h-fit text-brand600 flex gap-3">
+                      {stacks?.map((stack, index) => (
+                        <Chip key={index} className="bg-[#f3ecfcce] h-fit text-brand600 flex gap-3">
                           {stack}
                           <span
                             onClick={() => removeStack(stack)}
@@ -290,7 +326,10 @@ function PostProjectForm() {
                       )}
                     </div>
                   </div>
-                  <p className="text-right font-normal text-xs text-gray700">
+                  {errors.required_stacks && (
+                <p className="text-alert-600 text-xs mt-1">{errors.required_stacks.message}</p>
+              )}
+                <p className="text-right font-normal text-xs text-gray700">
                     min of 3 and a max of 10
                   </p>
                   {typedStack != "" && (
@@ -327,12 +366,14 @@ function PostProjectForm() {
                     {workspace === "Slack" && (
                       <div className="relative h-[60px] w-[389px]">
                         <input
-                          {...register("workspace.url", {
-                            required: true,
-                          })}
+                        {...register("workspace.url", {
+                          required: "Workspace URL is required",
+                          validate: (value) =>
+                            validateUrl(value) || "Invalid workspace URL",
+                        })}
                           type="text"
                           className={`h-[60px] w-full text-gray800 ${
-                            true && "border-alert-600 focus:border-alert-600"
+                            errors.workspace?.url ? "border-alert-600 focus:border-alert-600" : ""
                           } font-normal text-base pt-4 px-3 outline-none focus:drop-shadow-md border rounded-lg border-gray300 focus:border-brand400`}
                         />
                         <label
@@ -341,6 +382,9 @@ function PostProjectForm() {
                         >
                           Workspace URL
                         </label>
+                        {errors.workspace?.url && (
+                        <p className="text-alert-600 text-xs my-1">{errors.workspace.url.message}</p>
+                      )}
                       </div>
                     )}
                   </div>
@@ -360,12 +404,14 @@ function PostProjectForm() {
                     {workspace === "Discord" && (
                       <div className="relative h-[60px] w-[389px]">
                         <input
-                          {...register("workspace.url", {
-                            required: true,
-                          })}
+                         {...register("workspace.url", {
+                          required: "Workspace URL is required",
+                          validate: (value) =>
+                            validateUrl(value) || "Invalid workspace URL",
+                        })}
                           type="text"
                           className={`h-[60px] w-full text-gray800 ${
-                            true && "border-alert-600 focus:border-alert-600"
+                            errors.workspace?.url ? "border-alert-600 focus:border-alert-600" : ""
                           } font-normal text-base pt-4 px-3 outline-none focus:drop-shadow-md border rounded-lg border-gray300 focus:border-brand400`}
                         />
                         <label
@@ -374,6 +420,9 @@ function PostProjectForm() {
                         >
                           Workspace URL
                         </label>
+                        {errors.workspace?.url && (
+                        <p className="text-alert-600 text-xs my-1">{errors.workspace.url.message}</p>
+                      )}
                       </div>
                     )}
                   </div>
@@ -394,11 +443,13 @@ function PostProjectForm() {
                       <div className="relative h-[60px] w-[389px]">
                         <input
                           {...register("workspace.url", {
-                            required: true,
+                            required: "Workspace URL is required",
+                            validate: (value) =>
+                              validateUrl(value) || "Invalid workspace URL",
                           })}
                           type="text"
                           className={`h-[60px] w-full text-gray800 ${
-                            true && "border-alert-600 focus:border-alert-600"
+                            errors.workspace?.url ? "border-alert-600 focus:border-alert-600" : ""
                           } font-normal text-base pt-4 px-3 outline-none focus:drop-shadow-md border rounded-lg border-gray300 focus:border-brand400`}
                         />
                         <label
@@ -407,6 +458,10 @@ function PostProjectForm() {
                         >
                           Workspace URL
                         </label>
+                        {errors.workspace?.url && (
+                        <p className="text-alert-600 text-xs my-1">{errors.workspace.url.message}</p>
+                      )}
+
                       </div>
                     )}
                   </div>

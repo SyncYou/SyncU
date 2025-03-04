@@ -3,10 +3,13 @@ import { supabase } from "../supabase/client";
 import { PostProjectFormType, WorkSpaceType } from "../utils/types/Types";
 import { user } from "../utils/queries/fetch";
 import { useForm } from "react-hook-form";
-import { errorToast } from "oasis-toast";
+import { errorToast, successToast } from "oasis-toast";
+import useDisplayPostProjectForm from "../context/useDisplayPostProjectForm";
+import { validateUrl } from "../utils/ValidateUrl";
 
 const usePostProject = () => {
-  const { register, handleSubmit, reset } = useForm<PostProjectFormType>({
+  const { setShow } = useDisplayPostProjectForm();
+  const { register, handleSubmit, reset, watch, formState: { errors } } = useForm<PostProjectFormType>({
     defaultValues: {
       created_by: "",
       description: "",
@@ -24,6 +27,9 @@ const usePostProject = () => {
     },
   });
 
+  const title = watch("title");
+  const description = watch("description");
+
   const { mutateAsync, status, error } = useMutation({
     mutationKey: ["post-project"],
     mutationFn: async (data: PostProjectFormType) => {
@@ -33,8 +39,14 @@ const usePostProject = () => {
         errorToast('An error occurred', 'Please try again.');
         throw new Error(error?.message);
       }
+      successToast(`${data?.title}`, "Project created successfully")
+      setShow(false);
     },
   });
+
+  const validateWorkspaceUrl = (url: string): boolean => {
+    return validateUrl(url);
+  };
 
   const validate = async (
     data: PostProjectFormType,
@@ -51,10 +63,16 @@ const usePostProject = () => {
     ) {
       return false;
     } else if (otherData.stacks.length <= 3) {
+      errorToast('error', 'Stack must be more than 3');
       console.log("Stack must be more than 3");
       return false;
     } else if (otherData.roles.length <= 3) {
-      console.log("Stack must be more than 3");
+      errorToast('error', 'Roles must be more than 3');
+      console.log("Roles must be more than 3");
+      return false;
+    } else if (!validateWorkspaceUrl(data.workspace.url)) {
+      errorToast('error', 'Invalid workspace URL');
+      console.log("Invalid workspace URL");
       return false;
     } else {
       data.created_by = user.data.user?.id;
@@ -66,7 +84,8 @@ const usePostProject = () => {
       return true;
     }
   };
-  return { validate, status, error, register, handleSubmit, reset };
+
+  return { validate, status, error, register, handleSubmit, reset, errors, title, description};
 };
 
 export default usePostProject;
