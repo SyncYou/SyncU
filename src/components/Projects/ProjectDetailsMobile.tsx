@@ -13,6 +13,7 @@ import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import { HiOutlineBriefcase, HiOutlineLockClosed } from "react-icons/hi";
 import useProjectRequest from "../../hooks/useProjectRequest";
 import { user } from "../../utils/queries/fetch";
+import { Loading } from "../Reuseables/Loading";
 
 interface PropsType {
   state: () => void;
@@ -31,8 +32,11 @@ const ProjectDetailsMobile = ({ data, state, handleModal }: PropsType) => {
     (req) => req.userId === user.data.user?.id
   );
 
+  const isParticipant = data?.participants?.includes(user.data.user?.id ?? "");
+
   return (
     <div className="h-screen w-screen bg-white md:hidden">
+      {isRequested && <Loading />}
       <div className="w-full border-b border-gray200 bg-white">
         <div className="flex gap-[10px] py-[10px] px-4 border-b border-gray200">
           <div className="flex gap-2 items-center">
@@ -179,24 +183,20 @@ const ProjectDetailsMobile = ({ data, state, handleModal }: PropsType) => {
         }
       </div>
       <div className="fixed bottom-0 h-16 w-full border-t border-gray200 bg-white flex justify-between items-center px-4 py-[10px]">
-        {checkIfRequested.length == 1 ||
-          (isRequested && !creator && (
-            <SecondaryButton 
-              onClick={() => withdrawRequest(data.id, data.created_by)}
-              classes="h-11 min-w-[294px]">
-              Withdraw Request
-            </SecondaryButton>
-          ))}
-        {checkIfRequested.length == 0 ||
-          (!isRequested && !creator && (
-            <PrimaryButton
-              onClick={() => handleRequest(data.id, data.created_by)}
-              classes="h-11 min-w-[294px] gap-3"
-            >
-              Send Request
-              <FiSend />
-            </PrimaryButton>
-          ))}
+        {checkIfRequested.length == 1 && !creator && !isParticipant && (
+          <SecondaryButton classes="h-11 min-w-[294px]">
+            Withdraw Request
+          </SecondaryButton>
+        )}
+        {checkIfRequested.length == 0 && !creator && !isParticipant && (
+          <PrimaryButton
+            onClick={() => handleRequest(data.id, data.created_by)}
+            classes="h-11 min-w-[294px] gap-3"
+          >
+            Send Request
+            <FiSend />
+          </PrimaryButton>
+        )}
 
         {creator && (
           <SecondaryButton classes="h-11 min-w-[294px]">
