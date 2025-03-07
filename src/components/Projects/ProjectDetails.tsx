@@ -32,7 +32,7 @@ const ProjectDetails = ({ state, id }: PropsType) => {
     withdrawRequest,
     data,
     isFetching,
-    // isRequested
+    isRequested
   } = useProjectRequest(id);
 
   const isParticipant = data?.participants?.includes(user.data.user?.id ?? "");
