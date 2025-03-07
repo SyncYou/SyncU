@@ -32,7 +32,7 @@ const ProjectDetails = ({ state, id }: PropsType) => {
     withdrawRequest,
     data,
     isFetching,
-    isRequested
+    // isRequested
   } = useProjectRequest(id);
 
   const isParticipant = data?.participants?.includes(user.data.user?.id ?? "");
@@ -92,7 +92,7 @@ const ProjectDetails = ({ state, id }: PropsType) => {
                 Send request
                 <FiSend />
               </PrimaryButton>
-            ))}
+            )}
             {creator && (
               <SecondaryButton classes="h-11">Edit project</SecondaryButton>
             )}
@@ -217,7 +217,7 @@ const ProjectDetails = ({ state, id }: PropsType) => {
         </div>
       </div>
     </Overlay>
-  );
+  )
 };
 
 export default ProjectDetails;
