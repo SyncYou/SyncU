@@ -10,13 +10,15 @@ import Overlay from "../Reuseables/Overlay";
 import SecondaryButton from "../Reuseables/SecondaryButton";
 import PrimaryButton from "../Reuseables/PrimaryButton";
 import Chip from "../Reuseables/Chip";
-import { user } from "../../utils/queries/fetch";
+import { fetchUser, user } from "../../utils/queries/fetch";
 import useProjectRequest from "../../hooks/useProjectRequest";
 import ProjectDetailsMobile from "./ProjectDetailsMobile";
 import ViewRequests from "./ViewRequests";
 import useModalView from "../../hooks/useModalView";
 import { Loading } from "../Reuseables/Loading";
 import WorkSpace from "../Reuseables/Workspace";
+import { useQuery } from "@tanstack/react-query";
+import { formatTimestamp } from "../../utils/FormatDate";
 
 interface PropsType {
   state: () => void;
@@ -32,7 +34,7 @@ const ProjectDetails = ({ state, id }: PropsType) => {
     withdrawRequest,
     data,
     isFetching,
-    isRequested
+    // isRequested
   } = useProjectRequest(id);
 
   const isParticipant = data?.participants?.includes(user.data.user?.id ?? "");
@@ -42,17 +44,22 @@ const ProjectDetails = ({ state, id }: PropsType) => {
   const checkIfRequested = data?.requests?.filter(
     (req) => req.userId === user.data.user?.id
   );
-  console.log(isParticipant, creator);
+
+  const { data: creatorData } = useQuery({
+    queryKey: ["project", data?.id], 
+    queryFn: () => fetchUser(data?.created_by ?? ""), 
+    enabled: !!data?.created_by, 
+  });
 
 
   return (
     <Overlay>
       {modal && (
-        <ViewRequests
-          projectId={data.id}
-          requests={data.requests}
-          state={handleModal}
-        />
+      <ViewRequests
+      projectId={data?.id ?? ""}
+      requests={data?.requests ?? []}
+      state={handleModal}
+    />
       )}
       {sendingRequest && <Loading />}
       {isFetching && <Loading />}
@@ -62,30 +69,32 @@ const ProjectDetails = ({ state, id }: PropsType) => {
           <span className="font-normal text-base text-white">Request sent</span>
         </div>
       )}
-      <ProjectDetailsMobile data={data} state={state} handleModal={handleModal} />
+     {data && <ProjectDetailsMobile data={data} state={state} handleModal={handleModal} />}
       <div className="md:w-[1060px] md:h-[758px] text-gray950 hidden md:flex flex-col gap-4 relative w-[358px] h-[458px] rounded-3xl bg-white">
         <div className="w-full h-[76px] flex justify-between border-gray200 border-b py-4 px-6">
           <div className="flex gap-2">
-            <div className="h-11 w-11 rounded-full bg-black"></div>
+            <div className="h-11 w-11 rounded-full bg-black">
+            <img className="w-full h-full object-cover rounded-full" src={creatorData?.photoUrl} alt={creatorData?.username} />
+            </div>
             <div className="">
-              <p className="font-normal text-base">@ameenu</p>
+              <p className="font-normal text-base">@{creatorData?.username}</p>
               <p className="font-normal text-xs text-gray700">
                 is looking for collaborators
               </p>
             </div>
           </div>
           <div className="flex gap-4">
-            {checkIfRequested.length == 1 && !creator && !isParticipant && (
+            {checkIfRequested?.length == 1 && !creator && !isParticipant && (
               <SecondaryButton
-                onClick={() => withdrawRequest(data.id, data.created_by)}
+                onClick={() => withdrawRequest(data!.id)}
                 classes="h-11"
               >
                 Withdraw Request
               </SecondaryButton>
             )}
-            {checkIfRequested.length == 0 && !creator && !isParticipant && (
+            {checkIfRequested?.length == 0 && !creator && !isParticipant && (
               <PrimaryButton
-                onClick={() => handleRequest(data.id, data.created_by)}
+                onClick={() => handleRequest(data!.id, data!.created_by, data!.title)}  
                 classes="text-sm justify-between py-2 h-fit px-4 gap-2"
 
               >
@@ -119,9 +128,9 @@ const ProjectDetails = ({ state, id }: PropsType) => {
             <div className="flex justify-between">
               <div className="flex flex-col gap-2">
                 <h6 className="font-medium text-sm pt-2">Project Title</h6>
-                <h3 className="font-semibold text-2xl">{data.title}</h3>
+                <h3 className="font-semibold text-2xl">{data?.title}</h3>
                 <p className="font-normal text-sm text-gray700">
-                  {data.industry}
+                  {data?.industry}
                 </p>
               </div>
               <div className="h-10 w-10 cursor-pointer rounded-full flex justify-center items-center border-[0.5px] border-gray300 my-auto">
@@ -132,7 +141,7 @@ const ProjectDetails = ({ state, id }: PropsType) => {
             <div className="flex flex-col gap-3">
               <p className="font-medium text-sm">Required roles</p>
               <div className="flex flex-wrap gap-[11px]">
-                {data.required_roles.map((skill, _) => {
+                {data?.required_roles.map((skill, _) => {
                   return <Chip key={_}>{skill}</Chip>;
                 })}
               </div>
@@ -141,7 +150,7 @@ const ProjectDetails = ({ state, id }: PropsType) => {
             <div className="flex flex-col gap-3">
               <p className="font-medium text-sm">Required skills or stacks</p>
               <div className="flex flex-wrap gap-[11px]">
-                {data.required_stacks.map((skill, _) => {
+                {data?.required_stacks.map((skill, _) => {
                   return <Chip key={_}>{skill}</Chip>;
                 })}
               </div>
@@ -150,7 +159,7 @@ const ProjectDetails = ({ state, id }: PropsType) => {
             <div className="w-full">
               <p className="mb-3 text-gray950 font-medium text-sm">Description</p>
               <div className="text-[#374151] font-normal text-base font-inter">
-                <p className="font-normal text-base font-inter">{data.description}</p>
+                <p className="font-normal text-base font-inter">{data?.description}</p>
               </div>
             </div>
           </div>
@@ -162,13 +171,13 @@ const ProjectDetails = ({ state, id }: PropsType) => {
               </p>
               <div className="w-full h-10 flex justify-between items-center">
                 <div className="flex gap-2 items-center">
-                  <WorkSpace workspace={data.workspace?.name ?? "Slack"} />
+                  <WorkSpace workspace={data?.workspace?.name ?? "Slack"} />
                   <span className="text-gray950 font-medium">
-                    {data.workspace?.name}
+                    {data?.workspace?.name}
                   </span>
                 </div>
                 <PrimaryButton
-                  onClick={() => window.open(data.workspace?.url, "_blank")}
+                  onClick={() => window.open(data?.workspace?.url, "_blank")}
                   disabled={!isParticipant || false}
                   classes="flex items-center gap-2 disabled:opacity-65 border border-gray200 py-2 px-4 rounded-full h-10 w-[84px]"
                 >
@@ -183,14 +192,14 @@ const ProjectDetails = ({ state, id }: PropsType) => {
                   <div className="flex items-center gap-2 w-20">
                     <PiTagChevron /> Industry
                   </div>
-                  <p className="text-gray950 font-medium">{data.industry}</p>
+                  <p className="text-gray950 font-medium">{data?.industry}</p>
                 </div>
                 <div className="flex justify-between h-10 px-3 py-2">
                   <div className="flex items-center gap-2">
                     <FaRegCalendarMinus />
                     Date Posted
                   </div>
-                  <p className="text-gray950 font-medium">30.11.2024</p>
+                  <p className="text-gray950 font-medium">{formatTimestamp(data?.created_at as string)}</p>
                 </div>
               </div>
               <div className="w-full h-0 border-t border-gray200"></div>
@@ -198,7 +207,7 @@ const ProjectDetails = ({ state, id }: PropsType) => {
                 <div className="flex justify-between h-10 px-3 py-2">
                   <div className="">Project views</div>
                   <p className="text-gray950 font-medium">
-                    {data.project_views}
+                    {data?.project_views}
                   </p>
                 </div>
                 <div className="flex justify-between h-10 px-3 py-2">
@@ -207,7 +216,7 @@ const ProjectDetails = ({ state, id }: PropsType) => {
                     <button onClick={handleModal}>{">"}</button>
                   ) : (
                     <p className="text-gray950 font-medium">
-                      {data.requests?.length}
+                      {data?.requests?.length}
                     </p>
                   )}
                 </div>

@@ -12,8 +12,9 @@ import { BsShare } from "react-icons/bs";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import { HiOutlineBriefcase, HiOutlineLockClosed } from "react-icons/hi";
 import useProjectRequest from "../../hooks/useProjectRequest";
-import { user } from "../../utils/queries/fetch";
+import { fetchUser, user } from "../../utils/queries/fetch";
 import { Loading } from "../Reuseables/Loading";
+import { useQuery } from "@tanstack/react-query";
 
 interface PropsType {
   state: () => void;
@@ -34,15 +35,23 @@ const ProjectDetailsMobile = ({ data, state, handleModal }: PropsType) => {
 
   const isParticipant = data?.participants?.includes(user.data.user?.id ?? "");
 
+  const { data: creatorData } = useQuery({
+    queryKey: ["project", data?.id], // Use optional chaining to avoid errors
+    queryFn: () => fetchUser(data?.created_by ?? ""), 
+    enabled: !!data?.created_by, // Ensure this only runs when `created_by` is available
+  });
+
   return (
     <div className="h-screen w-screen bg-white md:hidden">
       {isRequested && <Loading />}
       <div className="w-full border-b border-gray200 bg-white">
         <div className="flex gap-[10px] py-[10px] px-4 border-b border-gray200">
           <div className="flex gap-2 items-center">
-            <div className="h-10 w-10 bg-black rounded-full"></div>
+            <div className="h-10 w-10 bg-black rounded-full">
+            <img className="w-full h-full object-cover rounded-full" src={creatorData?.photoUrl} alt={creatorData?.username} />
+            </div>
             <div className="">
-              <p className="m-0 font-normal text-sm text-gray950">@oscarteem</p>
+              <p className="m-0 font-normal text-sm text-gray950">@{creatorData?.username}</p>
               <p className="m-0 font-normal text-xs text-gray700">
                 is looking for collaborators
               </p>
@@ -190,7 +199,7 @@ const ProjectDetailsMobile = ({ data, state, handleModal }: PropsType) => {
         )}
         {checkIfRequested.length == 0 && !creator && !isParticipant && (
           <PrimaryButton
-            onClick={() => handleRequest(data.id, data.created_by)}
+            onClick={() => handleRequest(data.id, data.created_by, data.title)}
             classes="h-11 min-w-[294px] gap-3"
           >
             Send Request

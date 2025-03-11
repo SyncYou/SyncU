@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {
   requestToJoinProject,
-  withdrawToJoinProject,
+  withdrawProjectRequest,
 } from "../utils/SupabaseRequest";
 import { ProjectType } from "../utils/types/Types";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -12,27 +12,8 @@ const useProjectRequest = (id: string) => {
   const [sendingRequest, setSendingRequest] = useState<boolean>(false);
   const [isRequested, setIsRequested] = useState<boolean>(false);
 
-  const [data, setData] = useState<ProjectType>({
-    created_at: "string",
-    created_by: "string",
-    description: "string",
-    id: "string",
-    industry: "string",
-    participants: ["string"],
-    project_views: 0,
-    requests: [
-      {
-        userId: "string",
-        status: "string",
-      },
-    ],
-    required_roles: ["string"],
-    required_stacks: ["string"],
-    title: "string",
-    updated_at: "string",
-    username: "string",
-    workspace: { name: "Slack", url: "string" },
-  });
+  const [data, setData] = useState<ProjectType | null>(null);
+  
   const queryClient = useQueryClient();
   const invalidateQueries = (id: string) => {
     queryClient.invalidateQueries({
@@ -56,10 +37,10 @@ const useProjectRequest = (id: string) => {
     },
   });
 
-  const handleRequest = async (id: string, created_by: string) => {
+  const handleRequest = async (id: string, created_by: string, project_name: string) => {
     try {
       setSendingRequest(true);
-      const req = await requestToJoinProject(id, created_by);
+      const req = await requestToJoinProject(id, created_by, project_name);
       if (req) {
         const showNotificationTimeout = setTimeout(() => {
           setShowNotifications(true);
@@ -82,10 +63,10 @@ const useProjectRequest = (id: string) => {
     }
   };
 
-  const withdrawRequest = async (id: string, created_by: string) => {
+  const withdrawRequest = async (id: string) => {
     try {
       setSendingRequest(true);
-      const req = await withdrawToJoinProject(id, created_by);
+      const req = await withdrawProjectRequest(id);
       if (req) {
         const showNotificationTimeout = setTimeout(() => {
           setShowNotifications(true);

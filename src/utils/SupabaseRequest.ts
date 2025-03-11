@@ -47,136 +47,200 @@ export async function uploadAvatar(file: File) {
 }
 
 // Send request to join a project
-export const requestToJoinProject = async (
-  projectId: string,
-  creatorId: string
-) => {
-  // Get the current user data
-  const user = await fetchUserData();
-  if (!user) {
-    console.error("User is not logged in");
-    return;
-  }
+// export const requestToJoinProject = async (
+//   projectId: string,
+//   creatorId: string
+// ) => {
+//   // Get the current user data
+//   const user = await fetchUserData();
+//   if (!user) {
+//     console.error("User is not logged in");
+//     return;
+//   }
 
-  //  Fetch the previous data from the database
-  const { data: requests, error: fetchError } = await supabase
-    .from("Projects")
-    .select("requests")
-    .eq("id", projectId)
-    .single();
+//   //  Fetch the previous data from the database
+//   const { data: requests, error: fetchError } = await supabase
+//     .from("Projects")
+//     .select("requests")
+//     .eq("id", projectId)
+//     .single();
 
-  if (fetchError || !requests) {
-    console.error("Error fetching project:", fetchError);
-    return;
-  }
+//   if (fetchError || !requests) {
+//     console.error("Error fetching project:", fetchError);
+//     return;
+//   }
 
-  // Prepare the new request object
-  const newRequest = {
-    userId: user.id,
-    status: "pending",
-  };
+//   // Prepare the new request object
+//   const newRequest = {
+//     userId: user.id,
+//     status: "pending",
+//   };
 
-  const updatedRequests = [...(requests.requests || []), newRequest];
+//   const updatedRequests = [...(requests.requests || []), newRequest];
 
-  // Update the project with the new request
-  const { error: updateError } = await supabase
-    .from("Projects")
-    .update({ requests: updatedRequests })
-    .eq("id", projectId);
+//   // Update the project with the new request
+//   const { error: updateError } = await supabase
+//     .from("Projects")
+//     .update({ requests: updatedRequests })
+//     .eq("id", projectId);
 
-  if (updateError) {
-    console.error("Error updating project with the new request:", updateError);
-    return false;
-  }
+//   if (updateError) {
+//     console.error("Error updating project with the new request:", updateError);
+//     return false;
+//   }
 
-  // Prepare the notification for the project owner (creator)
-  const notificationMessage = `User ${user.firstName} has requested to join your project.`;
-  const notification = {
-    from: user.id,
-    to: creatorId,
-    status: "pending",
-    message: notificationMessage,
-  };
+//   // Prepare the notification for the project owner (creator)
+//   const notificationMessage = `User ${user.firstName} has requested to join your project.`;
+//   const notification = {
+//     from: user.id,
+//     to: creatorId,
+//     status: "pending",
+//     message: notificationMessage,
+//   };
 
-  // Insert the notification into the 'Notifications' table
-  const { data, error: insertError } = await supabase
-    .from("Notifications")
-    .insert(notification);
+//   // Insert the notification into the 'Notifications' table
+//   const { data, error: insertError } = await supabase
+//     .from("Notifications")
+//     .insert(notification);
 
-  if (insertError) {
-    // Update the ui with the error toast
-    console.error("Error creating notification:", insertError);
-    return;
-  }
+//   if (insertError) {
+//     // Update the ui with the error toast
+//     console.error("Error creating notification:", insertError);
+//     return;
+//   }
 
-  // Update the Ui with the success toast
-  console.log("Request sent successfully and notification created:", data);
-  return true;
-};
+//   // Update the Ui with the success toast
+//   console.log("Request sent successfully and notification created:", data);
+//   return true;
+// };
 
 // Send request to join a project
-export const withdrawToJoinProject = async (
-  projectId: string,
-  creatorId: string
-) => {
-  // Get the current user data
+// export const withdrawToJoinProject = async (
+//   projectId: string,
+//   creatorId: string
+// ) => {
+//   // Get the current user data
+//   const user = await fetchUserData();
+//   if (!user) {
+//     console.error("User is not logged in");
+//     return;
+//   }
+
+//   //  Fetch the previous data from the database
+//   const { data: requests, error: fetchError } = await supabase
+//     .from("Projects")
+//     .select("requests")
+//     .eq("id", projectId)
+//     .single();
+
+//   if (fetchError || !requests) {
+//     console.error("Error fetching project:", fetchError);
+//     return;
+//   }
+
+//   const updatedRequests = requests.requests.filter(
+//     (req: Request) => req.userId != user.id
+//   );
+
+//   // Update the project with the new request
+//   const { error: updateError } = await supabase
+//     .from("Projects")
+//     .update({ requests: updatedRequests })
+//     .eq("id", projectId);
+
+//   if (updateError) {
+//     console.error("Error updating project with the new request:", updateError);
+//     return false;
+//   }
+
+//   // Prepare the notification for the project owner (creator)
+//   const notificationMessage = `User ${user.firstName} has withdrawn the request to join your project.`;
+//   const notification = {
+//     from: user.id,
+//     to: creatorId,
+//     status: "pending",
+//     message: notificationMessage,
+//   };
+
+//   // Insert the notification into the 'Notifications' table
+//   const { data, error: insertError } = await supabase
+//     .from("Notifications")
+//     .insert(notification);
+
+//   if (insertError) {
+//     // Update the ui with the error toast
+//     console.error("Error creating notification:", insertError);
+//     return;
+//   }
+
+//   // Update the Ui with the success toast
+//   console.log("Request sent successfully and notification created:", data);
+//   return true;
+// };
+
+export const requestToJoinProject = async (projectId: string, creatorId: string, project_name: string) => {
   const user = await fetchUserData();
   if (!user) {
     console.error("User is not logged in");
     return;
   }
 
-  //  Fetch the previous data from the database
-  const { data: requests, error: fetchError } = await supabase
-    .from("Projects")
-    .select("requests")
-    .eq("id", projectId)
-    .single();
+  // Insert request into project_invitations table
+  const { data, error } = await supabase.from("Project_Invitations").insert([
+    {
+      project_id: projectId,
+      sender_id: user.id,
+      receiver_id: creatorId,
+      type: "request",
+    },
+  ]);
 
-  if (fetchError || !requests) {
-    console.error("Error fetching project:", fetchError);
-    return;
-  }
-
-  const updatedRequests = requests.requests.filter(
-    (req: Request) => req.userId != user.id
-  );
-
-  // Update the project with the new request
-  const { error: updateError } = await supabase
-    .from("Projects")
-    .update({ requests: updatedRequests })
-    .eq("id", projectId);
-
-  if (updateError) {
-    console.error("Error updating project with the new request:", updateError);
+  if (error) {
+    console.error("Error sending request to join project:", error);
     return false;
   }
 
-  // Prepare the notification for the project owner (creator)
-  const notificationMessage = `User ${user.firstName} has withdrawen the request to join your project.`;
-  const notification = {
-    from: user.id,
-    to: creatorId,
-    status: "pending",
-    message: notificationMessage,
-  };
+  console.log("Request sent successfully:", data);
+  const notifications = [
+    {
+      to: creatorId,
+      message: `User ${user.firstName} has requested to join your project.`,
+      is_read: false,
+      action_data: { projectId, sender: user.id, creatorId },
+    },
+    {
+      to: user.id,
+      message: `Your request to join ${project_name} has been sent.`,
+      is_read: false,
+      action_data: { projectId, sender: user.id, creatorId },
+    },
+  ];
 
-  // Insert the notification into the 'Notifications' table
-  const { data, error: insertError } = await supabase
-    .from("Notifications")
-    .insert(notification);
-
-  if (insertError) {
-    // Update the ui with the error toast
-    console.error("Error creating notification:", insertError);
+  sendNotification(notifications);
+  return true;
+};
+export const withdrawProjectRequest = async (projectId: string) => {
+  const user = await fetchUserData();
+  if (!user) {
+    console.error("User is not logged in");
     return;
   }
 
-  // Update the Ui with the success toast
-  console.log("Request sent successfully and notification created:", data);
+  // Delete the request from project_invitations
+  const { error } = await supabase
+    .from("Project_Invitations")
+    .delete()
+    .match({ project_id: projectId, sender_id: user.id, type: "request" });
+
+  if (error) {
+    console.error("Error withdrawing request:", error);
+    return false;
+  }
+
+  console.log("Request withdrawn successfully");
   return true;
 };
+
 
 // Callback function to handle real-time updates
 const handleNotificationUpdate = async (payload: any) => {
@@ -206,31 +270,18 @@ export const unsubscribeFromNotifications = async () => {
 };
 
 // Function to send notification to project owner (this is called within `requestToJoinProject`)
-export const sendNotification = async (
-  from: string,
-  to: string,
-  message: string
-) => {
-  const notification = {
-    from: from,
-    to: to,
-    status: "pending",
-    message: message,
-  };
+export const sendNotification = async (notifications: { to: string; message: string; action_data: any }[]) => {
+  const { data, error } = await supabase.from("Notifications").insert(notifications);
 
-  // Insert the notification into the 'notifications' table
-  const { data, error: insertError } = await supabase
-    .from("Notifications")
-    .insert(notification);
-
-  if (insertError) {
-    console.error("Error sending notification:", insertError);
-    return;
+  if (error) {
+    console.error("Error sending notifications:", error);
+    return false;
   }
 
-  console.log("Notification sent successfully:", data);
-  return data;
+  console.log("Notifications sent successfully:", data);
+  return true;
 };
+
 
 // Check if there's a username in the database
 export const checkUsername = async (newUsername: string) => {
@@ -252,3 +303,8 @@ export const checkUsername = async (newUsername: string) => {
     return { status: "error", message: "An unexpected error occurred." };
   }
 }
+
+// TO-DO
+// Fetch the creator of each project
+// Add action key to the notifiations and the needed data for the notifications
+// Notifications: is_read,action_type, action_data, type(new message, new request, new project),type(request, message, project)

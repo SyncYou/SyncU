@@ -84,3 +84,19 @@ export async function fetchUserRequestedProject() {
   }
 }
 
+export async function fetchUser(id: string) {
+  try {
+    const { data, error } = await supabase
+      .from("Users")
+      .select()
+      .eq("id", id)
+      .single();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}

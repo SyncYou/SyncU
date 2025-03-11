@@ -1,8 +1,10 @@
-import { forwardRef, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import logo from "/assets/Union.webp";
 import ProjectDetails from "./ProjectDetails";
 import Chip from "../Reuseables/Chip";
 import { formatTimestamp } from "../../utils/FormatDate";
+import { fetchUser } from "../../utils/queries/fetch";
+import { useQuery } from "@tanstack/react-query";
 
 type PropsType = {
   data: {
@@ -37,8 +39,15 @@ const ProjectCard = forwardRef<HTMLDivElement, PropsType>(
     setViewDetails((prev) => !prev);
   };
 
+  const {data: creator} = useQuery({
+    queryKey: ["project", data.id],
+    queryFn: () => fetchUser(data.created_by),
+    enabled: !!data.created_by,
+  })
+
+
   return (
-    <div ref={ref} key={data.username} className="h-[305px] md:w-full text-gray950">
+    <div ref={ref} key={data.created_by} className="h-[305px] md:w-full text-gray950">
       <div className="w-full h-[46px] relative">
         <img
           src={logo}
@@ -99,9 +108,11 @@ const ProjectCard = forwardRef<HTMLDivElement, PropsType>(
             <div className="h-[1px] w-full bg-gray200"></div>
             <div className="h-6 w-full">
               <div className="flex gap-2 items-center h-full">
-                <div className="h-6 w-6 bg-black rounded-full"></div>
+                <div className="h-6 w-6 bg-black rounded-full">
+                  <img className="w-full h-full object-cover rounded-full" src={creator?.photoUrl} alt={creator?.username} />
+                </div>
                 <span className="text-gray950 font-normal text-xs">
-                  @{data.username}
+                  @{creator?.username}
                 </span>
                 <span className="text-gray300">-</span>
                 <span className="text-gray700 font-normal text-xs">
