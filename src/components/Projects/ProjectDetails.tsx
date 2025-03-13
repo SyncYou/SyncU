@@ -32,7 +32,7 @@ const ProjectDetails = ({ state, id }: PropsType) => {
     withdrawRequest,
     data,
     isFetching,
-    isRequested
+    isRequested,
   } = useProjectRequest(id);
 
   const isParticipant = data?.participants?.includes(user.data.user?.id ?? "");
@@ -43,7 +43,6 @@ const ProjectDetails = ({ state, id }: PropsType) => {
     (req) => req.userId === user.data.user?.id
   );
   console.log(isParticipant, creator);
-
 
   return (
     <Overlay>
@@ -62,7 +61,11 @@ const ProjectDetails = ({ state, id }: PropsType) => {
           <span className="font-normal text-base text-white">Request sent</span>
         </div>
       )}
-      <ProjectDetailsMobile data={data} state={state} handleModal={handleModal} />
+      <ProjectDetailsMobile
+        data={data}
+        state={state}
+        handleModal={handleModal}
+      />
       <div className="md:w-[1060px] md:h-[758px] text-gray950 hidden md:flex flex-col gap-4 relative w-[358px] h-[458px] rounded-3xl bg-white">
         <div className="w-full h-[76px] flex justify-between border-gray200 border-b py-4 px-6">
           <div className="flex gap-2">
@@ -87,7 +90,6 @@ const ProjectDetails = ({ state, id }: PropsType) => {
               <PrimaryButton
                 onClick={() => handleRequest(data.id, data.created_by)}
                 classes="text-sm justify-between py-2 h-fit px-4 gap-2"
-
               >
                 Send request
                 <FiSend />
@@ -99,7 +101,7 @@ const ProjectDetails = ({ state, id }: PropsType) => {
 
             <div className="w-20 h-[32px] flex gap-4 my-auto">
               <button className="w-[32px] h-[32px] rounded-[80px] opacity-70 border-[0.4px] flex justify-center items-center border-gray200">
-                <FaArrowLeftLong  className="text-sm"/>
+                <FaArrowLeftLong className="text-sm" />
               </button>
               <button className="w-[32px] h-[32px] rounded-[80px] shadow border-[0.4px] flex justify-center items-center border-gray200">
                 <FaArrowRightLong className="text-sm" />
@@ -148,9 +150,13 @@ const ProjectDetails = ({ state, id }: PropsType) => {
             </div>
             <hr />
             <div className="w-full">
-              <p className="mb-3 text-gray950 font-medium text-sm">Description</p>
+              <p className="mb-3 text-gray950 font-medium text-sm">
+                Description
+              </p>
               <div className="text-[#374151] font-normal text-base font-inter">
-                <p className="font-normal text-base font-inter">{data.description}</p>
+                <p className="font-normal text-base font-inter">
+                  {data.description}
+                </p>
               </div>
             </div>
           </div>
@@ -217,7 +223,7 @@ const ProjectDetails = ({ state, id }: PropsType) => {
         </div>
       </div>
     </Overlay>
-  )
+  );
 };
 
 export default ProjectDetails;

@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 interface ButtonProps {
-  style: string;
+  style?: string;
   children: React.ReactNode;
   linkTo?: string;
   onClick?: () => void;

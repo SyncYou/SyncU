@@ -1,4 +1,10 @@
-import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { useUserStore } from "../store/UseUserStore";
 import { supabase } from "../supabase/client";
 import { User } from "@supabase/supabase-js";
@@ -30,7 +36,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   });
   const [loading, setLoading] = useState(true);
   const [redirected, setRedirected] = useState(false);
-  const [hasFetchedUser, setHasFetchedUser] = useState(false); 
+  const [hasFetchedUser, setHasFetchedUser] = useState(false);
   const { setUserDetails } = useUserStore();
 
   // Fetch user details and onboarding status
@@ -39,7 +45,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     try {
       // Get the authenticated user from Supabase
-      const { data: { user }, error } = await supabase.auth.getUser();
+      const {
+        data: { user },
+        error,
+      } = await supabase.auth.getUser();
 
       if (error || !user) {
         errorToast("Authentication failed", "Please login to continue");
@@ -54,18 +63,24 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         .single();
 
       if (profileError || !userProfile) {
-        errorToast("Unable to authorise", "Please complete your onboarding process");
+        errorToast(
+          "Unable to authorise",
+          "Please complete your onboarding process"
+        );
         throw new Error("User profile not found");
       }
 
       // Store user and onboarding status in localStorage
       localStorage.setItem("currentUser", JSON.stringify(userProfile));
-      localStorage.setItem("onboardingComplete", userProfile.onboardingComplete ? "true" : "false");
+      localStorage.setItem(
+        "onboardingComplete",
+        userProfile.onboardingComplete ? "true" : "false"
+      );
 
       setUser(user);
       setUserDetails("onboardingComplete", userProfile.onboardingComplete);
       // Mark user data as fetched
-      setHasFetchedUser(true); 
+      setHasFetchedUser(true);
     } catch (error) {
       console.error("Error fetching user data:", error);
       localStorage.removeItem("currentUser");
@@ -84,8 +99,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       fetchUserAndOnboardingStatus();
     }
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log('event', event);
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log("event", event);
       if (session?.user) {
         const user = session.user;
         localStorage.setItem("loggedInUser", JSON.stringify(user));
@@ -106,7 +123,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     if (loading || redirected) return;
 
-    const onboardingComplete = localStorage.getItem("onboardingComplete") === "true";
+    const onboardingComplete =
+      localStorage.getItem("onboardingComplete") === "true";
     const currentPath = window.location.pathname;
 
     if (!user) {
@@ -119,7 +137,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setRedirected(true);
         window.location.href = "/onboarding/tell-us-about-yourself";
       }
-    } else if (currentPath === "/auth/signup" || currentPath === "/auth/login") {
+    } else if (
+      currentPath === "/auth/signup" ||
+      currentPath === "/auth/login"
+    ) {
       setRedirected(true);
       window.location.href = "/";
     }

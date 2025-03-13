@@ -40,7 +40,8 @@ const ProjectTabs = () => {
           </>
         )}
         <SecondaryButton classes="min-w-[133px] w-fit h-8 py-1 px-3 text-sm md:text-base">
-          <PiSortAscending /> <span className="text-nowrap">Sort by: Latest</span>
+          <PiSortAscending />{" "}
+          <span className="text-nowrap">Sort by: Latest</span>
         </SecondaryButton>
       </div>
     </section>
