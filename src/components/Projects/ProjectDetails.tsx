@@ -34,17 +34,14 @@ const ProjectDetails = ({ state, id }: PropsType) => {
     withdrawRequest,
     data,
     isFetching,
-    // isRequested
+    isRequested
   } = useProjectRequest(id);
 
   const isParticipant = data?.participants?.includes(user.data.user?.id ?? "");
 
   const creator = data?.created_by === user.data.user?.id;
 
-  const checkIfRequested = data?.requests?.filter(
-    (req) => req.userId === user.data.user?.id
-  );
-
+  
   const { data: creatorData } = useQuery({
     queryKey: ["project", data?.id], 
     queryFn: () => fetchUser(data?.created_by ?? ""), 
@@ -84,9 +81,32 @@ const ProjectDetails = ({ state, id }: PropsType) => {
             </div>
           </div>
           <div className="flex gap-4">
-            {checkIfRequested?.length == 1 && !creator && !isParticipant && (
+            {
+              isRequested && !creator && (
+                <SecondaryButton
+                onClick={() => withdrawRequest(data!.id, data!.created_by)}
+                classes="h-11"
+              >
+                Withdraw Request
+              </SecondaryButton>  
+              )
+            }
+
+            {
+              !isRequested && !creator && (
+                <PrimaryButton
+                onClick={() => handleRequest(data!.id, data!.created_by, data!.title)}  
+                classes="text-sm justify-between py-2 h-fit px-4 gap-2"
+
+              >
+                Send request
+                <FiSend />
+              </PrimaryButton> 
+              )
+            }
+            {/* {checkIfRequested?.length == 1 && !creator && !isParticipant && (
               <SecondaryButton
-                onClick={() => withdrawRequest(data!.id)}
+                onClick={() => withdrawRequest(data!.id, data?.created_by)}
                 classes="h-11"
               >
                 Withdraw Request
@@ -101,7 +121,7 @@ const ProjectDetails = ({ state, id }: PropsType) => {
                 Send request
                 <FiSend />
               </PrimaryButton>
-            )}
+            )} */}
             {creator && (
               <SecondaryButton classes="h-11">Edit project</SecondaryButton>
             )}

@@ -1,7 +1,6 @@
 import { supabase } from "../supabase/client";
 import { getLoggedInUser } from "./AuthRequest";
 import { fetchUserData } from "./queries/fetch";
-import { Request } from "./types/Types";
 
 // Updating the user deatils(onboarding)
 export const sendUserDetails = async (userData: any) => {
@@ -15,6 +14,20 @@ export const sendUserDetails = async (userData: any) => {
   }
 
   console.log(data);
+
+// Check if onboarding is complete
+  if (userData.onboardingComplete) {
+    // Send notification after onboarding is complete
+    const notification = {
+      to: user!.id,
+      message: "Welcome to Syncu! Your onboarding is complete. 🎉",
+      is_read: false,
+      action_data: {},
+    };
+
+    await sendNotification([notification]);
+  }
+
   return { data, error };
 };
 
@@ -219,7 +232,7 @@ export const requestToJoinProject = async (projectId: string, creatorId: string,
   sendNotification(notifications);
   return true;
 };
-export const withdrawProjectRequest = async (projectId: string) => {
+export const withdrawProjectRequest = async (projectId: string, creatorId: string) => {
   const user = await fetchUserData();
   if (!user) {
     console.error("User is not logged in");
@@ -238,7 +251,33 @@ export const withdrawProjectRequest = async (projectId: string) => {
   }
 
   console.log("Request withdrawn successfully");
+  // Send notification after withdrawing the request
+  const notification = {
+    to: creatorId,
+    message: `${user.firstName} has withdrawn the request to join your project.`,
+    is_read: false,
+    action_data: { projectId, sender: user.id, creatorId },
+  };
+
+  await sendNotification([notification]);
   return true;
+};
+
+export const fetchProjectInvitations = async (projectId: string, userId: string) => {
+  const { data, error } = await supabase
+    .from("Project_Invitations")
+    .select("*")
+    .eq("project_id", projectId)
+    .eq("sender_id", userId)
+    .eq("type", "request");
+
+  if (error) {
+    console.error("Error fetching project invitations:", error);
+    return [];
+  }
+
+  console.log(data)
+  return data;
 };
 
 
@@ -308,3 +347,4 @@ export const checkUsername = async (newUsername: string) => {
 // Fetch the creator of each project
 // Add action key to the notifiations and the needed data for the notifications
 // Notifications: is_read,action_type, action_data, type(new message, new request, new project),type(request, message, project)
+// Work on the request tab later

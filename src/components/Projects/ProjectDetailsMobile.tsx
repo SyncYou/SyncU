@@ -29,9 +29,9 @@ const ProjectDetailsMobile = ({ data, state, handleModal }: PropsType) => {
   const { handleRequest, isRequested, withdrawRequest } = useProjectRequest(user.data.user?.id as string);
 
 
-  const checkIfRequested = data.requests?.filter(
-    (req) => req.userId === user.data.user?.id
-  );
+  // const checkIfRequested = data.requests?.filter(
+  //   (req) => req.userId === user.data.user?.id
+  // );
 
   const isParticipant = data?.participants?.includes(user.data.user?.id ?? "");
 
@@ -192,7 +192,7 @@ const ProjectDetailsMobile = ({ data, state, handleModal }: PropsType) => {
         }
       </div>
       <div className="fixed bottom-0 h-16 w-full border-t border-gray200 bg-white flex justify-between items-center px-4 py-[10px]">
-        {checkIfRequested.length == 1 && !creator && !isParticipant && (
+        {/* {checkIfRequested.length == 1 && !creator && !isParticipant && (
           <SecondaryButton classes="h-11 min-w-[294px]">
             Withdraw Request
           </SecondaryButton>
@@ -205,7 +205,7 @@ const ProjectDetailsMobile = ({ data, state, handleModal }: PropsType) => {
             Send Request
             <FiSend />
           </PrimaryButton>
-        )}
+        )} */}
 
         {creator && (
           <SecondaryButton classes="h-11 min-w-[294px]">

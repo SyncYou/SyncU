@@ -1,11 +1,13 @@
 import { useState } from "react";
 import {
+  fetchProjectInvitations,
   requestToJoinProject,
   withdrawProjectRequest,
 } from "../utils/SupabaseRequest";
 import { ProjectType } from "../utils/types/Types";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../supabase/client";
+import { fetchUserData } from "../utils/queries/fetch";
 
 const useProjectRequest = (id: string) => {
   const [showNotifications, setShowNotifications] = useState<boolean>(false);
@@ -37,6 +39,15 @@ const useProjectRequest = (id: string) => {
     },
   });
 
+ const fetchInvitations = async (projectId: string, userId: string) => {
+  try {
+    const invitations = await fetchProjectInvitations(projectId, userId);
+  setIsRequested(invitations.length > 0);
+  } catch (error) {
+    
+  }
+ }
+
   const handleRequest = async (id: string, created_by: string, project_name: string) => {
     try {
       setSendingRequest(true);
@@ -63,10 +74,10 @@ const useProjectRequest = (id: string) => {
     }
   };
 
-  const withdrawRequest = async (id: string) => {
+  const withdrawRequest = async (id: string, creator: string) => {
     try {
       setSendingRequest(true);
-      const req = await withdrawProjectRequest(id);
+      const req = await withdrawProjectRequest(id, creator);
       if (req) {
         const showNotificationTimeout = setTimeout(() => {
           setShowNotifications(true);
@@ -94,7 +105,6 @@ const useProjectRequest = (id: string) => {
     handleRequest,
     sendingRequest,
     isRequested,
-    setIsRequested,
     withdrawRequest,
     data,
     isFetching,
