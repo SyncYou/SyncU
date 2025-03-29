@@ -42,8 +42,8 @@ const Activity = () => {
                   <div className="w-4 h-4 rounded-full bg-brand600 absolute right-1 top-1/2 -translate-y-1/2 border border-white"></div>
                 </div>
               </div>
-          {alerts?.slice().reverse().map((alert) => (
-            <>
+          {alerts?.slice().reverse().map((alert,idx) => (
+            <div key={idx}>
               <div className="p-2 hover:bg-gray100 flex items-center gap-4 relative">
                 <div className="w-10 h-10 bg-gray950 block rounded-full"></div>
                 <div className="font-normal text-gray700 text-sm">
@@ -62,7 +62,7 @@ const Activity = () => {
                 </div>
               </div>
               <hr />
-            </>
+            </div>
           ))}
         </div>
         <p className="pt-4 text-center text-[#73737F] text-sm">That's all for now</p>
