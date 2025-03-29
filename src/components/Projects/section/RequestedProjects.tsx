@@ -1,6 +1,6 @@
 import empty from "/assets/Empty.svg";
 import ProjectCard from "../ProjectCard";
-import { fetchUserRequestedProject, user } from "../../../utils/queries/fetch";
+import { fetchUserRequestedProject } from "../../../utils/queries/fetch";
 import { useQuery } from "@tanstack/react-query";
 
 

@@ -5,8 +5,8 @@ import slack from "/assets/slack.svg";
 import x from "/assets/X.svg";
 import { PiTagChevron } from "react-icons/pi";
 import SecondaryButton from "../Reuseables/SecondaryButton";
-import PrimaryButton from "../Reuseables/PrimaryButton";
-import { FiSend } from "react-icons/fi";
+// import PrimaryButton from "../Reuseables/PrimaryButton";
+// import { FiSend } from "react-icons/fi";
 import { FaRegCalendarMinus } from "react-icons/fa";
 import { BsShare } from "react-icons/bs";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
@@ -26,14 +26,14 @@ const ProjectDetailsMobile = ({ data, state, handleModal }: PropsType) => {
   const [currentView, setCurrentView] = useState<string>("About");
   const creator = data.created_by === user.data.user?.id;
 
-  const { handleRequest, isRequested, withdrawRequest } = useProjectRequest(user.data.user?.id as string);
+  const {  isRequested } = useProjectRequest(user.data.user?.id as string);
 
 
   // const checkIfRequested = data.requests?.filter(
   //   (req) => req.userId === user.data.user?.id
   // );
 
-  const isParticipant = data?.participants?.includes(user.data.user?.id ?? "");
+  // const isParticipant = data?.participants?.includes(user.data.user?.id ?? "");
 
   const { data: creatorData } = useQuery({
     queryKey: ["project", data?.id], // Use optional chaining to avoid errors

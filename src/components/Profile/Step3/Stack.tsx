@@ -19,7 +19,7 @@ export function Stack({
   setIsModalOpen,
 }: StackProps) {
   const clicked = id === checked;
-  const { userDetails, setUserDetails } = useUserStore();
+  const { setUserDetails } = useUserStore();
 
   function handleToggle() {
     // Toggle the checked state
