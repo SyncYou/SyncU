@@ -1,10 +1,10 @@
 import { supabase } from "../../supabase/client";
 import { Links, BiodataFormData } from "../types/Types";
 
-const user = await supabase.auth.getUser();
 
 // Update the username
 export const updateUsername = async (username: string) => {
+  const user = await supabase.auth.getUser();
   try {
     const { data, error } = await supabase
       .from("Users")
@@ -19,6 +19,7 @@ export const updateUsername = async (username: string) => {
 
 // Update the stack
 export const updateStacks = async (stacks: string[]) => {
+  const user = await supabase.auth.getUser();
   try {
     await supabase
       .from("Users")
@@ -31,6 +32,7 @@ export const updateStacks = async (stacks: string[]) => {
 
 // Update the portfolio links
 export const updateLinks = async (links: Links[]) => {
+  const user = await supabase.auth.getUser();
   try {
     await supabase.from("Users").update({ links }).eq("id", user.data.user?.id);
   } catch (error) {
@@ -44,6 +46,7 @@ export const updateBiodata = async ({
   lastName,
   aboutMe,
 }: BiodataFormData) => {
+  const user = await supabase.auth.getUser();
   try {
     await supabase
       .from("Users")
