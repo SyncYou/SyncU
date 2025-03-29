@@ -4,10 +4,10 @@ import { useUserStore } from "../../../store/UseUserStore";
 // Define the type for the props
 interface SkillProps {
   skill: string;
-  setIsSearching: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsSearching?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export function Skill({ skill, setIsSearching }: SkillProps) {
+export function Skill({ skill }: SkillProps) {
   const { userDetails, toggleSkill } = useUserStore();
 
   return (

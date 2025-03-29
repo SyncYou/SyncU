@@ -1,6 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
-import ProjectCard from "../Projects/ProjectCard";
-import { fetchProjects } from "../../utils/queries/fetch";
+// import { useQuery } from "@tanstack/react-query";
+// import ProjectCard from "../Projects/ProjectCard";
+// import { fetchProjects } from "../../utils/queries/fetch";
 
 const PeoplesContainer = () => {
   // const { data: projects } = useQuery({
