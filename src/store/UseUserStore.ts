@@ -9,31 +9,34 @@ export interface UserDetails {
   photoUrl: string;
   areaOfExpertise: string;
   stacks: string[];
-  onboardingComplete: string;
+  onboardingComplete: boolean;
 }
 
 interface UserStore {
   userDetails: UserDetails;
   currentStep: number;
-  setUserDetails: (key: keyof UserDetails, value: string | boolean) => void;
+  setUserDetails: (key: keyof UserDetails, value: string | boolean) => void; 
   setCurrentStep: (step: number) => void;
   removeSkill: (skill: string) => void;
   toggleSkill: (skill: string) => void;
   isStackValid: () => boolean;
+  clearUserDetails: () => void;
 }
 
+const initialUserState: UserDetails = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  username: "",
+  countryOfResidence: "Nigeria",
+  photoUrl: "",
+  areaOfExpertise: "",
+  stacks: ["N/A", "N/A", "N/A"],
+  onboardingComplete: false
+};
+
 export const useUserStore = create<UserStore>((set, get) => ({
-  userDetails: {
-    firstName: "",
-    lastName: "",
-    email: "",
-    username: "",
-    countryOfResidence: "Nigeria",
-    photoUrl: "",
-    areaOfExpertise: "",
-    stacks: ["N/A", "N/A", "N/A"],
-    onboardingComplete: 'false'
-  },
+  userDetails: initialUserState,
   currentStep: 1,
   setUserDetails: (key, value) =>
     set((state) => ({
@@ -70,13 +73,16 @@ export const useUserStore = create<UserStore>((set, get) => ({
       }
 
       let updatedStack = [...stacks, skill];
-
       updatedStack = updatedStack.filter((item) => item !== "N/A");
-
       return {
         userDetails: { ...state.userDetails, stacks: updatedStack },
       };
     }),
 
   isStackValid: () => get().userDetails.stacks.includes("N/A"),
+  
+  clearUserDetails: () => set({ 
+    userDetails: initialUserState,
+    currentStep: 1 
+  }),
 }));

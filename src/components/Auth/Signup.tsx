@@ -94,7 +94,6 @@ const Signup: React.FC = () => {
           </div>
         </div>
       </section>
-      {/* Loading UI */}
       {isSubmitting && <Loading />}
     </>
   );

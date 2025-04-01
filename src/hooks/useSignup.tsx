@@ -40,7 +40,6 @@ export const useSignup = () => {
 
     try {
       setUserDetails("email", email);
-      localStorage.setItem("userEmail", email);
 
       const { data: response, error } = await signupWithOTP(email);
 

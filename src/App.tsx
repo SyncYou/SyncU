@@ -5,9 +5,9 @@ import RootLayout from "./Layout/RootLayout.js";
 import ProfileLayout from "./Layout/ProfileLayout.tsx";
 import Layout from "./pages/HomeLayout";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import ProjectContainer from "./components/Home/ProjectContainer.tsx";
 import SkeletonLoader from "./lib/SkeletonLoader.tsx";
 import AuthSkeleton from "./lib/AuthSkeleton.tsx";
+import { AuthProvider } from "./providers/AuthProvider.tsx";
 
 const OnboardingLayout = lazy(() => import("./Layout/OnboardingLayout.tsx"));
 const TellUsAboutYourself = lazy(
@@ -30,6 +30,7 @@ const Username = lazy(() => import("./components/Profile/Username.tsx"));
 const SetUpYourProfile = lazy(
   () => import("./components/Profile/Set-up-your-profile.tsx")
 );
+const ProjectContainer = lazy(() => import("./components/Home/ProjectContainer.tsx"));
 const Activity = lazy(() => import("./pages/Activity/Activity.tsx"));
 const Projects = lazy(() => import("./pages/Project/Projects.tsx"));
 const Profile = lazy(() => import("./pages/Profile/Profile.tsx"));
@@ -39,11 +40,17 @@ const client = new QueryClient();
 const router = createBrowserRouter([
   {
     path: "/onboarding",
-    element: <RootLayout />,
+    element:
+    <AuthProvider>
+     <RootLayout />
+     </AuthProvider>,
     children: [
       {
         path: "",
-        element: <ProfileLayout />,
+        element:
+        <AuthProvider>
+          <ProfileLayout />
+        </AuthProvider>,
         children: [
           {
             path: "tell-us-about-yourself",
@@ -75,7 +82,10 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <Layout />,
+    element: 
+    <AuthProvider>
+    <Layout />
+    </AuthProvider>,
     children: [
       {
         path: "",

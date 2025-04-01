@@ -3,7 +3,6 @@ import { useNavigate } from "react-router";
 import { useUserStore } from "../store/UseUserStore";
 import { signupWithOTP, verifyEmail } from "../utils/AuthRequest";
 import { errorToast, successToast } from "oasis-toast";
-// import { fetchUserData } from "../utils/queries/fetch";
 
 const useVerifyEmail = () => {
   const navigate = useNavigate();
@@ -11,18 +10,16 @@ const useVerifyEmail = () => {
   const [isLoading, setIsLoading] = useState(false);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [otp, setOtp] = useState(new Array(6).fill(""));
-  const [email, setEmail] = useState<string>("");
+
+  // Get email directly from userDetails
+  const email = userDetails.email;
 
   useEffect(() => {
-    // Set the email from userDetails
-    const storedEmail = localStorage.getItem("userEmail");
-    setEmail(userDetails?.email ?? storedEmail ?? "vergil@gmail.com");
-
-    // Protected routes, redirets if there's no email
-    if (!userDetails?.email && !storedEmail) {
+    // Protected route - redirect if no email
+    if (!email) {
       navigate("/auth/signup");
     }
-  }, [userDetails, navigate]);
+  }, [email, navigate]);
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>, idx: number) => {
@@ -35,7 +32,6 @@ const useVerifyEmail = () => {
         return updatedOtp;
       });
 
-      // Only focus the next input if inputRefs.current is not null and the next input exists
       if (value && inputRefs.current && inputRefs.current[idx + 1]) {
         inputRefs.current[idx + 1]?.focus();
       }
@@ -53,7 +49,6 @@ const useVerifyEmail = () => {
             return newOtp;
           });
 
-          // Only focus the previous input if inputRefs.current is not null
           if (inputRefs.current && inputRefs.current[idx - 1]) {
             inputRefs.current[idx - 1]?.focus();
           }
@@ -69,19 +64,17 @@ const useVerifyEmail = () => {
 
     const { session, error } = await verifyEmail(email, otpString);
     if (error) {
-    errorToast("An error occurred", "Please try again.");
-    return
+      errorToast("An error occurred", "Please try again.");
+      setIsLoading(false);
+      return;
     }
 
     if (session) {
       successToast("Authentication Successful", "Welcome to Syncu");
-      // const data =  await fetchUserData()
-      // console.log(data)
-      navigate('/')
+      navigate('/');
     }
 
     setIsLoading(false);
-    console.log(session, error);
   };
 
   const handleResendEmail = async () => {

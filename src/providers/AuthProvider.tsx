@@ -1,77 +1,80 @@
-import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
-import { useUserStore } from "../store/UseUserStore";
+import React, { useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "../supabase/client";
 import { User } from "@supabase/supabase-js";
 import { errorToast } from "oasis-toast";
-
-interface AuthContextType {
-  user: User | null;
-  loading: boolean;
-}
+import { useAuthStore } from "../store/useAuthStore";
+import { useUserStore } from "../store/UseUserStore";
+import { UserDetails } from "../store/UseUserStore";
 
 interface AuthProviderProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
-const AuthContext = createContext<AuthContextType | null>(null);
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
-};
-
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(() => {
-    const storedUser = localStorage.getItem("loggedInUser");
-    return storedUser ? JSON.parse(storedUser) : null;
-  });
-  const [loading, setLoading] = useState(true);
-  const [redirected, setRedirected] = useState(false);
-  const [hasFetchedUser, setHasFetchedUser] = useState(false); 
-  const { setUserDetails } = useUserStore();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { user, loading, setUser, setLoading, clearAuth } = useAuthStore();
+  const { userDetails, setUserDetails, clearUserDetails } = useUserStore();
 
-  // Fetch user details and onboarding status
-  const fetchUserAndOnboardingStatus = async () => {
-    setLoading(true);
-
+  // Fetch user profile from Supabase and sync with stores
+  const fetchUserProfile = async (user: User): Promise<UserDetails | null> => {
     try {
-      // Get the authenticated user from Supabase
-      const { data: { user }, error } = await supabase.auth.getUser();
-
-      if (error || !user) {
-        errorToast("Authentication failed", "Please login to continue");
-        throw new Error("User not found");
-      }
-
-      // Fetch onboarding status from the Users table
-      const { data: userProfile, error: profileError } = await supabase
+      const { data: userProfile, error } = await supabase
         .from("Users")
         .select("*")
         .eq("id", user.id)
         .single();
 
-      if (profileError || !userProfile) {
-        errorToast("Unable to authorise", "Please complete your onboarding process");
+      if (error || !userProfile) {
         throw new Error("User profile not found");
       }
 
-      // Store user and onboarding status in localStorage
-      localStorage.setItem("currentUser", JSON.stringify(userProfile));
-      localStorage.setItem("onboardingComplete", userProfile.onboardingComplete ? "true" : "false");
+      // Map Supabase user profile to your UserDetails type
+      const mappedDetails: UserDetails = {
+        firstName: userProfile.first_name || "",
+        lastName: userProfile.last_name || "",
+        email: userProfile.email || user.email || "",
+        username: userProfile.username || "",
+        countryOfResidence: userProfile.country_of_residence || "Nigeria",
+        photoUrl: userProfile.photo_url || "",
+        areaOfExpertise: userProfile.area_of_expertise || "",
+        stacks: userProfile.stacks || ["N/A", "N/A", "N/A"],
+        onboardingComplete: userProfile.onboardingComplete || false
+      };
+
+      // Set all user details at once to minimize renders
+      setUserDetails("onboardingComplete", mappedDetails.onboardingComplete);
+      // Set other user details if needed
+      Object.entries(mappedDetails).forEach(([key, value]) => {
+        if (key !== "onboardingComplete") {
+          setUserDetails(key as keyof UserDetails, value);
+        }
+      });
+
+      return mappedDetails;
+    } catch (error) {
+      console.error("Error fetching user profile:", error);
+      errorToast("Authorization Error", "Could not fetch user profile");
+      return null;
+    }
+  };
+
+  // Initialize auth state
+  const initializeAuth = async () => {
+    setLoading(true);
+    try {
+      const { data: { user }, error } = await supabase.auth.getUser();
+
+      if (error || !user) {
+        throw new Error("Not authenticated");
+      }
 
       setUser(user);
-      setUserDetails("onboardingComplete", userProfile.onboardingComplete);
-      // Mark user data as fetched
-      setHasFetchedUser(true); 
+      await fetchUserProfile(user);
     } catch (error) {
-      console.error("Error fetching user data:", error);
-      localStorage.removeItem("currentUser");
-      localStorage.removeItem("onboardingComplete");
-      setUser(null);
-      setUserDetails("onboardingComplete", false);
+      clearAuth();
+      clearUserDetails();
     } finally {
       setLoading(false);
     }
@@ -79,55 +82,44 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Handle auth state changes
   useEffect(() => {
-    // Only fetch user data if it hasn't been fetched yet
-    if (!user && !hasFetchedUser) {
-      fetchUserAndOnboardingStatus();
-    }
+    initializeAuth();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log('event', event);
-      if (session?.user) {
-        const user = session.user;
-        localStorage.setItem("loggedInUser", JSON.stringify(user));
-        setUser(user);
-        await fetchUserAndOnboardingStatus();
-      } else {
-        localStorage.removeItem("loggedInUser");
-        localStorage.removeItem("onboardingComplete");
-        setUser(null);
-        setUserDetails("onboardingComplete", false);
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        console.log(`Auth event: ${event}`, session);
+        if (session?.user) {
+          setUser(session.user);
+          await fetchUserProfile(session.user);
+        } else {
+          clearAuth();
+          clearUserDetails();
+        }
       }
-    });
+    );
 
     return () => subscription.unsubscribe();
-  }, [setUserDetails, hasFetchedUser]);
+  }, []);
 
-  // Redirect user based on auth state and onboarding status
+  // Handle routing based on auth state
   useEffect(() => {
-    if (loading || redirected) return;
+    if (loading) return;
 
-    const onboardingComplete = localStorage.getItem("onboardingComplete") === "true";
-    const currentPath = window.location.pathname;
+    const currentPath = location.pathname;
+    const isAuthRoute = currentPath.startsWith("/auth");
+    const isOnboardingRoute = currentPath.startsWith("/onboarding");
 
     if (!user) {
-      if (currentPath !== "/auth/signup") {
-        setRedirected(true);
-        window.location.href = "/auth/signup";
+      if (!isAuthRoute) {
+        navigate("/auth/signup", { replace: true });
       }
-    } else if (!onboardingComplete) {
-      if (currentPath !== "/onboarding/tell-us-about-yourself") {
-        setRedirected(true);
-        window.location.href = "/onboarding/tell-us-about-yourself";
+    } else if (userDetails.onboardingComplete === false) {
+      if (!isOnboardingRoute) {
+        navigate("/onboarding/tell-us-about-yourself", { replace: true });
       }
-    } else if (currentPath === "/auth/signup" || currentPath === "/auth/login") {
-      setRedirected(true);
-      window.location.href = "/";
+    } else if (userDetails.onboardingComplete === true && isAuthRoute) {
+      navigate("/", { replace: true });
     }
-  }, [user, loading, redirected]);
+  }, [user, loading, userDetails.onboardingComplete, navigate, location]);
 
-  return (
-    <AuthContext.Provider value={{ user, loading }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <>{children}</>;
 };
