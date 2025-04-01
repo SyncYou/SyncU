@@ -103,7 +103,6 @@ const SideBar = () => {
               after:w-1/4 after:h-[2px] after:bg-black after:opacity-[var(--active)] after:transition-opacity"
             style={({ isActive }) => ({
               backgroundColor: isActive ? "white" : "",
-              // Set the CSS variable to toggle the pseudo-element border's visibility
               "--active": isActive ? 1 : 0,
             })}
           >
@@ -115,7 +114,6 @@ const SideBar = () => {
           after:w-1/4 after:h-[2px] after:bg-black after:opacity-[var(--active)] after:transition-opacity"
           style={({ isActive }) => ({
             backgroundColor: isActive ? "white" : "",
-            // Set the CSS variable to toggle the pseudo-element border's visibility
             "--active": isActive ? 1 : 0,
           })}
           to="/project">
@@ -133,7 +131,6 @@ const SideBar = () => {
           after:w-1/4 after:h-[2px] after:bg-black after:opacity-[var(--active)] after:transition-opacity"
           style={({ isActive }) => ({
             backgroundColor: isActive ? "white" : "",
-            // Set the CSS variable to toggle the pseudo-element border's visibility
             "--active": isActive ? 1 : 0,
           })}
           to="/alert">
@@ -145,7 +142,6 @@ const SideBar = () => {
           after:w-1/4 after:h-[2px] after:bg-black after:opacity-[var(--active)] after:transition-opacity"
           style={({ isActive }) => ({
             backgroundColor: isActive ? "white" : "",
-            // Set the CSS variable to toggle the pseudo-element border's visibility
             "--active": isActive ? 1 : 0,
           })}
           to="/profile">

@@ -1,72 +1,63 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { NotificationType, UserData } from "../utils/types/Types";
 import { supabase } from "../supabase/client";
-import { user } from "../utils/queries/fetch";
-// import { Project } from "../types/project";
 import { errorToast } from "oasis-toast";
+import { getLoggedInUser } from "../utils/AuthRequest";
 
-// Fetch User Data
-const useFetchQueries = (): {
+interface UseFetchQueriesResult {
   userData: UseQueryResult<UserData | undefined, Error>;
   notifications: UseQueryResult<NotificationType[] | undefined, Error>;
-  // projects: UseQueryResult<Project[] | undefined, Error>;
-} => {
-  const userData = useQuery({
-    queryKey: ["users", user.data.user?.id],
+}
+
+const useFetchQueries = (): UseFetchQueriesResult => {
+  const user = getLoggedInUser(); // This remains a Promise
+
+  const userData = useQuery<UserData | undefined, Error>({
+    queryKey: ["users"],
     queryFn: async (): Promise<UserData | undefined> => {
-      if (!user.data.user?.id) {
+      const currentUser = await getLoggedInUser();
+      if (!currentUser?.id) {
         throw new Error("User ID is missing.");
       }
 
-      const { data, error: supabaseError } = await supabase
+      const { data, error } = await supabase
         .from("Users")
         .select()
-        .eq("id", user.data.user?.id)
+        .eq("id", currentUser.id)
         .single();
 
-      if (supabaseError) {
+      if (error) {
         errorToast("An error occurred", "Please try again.");
-        throw new Error(supabaseError.message);
+        throw new Error(error.message);
       }
 
-      if (!data) {
-        // Handle the case where no user data was found
-        errorToast("No user found", "Please check your user ID.");
-        throw new Error("No user found.");
-      }
-
-      return data;
+      return data ?? undefined;
     },
-    enabled: user.data.user?.id !== undefined,
+    enabled: !!user,
   });
 
-  const notifications = useQuery({
-    queryKey: ["notifications", user.data.user?.id],
+  const notifications = useQuery<NotificationType[] | undefined, Error>({
+    queryKey: ["notifications"],
     queryFn: async (): Promise<NotificationType[] | undefined> => {
-      if (!user.data.user?.id) return []; 
+      const currentUser = await getLoggedInUser();
+      if (!currentUser?.id) return [];
 
-      const { data, error: supabaseError } = await supabase
+      const { data, error } = await supabase
         .from("Notifications")
         .select()
-        .eq("to", user.data.user?.id);
+        .eq("to", currentUser.id);
 
-      if (supabaseError) {
+      if (error) {
         errorToast("An error occurred", "Please try again.");
-        throw new Error(supabaseError.message);
+        throw new Error(error.message);
       }
 
-      return data;
+      return data ?? [];
     },
-    enabled: user.data.user?.id !== undefined,
+    enabled: !!user,
   });
 
-  // const projects = useQuery({
-  //   queryKey: ["projects", user.data.user?.id],
-  //   queryFn: fetchProjects, 
-  //   enabled: user.data.user?.id !== undefined, 
-  // });
-
-  return { userData, notifications,  };
+  return { userData, notifications };
 };
 
 export default useFetchQueries;

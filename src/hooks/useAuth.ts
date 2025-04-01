@@ -1,4 +1,3 @@
-// hooks/useAuth.ts
 import { useAuthStore } from '../store/useAuthStore';
 import { useUserStore } from '../store/UseUserStore';
 

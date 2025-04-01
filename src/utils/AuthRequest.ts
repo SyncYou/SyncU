@@ -23,7 +23,6 @@ export const verifyEmail = async (email: string, token: string) => {
 };
 
 // Sign up with github
-// Sign up with github
 export const signInWithGithub = async () => {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "github",
@@ -34,7 +33,6 @@ export const signInWithGithub = async () => {
   return { data, error };
 };
 
-// Signup with google
 // Signup with google
 export const signInWithGoogle = async () => {
   const { data, error } = await supabase.auth.signInWithOAuth({
@@ -51,6 +49,7 @@ export const getLoggedInUser = async () => {
   const {
     data: { user: loggedInUser },
   } = await supabase.auth.getUser();
+  console.log("LoggedInUser", loggedInUser);
   return loggedInUser;
 };
 

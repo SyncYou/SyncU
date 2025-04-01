@@ -1,14 +1,16 @@
 import { useMutation } from "@tanstack/react-query";
 import { supabase } from "../supabase/client";
 import { PostProjectFormType, WorkSpaceType } from "../utils/types/Types";
-import { user } from "../utils/queries/fetch";
+// import { user } from "../utils/queries/fetch";
 import { useForm } from "react-hook-form";
 import { errorToast, successToast } from "oasis-toast";
 import useDisplayPostProjectForm from "../context/useDisplayPostProjectForm";
 import { validateUrl } from "../utils/ValidateUrl";
 import { useUserData } from "../context/useUserData";
+import { getLoggedInUser } from "../utils/AuthRequest";
 
-const usePostProject = () => {
+const usePostProject = async () => {
+  const user = await getLoggedInUser()
   const { setShow } = useDisplayPostProjectForm();
   const { user: userData } = useUserData();
   const { register, handleSubmit, reset, watch, formState: { errors } } = useForm<PostProjectFormType>({
@@ -78,7 +80,7 @@ const usePostProject = () => {
       console.log("Invalid workspace URL");
       return false;
     } else {
-      data.created_by = user.data.user?.id;
+      data.created_by = user?.id;
       data.workspace.name = otherData.workspace;
       data.required_roles = otherData.roles;
       data.required_stacks = otherData.stacks;

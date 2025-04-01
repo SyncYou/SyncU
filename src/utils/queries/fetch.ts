@@ -1,44 +1,54 @@
 import { supabase } from "../../supabase/client";
 import { Project } from "../../types/project";
+import { getLoggedInUser } from "../AuthRequest";
 import { ProjectType } from "../types/Types";
 
-export const user = await supabase.auth.getUser();
+// Helper function to get current user ID
+async function getCurrentUserId(): Promise<string | null> {
+  const user = await getLoggedInUser();
+  return user?.id ?? null;
+}
 
 // Fetch user details
-export async function fetchUserData() {
+export async function fetchUserData(){
   try {
+    const userId = await getCurrentUserId();
+    if (!userId) return undefined;
+
     const { data, error } = await supabase
       .from("Users")
       .select()
-      .eq("id", user.data.user?.id)
+      .eq("id", userId)
       .single();
 
-    if (error) {
-      throw new Error(error.message);
-    }
-    return data;
+    if (error) throw new Error(error.message);
+    return data ?? undefined;
   } catch (error) {
-    console.error(error);
+    console.error("Error fetching user data:", error);
+    return undefined;
   }
 }
 
-export const fetchProjects = async ({ pageParam = 0 }): Promise<{ data: Project[]; nextPage: number | null }> => {
+export const fetchProjects = async ({ 
+  pageParam = 0 
+}: { 
+  pageParam: number 
+}): Promise<{ data: Project[]; nextPage: number | null }> => {
   const PAGE_SIZE = 10; 
 
   try {
-    const { data, error } = await supabase
+    const { data, error, count } = await supabase
       .from("Projects")
-      .select("*")
+      .select("*", { count: "exact" })
       .order("created_at", { ascending: false }) 
       .range(pageParam * PAGE_SIZE, (pageParam + 1) * PAGE_SIZE - 1); 
 
-    if (error) {
-      throw new Error(error.message);
-    }
+    if (error) throw new Error(error.message);
 
+    const hasMore = (count || 0) > (pageParam + 1) * PAGE_SIZE;
     return { 
       data: data || [], 
-      nextPage: data.length === PAGE_SIZE ? pageParam + 1 : null 
+      nextPage: hasMore ? pageParam + 1 : null 
     };
   } catch (error) {
     console.error("Error fetching projects:", error);
@@ -46,41 +56,48 @@ export const fetchProjects = async ({ pageParam = 0 }): Promise<{ data: Project[
   }
 };
 
-
-export async function fetchCreatedProjects(): Promise<
-  ProjectType[] | undefined
-> {
+export async function fetchCreatedProjects(): Promise<ProjectType[] | undefined> {
   try {
+    const userId = await getCurrentUserId();
+    if (!userId) return undefined;
+
     const { data, error } = await supabase
       .from("Projects")
       .select()
-      .eq("created_by", user.data.user?.id);
+      .eq("created_by", userId);
 
-    if (error) {
-      throw new Error(error.message);
-    }
-    return data;
+    if (error) throw new Error(error.message);
+    return data ?? undefined;
   } catch (error) {
-    console.error(error);
+    console.error("Error fetching created projects:", error);
+    return undefined;
   }
 }
 
-// Fetch projects the user requested to join
-export async function fetchUserRequestedProject() {
+export async function fetchUserRequestedProject(): Promise<ProjectType[] | undefined> {
   try {
-    const { data, error } = await supabase.from("Projects").select();
+    const userId = await getCurrentUserId();
+    if (!userId) return undefined;
 
-    if (error) {
-      throw new Error(error.message);
-    }
+    const { data: requestsData, error: requestsError } = await supabase
+      .from("Requests")
+      .select("project_id")
+      .eq("user_id", userId);
 
-    // const filteredProjects = data?.filter((project) =>
-    //   project.requests?.filter((req) => (req.id = ""))
-    // );
+    if (requestsError) throw new Error(requestsError.message);
+    if (!requestsData?.length) return [];
 
-    return data;
+    const projectIds = requestsData.map(req => req.project_id);
+    const { data: projectsData, error: projectsError } = await supabase
+      .from("Projects")
+      .select()
+      .in("id", projectIds);
+
+    if (projectsError) throw new Error(projectsError.message);
+    return projectsData ?? undefined;
   } catch (error) {
-    console.error(error);
+    console.error("Error fetching requested projects:", error);
+    return undefined;
   }
 }
 
@@ -92,11 +109,10 @@ export async function fetchUser(id: string) {
       .eq("id", id)
       .single();
 
-    if (error) {
-      throw new Error(error.message);
-    }
-    return data;
+    if (error) throw new Error(error.message);
+    return data ?? undefined;
   } catch (error) {
-    console.error(error);
+    console.error(`Error fetching user ${id}:`, error);
+    return undefined;
   }
 }
