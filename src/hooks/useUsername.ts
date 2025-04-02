@@ -2,63 +2,89 @@ import { useState, useEffect } from "react";
 import { useUserStore } from "../store/UseUserStore";
 import { checkUsername, sendUserDetails } from "../utils/SupabaseRequest";
 import { useQuery } from "@tanstack/react-query";
-import { errorToast } from "oasis-toast";
+import { errorToast, successToast } from "oasis-toast";
+// import { useNavigate } from "react-router-dom";
 
 export const useUsername = () => {
+  // const navigate = useNavigate();
   const [disable, setDisable] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { userDetails, setUserDetails } = useUserStore();
   const [usernameToCheck, setUsernameToCheck] = useState("");
 
-  const { data: usernameCheckResult, isLoading: isCheckingUsername } = useQuery({
-    queryKey: ["username", usernameToCheck], 
-    queryFn: async () => {
-      if (usernameToCheck.trim() === "") return null;
-      return await checkUsername(usernameToCheck);
-    },
-    enabled: !!usernameToCheck, 
+  const safeUserDetails = userDetails || {
+    firstName: '',
+    lastName: '',
+    countryOfResidence: '',
+    email: '',
+    username: '',
+    // ... other fields with empty defaults
+  };
+
+  // Username availability check
+  const { 
+    data: usernameCheckResult, 
+    isLoading: isCheckingUsername,
+    error: usernameCheckError 
+  } = useQuery({
+    queryKey: ["username-availability", usernameToCheck],
+    queryFn: () => checkUsername(usernameToCheck),
+    enabled: usernameToCheck.length > 0,
+    retry: false,
+    staleTime: 1000 * 60 * 5 // 5 minutes
   });
 
-  // Handle input change
-  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setUserDetails(name as keyof typeof userDetails, value);
+  // Form validation
+  const isValid = (
+    safeUserDetails.firstName.trim() !== "" &&
+    safeUserDetails.lastName.trim() !== "" &&
+    safeUserDetails.countryOfResidence.trim() !== "" &&
+    safeUserDetails.email.trim() !== "" &&
+    safeUserDetails.username.trim() !== "" &&
+    usernameCheckResult?.status !== "unavailable" &&
+    !isCheckingUsername
+  );
 
-    // Update the username to check
+  // Update disable state
+  useEffect(() => {
+    setDisable(!isValid || isSubmitting);
+  }, [isValid, isSubmitting]);
+
+  // Handle input changes
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setUserDetails({ [name]: value });
+
     if (name === "username") {
-      setUsernameToCheck(value);
+      setUsernameToCheck(value.toLowerCase().trim());
     }
   };
 
-  // Validation for the form
-  const isValid =
-    userDetails.firstName.trim() !== "" &&
-    userDetails.lastName.trim() !== "" &&
-    userDetails.countryOfResidence.trim() !== "" &&
-    userDetails.firstName !== "N/A" &&
-    userDetails.lastName !== "N/A" &&
-    userDetails.email !== "" &&
-    userDetails.countryOfResidence !== "N/A" &&
-    userDetails.username.trim() !== "" 
-
-  useEffect(() => {
-    localStorage.setItem("userDetails", JSON.stringify(userDetails));
-    setDisable(!isValid);
-  }, [userDetails, isValid]);
-
-  // Handle form submission and send user details
+  // Handle form submission
   const handleRequest = async () => {
-    if (isValid) {
-      try {
-        const { error } = await sendUserDetails(userDetails);
-        if(error) {
-          errorToast('An error occurred', 'Please try again.');
-        }
-        console.log(error)
-     return error
-      } catch (error) {
-        errorToast('An error occurred', 'Please try again.');
-        console.error("Error sending data to Supabase:", error);
+    if (!isValid || isSubmitting) return;
+    
+    setIsSubmitting(true);
+    try {
+      const { error } = await sendUserDetails({
+        ...userDetails,
+        username: usernameToCheck // Ensure we use the checked username
+      });
+
+      if (error) {
+        throw error;
       }
+
+      successToast("Success", "Profile updated successfully!");
+      // navigate("/onboarding/next-step"); // Update with your actual next route
+    } catch (error) {
+      errorToast(
+        "Update Failed", 
+        error instanceof Error ? error.message : "Please try again later"
+      );
+      console.error("Submission error:", error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -70,5 +96,7 @@ export const useUsername = () => {
     handleRequest,
     isCheckingUsername,
     usernameCheckResult,
+    usernameCheckError,
+    isSubmitting
   };
 };

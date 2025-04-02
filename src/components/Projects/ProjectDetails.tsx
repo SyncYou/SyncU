@@ -10,7 +10,7 @@ import Overlay from "../Reuseables/Overlay";
 import SecondaryButton from "../Reuseables/SecondaryButton";
 import PrimaryButton from "../Reuseables/PrimaryButton";
 import Chip from "../Reuseables/Chip";
-import { fetchUser, user } from "../../utils/queries/fetch";
+import { fetchUser } from "../../utils/queries/fetch";
 import useProjectRequest from "../../hooks/useProjectRequest";
 import ProjectDetailsMobile from "./ProjectDetailsMobile";
 import ViewRequests from "./ViewRequests";
@@ -19,6 +19,7 @@ import { Loading } from "../Reuseables/Loading";
 import WorkSpace from "../Reuseables/Workspace";
 import { useQuery } from "@tanstack/react-query";
 import { formatTimestamp } from "../../utils/FormatDate";
+import { useUserData } from "../../context/useUserData";
 
 interface PropsType {
   state: () => void;
@@ -27,6 +28,8 @@ interface PropsType {
 
 const ProjectDetails = ({ state, id }: PropsType) => {
   const { modal, handleModal } = useModalView();
+  const { user: currentUser } = useUserData();
+  
   const {
     handleRequest,
     showNotifications,
@@ -37,18 +40,14 @@ const ProjectDetails = ({ state, id }: PropsType) => {
     isRequested
   } = useProjectRequest(id);
 
-  const isParticipant = data?.participants?.includes(user.data.user?.id ?? "");
+  const isParticipant = data?.participants?.includes(currentUser?.id ?? "");
+  const creator = data?.created_by === currentUser?.id;
 
-  const creator = data?.created_by === user.data.user?.id;
-
-  
   const { data: creatorData } = useQuery({
-    queryKey: ["project", data?.id], 
+    queryKey: ["project-creator", data?.id], 
     queryFn: () => fetchUser(data?.created_by ?? ""), 
-    enabled: !!data?.created_by, 
+    enabled: !!data?.created_by,
   });
-
-
   return (
     <Overlay>
       {modal && (
@@ -94,7 +93,7 @@ const ProjectDetails = ({ state, id }: PropsType) => {
 
             {
               !isRequested && !creator && (
-                <PrimaryButton
+                <PrimaryButton// Using context for user data
                 onClick={() => handleRequest(data!.id, data!.created_by, data!.title)}  
                 classes="text-sm justify-between py-2 h-fit px-4 gap-2"
 

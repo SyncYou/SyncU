@@ -56,7 +56,7 @@ const Username: React.FC = () => {
                     placeholder="John"
                     onFocus={() => setIsFocused(true)}
                     onBlur={() => setIsFocused(false)}
-                    value={userDetails.username}
+                    value={userDetails?.username}
                     onChange={handleChange}
                   />
                   {usernameCheckResult?.status === "available" && (

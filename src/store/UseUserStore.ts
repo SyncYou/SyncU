@@ -1,6 +1,10 @@
-import { create } from "zustand";
+// store/useUserStore.ts
+import { create } from 'zustand';
+import { User } from '@supabase/supabase-js';
+import { supabase } from '../supabase/client';
 
-export interface UserDetails {
+interface UserDetails {
+  id: string;
   firstName: string;
   lastName: string;
   username: string;
@@ -12,77 +16,149 @@ export interface UserDetails {
   onboardingComplete: boolean;
 }
 
-interface UserStore {
-  userDetails: UserDetails;
+interface UserState {
+  // Auth state
+  authUser: User | null;
+  loading: boolean;
+  error: string | null;
+  
+  // Profile state
+  userDetails: UserDetails | null;
   currentStep: number;
-  setUserDetails: (key: keyof UserDetails, value: string | boolean) => void; 
+  
+  // Auth actions
+  setAuthUser: (user: User | null) => void;
+  setLoading: (loading: boolean) => void;
+  setError: (error: string | null) => void;
+  
+  // Profile actions
+  setUserDetails: (details: Partial<UserDetails>) => void;
   setCurrentStep: (step: number) => void;
   removeSkill: (skill: string) => void;
   toggleSkill: (skill: string) => void;
-  isStackValid: () => boolean;
-  clearUserDetails: () => void;
+  
+  // Combined actions
+  initializeAuth: () => Promise<void>;
+  fetchUserProfile: (userId: string) => Promise<void>;
+  clearUser: () => void;
 }
 
-const initialUserState: UserDetails = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  username: "",
-  countryOfResidence: "Nigeria",
-  photoUrl: "",
-  areaOfExpertise: "",
-  stacks: ["N/A", "N/A", "N/A"],
+const initialUserDetails: UserDetails = {
+  id: '',
+  firstName: '',
+  lastName: '',
+  email: '',
+  username: '',
+  countryOfResidence: 'Nigeria',
+  photoUrl: '',
+  areaOfExpertise: '',
+  stacks: ['N/A', 'N/A', 'N/A'],
   onboardingComplete: false
 };
 
-export const useUserStore = create<UserStore>((set, get) => ({
-  userDetails: initialUserState,
+export const useUserStore = create<UserState>((set, get) => ({
+  // Initial state
+  authUser: null,
+  loading: true,
+  error: null,
+  userDetails: null,
   currentStep: 1,
-  setUserDetails: (key, value) =>
+
+  // Auth actions
+  setAuthUser: (user) => set({ authUser: user }),
+  setLoading: (loading) => set({ loading }),
+  setError: (error) => set({ error }),
+
+  // Profile actions
+  setUserDetails: (details: Partial<UserDetails>) => 
     set((state) => ({
-      userDetails: {
-        ...state.userDetails,
-        [key]: value,
-      },
+      userDetails: state.userDetails 
+        ? { ...state.userDetails, ...details }
+        : { ...initialUserDetails, ...details }
     })),
 
-  setCurrentStep: (step) =>
-    set(() => ({
-      currentStep: step,
-    })),
+  setCurrentStep: (step) => set({ currentStep: step }),
 
-  removeSkill: (skill: string) =>
+  removeSkill: (skill) =>
     set((state) => {
-      const updatedStack = state.userDetails.stacks.filter(
-        (item) => item !== skill
-      );
+      if (!state.userDetails) return state;
+      const updatedStack = state.userDetails.stacks.filter(item => item !== skill);
       return {
-        userDetails: { ...state.userDetails, stacks: updatedStack },
+        userDetails: { ...state.userDetails, stacks: updatedStack }
       };
     }),
 
   toggleSkill: (skill) =>
     set((state) => {
-      const { stacks } = state.userDetails;
-
+      if (!state.userDetails) return state;
+      let stacks = [...state.userDetails.stacks];
+      
       if (stacks.includes(skill)) {
-        const updatedStack = stacks.filter((item) => item !== skill);
-        return {
-          userDetails: { ...state.userDetails, stacks: updatedStack },
-        };
+        stacks = stacks.filter(item => item !== skill);
+      } else {
+        stacks = [...stacks.filter(item => item !== "N/A"), skill];
       }
-
-      let updatedStack = [...stacks, skill];
-      updatedStack = updatedStack.filter((item) => item !== "N/A");
+      
       return {
-        userDetails: { ...state.userDetails, stacks: updatedStack },
+        userDetails: { ...state.userDetails, stacks }
       };
     }),
 
-  isStackValid: () => get().userDetails.stacks.includes("N/A"),
-  
-  clearUserDetails: () => set({ 
-    userDetails: initialUserState,
-    currentStep: 1 
-  }),
+  // Combined actions
+  initializeAuth: async () => {
+    set({ loading: true, error: null });
+    try {
+      const { data: { user }, error } = await supabase.auth.getUser();
+      
+      if (error || !user) {
+        throw new Error(error?.message || 'Not authenticated');
+      }
+      
+      set({ authUser: user });
+      await get().fetchUserProfile(user.id);
+    } catch (error) {
+      set({ error: error instanceof Error ? error.message : 'Unknown error' });
+      get().clearUser();
+    } finally {
+      set({ loading: false });
+    }
+  },
+
+  fetchUserProfile: async (userId) => {
+    try {
+      const { data, error } = await supabase
+        .from('Users')
+        .select('*')
+        .eq('id', userId)
+        .single();
+
+      if (error || !data) {
+        throw new Error(error?.message || 'User profile not found');
+      }
+
+      set({
+        userDetails: {
+          id: data.id,
+          firstName: data.first_name || '',
+          lastName: data.last_name || '',
+          email: data.email || '',
+          username: data.username || '',
+          countryOfResidence: data.country_of_residence || 'Nigeria',
+          photoUrl: data.photo_url || '',
+          areaOfExpertise: data.area_of_expertise || '',
+          stacks: data.stacks || ['N/A', 'N/A', 'N/A'],
+          onboardingComplete: data.onboarding_complete || false
+        }
+      });
+    } catch (error) {
+      set({ error: error instanceof Error ? error.message : 'Failed to fetch profile' });
+    }
+  },
+
+  clearUser: () => set({ 
+    authUser: null,
+    userDetails: null,
+    currentStep: 1,
+    error: null
+  })
 }));

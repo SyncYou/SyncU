@@ -49,7 +49,7 @@ const TellUsAboutYourself: React.FC = () => {
                   name="firstName"
                   type="text"
                   placeholder="John"
-                  value={userDetails.firstName}
+                  value={userDetails?.firstName}
                   onChange={handleChange}
                 />
               </div>
@@ -66,7 +66,7 @@ const TellUsAboutYourself: React.FC = () => {
                   name="lastName"
                   type="text"
                   placeholder="Doe"
-                  value={userDetails.lastName}
+                  value={userDetails?.lastName}
                   onChange={handleChange}
                 />
               </div>
@@ -86,7 +86,7 @@ const TellUsAboutYourself: React.FC = () => {
                   name="country"
                   type="text"
                   placeholder="Select country---"
-                  value={userDetails.countryOfResidence || ""}
+                  value={userDetails?.countryOfResidence || ""}
                   onClick={handleCountryInputClick}
                   readOnly
                 />

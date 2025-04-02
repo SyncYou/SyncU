@@ -12,9 +12,10 @@ import { BsShare } from "react-icons/bs";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import { HiOutlineBriefcase, HiOutlineLockClosed } from "react-icons/hi";
 import useProjectRequest from "../../hooks/useProjectRequest";
-import { fetchUser, user } from "../../utils/queries/fetch";
+import { fetchUser } from "../../utils/queries/fetch";
 import { Loading } from "../Reuseables/Loading";
 import { useQuery } from "@tanstack/react-query";
+import { useUserData } from "../../context/useUserData";
 
 interface PropsType {
   state: () => void;
@@ -24,21 +25,15 @@ interface PropsType {
 
 const ProjectDetailsMobile = ({ data, state, handleModal }: PropsType) => {
   const [currentView, setCurrentView] = useState<string>("About");
-  const creator = data.created_by === user.data.user?.id;
+  const { user: currentUser } = useUserData();
+  const creator = data.created_by === currentUser?.id;
 
-  const {  isRequested } = useProjectRequest(user.data.user?.id as string);
-
-
-  // const checkIfRequested = data.requests?.filter(
-  //   (req) => req.userId === user.data.user?.id
-  // );
-
-  // const isParticipant = data?.participants?.includes(user.data.user?.id ?? "");
+  const { isRequested } = useProjectRequest(currentUser?.id ?? "");
 
   const { data: creatorData } = useQuery({
-    queryKey: ["project", data?.id], // Use optional chaining to avoid errors
+    queryKey: ["project-creator", data?.id],
     queryFn: () => fetchUser(data?.created_by ?? ""), 
-    enabled: !!data?.created_by, // Ensure this only runs when `created_by` is available
+    enabled: !!data?.created_by,
   });
 
   return (

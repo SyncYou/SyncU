@@ -127,19 +127,35 @@ const router = createBrowserRouter([
   },
   {
     path: "/auth/signup",
-    element: <OnboardingLayout />,
+    element: (
+      <AuthProvider>
+        <OnboardingLayout />
+      </AuthProvider>
+    ),
   },
   {
     path: "/auth/login",
-    element: <OnboardingLayout />,
+    element: (
+      <AuthProvider>
+        <OnboardingLayout />
+      </AuthProvider>
+    ),
   },
   {
     path: "/auth/verify-email",
-    element: <Verifymail />,
+    element: (
+      <AuthProvider>
+        <Verifymail />
+      </AuthProvider>
+    ),
   },
   {
     path: "/auth/set-up-your-profile",
-    element: <SetUpYourProfile />,
+    element: (
+      <AuthProvider>
+        <SetUpYourProfile />
+      </AuthProvider>
+    ),
   },
 ]);
 
