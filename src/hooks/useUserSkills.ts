@@ -11,25 +11,26 @@ export const useUserSkills = () => {
   const modalRef = useRef<HTMLDivElement | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [search, setSearch] = useState<string>("");
-  const [isSearching, setIsSearching] = useState<boolean>(true);
+  const [isSearching, setIsSearching] = useState<boolean>(false);
   const [isValid, setIsValid] = useState<boolean>(false);
 
   // Form validation
-  const valid =
-    userDetails.firstName.trim() !== "" &&
-    userDetails.lastName.trim() !== "" &&
-    userDetails.countryOfResidence.trim() !== "" &&
-    userDetails.firstName !== "N/A" &&
-    userDetails.lastName !== "N/A" &&
-    userDetails.email !== "" &&
-    userDetails.countryOfResidence !== "N/A" &&
-    userDetails.username.trim() !== "" &&
-    userDetails.areaOfExpertise !== "" &&
-    userDetails.stacks.length > 0;
-
   useEffect(() => {
-    setIsValid(userDetails.stacks.length >= 3 && valid);
-  }, [userDetails.stacks]);
+    if (userDetails) {
+      const valid =
+        userDetails.firstName.trim() !== "" &&
+        userDetails.lastName.trim() !== "" &&
+        userDetails.countryOfResidence.trim() !== "" &&
+        userDetails.firstName !== "N/A" &&
+        userDetails.lastName !== "N/A" &&
+        userDetails.email !== "" &&
+        userDetails.countryOfResidence !== "N/A" &&
+        userDetails.username.trim() !== "" &&
+        userDetails.areaOfExpertise !== "" &&
+        userDetails.stacks.length > 0;
+      setIsValid(valid);
+    }
+  }, [userDetails]);
 
   // Handle click outside of modal
   useEffect(() => {
@@ -70,18 +71,15 @@ export const useUserSkills = () => {
     setIsSearching(false);
   }
 
-  useEffect(() => {
-    localStorage.setItem("userDetails", JSON.stringify(userDetails));
-  }, [userDetails, isValid]);
-
   const handleRequest = async () => {
     try {
+      if (!userDetails) return;
       const { error } = await sendUserDetails(userDetails);
-      if(error) errorToast('An error occurred', 'Please try again.');
-      console.log(error)
-     return error
+      if (error) errorToast("An error occurred", "Please try again.");
+      console.log(error);
+      return error;
     } catch (error) {
-      errorToast('An error occurred', 'Please try again.');
+      errorToast("An error occurred", "Please try again.");
       console.error("Error sending data to Supabase:", error);
     }
   };

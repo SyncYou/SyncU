@@ -56,7 +56,7 @@ const Username: React.FC = () => {
                     placeholder="John"
                     onFocus={() => setIsFocused(true)}
                     onBlur={() => setIsFocused(false)}
-                    value={userDetails?.username}
+                    value={userDetails?.username || ""}
                     onChange={handleChange}
                   />
                   {usernameCheckResult?.status === "available" && (
@@ -65,7 +65,7 @@ const Username: React.FC = () => {
                 </div>
               </div>
               {isCheckingUsername && (
-                <span className="inline-block m-1 text-[#5C5C66] text-[14px] leading-6">
+                <span className ="inline-block m-1 text-[#5C5C66] text-[14px] leading-6">
                   checking username...
                 </span>
               )}

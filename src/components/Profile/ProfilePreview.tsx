@@ -27,13 +27,13 @@ const ProfilePreview: React.FC = () => {
       <div className="flex flex-col items-center justify-between">
         <div
           className={`flex-col gap-1 ${
-            userDetails.photoUrl
+            userDetails?.photoUrl
               ? "rounded-full  border-4 border-[#E5E5E9]"
               : ""
           }`}
         >
           <img
-            src={userDetails.photoUrl || profile}
+            src={userDetails?.photoUrl || profile}
             alt="User Profile Image"
             className={`rounded-full object-cover border border-[#E5E5E9] w-[108px] h-[108px]`}
           />
@@ -42,14 +42,14 @@ const ProfilePreview: React.FC = () => {
           <h2 className=" text-secondary leading-[32px] text-[24px] text-center">
             {" "}
             {
-              userDetails.firstName || userDetails.lastName ?
-              `${userDetails.firstName} ${userDetails.lastName}` :
+              userDetails?.firstName || userDetails?.lastName ?
+              `${userDetails?.firstName} ${userDetails?.lastName}` :
               'Your name'
             }
             
           </h2>
           <small className="font-medium text-[#5C5C66] text-center text-[16px] leading-6 mb-3">
-            {userDetails.username? `@${userDetails.username}` : '@username'}
+            {userDetails?.username? `@${userDetails?.username}` : '@username'}
           </small>
 
        
@@ -85,7 +85,7 @@ const ProfilePreview: React.FC = () => {
             </p>
           </div>
           <small className="text-secondary leading-4 font-medium">
-            {userDetails.countryOfResidence}
+            {userDetails?.countryOfResidence}
           </small>
         </div>
 
@@ -97,7 +97,7 @@ const ProfilePreview: React.FC = () => {
             </p>
           </div>
           <small className="text-secondary leading-4 font-medium">
-            {userDetails.areaOfExpertise || "N/A"}
+            {userDetails?.areaOfExpertise || "N/A"}
           </small>
         </div>
 
@@ -109,7 +109,7 @@ const ProfilePreview: React.FC = () => {
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
-            {userDetails.stacks.map((skill, index) => (
+            {userDetails?.stacks.map((skill, index) => (
               <p
                 key={index}
                 className={`${

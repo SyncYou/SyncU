@@ -66,10 +66,10 @@ export default function User_LeftFill1() {
                 </p>
                 <p
                   className={`text-gray-400 text-base font-medium ${
-                    userDetails.areaOfExpertise ? "text-gray-800" : ""
+                    userDetails?.areaOfExpertise ? "text-gray-800" : ""
                   }`}
                 >
-                  {userDetails.areaOfExpertise || (selectedStack ? selectedStack.stack : "Select one---")}
+                  {userDetails?.areaOfExpertise || (selectedStack ? selectedStack.stack : "Select one---")}
                 </p>
               </span>
               <img src={caret} alt="caretUpDown" />

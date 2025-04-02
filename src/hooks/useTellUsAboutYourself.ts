@@ -3,10 +3,10 @@ import { useUserStore } from "../store/UseUserStore";
 import { getLoggedInUser } from "../utils/AuthRequest";
 import { sendUserDetails } from "../utils/SupabaseRequest";
 import { errorToast, successToast } from "oasis-toast";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 export const useTellUsAboutYourself = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [disable, setDisable] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
