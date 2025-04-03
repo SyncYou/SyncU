@@ -46,7 +46,10 @@ export const useTellUsAboutYourself = () => {
         console.error("Error fetching user:", error);
       }
     };
-    fetchUser();
+    // fetchUser();
+    return () => {
+      fetchUser()
+    }
   }, [setUserDetails]);
 
   // Handle input change

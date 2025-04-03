@@ -12,38 +12,39 @@ export const useUsername = () => {
   const { userDetails, setUserDetails } = useUserStore();
   const [usernameToCheck, setUsernameToCheck] = useState("");
 
-  const safeUserDetails = userDetails || {
-    firstName: '',
-    lastName: '',
-    countryOfResidence: '',
-    email: '',
-    username: '',
-    // ... other fields with empty defaults
-  };
+  // const safeUserDetails = userDetails || {
+  //   firstName: '',
+  //   lastName: '',
+  //   countryOfResidence: '',
+  //   email: '',
+  //   username: '',
+  //   // ... other fields with empty defaults
+  // };
 
   // Username availability check
-  const { 
-    data: usernameCheckResult, 
+  const {
+    data: usernameCheckResult,
     isLoading: isCheckingUsername,
-    error: usernameCheckError 
+    error: usernameCheckError,
   } = useQuery({
     queryKey: ["username-availability", usernameToCheck],
     queryFn: () => checkUsername(usernameToCheck),
     enabled: usernameToCheck.length > 0,
     retry: false,
-    staleTime: 1000 * 60 * 5 // 5 minutes
+    staleTime: 1000 * 60 * 5,
   });
 
-  // Form validation
-  const isValid = (
-    safeUserDetails.firstName.trim() !== "" &&
-    safeUserDetails.lastName.trim() !== "" &&
-    safeUserDetails.countryOfResidence.trim() !== "" &&
-    safeUserDetails.email.trim() !== "" &&
-    safeUserDetails.username.trim() !== "" &&
+
+ 
+
+  const isValid =
+    userDetails?.firstName?.trim() !== "" &&
+    userDetails?.lastName?.trim() !== "" &&
+    userDetails?.countryOfResidence?.trim() !== "" &&
+    userDetails?.email?.trim() !== "" &&
+    userDetails?.username?.trim() !== "" &&
     usernameCheckResult?.status !== "unavailable" &&
-    !isCheckingUsername
-  );
+    !isCheckingUsername;
 
   // Update disable state
   useEffect(() => {
@@ -63,12 +64,12 @@ export const useUsername = () => {
   // Handle form submission
   const handleRequest = async () => {
     if (!isValid || isSubmitting) return;
-    
+
     setIsSubmitting(true);
     try {
       const { error } = await sendUserDetails({
         ...userDetails,
-        username: usernameToCheck // Ensure we use the checked username
+        username: usernameToCheck,
       });
 
       if (error) {
@@ -76,10 +77,9 @@ export const useUsername = () => {
       }
 
       successToast("Success", "Profile updated successfully!");
-      // navigate("/onboarding/next-step"); // Update with your actual next route
     } catch (error) {
       errorToast(
-        "Update Failed", 
+        "Update Failed",
         error instanceof Error ? error.message : "Please try again later"
       );
       console.error("Submission error:", error);
@@ -97,6 +97,6 @@ export const useUsername = () => {
     isCheckingUsername,
     usernameCheckResult,
     usernameCheckError,
-    isSubmitting
+    isSubmitting,
   };
 };
