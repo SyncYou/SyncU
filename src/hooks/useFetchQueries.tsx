@@ -10,7 +10,7 @@ interface UseFetchQueriesResult {
 }
 
 const useFetchQueries = (): UseFetchQueriesResult => {
-  const user = getLoggedInUser(); // This remains a Promise
+  const user = getLoggedInUser(); 
 
   const userData = useQuery<UserData | undefined, Error>({
     queryKey: ["users"],

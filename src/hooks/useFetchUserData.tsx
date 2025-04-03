@@ -1,30 +1,39 @@
 import { useQuery } from "@tanstack/react-query";
 import { UserData } from "../utils/types/Types";
 import { supabase } from "../supabase/client";
-import { user } from "../utils/queries/fetch";
 import { errorToast } from "oasis-toast";
+import { getLoggedInUser } from "../utils/AuthRequest";
 
-// Fetch User Data
-const useFetchUserData = (): { data: UserData | null; error: any } => {
+const useFetchUserData = () => {
   const { data, error } = useQuery({
-    queryKey: ["users", user.data.user?.id],
+    queryKey: ["user-data"],
     queryFn: async () => {
-      const { data, error: supabaseError } = await supabase
+      const authUser = await getLoggedInUser();
+      
+      if (!authUser) {
+        throw new Error("No authenticated user");
+      }
+
+      const { data: userData, error: supabaseError } = await supabase
         .from("Users")
-        .select()
-        .eq("id", user.data.user?.id)
+        .select("*")
+        .eq("id", authUser.id)
         .single();
 
       if (supabaseError) {
-        errorToast('An error occurred', 'Please try again.');
+        errorToast('Error', 'Failed to fetch user data');
         throw new Error(supabaseError.message);
       }
 
-      return data;
+      return userData as UserData;
     },
   });
 
-  return { data, error };
+  return { 
+    userData: data, 
+    error,
+    isLoading: !data && !error 
+  };
 };
 
 export default useFetchUserData;

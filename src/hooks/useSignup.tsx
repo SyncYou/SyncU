@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUserStore } from "../store/UseUserStore";
@@ -39,7 +39,7 @@ export const useSignup = () => {
     }
 
     try {
-      setUserDetails("email", email);
+      setUserDetails({email: email});
 
       const { data: response, error } = await signupWithOTP(email);
 

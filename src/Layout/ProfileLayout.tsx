@@ -1,6 +1,6 @@
 import React from "react";
 import ProfilePreview from "../components/Profile/ProfilePreview";
-import { Outlet, useLocation, useNavigate } from "react-router";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Button from "../components/Reuseables/Button";
 import { BsArrowLeft } from "react-icons/bs";
 import { useUserStore } from "../store/UseUserStore";

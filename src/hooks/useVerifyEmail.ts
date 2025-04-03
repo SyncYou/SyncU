@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../store/UseUserStore";
 import { signupWithOTP, verifyEmail } from "../utils/AuthRequest";
 import { errorToast, successToast } from "oasis-toast";
@@ -12,7 +12,7 @@ const useVerifyEmail = () => {
   const [otp, setOtp] = useState(new Array(6).fill(""));
 
   // Get email directly from userDetails
-  const email = userDetails.email;
+  const email = userDetails?.email;
 
   useEffect(() => {
     // Protected route - redirect if no email
@@ -62,7 +62,7 @@ const useVerifyEmail = () => {
     setIsLoading(true);
     const otpString = otp.join("");
 
-    const { session, error } = await verifyEmail(email, otpString);
+    const { session, error } = await verifyEmail(email as string, otpString);
     if (error) {
       errorToast("An error occurred", "Please try again.");
       setIsLoading(false);
@@ -78,7 +78,7 @@ const useVerifyEmail = () => {
   };
 
   const handleResendEmail = async () => {
-    await signupWithOTP(email);
+    await signupWithOTP(email as string);
   };
 
   return {
