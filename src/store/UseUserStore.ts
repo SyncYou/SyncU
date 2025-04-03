@@ -13,31 +13,22 @@ interface UserDetails {
   photoUrl: string;
   areaOfExpertise: string;
   stacks: string[];
-  onboardingComplete: boolean;
+  onboardingComplete: boolean | string;
 }
 
 interface UserState {
-  // Auth state
   authUser: User | null;
   loading: boolean;
   error: string | null;
-  
-  // Profile state
   userDetails: UserDetails | null;
   currentStep: number;
-  
-  // Auth actions
   setAuthUser: (user: User | null) => void;
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
-  
-  // Profile actions
   setUserDetails: (details: Partial<UserDetails>) => void;
   setCurrentStep: (step: number) => void;
   removeSkill: (skill: string) => void;
   toggleSkill: (skill: string) => void;
-  
-  // Combined actions
   initializeAuth: () => Promise<void>;
   fetchUserProfile: (userId: string) => Promise<void>;
   clearUser: () => void;
@@ -53,23 +44,20 @@ const initialUserDetails: UserDetails = {
   photoUrl: '',
   areaOfExpertise: '',
   stacks: ['N/A', 'N/A', 'N/A'],
-  onboardingComplete: false
+  onboardingComplete: 'false'
 };
 
 export const useUserStore = create<UserState>((set, get) => ({
-  // Initial state
   authUser: null,
   loading: true,
   error: null,
   userDetails: null,
   currentStep: 1,
 
-  // Auth actions
   setAuthUser: (user) => set({ authUser: user }),
   setLoading: (loading) => set({ loading }),
   setError: (error) => set({ error }),
 
-  // Profile actions
   setUserDetails: (details: Partial<UserDetails>) => 
     set((state) => ({
       userDetails: state.userDetails 
@@ -126,31 +114,35 @@ export const useUserStore = create<UserState>((set, get) => ({
 
   fetchUserProfile: async (userId) => {
     try {
+      console.log('Fetching profile for user:', userId);
       const { data, error } = await supabase
         .from('Users')
         .select('*')
         .eq('id', userId)
         .single();
-
+  
       if (error || !data) {
         throw new Error(error?.message || 'User profile not found');
       }
-
+  
+      console.log('Fetched user data:', data); 
+  
       set({
         userDetails: {
           id: data.id,
-          firstName: data.first_name || '',
-          lastName: data.last_name || '',
+          firstName: data.firstName || '',
+          lastName: data.lastName || '',
           email: data.email || '',
           username: data.username || '',
-          countryOfResidence: data.country_of_residence || 'Nigeria',
-          photoUrl: data.photo_url || '',
-          areaOfExpertise: data.area_of_expertise || '',
+          countryOfResidence: data.countryOfResidence || 'Nigeria',
+          photoUrl: data.photoUrl || '',
+          areaOfExpertise: data.areaOfExpertise || '',
           stacks: data.stacks || ['N/A', 'N/A', 'N/A'],
-          onboardingComplete: data.onboarding_complete || false
+          onboardingComplete: data.onboardingComplete
         }
       });
     } catch (error) {
+      console.error('Error fetching profile:', error);  
       set({ error: error instanceof Error ? error.message : 'Failed to fetch profile' });
     }
   },

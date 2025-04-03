@@ -49,26 +49,26 @@ export function User_RightFill({ rightStyle }: UserRightFillProps) {
             <div className="gap-4 flex-col">
               <div
                 className={`flex-col gap-1 ${
-                  userDetails.photoUrl
+                  userDetails?.photoUrl
                     ? "rounded-full  border-4 border-[#E5E5E9]"
                     : ""
                 }`}
               >
                 {
                   <img
-                    src={userDetails.photoUrl || profile}
+                    src={userDetails?.photoUrl || profile}
                     alt="User Profile Image "
                     className={`rounded-full object-cover ${
-                      userDetails.photoUrl ? "w-[108px] h-[108px]" : ""
+                      userDetails?.photoUrl ? "w-[108px] h-[108px]" : ""
                     } `}
                   />
                 }
               </div>
               <div className="flex-col gap-1 [&_span]:text-gray-800 [&_span]:font-medium [&_span]:text-base">
                 <h2 className="text-2xl font-semibold text-gray-950">
-                  {userDetails.firstName} {userDetails.lastName}
+                  {userDetails?.firstName} {userDetails?.lastName}
                 </h2>
-                <span>{userDetails.username}</span>
+                <span>{userDetails?.username}</span>
               </div>
             </div>
 
@@ -107,7 +107,7 @@ export function User_RightFill({ rightStyle }: UserRightFillProps) {
                 </span>
                 <p>Location</p>
               </span>
-              <p className="text-gray-950">{userDetails.countryOfResidence}</p>
+              <p className="text-gray-950">{userDetails?.countryOfResidence}</p>
             </div>
             <div className="flex-row justify-between w-full [&_p]:text-gray-800 [&_p]:font-medium [&_p]:text-sm">
               <span className="flex items-center gap-2">
@@ -119,7 +119,7 @@ export function User_RightFill({ rightStyle }: UserRightFillProps) {
                 <p>Area of expertise</p>
               </span>
               <p className="text-gray-950">
-                {userDetails.areaOfExpertise || "N/A"}
+                {userDetails?.areaOfExpertise || "N/A"}
               </p>
             </div>
             <span className="flex-col flex gap-4 w-full items-start [&_p]:text-gray-800 [&_p]:font-medium [&_p]:text-sm">
@@ -132,7 +132,7 @@ export function User_RightFill({ rightStyle }: UserRightFillProps) {
                 <p>Skills/stacks</p>
               </span>
               <div className="gap-4 [&_p]:text-gray-950 [&_p]:rounded-3xl [&_p]:border-gray-300 [&_p]:border [&_p]:py-1 [&_p]:px-[20px] w-full">
-                {userDetails.stacks.map((skill, index) => (
+                {userDetails?.stacks.map((skill, index) => (
                   <p
                     key={index}
                     className={`${

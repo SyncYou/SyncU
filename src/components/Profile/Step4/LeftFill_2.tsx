@@ -84,13 +84,17 @@ export default function LeftFill_2() {
                         )
                     )}
                   </div>
-  
+
                   <input
                     type="text"
                     id="skills"
                     name="skills"
                     className="text-gray-800 text-base font-medium w-full outline-none"
-                    placeholder={userDetails?.stacks.length? "" :"Type a skill or stack for e.g, UI design."}
+                    placeholder={
+                      userDetails?.stacks.length
+                        ? ""
+                        : "Type a skill or stack for e.g, UI design."
+                    }
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     onClick={() => {

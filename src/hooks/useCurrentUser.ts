@@ -16,17 +16,12 @@ export const useCurrentUser = () => {
   } = useUserStore();
 
   return {
-    // State
     user: authUser,
     profile: userDetails,
     loading,
     error,
-    
-    // Derived state
     isAuthenticated: !!authUser,
-    isOnboarded: userDetails?.onboardingComplete || false,
-    
-    // Actions
+    isOnboarded: userDetails?.onboardingComplete,
     initializeAuth,
     fetchUserProfile,
     clearUser,

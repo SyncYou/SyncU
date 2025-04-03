@@ -18,17 +18,13 @@ interface ProfileImageItem {
 // }
 
 export default function LeftFill_3() {
-  const {
-    handleAvatarSelect,
-    handleImageUpload,
-    handleRequest,
-    isValid,
-  } = useProfileImage();
+  const { handleAvatarSelect, handleImageUpload, handleRequest, isValid } =
+    useProfileImage();
 
   const [checked, setChecked] = useState<number | null>(null);
 
-  const handleAvatarClick = async (items:{id: number; img: string; }) => {
-    setChecked(checked => checked == items.id? null : items.id);
+  const handleAvatarClick = async (items: { id: number; img: string }) => {
+    setChecked((checked) => (checked == items.id ? null : items.id));
 
     try {
       const response = await fetch(items.img);

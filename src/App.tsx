@@ -57,27 +57,45 @@ const router = createBrowserRouter([
         children: [
           {
             path: "tell-us-about-yourself",
-            element: <TellUsAboutYourself />,
+            element: 
+            <AuthProvider>
+              <TellUsAboutYourself />,
+            </AuthProvider>
           },
           {
             path: "username",
-            element: <Username />,
+            element:
+            <AuthProvider>
+              <Username />,
+            </AuthProvider>
           },
           {
             path: "area-of-expertise",
-            element: <User_LeftFill1 />,
+            element:
+            <AuthProvider>
+              <User_LeftFill1 />,
+            </AuthProvider> 
           },
           {
             path: "stack",
-            element: <LeftFill_2 />,
+            element:
+            <AuthProvider>
+              <LeftFill_2 />,
+            </AuthProvider>
           },
           {
             path: "profile-image",
-            element: <LeftFill_3 />,
+            element: 
+            <AuthProvider>
+              <LeftFill_3 />,
+            </AuthProvider>
           },
           {
             path: "finishing",
-            element: <Finishing />,
+            element: 
+            <AuthProvider>
+              <Finishing />,
+            </AuthProvider>
           },
         ],
       },

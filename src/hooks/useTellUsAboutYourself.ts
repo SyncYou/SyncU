@@ -37,9 +37,9 @@ export const useTellUsAboutYourself = () => {
         if (user?.user_metadata?.name) {
           const fullName = user.user_metadata.name;
           const [firstName, lastName] = fullName.split(" ");
-          setUserDetails({ 
+          setUserDetails({
             firstName: firstName || "",
-            lastName: lastName || "" 
+            lastName: lastName || "",
           });
         }
       } catch (error) {
@@ -48,8 +48,8 @@ export const useTellUsAboutYourself = () => {
     };
     // fetchUser();
     return () => {
-      fetchUser()
-    }
+      fetchUser();
+    };
   }, [setUserDetails]);
 
   // Handle input change
@@ -72,17 +72,17 @@ export const useTellUsAboutYourself = () => {
   // Handle form submission and send user details
   const handleRequest = async () => {
     if (!isValid || isSubmitting) return;
-    
+
     setIsSubmitting(true);
     try {
       const { error } = await sendUserDetails(userDetails);
-      
+
       if (error) {
         errorToast("An error occurred", "Please try again.");
         console.error("Supabase error:", error);
         return;
       }
-      
+
       successToast("Success", "Details saved successfully!");
       // navigate("/onboarding/username");
     } catch (error) {
@@ -103,6 +103,6 @@ export const useTellUsAboutYourself = () => {
     handleCountrySelect,
     handleRequest,
     modalOpen,
-    isSubmitting
+    isSubmitting,
   };
 };

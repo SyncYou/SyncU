@@ -34,9 +34,6 @@ export const useUsername = () => {
     staleTime: 1000 * 60 * 5,
   });
 
-
- 
-
   const isValid =
     userDetails?.firstName?.trim() !== "" &&
     userDetails?.lastName?.trim() !== "" &&

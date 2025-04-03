@@ -69,7 +69,8 @@ export default function User_LeftFill1() {
                     userDetails?.areaOfExpertise ? "text-gray-800" : ""
                   }`}
                 >
-                  {userDetails?.areaOfExpertise || (selectedStack ? selectedStack.stack : "Select one---")}
+                  {userDetails?.areaOfExpertise ||
+                    (selectedStack ? selectedStack.stack : "Select one---")}
                 </p>
               </span>
               <img src={caret} alt="caretUpDown" />

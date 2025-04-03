@@ -65,15 +65,19 @@ const Username: React.FC = () => {
                 </div>
               </div>
               {isCheckingUsername && (
-                <span className ="inline-block m-1 text-[#5C5C66] text-[14px] leading-6">
+                <span className="inline-block m-1 text-[#5C5C66] text-[14px] leading-6">
                   checking username...
                 </span>
               )}
               {usernameCheckResult?.status === "available" && (
-                <span className="text-[#129343] text-[14px] leading-6">{usernameCheckResult.message}</span>
+                <span className="text-[#129343] text-[14px] leading-6">
+                  {usernameCheckResult.message}
+                </span>
               )}
               {usernameCheckResult?.status === "error" && (
-                <p className="text-red-500 text-[14px] leading-6">{usernameCheckResult.message}</p>
+                <p className="text-red-500 text-[14px] leading-6">
+                  {usernameCheckResult.message}
+                </p>
               )}
             </div>
             <div className="py-5">

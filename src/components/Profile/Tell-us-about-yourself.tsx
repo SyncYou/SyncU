@@ -21,7 +21,7 @@ const TellUsAboutYourself: React.FC = () => {
   return (
     <>
       <section className="w-full">
-      {/* Notifications */}
+        {/* Notifications */}
         <div className="py-10 px-1 md:px-3 md:p-5 flex flex-col w-full">
           <small className="font-medium text-[14px] leading-5 text-[#8C8C99]">
             STEP 1 of 5
@@ -100,17 +100,17 @@ const TellUsAboutYourself: React.FC = () => {
               )}
             </div>
             <div className="pt-6">
-            <Nav_Btn
-              disabled={disable}
-              showPrevious={false}
-              handleRequest={handleRequest}
-              navTo="/onboarding/username"
-              btn_Style={`w-[184px] ${
-                isValid
-                  ? "bg-gray-950 text-opacity-100 text-white py-2"
-                  : "text-opacity-40 cursor-not-allowed py-2"
-              }`}
-            />
+              <Nav_Btn
+                disabled={disable}
+                showPrevious={false}
+                handleRequest={handleRequest}
+                navTo="/onboarding/username"
+                btn_Style={`w-[184px] ${
+                  isValid
+                    ? "bg-gray-950 text-opacity-100 text-white py-2"
+                    : "text-opacity-40 cursor-not-allowed py-2"
+                }`}
+              />
             </div>
           </div>
         </div>

@@ -16,7 +16,6 @@ export const useLeftFill1 = () => {
     setIsModalOpen(false);
   };
 
-  // Validation for the form
   const isValid =
     userDetails?.firstName.trim() !== "" &&
     userDetails?.lastName.trim() !== "" &&
@@ -28,7 +27,6 @@ export const useLeftFill1 = () => {
     userDetails?.username.trim() !== "" &&
     userDetails?.areaOfExpertise !== "";
 
-  // Handle form submission and send user details
   const handleRequest = async () => {
     if (!isValid) return;
 

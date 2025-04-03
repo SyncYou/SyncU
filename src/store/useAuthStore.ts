@@ -1,22 +1,21 @@
-// store/useAuthStore.ts
-import { create } from 'zustand';
-import { User } from '@supabase/supabase-js';
+// import { create } from 'zustand';
+// import { User } from '@supabase/supabase-js';
 
-interface AuthState {
-  user: User | null;
-  loading: boolean;
-  setUser: (user: User | null) => void;
-  setLoading: (loading: boolean) => void;
-  clearAuth: () => void;
-}
+// interface AuthState {
+//   user: User | null;
+//   loading: boolean;
+//   setUser: (user: User | null) => void;
+//   setLoading: (loading: boolean) => void;
+//   clearAuth: () => void;
+// }
 
-export const useAuthStore = create<AuthState>((set) => ({
-  user: null,
-  loading: true,
-  setUser: (user) => set({ user }),
-  setLoading: (loading) => set({ loading }),
-  clearAuth: () => set({ 
-    user: null,
-    loading: false
-  }),
-}));
+// export const useAuthStore = create<AuthState>((set) => ({
+//   user: null,
+//   loading: true,
+//   setUser: (user) => set({ user }),
+//   setLoading: (loading) => set({ loading }),
+//   clearAuth: () => set({ 
+//     user: null,
+//     loading: false
+//   }),
+// }));

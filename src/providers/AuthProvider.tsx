@@ -21,8 +21,7 @@ export const AuthProvider = ({ children }: {children: ReactNode}) => {
     initializeAuth();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        console.log('Auth event:', event, session);
+      async (_event, session) => {
         if (session?.user) {
           await initializeAuth();
         } else {
@@ -34,7 +33,6 @@ export const AuthProvider = ({ children }: {children: ReactNode}) => {
     return () => subscription.unsubscribe();
   }, []);
 
-  // Handle routing based on auth state
   useEffect(() => {
     if (loading) return;
 
