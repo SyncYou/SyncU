@@ -12,6 +12,7 @@ interface UserDetails {
   countryOfResidence: string;
   photoUrl: string;
   areaOfExpertise: string;
+  links: string[],
   stacks: string[];
   onboardingComplete: boolean | string;
 }
@@ -43,6 +44,7 @@ const initialUserDetails: UserDetails = {
   countryOfResidence: 'Nigeria',
   photoUrl: '',
   areaOfExpertise: '',
+  links: [],
   stacks: ['N/A', 'N/A', 'N/A'],
   onboardingComplete: 'false'
 };
@@ -92,29 +94,29 @@ export const useUserStore = create<UserState>((set, get) => ({
       };
     }),
 
-  // Combined actions
-  initializeAuth: async () => {
-    set({ loading: true, error: null });
-    try {
-      const { data: { user }, error } = await supabase.auth.getUser();
-      
-      if (error || !user) {
-        throw new Error(error?.message || 'Not authenticated');
+    initializeAuth: async () => {
+      set({ loading: true, error: null });
+      try {
+        const { data: { user }, error } = await supabase.auth.getUser();
+        
+        if (error) throw error;
+        if (!user) {
+          set({ authUser: null, userDetails: null, loading: false });
+          return;
+        }
+        
+        set({ authUser: user });
+        await get().fetchUserProfile(user.id);
+      } catch (error) {
+        set({ error: error instanceof Error ? error.message : 'Unknown error' });
+      } finally {
+        set({ loading: false });
       }
-      
-      set({ authUser: user });
-      await get().fetchUserProfile(user.id);
-    } catch (error) {
-      set({ error: error instanceof Error ? error.message : 'Unknown error' });
-      get().clearUser();
-    } finally {
-      set({ loading: false });
-    }
-  },
+    },
 
   fetchUserProfile: async (userId) => {
+    console.log('Fetching profile for user:', userId);
     try {
-      console.log('Fetching profile for user:', userId);
       const { data, error } = await supabase
         .from('Users')
         .select('*')
@@ -137,6 +139,7 @@ export const useUserStore = create<UserState>((set, get) => ({
           countryOfResidence: data.countryOfResidence || 'Nigeria',
           photoUrl: data.photoUrl || '',
           areaOfExpertise: data.areaOfExpertise || '',
+          links: data.links || [],
           stacks: data.stacks || ['N/A', 'N/A', 'N/A'],
           onboardingComplete: data.onboardingComplete
         }

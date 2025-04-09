@@ -24,7 +24,7 @@
 //         <Container style={container}>
 //           <Heading style={h1}>Login</Heading>
 //           <Text style={{ ...text, marginBottom: '14px' }}>
-//            Here's your OTP code...:
+//            Here's your OTP code
 //           </Text>
 //           <code style={code}>{token}</code>
 //           <Text

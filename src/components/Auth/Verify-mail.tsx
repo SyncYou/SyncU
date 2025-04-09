@@ -8,7 +8,6 @@ import OTPInput from "./OTPInput";
 
 
 const Verifymail: React.FC = () => {
-  // Custom hook for handling the logic
   const {
     otp,
     inputRefs,
@@ -21,8 +20,6 @@ const Verifymail: React.FC = () => {
   } = useVerifyEmail();
 
   useEffect(() => {
-    // Trigger the submit if the input are filled up
-    // Trigger the submit if the input are filled up
     if (otp.every((digit) => digit !== "")) {
       handleSubmit();
     }
@@ -37,16 +34,16 @@ const Verifymail: React.FC = () => {
         </div>
 
         <div className="h-full w-full  flex flex-col justify-center items-center">
-          <div className="mx-auto">
-            <div className="bg-[#ffffff]  max-w-[31.5rem] h-[24rem] rounded-2xl shadow-lg shadow-[#4242421A] p-10 flex flex-col items-center justify-between">
+          <div className="mx-auto flex items-center justify-center w-full">
+            <div className="bg-[#ffffff]  md:max-w-[31.5rem] max-w-[25rem] h-[24rem] rounded-2xl shadow-lg shadow-[#4242421A] p-5 md:p-10 flex flex-col items-center justify-between">
               <div className="flex flex-col items-center">
                 <img src={mail} alt="mail" />
-                <h2 className="text-secondary text-center text-[32px] leading-[32px] font-semibold my-5">
+                <h2 className="text-secondary text-center md:text-[32px] text-[28px] leading-[32px] font-semibold my-5">
                   Verify your email.
                 </h2>
               </div>
               <div className="px-8">
-                <p className="font-normal text-base text-[#5C5C66] leading-6 text-center">
+                <p className="font-normal md:text-base text-[14px] text-[#5C5C66] leading-6 text-center">
                   Check your email inbox for the code that was sent to
                   <span className="text-black font-semibold"> {email}.</span>
                 </p>

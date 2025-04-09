@@ -13,12 +13,12 @@ type PropsType = {
     description: string;
     id: string;
     industry: string;
-    participants: string[];
+    // participants: string[];
     project_views: number;
-    requests: {
-      userId: string;
-      status: string;
-    }[];
+    // requests: {
+    //   userId: string;
+    //   status: string;
+    // }[];
     required_roles: string[];
     required_stacks: string[];
     title: string;

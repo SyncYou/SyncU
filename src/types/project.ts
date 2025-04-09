@@ -3,10 +3,6 @@ export interface Workspace {
   url: string;
 }
 
-export interface Requests{
-    userId: string;
-    status: 'pending';
-} 
 
 export interface Project {
   id: string;
@@ -15,12 +11,10 @@ export interface Project {
   description: string;
   created_by: string;
   required_roles: string[];
-  participants: string[];
   updated_at: string;
   industry: string;
   project_views: number;
   required_stacks: string[];
   workspace: Workspace;
-  requests: Requests[]; 
 }
 

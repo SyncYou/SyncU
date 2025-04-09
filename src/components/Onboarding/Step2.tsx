@@ -25,7 +25,7 @@ const Step2: React.FC<Props> = ({ handlePrevStep, handleNextStep }) => {
   }, []);
 
   return (
-    <section className="h-dvh w-full  bg-[#F6F2FC] md:bg-[#8333D0] relative overflow-hidden">
+    <section className="h-dvh w-full bg-[#F6F2FC] md:bg-[#8333D0] relative overflow-hidden">
       <div>
         <img
           className="absolute -z-50 top-1/2 -translate-y-1/2 md:scale-100 left-1/2 -translate-x-1/2"

@@ -7,6 +7,7 @@ import Layout from "./pages/HomeLayout";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "./providers/AuthProvider.tsx";
 import Loader from "./components/Reuseables/Loader.tsx";
+import ProjectContainer from "./components/Home/ProjectContainer.tsx";
 
 const OnboardingLayout = lazy(() => import("./Layout/OnboardingLayout.tsx"));
 const TellUsAboutYourself = lazy(
@@ -29,9 +30,9 @@ const Username = lazy(() => import("./components/Profile/Username.tsx"));
 const SetUpYourProfile = lazy(
   () => import("./components/Profile/Set-up-your-profile.tsx")
 );
-const ProjectContainer = lazy(
-  () => import("./components/Home/ProjectContainer.tsx")
-);
+// const ProjectContainer = lazy(
+//   () => import("./components/Home/ProjectContainer.tsx")
+// );
 const Activity = lazy(() => import("./pages/Activity/Activity.tsx"));
 const Projects = lazy(() => import("./pages/Project/Projects.tsx"));
 const Profile = lazy(() => import("./pages/Profile/Profile.tsx"));
@@ -112,9 +113,9 @@ const router = createBrowserRouter([
       {
         path: "",
         element: (
-          <Suspense fallback={<Loader />}>
+          // <Suspense fallback={<Loader />}>
             <ProjectContainer />
-          </Suspense>
+          // </Suspense>
         ),
       },
       {

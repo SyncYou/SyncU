@@ -4,33 +4,47 @@ import { fetchProjects } from "../../utils/queries/fetch";
 import { useCallback, useRef } from "react";
 
 const ProjectContainer = () => {
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfiniteQuery({
-      queryKey: ["projects"],
-      queryFn: fetchProjects,
-      initialPageParam: 0,
-      getNextPageParam: (lastPage) => lastPage.nextPage,
-      staleTime: 1000 * 60 * 5,
-      enabled: true,
-    });
+  const { 
+    data, 
+    fetchNextPage, 
+    hasNextPage, 
+    isFetchingNextPage,
+    isLoading,
+    isError,
+    error
+  } = useInfiniteQuery({
+    queryKey: ["projects"],
+    queryFn: fetchProjects,
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => lastPage.nextPage,
+    staleTime: 1000 * 60 * 5,
+  });
 
-  const observer = useRef<IntersectionObserver | null>(null);
+  const observer = useRef<IntersectionObserver>();
   const lastProjectRef = useCallback(
     (node: HTMLDivElement | null) => {
-      if (isFetchingNextPage) return;
-
+      if (isLoading || isFetchingNextPage) return;
+      
       if (observer.current) observer.current.disconnect();
-
+      
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasNextPage) {
           fetchNextPage();
         }
       });
-
+      
       if (node) observer.current.observe(node);
     },
-    [isFetchingNextPage, hasNextPage, fetchNextPage]
+    [isLoading, isFetchingNextPage, hasNextPage, fetchNextPage]
   );
+
+  if (isError) {
+    return (
+      <div className="h-full w-full flex justify-center items-center pt-5">
+        <p className="text-red-500">Error: {error.message}</p>
+      </div>
+    );
+  }
 
   return (
     <section className="md:px-8 px-4 md:py-6 pt-6 pb-20 md:w-full w-screen">
@@ -43,9 +57,8 @@ const ProjectContainer = () => {
 
             return (
               <ProjectCard
-                key={project.id}
+                key={`${project.id}-${pageIndex}-${projectIndex}`}
                 data={project}
-                fetching={isFetchingNextPage}
                 ref={isLastItem ? lastProjectRef : null}
               />
             );
@@ -62,4 +75,4 @@ const ProjectContainer = () => {
   );
 };
 
-export default ProjectContainer;
+export default ProjectContainer

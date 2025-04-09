@@ -23,7 +23,6 @@ const OTPInput: React.FC<OTPInputProps> = ({
         <div key={idx} className="w-fit h-fit relative">
           <input
             ref={(el) => {
-              // Check if inputRefs.current is not null
               if (inputRefs.current) {
                 inputRefs.current[idx] = el;
               }
@@ -35,7 +34,7 @@ const OTPInput: React.FC<OTPInputProps> = ({
             value={digit}
             onChange={(e) => handleChange(e, idx)}
             onKeyDown={(e) => handleKeyDown(e, idx)}
-            className="w-[4rem] h-[4rem] text-black focus:outline-none text-center border border-[#D6D6E0] rounded-lg bg-transparent z-50 text-3xl"
+            className="md:w-[4rem] md:h-[4rem] w-[3rem] h-[3rem] text-black focus:outline-none text-center border border-[#D6D6E0] rounded-lg bg-transparent z-50 text-3xl"
           />
           {!digit && (
             <label

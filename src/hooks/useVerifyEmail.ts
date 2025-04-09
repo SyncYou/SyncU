@@ -1,8 +1,9 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../store/UseUserStore";
 import { signupWithOTP, verifyEmail } from "../utils/AuthRequest";
 import { errorToast, successToast } from "oasis-toast";
+import { supabase } from "../supabase/client";
 
 const useVerifyEmail = () => {
   const navigate = useNavigate();
@@ -11,15 +12,7 @@ const useVerifyEmail = () => {
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [otp, setOtp] = useState(new Array(6).fill(""));
 
-  // Get email directly from userDetails
   const email = userDetails?.email;
-
-  useEffect(() => {
-    // Protected route - redirect if no email
-    if (!email) {
-      navigate("/auth/signup");
-    }
-  }, [email, navigate]);
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>, idx: number) => {
@@ -60,25 +53,47 @@ const useVerifyEmail = () => {
 
   const handleSubmit = async () => {
     setIsLoading(true);
-    const otpString = otp.join("");
+    try {
+      const otpString = otp.join("");
+      const { session, error } = await verifyEmail(email as string, otpString);
 
-    const { session, error } = await verifyEmail(email as string, otpString);
-    if (error) {
-      errorToast("An error occurred", "Please try again.");
+      if (error) throw error;
+
+      if (session) {
+        const { data: { user } } = await supabase.auth.getUser();
+        
+        if (user) {
+          const { data: profile, error: profileError } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', user.id)
+            .single();
+
+          if (profileError || !profile) {
+            successToast("Verified!", "Please complete your profile");
+            navigate("/auth/set-up-your-profile");
+          } else {
+            successToast("Welcome back!", "Redirecting to your dashboard");
+            navigate("/");
+          }
+        }
+      }
+    } catch (error) {
+      errorToast("Verification Failed", "Invalid or expired OTP");
+      setOtp(new Array(6).fill(""));
+      if (inputRefs.current[0]) inputRefs.current[0].focus();
+    } finally {
       setIsLoading(false);
-      return;
     }
-
-    if (session) {
-      successToast("Authentication Successful", "Welcome to Syncu");
-      navigate('/');
-    }
-
-    setIsLoading(false);
   };
 
   const handleResendEmail = async () => {
-    await signupWithOTP(email as string);
+    try {
+      await signupWithOTP(email as string);
+      successToast("Email Sent", "A new OTP has been sent to your email");
+    } catch (error) {
+      errorToast("Error", "Failed to resend OTP");
+    }
   };
 
   return {

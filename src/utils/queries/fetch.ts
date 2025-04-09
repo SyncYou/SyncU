@@ -34,25 +34,31 @@ export const fetchProjects = async ({
 }: { 
   pageParam: number 
 }): Promise<{ data: Project[]; nextPage: number | null }> => {
-  const PAGE_SIZE = 10; 
+  const PAGE_SIZE = 10;
 
+  console.log('Fetching projects with pageParam:', pageParam);
+  
   try {
     const { data, error, count } = await supabase
       .from("Projects")
       .select("*", { count: "exact" })
-      .order("created_at", { ascending: false }) 
-      .range(pageParam * PAGE_SIZE, (pageParam + 1) * PAGE_SIZE - 1); 
+      .order("created_at", { ascending: false })
+      // .range(pageParam * PAGE_SIZE, (pageParam + 1) * PAGE_SIZE - 1);
 
-    if (error) throw new Error(error.message);
+    console.log('Supabase response:', { data, error, count });
 
-    const hasMore = (count || 0) > (pageParam + 1) * PAGE_SIZE;
+    if (error) throw error;
+
+    const totalProjects = count || 0;
+    const hasMore = totalProjects > (pageParam + 1) * PAGE_SIZE;
+    
     return { 
       data: data || [], 
       nextPage: hasMore ? pageParam + 1 : null 
     };
   } catch (error) {
     console.error("Error fetching projects:", error);
-    return { data: [], nextPage: null };
+    throw error; // Important: rethrow to let react-query handle it
   }
 };
 

@@ -7,7 +7,7 @@ const CategoriesTab = () => {
   const { filter, setFilter } = useProjectFilter();
 
   return (
-    <div className="h-[75px]  px-4 md:pl-8 md:pr-14 bg-white flex gap-6 font-medium border-b border-t border-gray200">
+    <div className="h-[75px]  px-4 md:pl-8 md:pr-14 bg-white flex items-center gap-6 font-medium border-b border-t border-gray200">
       <div className="flex gap-0 md:gap-5 text-gray700 md:overflow-hidden overflow-x-scroll scrollbar-none md:px-3 ">
         <div
           onClick={() => setFilter("All")}
@@ -63,7 +63,7 @@ const CategoriesTab = () => {
           <span className="text-xs">Marketing</span>
         </div>
       </div>
-      <div className="h-6 w-[2px]  bg-gray200 relative top-[10px]"></div>
+      <div className="h-6 w-[2px]  bg-gray200 relative"></div>
       <div className="flex h-full items-center">
         <button className="h-10 min-w-[102px] rounded-[100px] border border-solid border-gray300">
           <FiFilter className="inline text-base mr-1" />

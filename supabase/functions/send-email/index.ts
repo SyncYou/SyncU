@@ -41,7 +41,7 @@
 //     )
 
 //     const { error } = await resend.emails.send({
-//       from: 'syncu <team@syncu.net>',
+//       from: 'Syncu <info@syncu.net>',
 //       to: [user.email],
 //       subject: 'Welcome to Syncu',
 //       html,

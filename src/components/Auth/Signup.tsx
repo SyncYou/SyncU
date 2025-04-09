@@ -23,12 +23,12 @@ const Signup: React.FC = () => {
   return (
     <>
       <section className="p-5 md:p-2 w-full h-full grid grid-rows-[3rem_auto]">
-        <div>
+        <div className="fixed z-50 w-full">
           <Header />
         </div>
-        <div className="w-full flex justify-center items-center">
+        <div className="w-full flex justify-center items-start">
           <div className="max-w-[400px] mx-auto max-h-[30rem]">
-            <div className="flex flex-col items-center mt-20 md:mt-10 md:mb-7">
+            <div className="flex flex-col items-center mt-20 md:mb-7">
               <h1 className="font-semibold text-[28px] leading-[32px] text-center text-secondary">
                 Welcome 👋{" "}
               </h1>
@@ -63,14 +63,7 @@ const Signup: React.FC = () => {
                 register={register}
                 errors={errors}
               />
-              <div className="flex items-center justify-center w-full my-5 md:my-4">
-                <ControlledButton
-                  disable={disable}
-                  icon={LuMail}
-                  label="continue with email"
-                />
-              </div>
-              <div className="flex items-center gap-5 w-full">
+              <div className="flex items-center gap-5 w-full my-5">
                 <label className="relative flex items-center gap-2 cursor-pointer">
                   <input
                     type="checkbox"
@@ -89,6 +82,13 @@ const Signup: React.FC = () => {
                 >
                   I agree to receive updates, promotions, and marketing emails.
                 </label>
+              </div>
+              <div className="flex items-center justify-center w-full my-5 md:my-4">
+                <ControlledButton
+                  disable={disable}
+                  icon={LuMail}
+                  label="continue with email"
+                />
               </div>
             </form>
           </div>
