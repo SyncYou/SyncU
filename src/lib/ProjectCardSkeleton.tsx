@@ -1,6 +1,6 @@
 const ProjectCardSkeleton = () => {
   return (
-    <div className="h-[305px] w-full text-gray950">
+    <div className="h-[305px] w-full text-gray950 skeleton-fade">
       <div className="w-full h-[46px] relative">
         <div className="absolute bottom-0 left-0 w-12 h-12 bg-gray200 rounded-full animate-pulse"></div>
       </div>

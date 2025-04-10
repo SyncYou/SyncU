@@ -13,12 +13,7 @@ type PropsType = {
     description: string;
     id: string;
     industry: string;
-    // participants: string[];
     project_views: number;
-    // requests: {
-    //   userId: string;
-    //   status: string;
-    // }[];
     required_roles: string[];
     required_stacks: string[];
     title: string;
@@ -54,14 +49,13 @@ const ProjectCard = forwardRef<HTMLDivElement, PropsType>(
           alt="tag"
           width="358"
           height="46"
-          // loading="lazy"
           className="absolute bottom-0 left-0"
           decoding="async"
         />
         {!fetching && (
           <div className="max-w-[99%] h-5 relative">
             {viewDetails && (
-              <ProjectDetails state={handleViewDetails} id={data.id} />
+              <ProjectDetails state={handleViewDetails} id={data.id} isOpen={viewDetails} />
             )}
             <div
               onClick={handleViewDetails}

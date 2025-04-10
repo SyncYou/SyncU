@@ -2,6 +2,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import ProjectCard from "../Projects/ProjectCard";
 import { fetchProjects } from "../../utils/queries/fetch";
 import { useCallback, useRef } from "react";
+import ProjectCardSkeleton from "../../lib/ProjectCardSkeleton";
 
 const ProjectContainer = () => {
   const { 
@@ -43,6 +44,17 @@ const ProjectContainer = () => {
       <div className="h-full w-full flex justify-center items-center pt-5">
         <p className="text-red-500">Error: {error.message}</p>
       </div>
+    );
+  }
+  if (isLoading) {
+    return (
+      <section className="md:px-8 px-4 md:py-6 pt-6 pb-20 md:w-full w-screen">
+        <section className="grid md:grid-cols-3 min-h-full gap-8 md:max-w-full max-w-screen">
+          {[...Array(6)].map((_, index) => (
+            <ProjectCardSkeleton key={`skeleton-${index}`} />
+          ))}
+        </section>
+      </section>
     );
   }
 

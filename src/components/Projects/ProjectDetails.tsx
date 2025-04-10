@@ -19,58 +19,94 @@ import { Loading } from "../Reuseables/Loading";
 import WorkSpace from "../Reuseables/Workspace";
 import { useQuery } from "@tanstack/react-query";
 import { formatTimestamp } from "../../utils/FormatDate";
-import { useUserData } from "../../context/useUserData";
+import { useUserStore } from "../../store/UseUserStore";
+import { useEffect, useState } from "react";
+import { fetchProjectInvitations } from "../../utils/SupabaseRequest";
 
 interface PropsType {
   state: () => void;
   id: string;
+  isOpen: boolean; 
 }
-
-const ProjectDetails = ({ state, id }: PropsType) => {
+const ProjectDetails = ({ state, id, isOpen }: PropsType) => {
   const { modal, handleModal } = useModalView();
-  const { user: currentUser } = useUserData();
-  
+  const { userDetails } = useUserStore();
+
   const {
+    showNotification,
+    notificationMessage,
     handleRequest,
-    showNotifications,
     sendingRequest,
+    isRequested,
     withdrawRequest,
     data,
     isFetching,
-    isRequested
+    setIsRequested,
   } = useProjectRequest(id);
 
-  const isParticipant = data?.participants?.includes(currentUser?.id ?? "");
-  const creator = data?.created_by === currentUser?.id;
+  const isParticipant = data?.participants?.includes(userDetails?.id ?? "");
+  const creator = data?.created_by === userDetails?.id;
 
   const { data: creatorData } = useQuery({
-    queryKey: ["project-creator", data?.id], 
-    queryFn: () => fetchUser(data?.created_by ?? ""), 
+    queryKey: ["project-creator", data?.id],
+    queryFn: () => fetchUser(data?.created_by ?? ""),
     enabled: !!data?.created_by,
   });
+
+  useEffect(() => {
+    if (isOpen && userDetails?.id) {
+      checkRequestStatus();
+      console.log(123)
+    }
+  }, [isOpen, userDetails?.id]);
+
+  const checkRequestStatus = async () => {
+    if (!userDetails?.id || !id) return;
+    
+    try {
+      const invitations = await fetchProjectInvitations(id, userDetails.id);
+      setIsRequested(invitations.length > 0);
+      console.log(invitations.length);
+    } catch (error) {
+      console.error("Error checking request status:", error);
+    }
+  };
+
   return (
     <Overlay>
       {modal && (
-      <ViewRequests
-      projectId={data?.id ?? ""}
-      requests={data?.requests ?? []}
-      state={handleModal}
-    />
+        <ViewRequests
+          projectId={data?.id ?? ""}
+          requests={data?.requests ?? []}
+          state={handleModal}
+        />
       )}
       {sendingRequest && <Loading />}
       {isFetching && <Loading />}
-      {showNotifications && (
-        <div className="absolute z-20 h-10 w-[145px] rounded-lg bg-[#2A2A33CC] flex items-center justify-center gap-[10px]">
+      {showNotification && (
+        <div className="absolute z-20 h-10 px-4 rounded-lg bg-[#2A2A33CC] flex items-center justify-center gap-[10px]">
           <IoCheckmarkCircle className="text-success700" />
-          <span className="font-normal text-base text-white">Request sent</span>
+          <span className="font-normal text-base text-white">
+            {notificationMessage}
+          </span>
         </div>
       )}
-     {data && <ProjectDetailsMobile data={data} state={state} handleModal={handleModal} />}
+      {data && (
+        <ProjectDetailsMobile
+          data={data}
+          state={state}
+          handleModal={handleModal}
+        />
+      )}
       <div className="md:w-[1060px] md:h-[758px] text-gray950 hidden md:flex flex-col gap-4 relative w-[358px] h-[458px] rounded-3xl bg-white">
         <div className="w-full h-[76px] flex justify-between border-gray200 border-b py-4 px-6">
           <div className="flex gap-2">
             <div className="h-11 w-11 rounded-full bg-black">
-            <img className="w-full h-full object-cover rounded-full" src={creatorData?.photoUrl} alt={creatorData?.username} />
+              <img
+                className="w-full h-full object-cover rounded-full"
+                src={creatorData?.photoUrl}
+                alt={creatorData?.username}
+              />
             </div>
             <div className="">
               <p className="font-normal text-base">@{creatorData?.username}</p>
@@ -80,54 +116,33 @@ const ProjectDetails = ({ state, id }: PropsType) => {
             </div>
           </div>
           <div className="flex gap-4">
-            {
-              isRequested && !creator && (
-                <SecondaryButton
-                onClick={() => withdrawRequest(data!.id, data!.created_by)}
-                classes="h-11"
-              >
-                Withdraw Request
-              </SecondaryButton>  
-              )
-            }
-
-            {
-              !isRequested && !creator && (
-                <PrimaryButton// Using context for user data
-                onClick={() => handleRequest(data!.id, data!.created_by, data!.title)}  
-                classes="text-sm justify-between py-2 h-fit px-4 gap-2"
-
-              >
-                Send request
-                <FiSend />
-              </PrimaryButton> 
-              )
-            }
-            {/* {checkIfRequested?.length == 1 && !creator && !isParticipant && (
+            {isRequested && !creator && (
               <SecondaryButton
-                onClick={() => withdrawRequest(data!.id, data?.created_by)}
+                onClick={() => withdrawRequest(data!.id, data!.created_by)}
                 classes="h-11"
               >
                 Withdraw Request
               </SecondaryButton>
             )}
-            {checkIfRequested?.length == 0 && !creator && !isParticipant && (
-              <PrimaryButton
-                onClick={() => handleRequest(data!.id, data!.created_by, data!.title)}  
-                classes="text-sm justify-between py-2 h-fit px-4 gap-2"
 
+            {!isRequested && !creator && (
+              <PrimaryButton
+                onClick={() =>
+                  handleRequest(data!.id, data!.created_by, data!.title)
+                }
+                classes="text-sm justify-between py-2 h-fit px-4 gap-2"
               >
                 Send request
                 <FiSend />
               </PrimaryButton>
-            )} */}
+            )}
+
             {creator && (
               <SecondaryButton classes="h-11">Edit project</SecondaryButton>
             )}
-
             <div className="w-20 h-[32px] flex gap-4 my-auto">
               <button className="w-[32px] h-[32px] rounded-[80px] opacity-70 border-[0.4px] flex justify-center items-center border-gray200">
-                <FaArrowLeftLong  className="text-sm"/>
+                <FaArrowLeftLong className="text-sm" />
               </button>
               <button className="w-[32px] h-[32px] rounded-[80px] shadow border-[0.4px] flex justify-center items-center border-gray200">
                 <FaArrowRightLong className="text-sm" />
@@ -176,9 +191,13 @@ const ProjectDetails = ({ state, id }: PropsType) => {
             </div>
             <hr />
             <div className="w-full">
-              <p className="mb-3 text-gray950 font-medium text-sm">Description</p>
+              <p className="mb-3 text-gray950 font-medium text-sm">
+                Description
+              </p>
               <div className="text-[#374151] font-normal text-base font-inter">
-                <p className="font-normal text-base font-inter">{data?.description}</p>
+                <p className="font-normal text-base font-inter">
+                  {data?.description}
+                </p>
               </div>
             </div>
           </div>
@@ -218,7 +237,9 @@ const ProjectDetails = ({ state, id }: PropsType) => {
                     <FaRegCalendarMinus />
                     Date Posted
                   </div>
-                  <p className="text-gray950 font-medium">{formatTimestamp(data?.created_at as string)}</p>
+                  <p className="text-gray950 font-medium">
+                    {formatTimestamp(data?.created_at as string)}
+                  </p>
                 </div>
               </div>
               <div className="w-full h-0 border-t border-gray200"></div>
@@ -245,7 +266,7 @@ const ProjectDetails = ({ state, id }: PropsType) => {
         </div>
       </div>
     </Overlay>
-  )
+  );
 };
 
 export default ProjectDetails;

@@ -83,6 +83,15 @@ body {
   z-index: 100;
 }
 
+.skeleton-fade {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0.5; }
+  to { opacity: 1; }
+}
+
 @layer components {
   * {
     margin: 0;

@@ -5,6 +5,7 @@ import SecondaryButton from "../../Reuseables/SecondaryButton";
 import useDisplayPostProjectForm from "../../../context/useDisplayPostProjectForm";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCreatedProjects } from "../../../utils/queries/fetch";
+import ProjectCardSkeleton from "../../../lib/ProjectCardSkeleton";
 
 const CreatedProjects = () => {
   const { setShow } = useDisplayPostProjectForm();
@@ -14,11 +15,23 @@ const CreatedProjects = () => {
     queryFn: fetchCreatedProjects,
   });
 
+   if (isLoading) {
+      return (
+        <section className="md:px-8 px-4 md:py-6 pt-6 pb-20 md:w-full w-screen">
+          <section className="grid md:grid-cols-3 min-h-full gap-8 md:max-w-full max-w-screen">
+            {[...Array(3)].map((_, index) => (
+              <ProjectCardSkeleton key={`skeleton-${index}`} />
+            ))}
+          </section>
+        </section>
+      );
+    }
+
   return (
     <section className="md:px-8 px-4 md:py-6 pt-6 pb-20 md:w-full w-screen">
-      {isLoading && ( <div className="h-full w-full flex justify-center items-center pt-20">
+      {/* {isLoading && ( <div className="h-full w-full flex justify-center items-center pt-20">
             <div className="w-10 h-10 border-4 border-gray-800 border-solid border-t-transparent rounded-full animate-spin"></div>
-          </div>)}
+          </div>)} */}
       {createdProjects?.length === 0 ? (
         <div className="mx-auto w-[261px] flex flex-col gap-6">
           <img className="w-[124px] mx-auto" src={empty} alt="" />

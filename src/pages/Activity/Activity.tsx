@@ -1,7 +1,11 @@
+import { useEffect } from "react";
 import { useAlerts } from "../../context/useUserData";
 
 const Activity = () => {
   const { alerts } = useAlerts();
+  useEffect(() => {
+    console.log(alerts)
+  }, [alerts])
 
   return (
     <section className="px-5 pt-5 md:py-6 md:px-[100px] w-full text-gray950">
@@ -49,11 +53,12 @@ const Activity = () => {
                 <div className="font-normal text-gray700 text-sm">
                   <div className="flex gap-2">
                     <span className="text-base font-semibold text-gray900">
-                      {alert.status === "accepted" &&
+                      {/* {alert.status === "accepted" &&
                         "Congratulations🎉 you're in!"}
                       {alert.status === "pending" && "Someone requested"}
                       {alert.status === "rejected" &&
-                        "Sorry, you have been rejected "}
+                        "Sorry, you have been rejected "} */}
+                        You have a new notification
                     </span>
                     <span>1h</span>
                   </div>

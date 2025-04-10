@@ -1,27 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
-  // fetchProjectInvitations,
   requestToJoinProject,
   withdrawProjectRequest,
+  fetchProjectInvitations,
 } from "../utils/SupabaseRequest";
 import { ProjectType } from "../utils/types/Types";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../supabase/client";
-// import { fetchUserData } from "../utils/queries/fetch";
+import { useUserStore } from "../store/UseUserStore";
 
 const useProjectRequest = (id: string) => {
-  const [showNotifications, setShowNotifications] = useState<boolean>(false);
+  const [showNotification, setShowNotification] = useState<boolean>(false);
+  const [notificationMessage, setNotificationMessage] = useState<string>("");
   const [sendingRequest, setSendingRequest] = useState<boolean>(false);
-  const [isRequested, setIsRequested] = useState<boolean>(false);
+  const { userDetails } = useUserStore();
+  const userId = userDetails?.id;
 
   const [data, setData] = useState<ProjectType | null>(null);
-  
-  const queryClient = useQueryClient();
-  const invalidateQueries = (id: string) => {
-    queryClient.invalidateQueries({
-      queryKey: ["project-details", id],
-    });
-  };
+  const [isRequested, setIsRequested] = useState<boolean>(false);
+
+
 
   const { isFetching } = useQuery({
     queryKey: ["project-details", id],
@@ -39,34 +37,22 @@ const useProjectRequest = (id: string) => {
     },
   });
 
-//  const fetchInvitations = async (projectId: string, userId: string) => {
-//   try {
-//     const invitations = await fetchProjectInvitations(projectId, userId);
-//   setIsRequested(invitations.length > 0);
-//   } catch (error) {
-    
-//   }
-//  }
-
-  const handleRequest = async (id: string, created_by: string, project_name: string) => {
+  const handleRequest = async (
+    id: string,
+    created_by: string,
+    project_name: string
+  ) => {
     try {
       setSendingRequest(true);
-      console.log(setIsRequested)
       const req = await requestToJoinProject(id, created_by, project_name);
       if (req) {
-        const showNotificationTimeout = setTimeout(() => {
-          setShowNotifications(true);
-        }, 1000);
+        setIsRequested(true);
+        setNotificationMessage("Request sent");
+        setShowNotification(true);
 
-        const hideNotificationTimeout = setTimeout(() => {
-          setShowNotifications(false);
+        setTimeout(() => {
+          setShowNotification(false);
         }, 3000);
-        invalidateQueries(id);
-
-        return () => {
-          clearTimeout(showNotificationTimeout);
-          clearTimeout(hideNotificationTimeout);
-        };
       }
     } catch (error) {
       console.error(error);
@@ -80,19 +66,13 @@ const useProjectRequest = (id: string) => {
       setSendingRequest(true);
       const req = await withdrawProjectRequest(id, creator);
       if (req) {
-        const showNotificationTimeout = setTimeout(() => {
-          setShowNotifications(true);
-        }, 1000);
+        setIsRequested(false);
+        setNotificationMessage("Request withdrawn successfully");
+        setShowNotification(true);
 
-        const hideNotificationTimeout = setTimeout(() => {
-          setShowNotifications(false);
+        setTimeout(() => {
+          setShowNotification(false);
         }, 3000);
-        invalidateQueries(id);
-
-        return () => {
-          clearTimeout(showNotificationTimeout);
-          clearTimeout(hideNotificationTimeout);
-        };
       }
     } catch (error) {
       console.error(error);
@@ -102,13 +82,15 @@ const useProjectRequest = (id: string) => {
   };
 
   return {
-    showNotifications,
+    showNotification,
+    notificationMessage,
     handleRequest,
     sendingRequest,
     isRequested,
     withdrawRequest,
     data,
     isFetching,
+    setIsRequested,
   };
 };
 

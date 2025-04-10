@@ -227,7 +227,7 @@ export const requestToJoinProject = async (projectId: string, creatorId: string,
   const notifications = [
     {
       to: creatorId,
-      message: `User ${user.firstName} has requested to join your project.`,
+      message: `${user.firstName} has requested to join your project.`,
       is_read: false,
       action_data: { projectId, sender: user.id, creatorId },
     },
@@ -274,20 +274,25 @@ export const withdrawProjectRequest = async (projectId: string, creatorId: strin
 };
 
 export const fetchProjectInvitations = async (projectId: string, userId: string) => {
-  const { data, error } = await supabase
+  console.log('Fetching invitations for:', { projectId, userId });
+  
+  const { data, error, status } = await supabase
     .from("Project_Invitations")
     .select("*")
     .eq("project_id", projectId)
     .eq("sender_id", userId)
     .eq("type", "request");
 
+  console.log('Query status:', status);
+  console.log('Query error:', error);
+  console.log('Query data:', data);
+
   if (error) {
     console.error("Error fetching project invitations:", error);
     return [];
   }
 
-  console.log(data)
-  return data;
+  return data || [];
 };
 
 
