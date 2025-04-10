@@ -33,29 +33,39 @@ export const sendUserDetails = async (userData: any) => {
 
 // Upload images to supabase bucket
 export async function uploadAvatar(file: File) {
-  const fileExt = file.name.split(".").pop();
+  const fileExt = file.name.split('.').pop();
   const fileName = `${Math.random()}.${fileExt}`;
   const filePath = `avatar/${fileName}`;
 
   try {
+    // Upload the file
     const { error: uploadError } = await supabase.storage
-      .from("avatar")
+      .from('avatar')
       .upload(filePath, file);
 
-    if (uploadError) {
-      throw uploadError;
-    }
+    if (uploadError) throw uploadError;
 
-    const {
-      data: { publicUrl },
-    } = supabase.storage.from("avatar").getPublicUrl(filePath);
+    // Get the public URL
+    const { data: { publicUrl } } = supabase.storage
+      .from('avatar')
+      .getPublicUrl(filePath);
 
-    console.log("Uploaded image URL:", publicUrl);
+    // Update the user's profile in the database
+    const user = await getLoggedInUser();
+    if (!user) throw new Error('User not logged in');
 
+    const { error: updateError } = await supabase
+      .from('Users')
+      .update({ photoUrl: publicUrl })
+      .eq('id', user.id);
+
+    if (updateError) throw updateError;
+
+    console.log('Avatar uploaded and user updated successfully');
     return publicUrl;
   } catch (error) {
-    console.error("Error uploading image:", error);
-    throw new Error("Failed to upload avatar.");
+    console.error('Error uploading avatar:', error);
+    throw new Error('Failed to upload avatar.');
   }
 }
 

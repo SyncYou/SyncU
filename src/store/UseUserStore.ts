@@ -1,4 +1,3 @@
-// store/useUserStore.ts
 import { create } from 'zustand';
 import { User } from '@supabase/supabase-js';
 import { supabase } from '../supabase/client';
@@ -12,7 +11,8 @@ interface UserDetails {
   countryOfResidence: string;
   photoUrl: string;
   areaOfExpertise: string;
-  links: string[],
+  links: string[];
+  description: string;
   stacks: string[];
   onboardingComplete: boolean | string;
 }
@@ -45,6 +45,7 @@ const initialUserDetails: UserDetails = {
   photoUrl: '',
   areaOfExpertise: '',
   links: [],
+  description: '',
   stacks: ['N/A', 'N/A', 'N/A'],
   onboardingComplete: 'false'
 };
@@ -140,6 +141,7 @@ export const useUserStore = create<UserState>((set, get) => ({
           photoUrl: data.photoUrl || '',
           areaOfExpertise: data.areaOfExpertise || '',
           links: data.links || [],
+          description: data.desrciption || '',
           stacks: data.stacks || ['N/A', 'N/A', 'N/A'],
           onboardingComplete: data.onboardingComplete
         }

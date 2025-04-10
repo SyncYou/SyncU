@@ -1,15 +1,15 @@
 import ProfileImageUpdate from "../ProfileImageUpdate";
 import SecondaryButton from "../../Reuseables/SecondaryButton";
 import PrimaryButton from "../../Reuseables/PrimaryButton";
-import { useUserData } from "../../../context/useUserData";
+// import { useUserData } from "../../../context/useUserData";
 import useUpdateBiodata from "../../../hooks/useUpdateBiodata";
+import { useUserStore } from "../../../store/UseUserStore";
 
 const AboutMe = () => {
-  // Custom Hooks
-  const { user } = useUserData();
-  const { firstName, lastName, description, photoUrl } = user;
+  const { userDetails } = useUserStore();
+  const { firstName, lastName, description, photoUrl } = userDetails || {};
 
-  // Custom hook for updating the biodata
+
   const {
     update,
     formData,
@@ -18,9 +18,9 @@ const AboutMe = () => {
     mutateAsync,
     isPending,
   } = useUpdateBiodata({
-    firstName,
-    lastName,
-    aboutMe: description,
+    firstName: firstName || '',
+    lastName: lastName || '',
+    aboutMe: description || '',
   });
 
   return (
@@ -28,7 +28,7 @@ const AboutMe = () => {
       <div className="flex flex-col h-[490px] gap-8 px-8">
         <div className="flex gap-4 items-center">
           <div className="h-20 w-20 rounded-full border border-gray200">
-            <img src={photoUrl} alt="profile-photo" className="w-full" />
+            <img src={photoUrl} alt="profile-photo" className="w-full rounded-full object-cover h-full" />
           </div>
           <div className="">
             <p className="mb-1 font-normal text-sm text-gray700">

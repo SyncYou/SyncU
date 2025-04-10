@@ -15,12 +15,12 @@ import { useState } from "react";
 import ProfileUpdate from "../../components/ProfileScreen/ProfileUpdate";
 import { useUserProgress } from "../../context/useUserProgress";
 import AvailablitySwitcher from "../../components/ProfileScreen/AvailablitySwitcher";
-import { useUserData } from "../../context/useUserData";
 import { formatTimestamp } from "../../utils/FormatDate";
 import { useQuery } from "@tanstack/react-query";
 import { getLoggedInUser } from "../../utils/AuthRequest";
 import { Loading } from "../../components/Reuseables/Loading";
 import { fetchCreatedProjects } from "../../utils/queries/fetch";
+import { useUserStore } from "../../store/UseUserStore";
 
 const Profile = () => {
   const [hover, setHover] = useState(false);
@@ -33,17 +33,16 @@ const Profile = () => {
       queryFn: fetchCreatedProjects,
     });
 
-  const { user } = useUserData();
-  const {
-    firstName,
-    lastName,
-    username,
-    stacks,
-    areaOfExpertise,
-    photoUrl,
-    countryOfResidence,
-    // links,
-  } = user;
+    const { userDetails } = useUserStore();
+    const {
+      firstName,
+      lastName,
+      username,
+      stacks,
+      areaOfExpertise,
+      photoUrl,
+      countryOfResidence,
+    } = userDetails || {};
 
   const handleClick = () => {
     setHover((h) => !h);
@@ -66,7 +65,7 @@ const Profile = () => {
         <div className="flex flex-col gap-3">
           <div className="flex justify-between">
             <div className="h-[96px] w-[96px] rounded-full border border-gray200">
-              <img src={photoUrl} className="w-full rounded-full" alt="" />
+              <img src={photoUrl} className="w-full rounded-full h-full object-cover" alt="" />
             </div>
             <div className="flex gap-4">
               <SecondaryButton
@@ -151,7 +150,7 @@ const Profile = () => {
             Skills or stacks
           </p>
           <div className="py-[10px] px-4 flex gap-3 flex-wrap">
-            {stacks.map((stack, idx) => {
+            {stacks?.map((stack, idx) => {
               return (
                 <div key={idx} className="flex justify-center items-center">
                   <Chip>{stack}</Chip>

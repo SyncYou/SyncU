@@ -11,13 +11,12 @@ import Skills from "./ProfileUpdates/Skills";
 import PortfolioLinks from "./ProfileUpdates/PortfolioLinks";
 
 const ProfileUpdate = ({ state }: { state: () => void }) => {
-  // Custom Hooks
   const { progress } = useUserProgress();
 
-  // States
+
   const [currentView, setCurrentView] = useState("About Me");
 
-  // Functions
+
   const toggleAboutMe = () => setCurrentView("About Me");
   const toggleUsername = () => setCurrentView("Username");
   const toggleSkills = () => setCurrentView("Skills/stacks");
