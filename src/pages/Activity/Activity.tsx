@@ -8,9 +8,16 @@ import { UserDetails } from "../../store/UseUserStore";
 
 const Activity = () => {
   const { alerts } = useAlerts();
-
   const [selectedAlert, setSelectedAlert] = useState<Alert | null>(null);
   const [showModal, setShowModal] = useState(false);
+  const [activeTab, setActiveTab] = useState<"all" | "requests">("all");
+
+  // Filter alerts based on active tab
+  const filteredAlerts = alerts?.filter(alert => {
+    if (activeTab === "all") return true;
+    return alert.message.includes("has requested to join") || 
+           alert.message.includes("request to join");
+  });
 
   // Fetch creator data
   const { data: creatorData } = useQuery<UserDetails | undefined>({
@@ -39,11 +46,10 @@ const Activity = () => {
       setShowModal(true);
     }
   };
+
   useEffect(() => {
-    console.log(alerts)
-  }, [alerts])
-
-
+    console.log(alerts);
+  }, [alerts]);
 
   return (
     <section className="px-5 pt-5 md:py-6 md:px-[100px] w-full text-gray950">
@@ -53,18 +59,32 @@ const Activity = () => {
             Here are updates for you.
           </h1>
           <p className="font-normal text-sm md:text-base text-gray-800">
-            Hello there👋! You have {alerts?.length} unread updates that need
+            Hello there👋! You have {filteredAlerts?.length} unread updates that need
             your attention.
           </p>
         </div>
         <div className="h-[60px] py-4">
           <div className="flex gap-4">
-            <div className="h-7 py-1 px-3 rounded-full border-[1.5px] border-brand600 text-center cursor-pointer text-xs font-medium text-brand600 min-w-16">
+            <button 
+              onClick={() => setActiveTab("all")}
+              className={`h-7 py-1 px-3 rounded-full border-[1.5px] ${
+                activeTab === "all" 
+                  ? "border-brand600 text-brand600" 
+                  : "border-gray300 text-gray700"
+              } text-center cursor-pointer text-xs font-medium min-w-16`}
+            >
               All
-            </div>
-            <div className="h-7 py-1 px-3 rounded-full border-[1.5px] border-gray300 text-center cursor-pointer text-xs font-medium min-w-16">
+            </button>
+            <button
+              onClick={() => setActiveTab("requests")}
+              className={`h-7 py-1 px-3 rounded-full border-[1.5px] ${
+                activeTab === "requests" 
+                  ? "border-brand600 text-brand600" 
+                  : "border-gray300 text-gray700"
+              } text-center cursor-pointer text-xs font-medium min-w-16`}
+            >
               Requests
-            </div>
+            </button>
           </div>
         </div>
         <hr />
@@ -72,23 +92,27 @@ const Activity = () => {
       <div className="py-3">
         <p>Today</p>
         <div className="flex flex-col gap-3">
-          {alerts?.slice().reverse().map((alert,idx) => (
-            <div   className={`${alert.status === "accepted" ? "cursor-pointer hover:bg-gray100" : "cursor-default"}`}  onClick={() => handleAlertClick(alert)} key={idx}>
+          {filteredAlerts?.slice().reverse().map((alert, idx) => (
+            <div   
+              className={`${alert.status === "accepted" ? "cursor-pointer hover:bg-gray100" : "cursor-default"}`}  
+              onClick={() => handleAlertClick(alert)} 
+              key={idx}
+            >
               <div className="p-2 hover:bg-gray100 flex items-center gap-4 relative">
                 <div className="w-10 h-10 bg-gray950 block rounded-full"></div>
                 <div className="font-normal text-gray700 text-sm">
                   <div className="flex gap-2">
                     <span className="text-base font-semibold text-gray900">
-                      {alert.status === "accepted" &&
-                        "Congratulations🎉 you're in!"}
-                      {alert.status === "pending" && "Someone requested"}
-                      {alert.status === "rejected" &&
-                        "Sorry, you have been rejected "}
+                      {alert.status === "accepted" && "Congratulations🎉 you're in!"}
+                      {alert.status === "pending" && "You have a new notification"}
+                      {alert.status === "rejected" && "Sorry, you have been rejected"}
                     </span>
                     <span>1h</span>
                   </div>
                   <p className="">{alert.message}</p>
-                  <div className="w-4 h-4 rounded-full bg-brand600 absolute right-2 top-[22px] border border-white"></div>
+                  {!alert.is_read && (
+                    <div className="w-4 h-4 rounded-full bg-brand600 absolute right-2 top-[22px] border border-white"></div>
+                  )}
                 </div>
               </div>
               <hr />

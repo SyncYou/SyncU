@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchUser } from "../../utils/queries/fetch";
-import { Loading } from "../Reuseables/Loading";
 import { acceptInvitation, rejectInvitation } from "../../utils/SupabaseRequest";
 import { Alert } from "../../utils/types/Types";
 

@@ -5,7 +5,6 @@ import { HiOutlineBriefcase, HiOutlineLockClosed } from "react-icons/hi";
 import { PiTagChevron } from "react-icons/pi";
 import { FaRegCalendarMinus } from "react-icons/fa";
 import { IoCheckmarkCircle } from "react-icons/io5";
-import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import Overlay from "../Reuseables/Overlay";
 import SecondaryButton from "../Reuseables/SecondaryButton";
 import PrimaryButton from "../Reuseables/PrimaryButton";
@@ -30,7 +29,7 @@ import { Alert } from "../../utils/types/Types";
 interface PropsType {
   state: () => void;
   id: string;
-  isOpen: boolean; 
+  isOpen: boolean;
 }
 const ProjectDetails = ({ state, id, isOpen }: PropsType) => {
   const { modal, handleModal } = useModalView();
@@ -48,7 +47,6 @@ const ProjectDetails = ({ state, id, isOpen }: PropsType) => {
     setIsRequested,
   } = useProjectRequest(id);
 
-  // const isParticipant = data?.participants?.includes(userDetails?.id ?? "");
   const creator = data?.created_by === userDetails?.id;
 
   const { data: creatorData } = useQuery({
@@ -60,13 +58,13 @@ const ProjectDetails = ({ state, id, isOpen }: PropsType) => {
   useEffect(() => {
     if (isOpen && userDetails?.id) {
       checkRequestStatus();
-      console.log(123)
+      console.log(123);
     }
   }, [isOpen, userDetails?.id]);
 
   const checkRequestStatus = async () => {
     if (!userDetails?.id || !id) return;
-    
+
     try {
       const invitations = await fetchProjectInvitations(id, userDetails.id);
       setIsRequested(invitations.length > 0);
@@ -81,22 +79,42 @@ const ProjectDetails = ({ state, id, isOpen }: PropsType) => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("Notifications")
-        .select("*")
-        .eq("action_data->>projectId", id);
-  
+        .select("*, action_data")
+        .eq("action_data->>projectId", id); 
+
       if (error) throw error;
-      return data as Alert[];
+      console.log("Raw notifications data:", data);
+
+      const invitationsWithUsers = await Promise.all(
+        (data as Alert[]).map(async (invitation) => {
+          const userId =
+            invitation.action_data.sender || invitation.action_data.creatorId;
+          const { data: user } = await supabase
+            .from("Users")
+            .select("photoUrl, username")
+            .eq("id", userId)
+            .single();
+
+          return {
+            ...invitation,
+            user,
+          };
+        })
+      );
+
+      console.log(invitations);
+      return invitationsWithUsers;
     },
     enabled: !!id && isOpen,
   });
-  
-  // Separate requests and invites
-  const requests = invitations?.filter(
-    inv => inv.message.includes("requested to join")
-  ) || [];
-  const invites = invitations?.filter(
-    inv => inv.message.includes("invited to collaborate")
-  ) || [];
+
+  const requests =
+    invitations?.filter((inv) => inv.message.includes("requested to join")) ||
+    [];
+  const invites =
+    invitations?.filter((inv) =>
+      inv.message.includes("invited to collaborate")
+    ) || [];
 
   return (
     <Overlay>
@@ -166,14 +184,15 @@ const ProjectDetails = ({ state, id, isOpen }: PropsType) => {
 
             {creator && (
               <SecondaryButton classes="h-11">
-                <BiEdit/>
-                Edit project</SecondaryButton>
+                <BiEdit />
+                Edit project
+              </SecondaryButton>
             )}
             {creator && (
               <PrimaryButton classes="h-11 flex items-center gap-2 py-2 px-4 rounded-full bg-[#FFEAEA] text-[#C83C3C] hover:opacity-90 hover:text-[#C83C3Ca4] ">
-                <RiDeleteBinLine/>
+                <RiDeleteBinLine />
                 Delete project
-                </PrimaryButton>
+              </PrimaryButton>
             )}
             <div className="w-4 h-0 border-[2px] border-gray200 my-auto -rotate-90"></div>
             <img
@@ -241,18 +260,16 @@ const ProjectDetails = ({ state, id, isOpen }: PropsType) => {
                     {data?.workspace?.name}
                   </span>
                 </div>
-                {
-                  !creator && (
-                <PrimaryButton
-                  onClick={() => window.open(data?.workspace?.url, "_blank")}
-                  // disabled={!isParticipant || false}
-                  classes="flex items-center gap-2 disabled:opacity-65 border border-gray200 py-2 px-4 rounded-full h-10 w-[84px]"
-                >
-                  <HiOutlineLockClosed />
-                  Join
-                </PrimaryButton>
-                  )
-                }
+                {!creator && (
+                  <PrimaryButton
+                    onClick={() => window.open(data?.workspace?.url, "_blank")}
+                    disabled={true}
+                    classes="flex items-center gap-2 disabled:opacity-65 border border-gray200 py-2 px-4 rounded-full h-10 w-[84px]"
+                  >
+                    <HiOutlineLockClosed />
+                    Join
+                  </PrimaryButton>
+                )}
               </div>
             </div>
             <div className="border-t border-gray200 flex flex-col gap-1">
@@ -281,14 +298,35 @@ const ProjectDetails = ({ state, id, isOpen }: PropsType) => {
                     {data?.project_views}
                   </p>
                 </div>
+
                 <div className="flex justify-between h-10 px-3 py-2">
                   <div>Requests and invites</div>
-                  {creator ? (
-                    <button onClick={handleModal}>{">"}</button>
-                  ) : (
-                    <p className="text-gray950 font-medium">
-                      {/* {data?.requests?.length} */}
-                    </p>
+                  {creator && (
+                    <div className="flex items-center">
+                      <div className="flex -space-x-2">
+                        {invitations
+                          ?.slice(0, 3)
+                          .map((invitation, index) => (
+                            <img
+                              key={index}
+                              src={
+                                invitation.user?.photoUrl ||
+                                "/signUp-imgs/avatar1.svg"
+                              }
+                              alt={invitation.user?.username}
+                              className="w-6 h-6 rounded-full border-2 border-white"
+                            />
+                          ))}
+                      </div>
+                      {[...requests, ...invites].length > 0 && (
+                        <button
+                          onClick={handleModal}
+                          className="ml-2 text-gray-500 hover:text-gray-700"
+                        >
+                          {">"}
+                        </button>
+                      )}
+                    </div>
                   )}
                 </div>
               </div>

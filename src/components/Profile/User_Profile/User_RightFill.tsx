@@ -32,7 +32,7 @@ export function User_RightFill({ rightStyle }: UserRightFillProps) {
     let timer: NodeJS.Timeout;
     if (isLoading) {
       timer = setTimeout(() => {
-        navigate("/project");
+        navigate("/");
       }, 5000);
     }
 

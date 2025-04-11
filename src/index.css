@@ -87,6 +87,18 @@ body {
   animation: fadeIn 0.5s ease-in;
 }
 
+/* For the overlapping avatars */
+.avatar-stack {
+  display: flex;
+}
+.avatar-stack img {
+  margin-left: -0.5rem;
+  border: 2px solid white;
+}
+.avatar-stack img:first-child {
+  margin-left: 0;
+}
+
 @keyframes fadeIn {
   from { opacity: 0.5; }
   to { opacity: 1; }

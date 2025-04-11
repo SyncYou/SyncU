@@ -17,10 +17,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     profile
   } = useCurrentUser();
   
-  // Track if we've initialized auth
   const initializedRef = useRef(false);
 
-  // Initialize auth only once
   useEffect(() => {
     if (initializedRef.current) return;
     
@@ -49,7 +47,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return () => subscription.unsubscribe();
   }, []);
 
-  // Handle route protection
   useEffect(() => {
     if (loading || !initializedRef.current) return;
 
@@ -61,7 +58,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     if (!authUser) {
       if (isProtectedRoute) {
-        navigate('/auth/signin', { 
+        navigate('/auth/signup', { 
           replace: true,
           state: { from: currentPath }
         });
@@ -72,7 +69,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           replace: true 
         });
       }
-      // Removed the explicit initializeAuth call here to prevent loops
+      
     }
   }, [authUser, loading, navigate, location, profile]);
 

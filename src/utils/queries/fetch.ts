@@ -85,22 +85,25 @@ export async function fetchUserRequestedProject(): Promise<ProjectType[] | undef
     const userId = await getCurrentUserId();
     if (!userId) return undefined;
 
-    const { data: requestsData, error: requestsError } = await supabase
-      .from("Requests")
+    const { data: invitations, error: invitationsError } = await supabase
+      .from("Project_Invitations")
       .select("project_id")
-      .eq("user_id", userId);
+      .eq("sender_id", userId)
+      .eq("type", "request");
 
-    if (requestsError) throw new Error(requestsError.message);
-    if (!requestsData?.length) return [];
+    if (invitationsError) throw new Error(invitationsError.message);
+    if (!invitations?.length) return [];
 
-    const projectIds = requestsData.map(req => req.project_id);
-    const { data: projectsData, error: projectsError } = await supabase
+    const projectIds = [...new Set(invitations.map(inv => inv.project_id))];
+
+
+    const { data: projects, error: projectsError } = await supabase
       .from("Projects")
-      .select()
+      .select("*")
       .in("id", projectIds);
 
     if (projectsError) throw new Error(projectsError.message);
-    return projectsData ?? undefined;
+    return projects ?? [];
   } catch (error) {
     console.error("Error fetching requested projects:", error);
     return undefined;

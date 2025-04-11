@@ -1,18 +1,21 @@
 import { useState, useRef, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useUserStore } from "../store/UseUserStore";
 import { signupWithOTP, verifyEmail } from "../utils/AuthRequest";
 import { errorToast, successToast } from "oasis-toast";
 import { supabase } from "../supabase/client";
 
+
 const useVerifyEmail = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { userDetails } = useUserStore();
   const [isLoading, setIsLoading] = useState(false);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [otp, setOtp] = useState(new Array(6).fill(""));
 
   const email = userDetails?.email;
+  const from = location.state?.from?.pathname || "/";
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>, idx: number) => {
@@ -71,10 +74,12 @@ const useVerifyEmail = () => {
 
           if (profileError || !profile) {
             successToast("Verified!", "Please complete your profile");
-            navigate("/auth/set-up-your-profile");
+            navigate("/auth/set-up-your-profile", {
+              state: { from } // Pass the original destination
+            });
           } else {
             successToast("Welcome back!", "Redirecting to your dashboard");
-            navigate("/");
+            navigate(from, { replace: true });
           }
         }
       }

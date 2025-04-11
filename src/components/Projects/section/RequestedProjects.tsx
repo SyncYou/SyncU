@@ -3,22 +3,24 @@ import ProjectCard from "../ProjectCard";
 import { fetchUserRequestedProject } from "../../../utils/queries/fetch";
 import { useQuery } from "@tanstack/react-query";
 
-
 const RequestedProjects = () => {
   const { data: projects, isLoading } = useQuery({
     queryKey: ["requested-projects"],
     queryFn: fetchUserRequestedProject,
   });
 
-  // const requestedProjects = projects?.filter((pg) =>
-  //   pg.requests.some((reqPg: { userId: string; status: string }) => reqPg.userId === user.data.user?.id)
-  // );
-
   return (
     <section className="md:px-8 px-4 md:py-6 pt-6 pb-20 md:w-full w-screen">
-      {isLoading && ( <div className="h-full w-full flex justify-center items-center pt-20">
-            <div className="w-10 h-10 border-4 border-gray-800 border-solid border-t-transparent rounded-full animate-spin"></div>
-          </div>)}
+      {isLoading && (
+        <div className="grid md:grid-cols-[repeat(auto-fit,_minmax(305px,_1fr))] gap-8">
+          {[...Array(3)].map((_, i) => (
+            <div
+              key={i}
+              className="h-[305px] bg-gray100 rounded-md animate-pulse"
+            ></div>
+          ))}
+        </div>
+      )}
       {projects?.length === 0 ? (
         <div className="mx-auto w-[261px] flex flex-col gap-6">
           <img className="w-[124px] mx-auto" src={empty} alt="" />

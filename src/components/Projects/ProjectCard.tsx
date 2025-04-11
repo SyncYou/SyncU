@@ -42,7 +42,7 @@ const ProjectCard = forwardRef<HTMLDivElement, PropsType>(
 
 
   return (
-    <div ref={ref} key={data.created_by} className="h-[305px] md:w-full text-gray950">
+    <div ref={ref} key={data.created_by} className="h-[305px] md:w-full max-w-[305px] text-gray950">
       <div className="w-full h-[46px] relative">
         <img
           src={logo}

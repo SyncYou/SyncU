@@ -52,7 +52,7 @@ const CreatedProjects = () => {
           </SecondaryButton>
         </div>
       ) : (
-        <section className="grid md:grid-cols-[repeat(auto-fit,_minmax(305px,_1fr))] min-h-full gap-8 md:max-w-full max-w-screen">
+        <section className="flex flex-col md:flex-row min-h-full gap-8 md:max-w-full max-w-screen">
           {createdProjects?.map((project, idx) => {
             return <ProjectCard key={idx} data={project} fetching={isLoading} />;
           })}
