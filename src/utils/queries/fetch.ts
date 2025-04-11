@@ -107,6 +107,22 @@ export async function fetchUserRequestedProject(): Promise<ProjectType[] | undef
   }
 }
 
+export async function fetchProjectDetails(projectId: string) {
+  try {
+    const { data, error } = await supabase
+      .from("Projects")
+      .select("*")
+      .eq("id", projectId)
+      .single();
+
+    if (error) throw error;
+    return data;
+  } catch (error) {
+    console.error("Error fetching project details:", error);
+    return null;
+  }
+}
+
 export async function fetchUser(id: string) {
   try {
     const { data, error } = await supabase

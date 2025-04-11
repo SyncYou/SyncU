@@ -1,58 +1,66 @@
-import { Request } from "../../utils/types/Types";
+import { useState } from "react";
 import Chip from "../Reuseables/Chip";
 import Overlay from "../Reuseables/Overlay";
-import SubSection from "../Reuseables/SubSection";
-import RequestObject from "../Reuseables/Request";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "../../supabase/client";
+import InvitationItem from "../Reuseables/InvitationItem";
+import { Alert } from "../../utils/types/Types";
 
 interface PropsType {
   projectId: string;
-  requests: Request[];
   state: () => void;
+  requests: Alert[];
+  invites: Alert[];
 }
 
-const ViewRequests = ({ projectId, state }: PropsType) => {
-  const { data: requests } = useQuery({
-    queryKey: ["project-request"],
-    queryFn: async (): Promise<Request[]> => {
-      const { data, error } = await supabase
-        .from("Projects")
-        .select("requests")
-        .eq("id", projectId)
-        .single();
+const ViewRequests = ({ projectId, state, requests, invites }: PropsType) => {
+  const [activeTab, setActiveTab] = useState<"requests" | "invites">(
+    "requests"
+  );
 
-      if (error) {
-        console.error(error);
-        throw new Error(error.message);
-      }
-      console.log(data.requests);
-      return data.requests;
-    },
-  });
+  // Get items for the active tab
+  const items = activeTab === "requests" ? requests : invites;
+
   return (
     <Overlay>
       <div className="h-[603px] w-[566px] rounded-[20px] bg-white">
-        <SubSection header="Requests" state={state} />
-        <div className="h-[451px] w-full flex flex-col py-4 px-6">
-          <div className="flex gap-3">
-            <Chip className="text-brand600 !border-brand600 h-7">All</Chip>
-            <Chip className="px-3">Accepted</Chip>
-            <Chip className="px-3">Declined</Chip>
+        <div className="h-[76px] flex justify-between items-center px-6 border-b border-gray200">
+          <h2 className="text-xl font-semibold">Project Collaborators</h2>
+          <button onClick={state}>
+            <img src="/assets/X.svg" alt="Close" />
+          </button>
+        </div>
+
+        <div className="p-6">
+          {/* Main tabs (Requests/Invites) */}
+          <div className="flex gap-4 mb-6">
+            <Chip
+              onClick={() => setActiveTab("requests")}
+              active={activeTab === "requests"}
+            >
+              Requests ({requests.length})
+            </Chip>
+            <Chip
+              onClick={() => setActiveTab("invites")}
+              active={activeTab === "invites"}
+            >
+              Invites ({invites.length})
+            </Chip>
           </div>
-          <div className="flex flex-col gap-2">
-            <p className="py-1">{requests?.length} requests</p>
-            <div>
-              {requests?.map((req, index) => {
-                return (
-                  <RequestObject
-                    key={index}
-                    projectId={projectId}
-                    request={req}
-                  />
-                );
-              })}
-            </div>
+
+          {/* List of items */}
+          <div className="space-y-4 max-h-[400px] overflow-y-auto">
+            {items.length === 0 && (
+              <p className="text-center text-gray500 py-4">
+                Nothing to show at his time.
+              </p>
+            )}
+            {items.map((item) => (
+              <InvitationItem
+                key={item.id}
+                invitation={item}
+                projectId={projectId}
+                type={activeTab}
+              />
+            ))}
           </div>
         </div>
       </div>

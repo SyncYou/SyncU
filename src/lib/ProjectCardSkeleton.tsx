@@ -23,7 +23,7 @@ const ProjectCardSkeleton = () => {
               </div>
             </div>
           </div>
-          <div className="h-[1px] w-full bg-gray200"></div>
+          <div className="h-[1px] w-full bg-gray200"></div>                                                                                 
           <div className="h-6 w-full">
             <div className="flex gap-2 items-center h-full">
               <div className="h-6 w-6 bg-gray200 rounded-full animate-pulse"></div>
@@ -36,4 +36,4 @@ const ProjectCardSkeleton = () => {
   );
 };
 
-export default ProjectCardSkeleton;
+export default ProjectCardSkeleton;                                   

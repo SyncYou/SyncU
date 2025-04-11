@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { NotificationType, UserData } from "../utils/types/Types";
+import { Alert, UserData } from "../utils/types/Types";
 
 interface Data {
   user: UserData;
@@ -7,8 +7,8 @@ interface Data {
 }
 
 interface Alerts {
-  alerts?: NotificationType[];
-  setAlerts: (fetchedAlerts?: NotificationType[]) => void;
+  alerts?: Alert[];
+  setAlerts: (fetchedAlerts?: Alert[]) => void;
 }
 
 export const useUserData = create<Data>((set) => ({

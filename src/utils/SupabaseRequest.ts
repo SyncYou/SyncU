@@ -230,12 +230,14 @@ export const requestToJoinProject = async (projectId: string, creatorId: string,
       message: `${user.firstName} has requested to join your project.`,
       is_read: false,
       action_data: { projectId, sender: user.id, creatorId },
+      status: "pending"
     },
     {
       to: user.id,
       message: `Your request to join ${project_name} has been sent.`,
       is_read: false,
       action_data: { projectId, sender: user.id, creatorId },
+      status: "pending"
     },
   ];
 
@@ -357,6 +359,32 @@ export const checkUsername = async (newUsername: string) => {
     return { status: "error", message: "An unexpected error occurred." };
   }
 }
+
+export const acceptInvitation = async (projectId: string, userId: string) => {
+  const { error } = await supabase
+    .from("Project_Invitations")
+    .update({ status: "accepted" })
+    .eq("project_id", projectId)
+    .eq("sender_id", userId);
+
+  if (error) throw error;
+  
+  // Add user to project participants if needed
+  await supabase
+    .from("Projects")
+    // .update({ participants: supabase.r("append", userId) })
+    // .eq("id", projectId);
+};
+
+export const rejectInvitation = async (projectId: string, userId: string) => {
+  const { error } = await supabase
+    .from("Project_Invitations")
+    .update({ status: "rejected" })
+    .eq("project_id", projectId)
+    .eq("sender_id", userId);
+
+  if (error) throw error;
+};
 
 // TO-DO
 // Fetch the creator of each project

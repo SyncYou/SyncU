@@ -49,12 +49,7 @@ export interface ProjectType {
   description: string;
   id: string;
   industry: string;
-  participants: string[];
   project_views: number;
-  requests: {
-    userId: string;
-    status: string;
-  }[];
   required_roles: string[];
   required_stacks: string[];
   title: string;
@@ -94,4 +89,18 @@ export type WorkSpaceType = "Slack" | "Discord" | "Microsoft teams";
 export interface Request {
   userId: string;
   status: string;
+}
+
+export interface Alert {
+  id: string;
+  message: string;
+  is_read: boolean;
+  created_at: string;
+  to: string;
+  action_data: {
+    creatorId: string;
+    projectId: string;
+    sender: string;
+  };
+  status?: "accepted" | "pending" | "rejected";
 }

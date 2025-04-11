@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { User } from '@supabase/supabase-js';
 import { supabase } from '../supabase/client';
 
-interface UserDetails {
+export interface UserDetails {
   id: string;
   firstName: string;
   lastName: string;

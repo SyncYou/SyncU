@@ -20,8 +20,12 @@ import WorkSpace from "../Reuseables/Workspace";
 import { useQuery } from "@tanstack/react-query";
 import { formatTimestamp } from "../../utils/FormatDate";
 import { useUserStore } from "../../store/UseUserStore";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { fetchProjectInvitations } from "../../utils/SupabaseRequest";
+import { BiEdit } from "react-icons/bi";
+import { RiDeleteBinLine } from "react-icons/ri";
+import { supabase } from "../../supabase/client";
+import { Alert } from "../../utils/types/Types";
 
 interface PropsType {
   state: () => void;
@@ -44,7 +48,7 @@ const ProjectDetails = ({ state, id, isOpen }: PropsType) => {
     setIsRequested,
   } = useProjectRequest(id);
 
-  const isParticipant = data?.participants?.includes(userDetails?.id ?? "");
+  // const isParticipant = data?.participants?.includes(userDetails?.id ?? "");
   const creator = data?.created_by === userDetails?.id;
 
   const { data: creatorData } = useQuery({
@@ -72,13 +76,36 @@ const ProjectDetails = ({ state, id, isOpen }: PropsType) => {
     }
   };
 
+  const { data: invitations } = useQuery({
+    queryKey: ["project-invitations", id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("Notifications")
+        .select("*")
+        .eq("action_data->>projectId", id);
+  
+      if (error) throw error;
+      return data as Alert[];
+    },
+    enabled: !!id && isOpen,
+  });
+  
+  // Separate requests and invites
+  const requests = invitations?.filter(
+    inv => inv.message.includes("requested to join")
+  ) || [];
+  const invites = invitations?.filter(
+    inv => inv.message.includes("invited to collaborate")
+  ) || [];
+
   return (
     <Overlay>
       {modal && (
         <ViewRequests
           projectId={data?.id ?? ""}
-          requests={data?.requests ?? []}
           state={handleModal}
+          requests={requests}
+          invites={invites}
         />
       )}
       {sendingRequest && <Loading />}
@@ -138,22 +165,22 @@ const ProjectDetails = ({ state, id, isOpen }: PropsType) => {
             )}
 
             {creator && (
-              <SecondaryButton classes="h-11">Edit project</SecondaryButton>
+              <SecondaryButton classes="h-11">
+                <BiEdit/>
+                Edit project</SecondaryButton>
             )}
-            <div className="w-20 h-[32px] flex gap-4 my-auto">
-              <button className="w-[32px] h-[32px] rounded-[80px] opacity-70 border-[0.4px] flex justify-center items-center border-gray200">
-                <FaArrowLeftLong className="text-sm" />
-              </button>
-              <button className="w-[32px] h-[32px] rounded-[80px] shadow border-[0.4px] flex justify-center items-center border-gray200">
-                <FaArrowRightLong className="text-sm" />
-              </button>
-            </div>
+            {creator && (
+              <PrimaryButton classes="h-11 flex items-center gap-2 py-2 px-4 rounded-full bg-[#FFEAEA] text-[#C83C3C] hover:opacity-90 hover:text-[#C83C3Ca4] ">
+                <RiDeleteBinLine/>
+                Delete project
+                </PrimaryButton>
+            )}
             <div className="w-4 h-0 border-[2px] border-gray200 my-auto -rotate-90"></div>
             <img
               onClick={state}
               className="my-auto cursor-pointer"
               src={x}
-              alt=""
+              alt="close button"
             />
           </div>
         </div>
@@ -214,14 +241,18 @@ const ProjectDetails = ({ state, id, isOpen }: PropsType) => {
                     {data?.workspace?.name}
                   </span>
                 </div>
+                {
+                  !creator && (
                 <PrimaryButton
                   onClick={() => window.open(data?.workspace?.url, "_blank")}
-                  disabled={!isParticipant || false}
+                  // disabled={!isParticipant || false}
                   classes="flex items-center gap-2 disabled:opacity-65 border border-gray200 py-2 px-4 rounded-full h-10 w-[84px]"
                 >
                   <HiOutlineLockClosed />
                   Join
                 </PrimaryButton>
+                  )
+                }
               </div>
             </div>
             <div className="border-t border-gray200 flex flex-col gap-1">
@@ -251,12 +282,12 @@ const ProjectDetails = ({ state, id, isOpen }: PropsType) => {
                   </p>
                 </div>
                 <div className="flex justify-between h-10 px-3 py-2">
-                  <div>Requests</div>
+                  <div>Requests and invites</div>
                   {creator ? (
                     <button onClick={handleModal}>{">"}</button>
                   ) : (
                     <p className="text-gray950 font-medium">
-                      {data?.requests?.length}
+                      {/* {data?.requests?.length} */}
                     </p>
                   )}
                 </div>

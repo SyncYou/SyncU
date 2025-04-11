@@ -1,11 +1,49 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAlerts } from "../../context/useUserData";
+import { useQuery } from "@tanstack/react-query";
+import { fetchProjectDetails, fetchUser } from "../../utils/queries/fetch";
+import ProjectAcceptanceModal from "../../components/Projects/ProjectAcceptanceModal";
+import { Alert, ProjectType } from "../../utils/types/Types";
+import { UserDetails } from "../../store/UseUserStore";
 
 const Activity = () => {
   const { alerts } = useAlerts();
+
+  const [selectedAlert, setSelectedAlert] = useState<Alert | null>(null);
+  const [showModal, setShowModal] = useState(false);
+
+  // Fetch creator data
+  const { data: creatorData } = useQuery<UserDetails | undefined>({
+    queryKey: ["creator", selectedAlert?.action_data?.creatorId],
+    queryFn: () => fetchUser(selectedAlert?.action_data?.creatorId as string),
+    enabled: !!selectedAlert?.action_data?.creatorId && showModal,
+  });
+
+  // Fetch sender data
+  const { data: senderData } = useQuery<UserDetails | undefined>({
+    queryKey: ["sender", selectedAlert?.action_data?.sender],
+    queryFn: () => fetchUser(selectedAlert?.action_data?.sender as string),
+    enabled: !!selectedAlert?.action_data?.sender && showModal,
+  });
+
+  // Fetch project data
+  const { data: projectData } = useQuery<ProjectType | undefined>({
+    queryKey: ["project", selectedAlert?.action_data?.projectId],
+    queryFn: () => fetchProjectDetails(selectedAlert?.action_data?.projectId as string),
+    enabled: !!selectedAlert?.action_data?.projectId && showModal,
+  });
+
+  const handleAlertClick = (alert: Alert) => {
+    if (alert.status === "accepted") {
+      setSelectedAlert(alert);
+      setShowModal(true);
+    }
+  };
   useEffect(() => {
     console.log(alerts)
   }, [alerts])
+
+
 
   return (
     <section className="px-5 pt-5 md:py-6 md:px-[100px] w-full text-gray950">
@@ -34,31 +72,18 @@ const Activity = () => {
       <div className="py-3">
         <p>Today</p>
         <div className="flex flex-col gap-3">
-        <div className="py-2 px-1  hover:bg-gray100 flex items-center gap-1 md:gap-4 relative">
-                <div className="w-8 h-8 md:w-10 md:h-10 bg-gray950 block rounded-[50%]"></div>
-                <div className="font-normal text-gray700 text-sm">
-                  <div className="flex gap-2">
-                   <span className="px-1 text-black text-base font-semibold">Welcome to Syncu! 🥰
-                    <span>1h</span>
-                    </span>
-                  </div>
-                  <p className="text-sm md:text-base px-2">Take a quick tour 🚀 to see how it works and get started!</p>
-                  <div className="w-4 h-4 rounded-full bg-brand600 absolute right-1 top-1/2 -translate-y-1/2 border border-white"></div>
-                </div>
-              </div>
           {alerts?.slice().reverse().map((alert,idx) => (
-            <div key={idx}>
+            <div   className={`${alert.status === "accepted" ? "cursor-pointer hover:bg-gray100" : "cursor-default"}`}  onClick={() => handleAlertClick(alert)} key={idx}>
               <div className="p-2 hover:bg-gray100 flex items-center gap-4 relative">
                 <div className="w-10 h-10 bg-gray950 block rounded-full"></div>
                 <div className="font-normal text-gray700 text-sm">
                   <div className="flex gap-2">
                     <span className="text-base font-semibold text-gray900">
-                      {/* {alert.status === "accepted" &&
+                      {alert.status === "accepted" &&
                         "Congratulations🎉 you're in!"}
                       {alert.status === "pending" && "Someone requested"}
                       {alert.status === "rejected" &&
-                        "Sorry, you have been rejected "} */}
-                        You have a new notification
+                        "Sorry, you have been rejected "}
                     </span>
                     <span>1h</span>
                   </div>
@@ -72,6 +97,16 @@ const Activity = () => {
         </div>
         <p className="pt-4 text-center text-[#73737F] text-sm">That's all for now</p>
       </div>
+
+      {showModal && selectedAlert && (
+        <ProjectAcceptanceModal
+          onClose={() => setShowModal(false)}
+          creator={creatorData}
+          sender={senderData}
+          project={projectData}
+          alert={selectedAlert}
+        />
+      )}
     </section>
   );
 };
