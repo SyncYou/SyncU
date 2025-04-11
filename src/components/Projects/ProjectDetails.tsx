@@ -43,7 +43,7 @@ const ProjectDetails = ({ state, id, isOpen }: PropsType) => {
     isRequested,
     withdrawRequest,
     data,
-    isFetching,
+    // isFetching,
     setIsRequested,
   } = useProjectRequest(id);
 
@@ -127,7 +127,7 @@ const ProjectDetails = ({ state, id, isOpen }: PropsType) => {
         />
       )}
       {sendingRequest && <Loading />}
-      {isFetching && <Loading />}
+      {/* {isFetching && <Loading />} */}
       {showNotification && (
         <div className="absolute z-20 h-10 px-4 rounded-lg bg-[#2A2A33CC] flex items-center justify-center gap-[10px]">
           <IoCheckmarkCircle className="text-success700" />
@@ -138,9 +138,11 @@ const ProjectDetails = ({ state, id, isOpen }: PropsType) => {
       )}
       {data && (
         <ProjectDetailsMobile
-          data={data}
+          // data={data}
+          id={data.id}
           state={state}
           handleModal={handleModal}
+          isOpen={isOpen}
         />
       )}
       <div className="md:w-[1060px] md:h-[758px] text-gray950 hidden md:flex flex-col gap-4 relative w-[358px] h-[458px] rounded-3xl bg-white">
