@@ -1,6 +1,5 @@
 import React from "react";
 import logo from "/Logo.svg";
-import syncu from "/syncu.svg";
 
 const Header: React.FC = () => {
   return (

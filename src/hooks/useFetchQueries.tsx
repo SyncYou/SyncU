@@ -1,12 +1,12 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import { NotificationType, UserData } from "../utils/types/Types";
+import { Alert, UserData } from "../utils/types/Types";
 import { supabase } from "../supabase/client";
 import { errorToast } from "oasis-toast";
 import { getLoggedInUser } from "../utils/AuthRequest";
 
 interface UseFetchQueriesResult {
   userData: UseQueryResult<UserData | undefined, Error>;
-  notifications: UseQueryResult<NotificationType[] | undefined, Error>;
+  notifications: UseQueryResult<Alert[] | undefined, Error>;
 }
 
 const useFetchQueries = (): UseFetchQueriesResult => {
@@ -36,9 +36,9 @@ const useFetchQueries = (): UseFetchQueriesResult => {
     enabled: !!user,
   });
 
-  const notifications = useQuery<NotificationType[] | undefined, Error>({
+  const notifications = useQuery<Alert[] | undefined, Error>({
     queryKey: ["notifications"],
-    queryFn: async (): Promise<NotificationType[] | undefined> => {
+    queryFn: async (): Promise<Alert[] | undefined> => {
       const currentUser = await getLoggedInUser();
       if (!currentUser?.id) return [];
 

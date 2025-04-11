@@ -1,20 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   requestToJoinProject,
   withdrawProjectRequest,
-  fetchProjectInvitations,
+  // fetchProjectInvitations,
 } from "../utils/SupabaseRequest";
 import { ProjectType } from "../utils/types/Types";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../supabase/client";
-import { useUserStore } from "../store/UseUserStore";
+// import { useUserStore } from "../store/UseUserStore";
 
 const useProjectRequest = (id: string) => {
   const [showNotification, setShowNotification] = useState<boolean>(false);
   const [notificationMessage, setNotificationMessage] = useState<string>("");
   const [sendingRequest, setSendingRequest] = useState<boolean>(false);
-  const { userDetails } = useUserStore();
-  const userId = userDetails?.id;
+  // const { userDetails } = useUserStore();
+  // const userId = userDetails?.id;
 
   const [data, setData] = useState<ProjectType | null>(null);
   const [isRequested, setIsRequested] = useState<boolean>(false);
