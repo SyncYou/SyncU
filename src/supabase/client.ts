@@ -7,4 +7,11 @@ if (!supabaseUrl || !supabaseKey) {
   throw new Error("Supabase URL or Key is not defined");
 }
 
-export const supabase = createClient(supabaseUrl, supabaseKey);
+export const supabase = createClient(supabaseUrl, supabaseKey, {
+  auth: {
+    storage: localStorage,
+    autoRefreshToken: true,
+    persistSession: true,
+    detectSessionInUrl: true
+  }
+});

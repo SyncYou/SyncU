@@ -6,22 +6,29 @@ import { useEffect } from "react";
 import useFetchQueries from "../hooks/useFetchQueries";
 import { useAlerts, useUserData } from "../context/useUserData";
 import PostProjectForm from "../components/Projects/PostProjectForm";
-import { useCurrentUser } from "../hooks/useCurrentUser";
+// import { useCurrentUser } from "../hooks/useCurrentUser";
 
 const Layout = () => {
   const { isOpen } = useSidebar();
   const { setUser } = useUserData();
   const { setAlerts } = useAlerts();
   // const {loading} = useAuth()
-  const {
-    initializeAuth
-  } = useCurrentUser();
+  // const {
+  //   initializeAuth
+  // } = useCurrentUser();
 
   const { userData, notifications } = useFetchQueries();
 
-  useEffect(() => {
-    initializeAuth();
-  }, [initializeAuth]);
+  // useEffect(() => {
+  //   const initialize = async () => {
+  //     try {
+  //       await initializeAuth();
+  //     } catch (error) {
+  //       console.error('Auth initialization error:', error);
+  //     }
+  //   };
+  //   initialize();
+  // }, [initializeAuth]);
 
   useEffect(() => {
     if (userData.data) {
