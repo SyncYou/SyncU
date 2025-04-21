@@ -1,6 +1,6 @@
 import { create } from 'zustand';
-import { User } from '@supabase/supabase-js';
-import { supabase } from '../supabase/client';
+// import { User } from '@supabase/supabase-js';
+// import { supabase } from '../supabase/client';
 
 export interface UserDetails {
   id: string;
@@ -17,145 +17,74 @@ export interface UserDetails {
   onboardingComplete: boolean | string;
 }
 
-interface UserState {
-  authUser: User | null;
-  loading: boolean;
-  error: string | null;
-  userDetails: UserDetails | null;
+interface UserStore {
+  userDetails: UserDetails;
   currentStep: number;
-  setAuthUser: (user: User | null) => void;
-  setLoading: (loading: boolean) => void;
-  setError: (error: string | null) => void;
-  setUserDetails: (details: Partial<UserDetails>) => void;
+  setUserDetails: (key: keyof UserDetails, value: string | boolean) => void;
   setCurrentStep: (step: number) => void;
   removeSkill: (skill: string) => void;
   toggleSkill: (skill: string) => void;
-  initializeAuth: () => Promise<void>;
-  fetchUserProfile: (userId: string) => Promise<void>;
-  clearUser: () => void;
+  isStackValid: () => boolean;
 }
 
-const initialUserDetails: UserDetails = {
-  id: '',
-  firstName: '',
-  lastName: '',
-  email: '',
-  username: '',
-  countryOfResidence: 'Nigeria',
-  photoUrl: '',
-  areaOfExpertise: '',
-  links: [],
-  description: '',
-  stacks: ['N/A', 'N/A', 'N/A'],
-  onboardingComplete: 'false'
-};
-
-export const useUserStore = create<UserState>((set, get) => ({
-  authUser: null,
-  loading: true,
-  error: null,
-  userDetails: null,
+export const useUserStore = create<UserStore>((set, get) => ({
+  userDetails: {
+    id: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    username: "",
+    countryOfResidence: "Nigeria",
+    photoUrl: "",
+    areaOfExpertise: "",
+    links: [],
+    description: "",
+    stacks: ["N/A", "N/A", "N/A"],
+    onboardingComplete: 'false'
+  },
   currentStep: 1,
-
-  setAuthUser: (user) => set({ authUser: user }),
-  setLoading: (loading) => set({ loading }),
-  setError: (error) => set({ error }),
-
-  setUserDetails: (details: Partial<UserDetails>) => 
+  setUserDetails: (key, value) =>
     set((state) => ({
-      userDetails: state.userDetails 
-        ? { ...state.userDetails, ...details }
-        : { ...initialUserDetails, ...details }
+      userDetails: {
+        ...state.userDetails,
+        [key]: value,
+      },
     })),
 
-  setCurrentStep: (step) => set({ currentStep: step }),
+  setCurrentStep: (step) =>
+    set(() => ({
+      currentStep: step,
+    })),
 
-  removeSkill: (skill) =>
+  removeSkill: (skill: string) =>
     set((state) => {
-      if (!state.userDetails) return state;
-      const updatedStack = state.userDetails.stacks.filter(item => item !== skill);
+      const updatedStack = state.userDetails.stacks.filter(
+        (item) => item !== skill
+      );
       return {
-        userDetails: { ...state.userDetails, stacks: updatedStack }
+        userDetails: { ...state.userDetails, stacks: updatedStack },
       };
     }),
 
   toggleSkill: (skill) =>
     set((state) => {
-      if (!state.userDetails) return state;
-      let stacks = [...state.userDetails.stacks];
-      
+      const { stacks } = state.userDetails;
+
       if (stacks.includes(skill)) {
-        stacks = stacks.filter(item => item !== skill);
-      } else {
-        stacks = [...stacks.filter(item => item !== "N/A"), skill];
+        const updatedStack = stacks.filter((item) => item !== skill);
+        return {
+          userDetails: { ...state.userDetails, stacks: updatedStack },
+        };
       }
-      
+
+      let updatedStack = [...stacks, skill];
+
+      updatedStack = updatedStack.filter((item) => item !== "N/A");
+
       return {
-        userDetails: { ...state.userDetails, stacks }
+        userDetails: { ...state.userDetails, stacks: updatedStack },
       };
     }),
 
-    initializeAuth: async () => {
-      set({ loading: true, error: null });
-      try {
-        const { data: { user }, error } = await supabase.auth.getUser();
-        
-        if (error) throw error;
-        if (!user) {
-          set({ authUser: null, userDetails: null, loading: false });
-          return;
-        }
-        
-        set({ authUser: user });
-        await get().fetchUserProfile(user.id);
-      } catch (error) {
-        set({ error: error instanceof Error ? error.message : 'Unknown error' });
-      } finally {
-        set({ loading: false });
-      }
-    },
-
-  fetchUserProfile: async (userId) => {
-    console.log('Fetching profile for user:', userId);
-    try {
-      const { data, error } = await supabase
-        .from('Users')
-        .select('*')
-        .eq('id', userId)
-        .single();
-  
-      if (error || !data) {
-        throw new Error(error?.message || 'User profile not found');
-      }
-  
-      console.log('Fetched user data:', data); 
-  
-      set({
-        userDetails: {
-          id: data.id,
-          firstName: data.firstName || '',
-          lastName: data.lastName || '',
-          email: data.email || '',
-          username: data.username || '',
-          countryOfResidence: data.countryOfResidence || 'Nigeria',
-          photoUrl: data.photoUrl || '',
-          areaOfExpertise: data.areaOfExpertise || '',
-          links: data.links || [],
-          description: data.desrciption || '',
-          stacks: data.stacks || ['N/A', 'N/A', 'N/A'],
-          onboardingComplete: data.onboardingComplete
-        }
-      });
-    } catch (error) {
-      console.error('Error fetching profile:', error);  
-      set({ error: error instanceof Error ? error.message : 'Failed to fetch profile' });
-    }
-  },
-
-  clearUser: () => set({ 
-    authUser: null,
-    userDetails: null,
-    currentStep: 1,
-    error: null
-  })
+  isStackValid: () => get().userDetails.stacks.includes("N/A"),
 }));

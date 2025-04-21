@@ -20,7 +20,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getLoggedInUser } from "../../utils/AuthRequest";
 import { Loading } from "../../components/Reuseables/Loading";
 import { fetchCreatedProjects } from "../../utils/queries/fetch";
-import { useUserStore } from "../../store/UseUserStore";
+import { useUserData } from "../../context/useUserData";
 
 const Profile = () => {
   const [hover, setHover] = useState(false);
@@ -33,16 +33,17 @@ const Profile = () => {
       queryFn: fetchCreatedProjects,
     });
 
-    const { userDetails } = useUserStore();
-    const {
-      firstName,
-      lastName,
-      username,
-      stacks,
-      areaOfExpertise,
-      photoUrl,
-      countryOfResidence,
-    } = userDetails || {};
+    const { user } = useUserData();
+  const {
+    firstName,
+    lastName,
+    username,
+    stacks,
+    areaOfExpertise,
+    photoUrl,
+    countryOfResidence,
+    // links,
+  } = user;
 
   const handleClick = () => {
     setHover((h) => !h);
