@@ -18,13 +18,13 @@ import { Loading } from "../Reuseables/Loading";
 import WorkSpace from "../Reuseables/Workspace";
 import { useQuery } from "@tanstack/react-query";
 import { formatTimestamp } from "../../utils/FormatDate";
-import { useUserStore } from "../../store/UseUserStore";
 import { useEffect } from "react";
 import { fetchProjectInvitations } from "../../utils/SupabaseRequest";
 import { BiEdit } from "react-icons/bi";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { supabase } from "../../supabase/client";
 import { Alert } from "../../utils/types/Types";
+import { useUserData } from "../../context/useUserData";
 
 interface PropsType {
   state: () => void;
@@ -33,7 +33,7 @@ interface PropsType {
 }
 const ProjectDetails = ({ state, id, isOpen }: PropsType) => {
   const { modal, handleModal } = useModalView();
-  const { userDetails } = useUserStore();
+   const { user } = useUserData();
 
   const {
     showNotification,
@@ -47,7 +47,7 @@ const ProjectDetails = ({ state, id, isOpen }: PropsType) => {
     setIsRequested,
   } = useProjectRequest(id);
 
-  const creator = data?.created_by === userDetails?.id;
+  const creator = data?.created_by === user?.id;
 
   const { data: creatorData } = useQuery({
     queryKey: ["project-creator", data?.id],
@@ -56,17 +56,17 @@ const ProjectDetails = ({ state, id, isOpen }: PropsType) => {
   });
 
   useEffect(() => {
-    if (isOpen && userDetails?.id) {
+    if (isOpen && user?.id) {
       checkRequestStatus();
       console.log(123);
     }
-  }, [isOpen, userDetails?.id]);
+  }, [isOpen, user?.id]);
 
   const checkRequestStatus = async () => {
-    if (!userDetails?.id || !id) return;
+    if (!user?.id || !id) return;
 
     try {
-      const invitations = await fetchProjectInvitations(id, userDetails.id);
+      const invitations = await fetchProjectInvitations(id, user.id);
       setIsRequested(invitations.length > 0);
       console.log(invitations.length);
     } catch (error) {
