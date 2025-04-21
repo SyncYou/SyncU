@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import profile from "/signUp-imgs/profile.svg";
 import Send from "/signUp-imgs/Send.svg";
 import whiteSent from "/signUp-imgs/Send1.svg";
@@ -9,11 +9,12 @@ import { IoLocationOutline } from "react-icons/io5";
 import { Loading } from "../Reuseables/Loading";
 import Button from "../Reuseables/Button";
 import { useLocation } from "react-router-dom";
-import { useUserStore } from "../../store/UseUserStore";
+// import { useUserStore } from "../../store/UseUserStore";
 import { useProfilePreview } from "../../hooks/useProfilePreview";
+import { useUserData } from "../../context/useUserData";
 
 const ProfilePreview: React.FC = () => {
-  const { userDetails, initializeAuth } = useUserStore();
+   const { user: userDetails } = useUserData();
   const location = useLocation();
   const isOnboardingFinishing = location.pathname === "/onboarding/finishing";
 
@@ -21,9 +22,7 @@ const ProfilePreview: React.FC = () => {
     isOnboardingFinishing
   );
 
-  useEffect(() => {
-    initializeAuth();
-  }, [initializeAuth]);
+  
 
   return (
     <section className="bg-[#ffffff] border border-[#E6E6F0] shadow-xl shadow-[#69696917] p-[30px] rounded-[24px] flex flex-col items-center justify-between w-full max-w-[450px] h-[35rem] mt-16">

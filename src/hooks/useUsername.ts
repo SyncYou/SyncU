@@ -51,7 +51,7 @@ export const useUsername = () => {
   // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setUserDetails({ [name]: value });
+    setUserDetails(name as keyof typeof userDetails, value);
 
     if (name === "username") {
       setUsernameToCheck(value.toLowerCase().trim());

@@ -26,7 +26,7 @@ export function Stack({
     setChecked(newCheckedState);
     // Open the modal if a stack is selected
     setIsModalOpen(newCheckedState !== null);
-    setUserDetails({ areaOfExpertise: "" });
+    setUserDetails("areaOfExpertise", "");
   }
 
   return (

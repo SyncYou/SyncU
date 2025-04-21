@@ -39,7 +39,7 @@ export const useSignup = () => {
     }
 
     try {
-      setUserDetails({email: email});
+      setUserDetails("email", email);
 
       const { data: response, error } = await signupWithOTP(email);
 

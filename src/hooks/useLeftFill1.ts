@@ -12,7 +12,7 @@ export const useLeftFill1 = () => {
 
   // Function to handle stack selection
   const handleAreaClick = (area: string) => {
-    setUserDetails({ areaOfExpertise: area });
+    setUserDetails("areaOfExpertise", area );
     setIsModalOpen(false);
   };
 
