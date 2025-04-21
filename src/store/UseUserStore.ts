@@ -20,7 +20,7 @@ export interface UserDetails {
 interface UserStore {
   userDetails: UserDetails;
   currentStep: number;
-  setUserDetails: (key: keyof UserDetails, value: string | boolean) => void;
+  setUserDetails: (details: Partial<UserDetails>) => void;
   setCurrentStep: (step: number) => void;
   removeSkill: (skill: string) => void;
   toggleSkill: (skill: string) => void;
@@ -43,14 +43,13 @@ export const useUserStore = create<UserStore>((set, get) => ({
     onboardingComplete: 'false'
   },
   currentStep: 1,
-  setUserDetails: (key, value) =>
+  setUserDetails: (details) =>
     set((state) => ({
       userDetails: {
         ...state.userDetails,
-        [key]: value,
+        ...details,
       },
     })),
-
   setCurrentStep: (step) =>
     set(() => ({
       currentStep: step,

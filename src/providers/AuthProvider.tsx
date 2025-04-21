@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
       if (event === 'SIGNED_OUT') {
-        navigate('/auth/signin');
+        navigate('/auth/signup');
       }
     });
 
@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const isAuthRoute = AUTH_ROUTES.includes(currentPath);
 
     if (!session?.user && isProtectedRoute) {
-      navigate('/auth/signin', { 
+      navigate('/auth/signup', { 
         replace: true,
         state: { from: currentPath }
       });

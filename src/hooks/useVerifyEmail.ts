@@ -4,12 +4,14 @@ import { useUserStore } from "../store/UseUserStore";
 import { signupWithOTP, verifyEmail } from "../utils/AuthRequest";
 import { errorToast, successToast } from "oasis-toast";
 import { supabase } from "../supabase/client";
+import { useUserData } from "../context/useUserData";
 
 
 const useVerifyEmail = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { userDetails } = useUserStore();
+  const { userDetails, setUserDetails } = useUserStore();
+  const {setUser} = useUserData();
   const [isLoading, setIsLoading] = useState(false);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [otp, setOtp] = useState(new Array(6).fill(""));
@@ -63,23 +65,39 @@ const useVerifyEmail = () => {
       if (error) throw error;
 
       if (session) {
+        // Get the authenticated user
         const { data: { user } } = await supabase.auth.getUser();
         
         if (user) {
-          const { data: profile, error: profileError } = await supabase
-            .from('profiles')
+        
+          setUserDetails({id: user.id});
+          
+          const { data: userProfile, error: profileError } = await supabase
+            .from('Users') 
             .select('*')
             .eq('id', user.id)
             .single();
 
-          if (profileError || !profile) {
+          if (profileError || !userProfile) {
+         
             successToast("Verified!", "Please complete your profile");
             navigate("/auth/set-up-your-profile", {
-              state: { from } // Pass the original destination
+              state: { from } 
             });
           } else {
-            successToast("Welcome back!", "Redirecting to your dashboard");
-            navigate(from, { replace: true });
+
+            setUser(userProfile); 
+
+            if (userProfile.onboardingComplete) {
+              successToast("Welcome back!", "Redirecting to your dashboard");
+              navigate(from, { replace: true });
+            } else {
+            
+              successToast("Almost there!", "Please complete your profile setup");
+              navigate("/auth/set-up-your-profile", {
+                state: { from } 
+              });
+            }
           }
         }
       }
@@ -91,7 +109,6 @@ const useVerifyEmail = () => {
       setIsLoading(false);
     }
   };
-
   const handleResendEmail = async () => {
     try {
       await signupWithOTP(email as string);

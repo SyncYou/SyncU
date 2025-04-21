@@ -3,6 +3,7 @@ import { useUserStore } from "../store/UseUserStore";
 import { getLoggedInUser } from "../utils/AuthRequest";
 import { sendUserDetails } from "../utils/SupabaseRequest";
 import { errorToast, successToast } from "oasis-toast";
+import { supabase } from "../supabase/client";
 // import { useNavigate } from "react-router-dom";
 
 export const useTellUsAboutYourself = () => {
@@ -23,6 +24,21 @@ export const useTellUsAboutYourself = () => {
     userDetails?.countryOfResidence !== "N/A";
 
   useEffect(() => {
+    const fetchUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (user) {
+        setUserDetails({ id: user.id });
+      }
+    };
+    fetchUser();
+    return () => {
+      fetchUser();
+    };
+  }, []);
+
+  useEffect(() => {
     setDisable(!isValid);
   }, [userDetails, isValid]);
 
@@ -32,13 +48,15 @@ export const useTellUsAboutYourself = () => {
       try {
         const user = await getLoggedInUser();
         if (user?.email) {
-          setUserDetails( "email", user.email );
+          setUserDetails({ email: user.email });
         }
         if (user?.user_metadata?.name) {
           const fullName = user.user_metadata.name;
           const [firstName, lastName] = fullName.split(" ");
-          setUserDetails("firstName", firstName);
-          setUserDetails("lastName", lastName);
+          setUserDetails({
+            firstName: firstName || "",
+            lastName: lastName || "",
+          });
         }
       } catch (error) {
         console.error("Error fetching user:", error);
@@ -53,7 +71,7 @@ export const useTellUsAboutYourself = () => {
   // Handle input change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setUserDetails(name as keyof typeof userDetails, value);
+    setUserDetails({ [name]: value });
   };
 
   // Open country modal
@@ -63,7 +81,7 @@ export const useTellUsAboutYourself = () => {
 
   // Select country from modal
   const handleCountrySelect = (selectedCountry: string) => {
-    setUserDetails("countryOfResidence", selectedCountry);
+    setUserDetails({ countryOfResidence: selectedCountry });
     setModalOpen(false);
   };
 

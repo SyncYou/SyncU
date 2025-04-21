@@ -10,7 +10,7 @@ const RequestedProjects = () => {
   });
 
   return (
-    <section className="md:px-8 px-4 md:py-6 pt-6 pb-20 md:w-full w-screen">
+    <section className="flex flex-col md:flex-row min-h-full gap-8 md:max-w-full max-w-screen p-5">
       {isLoading && (
         <div className="grid md:grid-cols-[repeat(auto-fit,_minmax(305px,_1fr))] gap-8">
           {[...Array(3)].map((_, i) => (

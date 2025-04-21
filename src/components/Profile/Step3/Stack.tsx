@@ -21,12 +21,17 @@ export function Stack({
   const { setUserDetails } = useUserStore();
 
   function handleToggle() {
-    // Toggle the checked state
     const newCheckedState = clicked ? null : id;
     setChecked(newCheckedState);
-    // Open the modal if a stack is selected
     setIsModalOpen(newCheckedState !== null);
-    setUserDetails("areaOfExpertise", "");
+    
+    
+    if (!clicked) {
+      setUserDetails({
+        areaOfExpertise: "",
+        stacks: ["N/A", "N/A", "N/A"] 
+      });
+    }
   }
 
   return (

@@ -20,6 +20,8 @@ const SideBar = () => {
   const { user: userData } = useUserData();
   const { setShow } = useDisplayPostProjectForm();
 
+  const isLoggedIn = !!userData?.id;
+
   return (
     <aside
       className={`md:h-screen h-20 right-0 fixed bottom-0 left-0 md:z-0 z-10 w-full overflow-hidden  ${
@@ -59,35 +61,60 @@ const SideBar = () => {
           {isOpen && <p>Activity</p>}
         </NavLink>
       </div>
-      <NavLink
-        to="/profile"
-        className={`md:flex mb-3 ${
+      {isLoggedIn ? (
+        <NavLink
+          to="/profile"
+          className={`md:flex mb-3 ${
+            isOpen ? "w-[191px]" : "w-12 justify-center"
+          } items-center  rounded-sm hover:bg-[#E6E6F0B2] h-12 mx-auto py-2 gap-2 hidden`}
+        >
+          <img
+            src={userData.photoUrl || user}
+            className="w-8 h-8 rounded-full object-cover"
+            alt="user-logo"
+          />
+          {isOpen && (
+            <div className="flex flex-col">
+              <span className="text-base text-gray950 font-normal">
+                {userData.firstName}
+              </span>
+              <span className="text-gray700 font-normal text-xs flex items-center gap-1">
+                <span
+                  className={`w-2 h-2 rounded-full ${
+                    status === "Available" && "bg-success700"
+                  } ${status === "Occupied" && "bg-[#F7BA36]"}
+                  ${status === "Not available" && "bg-gray500"}
+                  `}
+                ></span>
+                {status}
+              </span>
+            </div>
+          )}
+        </NavLink>
+      ) : (
+        <div className={`md:flex mb-3 ${
           isOpen ? "w-[191px]" : "w-12"
-        } items-center rounded-sm hover:bg-[#E6E6F0B2] h-12 px-3 py-2 gap-2 hidden`}
-      >
-        <img
-          src={userData.photoUrl || user}
-          className="w-8 h-8 rounded-full"
-          alt="user-logo"
-        />
-        {isOpen && (
-          <div className="flex flex-col">
-            <span className="text-base text-gray950 font-normal">
-              {userData.firstName}
-            </span>
-            <span className="text-gray700 font-normal text-xs flex items-center gap-1">
-              <span
-                className={`w-2 h-2 rounded-full ${
-                  status === "Available" && "bg-success700"
-                } ${status === "Occupied" && "bg-[#F7BA36]"}
-                ${status === "Not available" && "bg-gray500"}
-                `}
-              ></span>
-              {status}
-            </span>
-          </div>
-        )}
-      </NavLink>
+        } items-center rounded-sm h-12 px-3 py-2 gap-2 hidden`}>
+          {isOpen ? (
+            <NavLink 
+              to="/auth/signup"
+              className="w-full flex items-center gap-2"
+            >
+                <FaRegUser />
+              <div className="w-full">
+                Login
+              </div>
+            </NavLink>
+          ) : (
+            <NavLink 
+              to="/auth/signup"
+              className="w-8 h-8 flex items-center justify-center"
+            >
+              <FaRegUser />
+            </NavLink>
+          )}
+        </div>
+      )}
       <hr/>
       {isOpen && 
         <p className="hidden mt-3 md:flex flex-col text-xs">

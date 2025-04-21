@@ -27,7 +27,7 @@ export function useProfileImage() {
     const fetchProfileImage = async () => {
       const user = await getLoggedInUser();
       if (user) {
-        setUserDetails( "photoUrl", user?.user_metadata.avatar_url );
+        setUserDetails( {photoUrl: user?.user_metadata.avatar_url} );
       }
     };
     return () => {
@@ -36,7 +36,7 @@ export function useProfileImage() {
   }, [setUserDetails]);
 
   const handleAvatarSelect = (image: string) => {
-    setUserDetails( "photoUrl", image);
+    setUserDetails( {photoUrl: image});
   };
 
   const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -47,8 +47,8 @@ export function useProfileImage() {
       reader.onload = async () => {
         try {
           const avatarUrl = await uploadAvatar(file);
-          setUserDetails( "photoUrl", avatarUrl );
-          setUserDetails( "onboardingComplete", true );
+          setUserDetails( {photoUrl: avatarUrl} );
+          setUserDetails( {onboardingComplete: true} );
         } catch (error) {
           console.error("Error uploading image:", error);
         }
@@ -61,7 +61,7 @@ export function useProfileImage() {
     if (isValid) {
       try {
         const { error } = await sendUserDetails(userDetails);
-        setUserDetails( "onboardingComplete", true );
+        setUserDetails( {onboardingComplete: true} );
         if (error) {
           errorToast("An error occurred", "Please try again.");
         }
