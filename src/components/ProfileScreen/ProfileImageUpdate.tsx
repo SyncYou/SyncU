@@ -27,7 +27,7 @@ function ProfileImageUpdate({ state }: { state: () => void }) {
       const file = new File([blob], "avatar.jpg", { type: blob.type });
 
       const avatarUrl = await uploadAvatar(file);
-      setUserDetails( "photoUrl", avatarUrl );
+      setUserDetails( {photoUrl: avatarUrl} );
       state();
     } catch (error) {
       console.error("Error uploading avatar:", error);
@@ -57,7 +57,7 @@ function ProfileImageUpdate({ state }: { state: () => void }) {
     setIsUploading(true);
     try {
       const avatarUrl = await uploadAvatar(selectedFile);
-      setUserDetails( "photoUrl", avatarUrl );
+      setUserDetails( {photoUrl: avatarUrl} );
       setIsUploading(false);
       state(); // Close the modal after successful upload
     } catch (error) {
