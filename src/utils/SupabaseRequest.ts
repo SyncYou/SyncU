@@ -435,12 +435,11 @@ export const handleRequestAction = async (projectId: string, userId: string, act
       action_data: { projectId, status: "accepted" }
     }]);
   } else {
-    await supabase
-      .from("Project_Invitations")
-      .delete()
-      .eq("project_id", projectId)
-      .eq("sender_id", userId)
-      .eq("type", "request");
+    const { error } = await supabase.rpc('handle_reject_request', {
+      p_project_id: projectId,
+      p_user_id: userId
+    });
+    if (error) throw error;
 
       
     // Send notification to requester
