@@ -11,7 +11,7 @@ import PrimaryButton from "../Reuseables/PrimaryButton";
 import Chip from "../Reuseables/Chip";
 import { fetchUser } from "../../utils/queries/fetch";
 import useProjectRequest from "../../hooks/useProjectRequest";
-import ProjectDetailsMobile from "./ProjectDetailsMobile";
+// import ProjectDetailsMobile from "./ProjectDetailsMobile";
 import ViewRequests from "./ViewRequests";
 import useModalView from "../../hooks/useModalView";
 import { Loading } from "../Reuseables/Loading";
@@ -23,7 +23,7 @@ import { fetchProjectInvitations } from "../../utils/SupabaseRequest";
 import { BiEdit } from "react-icons/bi";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { supabase } from "../../supabase/client";
-import { Alert } from "../../utils/types/Types";
+// import { Alert } from "../../utils/types/Types";
 import { useUserData } from "../../context/useUserData";
 
 interface PropsType {
@@ -33,7 +33,7 @@ interface PropsType {
 }
 const ProjectDetails = ({ state, id, isOpen }: PropsType) => {
   const { modal, handleModal } = useModalView();
-   const { user } = useUserData();
+  const { user } = useUserData();
 
   const {
     showNotification,
@@ -74,47 +74,44 @@ const ProjectDetails = ({ state, id, isOpen }: PropsType) => {
     }
   };
 
-  const { data: invitations } = useQuery({
+  const { data: projectInvitations } = useQuery({
     queryKey: ["project-invitations", id],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("Notifications")
-        .select("*, action_data")
-        .eq("action_data->>projectId", id); 
-
+      // First fetch all invitations for this project
+      const { data: invitations, error } = await supabase
+        .from("Project_Invitations")
+        .select("*")
+        .eq("project_id", id);
+  
       if (error) throw error;
-      console.log("Raw notifications data:", data);
-
+  
+      // Then fetch user details for each invitation
       const invitationsWithUsers = await Promise.all(
-        (data as Alert[]).map(async (invitation) => {
-          const userId =
-            invitation.action_data.sender || invitation.action_data.creatorId;
+        invitations.map(async (invitation) => {
           const { data: user } = await supabase
             .from("Users")
-            .select("photoUrl, username")
-            .eq("id", userId)
+            .select("*")
+            .eq("id", invitation.sender_id)
             .single();
-
+  
           return {
             ...invitation,
-            user,
+            user
           };
         })
       );
-
-      console.log(invitations);
-      return invitationsWithUsers;
+  
+      // Separate into requests and invites
+      const requests = invitationsWithUsers.filter(inv => inv.type === "request");
+      const invites = invitationsWithUsers.filter(inv => inv.type === "invite");
+  
+      return {
+        requests,
+        invites
+      };
     },
     enabled: !!id && isOpen,
   });
-
-  const requests =
-    invitations?.filter((inv) => inv.message.includes("requested to join")) ||
-    [];
-  const invites =
-    invitations?.filter((inv) =>
-      inv.message.includes("invited to collaborate")
-    ) || [];
 
   return (
     <Overlay>
@@ -122,12 +119,11 @@ const ProjectDetails = ({ state, id, isOpen }: PropsType) => {
         <ViewRequests
           projectId={data?.id ?? ""}
           state={handleModal}
-          requests={requests}
-          invites={invites}
+          projectInvitations={projectInvitations}
         />
       )}
+
       {sendingRequest && <Loading />}
-      {/* {isFetching && <Loading />} */}
       {showNotification && (
         <div className="absolute z-20 h-10 px-4 rounded-lg bg-[#2A2A33CC] flex items-center justify-center gap-[10px]">
           <IoCheckmarkCircle className="text-success700" />
@@ -136,7 +132,7 @@ const ProjectDetails = ({ state, id, isOpen }: PropsType) => {
           </span>
         </div>
       )}
-      {data && (
+      {/* {data && (
         <ProjectDetailsMobile
           // data={data}
           id={data.id}
@@ -144,7 +140,7 @@ const ProjectDetails = ({ state, id, isOpen }: PropsType) => {
           handleModal={handleModal}
           isOpen={isOpen}
         />
-      )}
+      )} */}
       <div className="md:w-[1060px] md:h-[758px] text-gray950 hidden md:flex flex-col gap-4 relative w-[358px] h-[458px] rounded-3xl bg-white">
         <div className="w-full h-[76px] flex justify-between border-gray200 border-b py-4 px-6">
           <div className="flex gap-2">
@@ -304,31 +300,27 @@ const ProjectDetails = ({ state, id, isOpen }: PropsType) => {
                 <div className="flex justify-between h-10 px-3 py-2">
                   <div>Requests and invites</div>
                   {creator && (
-                    <div className="flex items-center">
-                      <div className="flex -space-x-2">
-                        {invitations
-                          ?.slice(0, 3)
-                          .map((invitation, index) => (
-                            <img
-                              key={index}
-                              src={
-                                invitation.user?.photoUrl ||
-                                "/signUp-imgs/avatar1.svg"
-                              }
-                              alt={invitation.user?.username}
-                              className="w-6 h-6 rounded-full border-2 border-white"
-                            />
-                          ))}
-                      </div>
-                      {[...requests, ...invites].length > 0 && (
-                        <button
-                          onClick={handleModal}
-                          className="ml-2 text-gray-500 hover:text-gray-700"
-                        >
-                          {">"}
-                        </button>
-                      )}
-                    </div>
+                  <div className="flex items-center">
+                  <div className="flex -space-x-2">
+                    {projectInvitations?.requests.slice(0, 3).map((invitation, index) => (
+                      <img
+                        key={index}
+                        src={invitation.user?.photoUrl || "/default-avatar.png"}
+                        alt={invitation.user?.username || "User"}
+                        className="w-6 h-6 rounded-full border-2 border-white"
+                      />
+                    ))}
+                  </div>
+                  {projectInvitations && 
+                   (projectInvitations.requests.length > 0 || projectInvitations.invites.length > 0) && (
+                    <button
+                      onClick={handleModal}
+                      className="ml-2 text-gray-500 hover:text-gray-700"
+                    >
+                      {">"}
+                    </button>
+                  )}
+                </div>
                   )}
                 </div>
               </div>

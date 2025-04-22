@@ -326,7 +326,7 @@ export const unsubscribeFromNotifications = async () => {
 };
 
 // Function to send notification to project owner (this is called within `requestToJoinProject`)
-export const sendNotification = async (notifications: { to: string; message: string; action_data: any }[]) => {
+export const sendNotification = async (notifications: { to: string; message: string; is_read: boolean; action_data: any }[]) => {
   const { data, error } = await supabase.from("Notifications").insert(notifications);
 
   if (error) {
@@ -360,30 +360,146 @@ export const checkUsername = async (newUsername: string) => {
   }
 }
 
-export const acceptInvitation = async (projectId: string, userId: string) => {
-  const { error } = await supabase
-    .from("Project_Invitations")
-    .update({ status: "accepted" })
-    .eq("project_id", projectId)
-    .eq("sender_id", userId);
+// export const acceptInvitation = async (projectId: string, userId: string) => {
+//   // First get the invitation details before deleting
+//   const { data: invitation, error: fetchError } = await supabase
+//     .from("Project_Invitations")
+//     .select("*")
+//     .eq("project_id", projectId)
+//     .eq("sender_id", userId)
+//     .single();
 
-  if (error) throw error;
-  
-  // Add user to project participants if needed
-  await supabase
-    .from("Projects")
-    // .update({ participants: supabase.r("append", userId) })
-    // .eq("id", projectId);
+//   if (fetchError) throw fetchError;
+//   if (!invitation) throw new Error("Invitation not found");
+
+//   // Start a transaction
+//   const { error } = await supabase.rpc('handle_accept_invitation', {
+//     project_id: projectId,
+//     user_id: userId,
+//     invitation_id: invitation.id
+//   });
+
+//   if (error) throw error;
+
+//   // Send notification to the user
+//   const notification = {
+//     to: userId,
+//     message: `Your request to join project has been accepted!`,
+//     is_read: false,
+//     action_data: { 
+//       projectId,
+//       status: "accepted" 
+//     }
+//   };
+
+//   await sendNotification([notification]);
+// };
+
+// export const rejectInvitation = async (projectId: string, userId: string) => {
+//   // Simply delete the invitation
+//   const { error } = await supabase
+//     .from("Project_Invitations")
+//     .delete()
+//     .eq("project_id", projectId)
+//     .eq("sender_id", userId);
+
+//   if (error) throw error;
+
+//   // Send notification to the user
+//   const notification = {
+//     to: userId,
+//     message: `Your request to join project has been rejected.`,
+//     is_read: false,
+//     action_data: { 
+//       projectId,
+//       status: "rejected" 
+//     }
+//   };
+
+//   await sendNotification([notification]);
+// };
+
+// Handle request actions (owner accepting/rejecting requests)
+export const handleRequestAction = async (projectId: string, userId: string, action: "accept" | "reject") => {
+  if (action === "accept") {
+    await supabase.rpc('handle_accept_request', {
+      p_project_id: projectId,
+      p_user_id: userId
+    });
+    
+    // Send notification to requester
+    await sendNotification([{
+      to: userId,
+      message: `Your request to join the project has been accepted!`,
+      is_read: false,
+      action_data: { projectId, status: "accepted" }
+    }]);
+  } else {
+    await supabase
+      .from("Project_Invitations")
+      .delete()
+      .eq("project_id", projectId)
+      .eq("sender_id", userId)
+      .eq("type", "request");
+
+      
+    // Send notification to requester
+    await sendNotification([{
+      to: userId,
+      message: `Your request to join the project has been rejected.`,
+      is_read: false,
+      action_data: { projectId, status: "rejected" }
+    }]);
+  }
 };
 
-export const rejectInvitation = async (projectId: string, userId: string) => {
-  const { error } = await supabase
-    .from("Project_Invitations")
-    .update({ status: "rejected" })
-    .eq("project_id", projectId)
-    .eq("sender_id", userId);
-
-  if (error) throw error;
+// Handle invite actions (user accepting/rejecting invites)
+export const handleInviteAction = async (projectId: string, userId: string, action: "accept" | "reject") => {
+  if (action === "accept") {
+    await supabase.rpc('handle_accept_invite', {
+      p_project_id: projectId,
+      p_user_id: userId
+    });
+    
+    // Send notification to project owner
+    const { data: project } = await supabase
+      .from("Projects")
+      .select("created_by")
+      .eq("id", projectId)
+      .single();
+      
+    if (project) {
+      await sendNotification([{
+        to: project.created_by,
+        message: `Your invitation has been accepted!`,
+        is_read: false,
+        action_data: { projectId, status: "accepted" }
+      }]);
+    }
+  } else {
+    await supabase
+      .from("Project_Invitations")
+      .delete()
+      .eq("project_id", projectId)
+      .eq("receiver_id", userId)
+      .eq("type", "invite");
+      
+    // Send notification to project owner
+    const { data: project } = await supabase
+      .from("Projects")
+      .select("created_by")
+      .eq("id", projectId)
+      .single();
+      
+    if (project) {
+      await sendNotification([{
+        to: project.created_by,
+        message: `Your invitation has been rejected.`,
+        is_read: false,
+        action_data: { projectId, status: "rejected" }
+      }]);
+    }
+  }
 };
 
 // TO-DO
