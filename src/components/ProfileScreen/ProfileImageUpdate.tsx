@@ -59,7 +59,7 @@ function ProfileImageUpdate({ state }: { state: () => void }) {
       const avatarUrl = await uploadAvatar(selectedFile);
       setUserDetails( {photoUrl: avatarUrl} );
       setIsUploading(false);
-      state(); // Close the modal after successful upload
+      state(); 
     } catch (error) {
       console.error("Error uploading avatar:", error);
       setIsUploading(false);

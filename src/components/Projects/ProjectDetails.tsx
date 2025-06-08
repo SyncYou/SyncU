@@ -11,7 +11,7 @@ import PrimaryButton from "../Reuseables/PrimaryButton";
 import Chip from "../Reuseables/Chip";
 import { fetchUser } from "../../utils/queries/fetch";
 import useProjectRequest from "../../hooks/useProjectRequest";
-// import ProjectDetailsMobile from "./ProjectDetailsMobile";
+import ProjectDetailsMobile from "./ProjectDetailsMobile";
 import ViewRequests from "./ViewRequests";
 import useModalView from "../../hooks/useModalView";
 import { Loading } from "../Reuseables/Loading";
@@ -158,6 +158,32 @@ const ProjectDetails = ({ state, id, isOpen }: PropsType) => {
     enabled: !!id && !!user?.id && isOpen,
   });
 
+  useEffect(() => {
+    if (!id || !user?.id || !isOpen) return;
+
+    const memberChannel = supabase
+      .channel("project_members_changes_" + id + "_" + user.id)
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "Project_Members",
+          filter: `project_id=eq.${id},user_id=eq.${user.id}`,
+        },
+        () => {
+          queryClient.invalidateQueries({
+            queryKey: ["project-member", id, user.id],
+          });
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(memberChannel);
+    };
+  }, [id, user?.id, isOpen, queryClient]);
+
   return (
     <Overlay>
       {modal && (
@@ -177,7 +203,7 @@ const ProjectDetails = ({ state, id, isOpen }: PropsType) => {
           </span>
         </div>
       )}
-      {/* {data && (
+      {data && (
         <ProjectDetailsMobile
           // data={data}
           id={data.id}
@@ -185,8 +211,8 @@ const ProjectDetails = ({ state, id, isOpen }: PropsType) => {
           handleModal={handleModal}
           isOpen={isOpen}
         />
-      )} */}
-      <div className="md:w-[1060px] md:h-[758px] text-gray950 hidden md:flex flex-col gap-4 relative w-[358px] h-[458px] rounded-3xl bg-white">
+      )}
+      <div className="md:w-[1060px] md:h-full text-gray950 hidden md:flex flex-col gap-4 relative w-[358px] h-[458px] rounded-3xl bg-white">
         <div className="w-full h-[76px] flex justify-between border-gray200 border-b py-4 px-6">
           <div className="flex gap-2">
             <div className="h-11 w-11 rounded-full bg-black">
@@ -213,7 +239,7 @@ const ProjectDetails = ({ state, id, isOpen }: PropsType) => {
               </SecondaryButton>
             )}
 
-            {!isRequested && !creator && isProjectMember && (
+            {!isRequested && !creator && !isProjectMember && (
               <PrimaryButton
                 onClick={() =>
                   handleRequest(data!.id, data!.created_by, data!.title)
@@ -306,7 +332,7 @@ const ProjectDetails = ({ state, id, isOpen }: PropsType) => {
                 {!creator && (
                   <PrimaryButton
                     onClick={() => window.open(data?.workspace?.url, "_blank")}
-                    disabled={isProjectMember || !data?.workspace?.url}
+                    disabled={!isProjectMember}
                     classes="flex items-center gap-2 disabled:opacity-65 border border-gray200 py-2 px-4 rounded-full h-10 w-[84px]"
                   >
                     <HiOutlineLockClosed />
