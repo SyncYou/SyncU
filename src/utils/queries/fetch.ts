@@ -30,24 +30,34 @@ export async function fetchUserData(){
 }
 
 export const fetchProjects = async ({ 
-  pageParam = 0 ,
+  pageParam = 0,
   query = ''
 }: { 
-  pageParam: number 
+  pageParam: number,
   query?: string
-}): Promise<{ data: Project[]; nextPage: number | null;  }> => {
+}): Promise<{ data: Project[]; nextPage: number | null }> => {
   const PAGE_SIZE = 10;
 
-  console.log('Fetching projects with pageParam:', pageParam);
-  
   try {
-    const { data, error, count } = await supabase
+    let queryBuilder = supabase
       .from("Projects")
       .select("*", { count: "exact" })
-      .order("created_at", { ascending: false })
-      // .range(pageParam * PAGE_SIZE, (pageParam + 1) * PAGE_SIZE - 1);
+      .order("created_at", { ascending: false });
 
-    console.log('Supabase response:', { data, error, count });
+    // Apply search filter if query exists
+    if (query.trim()) {
+      queryBuilder = queryBuilder.or(
+        `title.ilike.%${query}%,description.ilike.%${query}%`
+      );
+    }
+
+    // Apply pagination - REMOVE THE COMMENT HERE
+    queryBuilder = queryBuilder.range(
+      pageParam * PAGE_SIZE,
+      (pageParam + 1) * PAGE_SIZE - 1
+    );
+
+    const { data, error, count } = await queryBuilder;
 
     if (error) throw error;
 
@@ -60,7 +70,7 @@ export const fetchProjects = async ({
     };
   } catch (error) {
     console.error("Error fetching projects:", error);
-    throw error; // Important: rethrow to let react-query handle it
+    throw error;
   }
 };
 

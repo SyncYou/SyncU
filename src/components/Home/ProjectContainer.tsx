@@ -74,8 +74,11 @@ const ProjectContainer = () => {
   const allProjects = data?.pages.flatMap(page => page.data) || [];
   const totalProjects = allProjects.length;
 
-  // Empty state conditions
-  if (searchQuery && totalProjects === 0) {
+  // Check if we have a search query and no results
+  const isSearchEmptyState = searchQuery && totalProjects === 0;
+  // Check if we have no projects at all (no search)
+  const isGeneralEmptyState = !searchQuery && totalProjects === 0;
+  if (isSearchEmptyState) {
     return (
       <section className="md:px-8 px-4 md:py-6 pt-6 pb-20 md:w-full w-screen">
         <div className="mx-auto w-[261px] flex flex-col gap-6">
@@ -98,8 +101,8 @@ const ProjectContainer = () => {
       </section>
     );
   }
-
-  if (!searchQuery && totalProjects === 0) {
+ 
+  if (isGeneralEmptyState) {
     return (
       <section className="md:px-8 px-4 md:py-6 pt-6 pb-20 md:w-full w-screen">
         <div className="mx-auto w-[261px] flex flex-col gap-6">
@@ -138,19 +141,22 @@ const ProjectContainer = () => {
         </div>
       )}
       
-      <section className="grid md:grid-cols-3 min-h-full gap-8 md:max-w-full max-w-screen">
-        {allProjects.map((project, index) => {
-          const isLastItem = index === allProjects.length - 1 && !searchQuery;
-          
-          return (
-            <ProjectCard
-              key={`${project.id}-${index}`}
-              data={project}
-              ref={isLastItem ? lastProjectRef : null}
-            />
-          );
-        })}
-      </section>
+      {totalProjects > 0 && (
+  <section className="grid md:grid-cols-3 min-h-full gap-8 md:max-w-full max-w-screen">
+    {allProjects.map((project, index) => {
+      const isLastItem = index === allProjects.length - 1 && !searchQuery;
+
+      return (
+        <ProjectCard
+          key={`${project.id}-${index}`}
+          data={project}
+          ref={isLastItem ? lastProjectRef : null}
+        />
+      );
+    })}
+  </section>
+)}
+
 
       {isFetchingNextPage && (
         <div className="h-full w-full flex justify-center items-center pt-5">

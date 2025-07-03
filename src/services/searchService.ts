@@ -24,7 +24,7 @@ export const fetchProjects = async ({
       );
     }
 
-    // Apply pagination
+    // Apply pagination - REMOVE THE COMMENT HERE
     queryBuilder = queryBuilder.range(
       pageParam * PAGE_SIZE,
       (pageParam + 1) * PAGE_SIZE - 1
