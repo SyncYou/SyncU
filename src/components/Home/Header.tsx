@@ -2,7 +2,10 @@ import user from "/assets/avatar.svg";
 import logo from "/assets/logo-noname.svg";
 import { FaSearch } from "react-icons/fa";
 import { NavLink, useLocation } from "react-router-dom";
-import { MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight } from "react-icons/md";
+import {
+  MdKeyboardDoubleArrowLeft,
+  MdKeyboardDoubleArrowRight,
+} from "react-icons/md";
 import { MdAdd } from "react-icons/md";
 import { FaBars } from "react-icons/fa6";
 import HomeTabs from "./HomeTabs";
@@ -12,6 +15,7 @@ import { useUserData } from "../../context/useUserData";
 import PrimaryButton from "../Reuseables/PrimaryButton";
 import ProjectTabs from "../Projects/ProjectTabs";
 import useDisplayPostProjectForm from "../../context/useDisplayPostProjectForm";
+import { useSearchStore } from "../../store/useSearchStore";
 
 const Header = () => {
   const location = useLocation();
@@ -19,6 +23,13 @@ const Header = () => {
   const { header, height } = usePageHeader();
   const { user: userData } = useUserData();
   const { setShow } = useDisplayPostProjectForm();
+
+  const { searchQuery, setSearchQuery } = useSearchStore();
+  
+  // Remove the manual search handling since we're using React Query
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
 
   return (
     <header
@@ -29,13 +40,19 @@ const Header = () => {
           onClick={change}
           className="bg-white absolute flex justify-center items-center top-6 -left-2 w-6 h-6 border border-gray300  text-gray950 rounded-[60px] z-50"
         >
-          {isOpen ? <MdKeyboardDoubleArrowLeft /> : <MdKeyboardDoubleArrowRight />}
+          {isOpen ? (
+            <MdKeyboardDoubleArrowLeft />
+          ) : (
+            <MdKeyboardDoubleArrowRight />
+          )}
         </div>
         <span>{header}</span>
         <div className="w-fit lg:w-full max-w-[30rem]">
           <input
             type="text"
-            className="max-w-[30rem] w-full h-11 outline-none rounded-full border py-[10px] px-4 placeholder:text-sm placeholder:font-medium placeholder:font-inter"
+            value={searchQuery}
+            onChange={handleSearchChange}
+            className="max-w-[30rem] w-full h-11 outline-none rounded-full border py-[10px] text-sm font-medium px-4 placeholder:text-sm placeholder:font-medium placeholder:font-inter"
             placeholder="Search for people or projects..."
           />
         </div>
@@ -44,7 +61,8 @@ const Header = () => {
             onClick={() => setShow(true)}
             classes="flex rounded-[32px] py-2 px-4 gap-2"
           >
-            <MdAdd className="text-white text-2xl" /> <p className="text-sm">Post project</p>
+            <MdAdd className="text-white text-2xl" />{" "}
+            <p className="text-sm">Post project</p>
           </PrimaryButton>
           <div className="flex justify-between items-center gap-2 border border-[#E6E6F0] rounded-2xl py-[0.15rem] px-1 pr-2">
             <NavLink to="/profile">
@@ -73,7 +91,6 @@ const Header = () => {
                 alt="user"
               />
             </NavLink>
-            
           </div>
         </div>
       </div>

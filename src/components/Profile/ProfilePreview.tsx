@@ -9,12 +9,11 @@ import { IoLocationOutline } from "react-icons/io5";
 import { Loading } from "../Reuseables/Loading";
 import Button from "../Reuseables/Button";
 import { useLocation } from "react-router-dom";
-// import { useUserStore } from "../../store/UseUserStore";
 import { useProfilePreview } from "../../hooks/useProfilePreview";
-import { useUserData } from "../../context/useUserData";
+import { useUserStore } from "../../store/UseUserStore";
 
 const ProfilePreview: React.FC = () => {
-   const { user: userDetails } = useUserData();
+  const { userDetails } = useUserStore();
   const location = useLocation();
   const isOnboardingFinishing = location.pathname === "/onboarding/finishing";
 
@@ -37,7 +36,7 @@ const ProfilePreview: React.FC = () => {
           <img
             src={userDetails?.photoUrl || profile}
             alt="User Profile Image"
-            className={`rounded-full object-cover border border-[#E5E5E9] w-[108px] h-[108px]`}
+            className={`rounded-full object-cover border border-[#E5E5E9] w-[100px] h-[100px]`}
           />
         </div>
         <div className=" my-4 font-semibold flex items-center flex-col justify-center gap-2">

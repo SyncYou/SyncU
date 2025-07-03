@@ -70,12 +70,7 @@ export interface PostProjectFormType {
   created_by?: string;
   description: string;
   industry: string;
-  participants: string[];
   project_views: number;
-  requests: {
-    userId: string;
-    status: string;
-  }[];
   required_roles: string[];
   required_stacks: string[];
   title: string;

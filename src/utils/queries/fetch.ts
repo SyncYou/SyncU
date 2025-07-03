@@ -30,10 +30,12 @@ export async function fetchUserData(){
 }
 
 export const fetchProjects = async ({ 
-  pageParam = 0 
+  pageParam = 0 ,
+  query = ''
 }: { 
   pageParam: number 
-}): Promise<{ data: Project[]; nextPage: number | null }> => {
+  query?: string
+}): Promise<{ data: Project[]; nextPage: number | null;  }> => {
   const PAGE_SIZE = 10;
 
   console.log('Fetching projects with pageParam:', pageParam);

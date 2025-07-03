@@ -1,6 +1,5 @@
 import { create } from 'zustand';
-// import { User } from '@supabase/supabase-js';
-// import { supabase } from '../supabase/client';
+import { persist } from 'zustand/middleware';
 
 export interface UserDetails {
   id: string;
@@ -27,63 +26,76 @@ interface UserStore {
   isStackValid: () => boolean;
 }
 
-export const useUserStore = create<UserStore>((set, get) => ({
-  userDetails: {
-    id: "",
-    firstName: "",
-    lastName: "",
-    email: "",
-    username: "",
-    countryOfResidence: "Nigeria",
-    photoUrl: "",
-    areaOfExpertise: "",
-    links: [],
-    description: "",
-    stacks: ["N/A", "N/A", "N/A"],
-    onboardingComplete: 'false'
-  },
-  currentStep: 1,
-  setUserDetails: (details) =>
-    set((state) => ({
+export const useUserStore = create<UserStore>()(
+  persist(
+    (set, get) => ({
       userDetails: {
-        ...state.userDetails,
-        ...details,
+        id: "",
+        firstName: "",
+        lastName: "",
+        email: "",
+        username: "",
+        countryOfResidence: "Nigeria",
+        photoUrl: "",
+        areaOfExpertise: "",
+        links: [],
+        description: "",
+        stacks: ["N/A", "N/A", "N/A"],
+        onboardingComplete: 'false',
       },
-    })),
-  setCurrentStep: (step) =>
-    set(() => ({
-      currentStep: step,
-    })),
+      currentStep: 1,
 
-  removeSkill: (skill: string) =>
-    set((state) => {
-      const updatedStack = state.userDetails.stacks.filter(
-        (item) => item !== skill
-      );
-      return {
-        userDetails: { ...state.userDetails, stacks: updatedStack },
-      };
+      setUserDetails: (details) =>
+        set((state) => ({
+          userDetails: {
+            ...state.userDetails,
+            ...details,
+          },
+        })),
+
+      setCurrentStep: (step) =>
+        set(() => ({
+          currentStep: step,
+        })),
+
+      removeSkill: (skill: string) =>
+        set((state) => {
+          const updatedStack = state.userDetails.stacks.filter(
+            (item) => item !== skill
+          );
+          return {
+            userDetails: { ...state.userDetails, stacks: updatedStack },
+          };
+        }),
+
+      toggleSkill: (skill) =>
+        set((state) => {
+          const { stacks } = state.userDetails;
+
+          if (stacks.includes(skill)) {
+            const updatedStack = stacks.filter((item) => item !== skill);
+            return {
+              userDetails: { ...state.userDetails, stacks: updatedStack },
+            };
+          }
+
+          let updatedStack = [...stacks, skill];
+
+          updatedStack = updatedStack.filter((item) => item !== "N/A");
+
+          return {
+            userDetails: { ...state.userDetails, stacks: updatedStack },
+          };
+        }),
+
+      isStackValid: () => get().userDetails.stacks.includes("N/A"),
     }),
-
-  toggleSkill: (skill) =>
-    set((state) => {
-      const { stacks } = state.userDetails;
-
-      if (stacks.includes(skill)) {
-        const updatedStack = stacks.filter((item) => item !== skill);
-        return {
-          userDetails: { ...state.userDetails, stacks: updatedStack },
-        };
-      }
-
-      let updatedStack = [...stacks, skill];
-
-      updatedStack = updatedStack.filter((item) => item !== "N/A");
-
-      return {
-        userDetails: { ...state.userDetails, stacks: updatedStack },
-      };
-    }),
-
-  isStackValid: () => get().userDetails.stacks.includes("N/A"),
-}));
+    {
+      name: 'user-store',
+      partialize: (state) => ({
+        userDetails: state.userDetails,
+        currentStep: state.currentStep,
+      }),
+    }
+  )
+);
