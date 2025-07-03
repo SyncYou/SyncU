@@ -70,13 +70,13 @@ const ProjectContainer = () => {
     );
   }
 
-  // Get all projects from pages
+  
   const allProjects = data?.pages.flatMap(page => page.data) || [];
   const totalProjects = allProjects.length;
 
-  // Check if we have a search query and no results
+  
   const isSearchEmptyState = searchQuery && totalProjects === 0;
-  // Check if we have no projects at all (no search)
+  
   const isGeneralEmptyState = !searchQuery && totalProjects === 0;
   if (isSearchEmptyState) {
     return (

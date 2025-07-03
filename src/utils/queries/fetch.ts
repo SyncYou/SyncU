@@ -3,13 +3,12 @@ import { Project } from "../../types/project";
 import { getLoggedInUser } from "../AuthRequest";
 import { ProjectType } from "../types/Types";
 
-// Helper function to get current user ID
 async function getCurrentUserId(): Promise<string | null> {
   const user = await getLoggedInUser();
   return user?.id ?? null;
 }
 
-// Fetch user details
+
 export async function fetchUserData(){
   try {
     const userId = await getCurrentUserId();
@@ -44,14 +43,14 @@ export const fetchProjects = async ({
       .select("*", { count: "exact" })
       .order("created_at", { ascending: false });
 
-    // Apply search filter if query exists
+    
     if (query.trim()) {
       queryBuilder = queryBuilder.or(
         `title.ilike.%${query}%,description.ilike.%${query}%`
       );
     }
 
-    // Apply pagination - REMOVE THE COMMENT HERE
+    
     queryBuilder = queryBuilder.range(
       pageParam * PAGE_SIZE,
       (pageParam + 1) * PAGE_SIZE - 1

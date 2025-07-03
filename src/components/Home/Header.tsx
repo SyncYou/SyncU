@@ -16,6 +16,7 @@ import PrimaryButton from "../Reuseables/PrimaryButton";
 import ProjectTabs from "../Projects/ProjectTabs";
 import useDisplayPostProjectForm from "../../context/useDisplayPostProjectForm";
 import { useSearchStore } from "../../store/useSearchStore";
+import { useState } from "react";
 
 const Header = () => {
   const location = useLocation();
@@ -23,10 +24,14 @@ const Header = () => {
   const { header, height } = usePageHeader();
   const { user: userData } = useUserData();
   const { setShow } = useDisplayPostProjectForm();
+  const [showSearchBar, setShowSearchBar] = useState(false);
 
   const { searchQuery, setSearchQuery } = useSearchStore();
-  
-  // Remove the manual search handling since we're using React Query
+
+  const handleSearchIcon = () => {
+    setShowSearchBar(prev => !prev)
+  }
+
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
@@ -80,7 +85,7 @@ const Header = () => {
         <img src={logo} alt="logo" />
         <span className="mx-auto">{header}</span>
         <div className="w-20 h-8 flex gap-4">
-          <button className="w-8 h-8 flex justify-center items-center rounded-full border border-gray200">
+          <button onClick={handleSearchIcon} className="w-8 h-8 flex justify-center items-center rounded-full border border-gray200">
             <FaSearch />
           </button>
           <div>
@@ -94,6 +99,17 @@ const Header = () => {
           </div>
         </div>
       </div>
+      {showSearchBar && (
+        <div className="w-[90%] mx-auto my-2 lg:w-full max-w-[30rem] md:hidden">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={handleSearchChange}
+            className="max-w-[30rem] w-full h-11 outline-none rounded-full border py-[10px] text-sm font-medium px-4 placeholder:text-sm placeholder:font-medium placeholder:font-inter"
+            placeholder="Search for people or projects..."
+          />
+        </div>
+      )}
 
       {location.pathname == "/" && <HomeTabs />}
       {location.pathname == "/project" && <ProjectTabs />}

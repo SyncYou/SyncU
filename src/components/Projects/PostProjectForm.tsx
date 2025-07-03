@@ -64,14 +64,14 @@ function PostProjectForm() {
     useState<Contributor[]>(Contributors);
   const [modal, setModal] = useState<boolean>(false);
   const [projectId, setProjectId] = useState<string>("");
-  
+
   const { inviteContributors, status: inviteStatus } =
     useInviteContributors(projectId);
 
-    const handleIndustrySelect = (industry: string) => {
-      setValue("industry", industry); 
-      setModal(false);
-    };
+  const handleIndustrySelect = (industry: string) => {
+    setValue("industry", industry);
+    setModal(false);
+  };
 
   const maxChars = 50;
 
@@ -99,12 +99,14 @@ function PostProjectForm() {
     const isValid = await validate(data, otherData);
 
     if (isValid && status === "success") {
-      const { data: newProject } = await client.getQueryData(["projects"]) as { data: any[] };
+      const { data: newProject } = (await client.getQueryData([
+        "projects",
+      ])) as { data: any[] };
       if (newProject && newProject.length > 0) {
-        const latestProject = newProject[0]; 
+        const latestProject = newProject[0];
         setProjectId(latestProject.id);
       }
-      
+
       reset();
       setShow(false);
       setShowInviteModal(true);
@@ -120,7 +122,6 @@ function PostProjectForm() {
         >
           <SubSection header="Post project" state={() => setShow(false)} />
           <div className="w-full h-3/4 flex flex-col gap-6 p-6 overflow-y-scroll">
-            {/* Project Title Field */}
             <div className="flex justify-between">
               <h2 className="text-sm font-medium text-gray950">
                 What is your project title?*
@@ -171,7 +172,6 @@ function PostProjectForm() {
               </div>
             </div>
 
-            {/* Industry Field */}
             <div className="flex justify-between">
               <h2 className="text-sm font-medium text-gray950">
                 What industry are you focused on?*
@@ -224,7 +224,6 @@ function PostProjectForm() {
               </div>
             </div>
 
-            {/* Description Field */}
             <div className="flex justify-between">
               <h2 className="text-sm font-medium text-gray950">
                 Describe your project?*
@@ -243,9 +242,9 @@ function PostProjectForm() {
                         message: "Description cannot exceed 1000 characters",
                       },
                     })}
-                    value={description || ""} 
+                    value={description || ""}
                     onChange={(e) => {
-                      setValue("description", e.target.value); 
+                      setValue("description", e.target.value);
                     }}
                     placeholder="Tell us about your project..."
                     className={`w-full h-[274px] text-[#40404D] placeholder:text-sm placeholder:text-gray400 pt-6 px-3 outline-none border rounded-lg focus:border-brand400 ${
@@ -270,7 +269,6 @@ function PostProjectForm() {
               </div>
             </div>
 
-            {/* Roles Field */}
             <div className="flex justify-between">
               <h2 className="text-sm font-medium text-gray950">
                 What roles do you require for this project?*
@@ -340,7 +338,6 @@ function PostProjectForm() {
               </div>
             </div>
 
-            {/* Stacks Field */}
             <div className="flex justify-between">
               <h2 className="text-sm font-medium text-gray950">
                 What stack do you require for this project?*
@@ -413,7 +410,6 @@ function PostProjectForm() {
               </label>
             </div>
 
-            {/* Workspace Field */}
             <div className="flex justify-between">
               <h2 className="text-sm font-medium text-gray950">
                 Select your preferred workspace.*
@@ -554,7 +550,6 @@ function PostProjectForm() {
               <span className="font-normal text-sm">Post Project</span>
             </PrimaryButton>
             <SecondaryButton
-              // type="button"
               classes="w-[120px] h-10 gap-0"
               onClick={() => setShow(false)}
             >
@@ -738,7 +733,6 @@ function PostProjectForm() {
               </span>
             </PrimaryButton>
             <SecondaryButton
-              // type="button"
               classes="w-[160px] h-[44px] gap-0"
               onClick={() => setShowInviteModal(false)}
             >
